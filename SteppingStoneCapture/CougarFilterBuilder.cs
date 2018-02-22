@@ -48,39 +48,59 @@ namespace SteppingStoneCapture
         }
 
         //
-        public string FilterString
+        public string GetFilterString()
         {
-            get
+            string captureString = "";
+
+            if (NonEmptyAttributesList() && NonEmptyProtocolList())
             {
-                string captureString = "";
-
-                if (NonEmptyAttributesList() || NonEmptyProtocolList())
-                {
-                    for (int protoIndx = 0; protoIndx < protocols.Count; ++protoIndx)
-                    {
-                        string current = protocols[protoIndx];
-                        for (int attrIndx = 0; attrIndx < attributes.Count; ++attrIndx)
-                        {
-                            if ((protocols[protoIndx].CompareTo("DNS") != 0) || (protocols[protoIndx].CompareTo("dns") != 0))
-                            {
-                                current += " and " + attributes[attrIndx];
-                            }
-                            else
-                            {
-                                if (attrIndx == 0)
-                                    current = "udp port 53 or tcp port 53";
-                            }
-                        }
-
-                        if (protoIndx < protocols.Count - 1)
-                            captureString += current + " or ";
-                        else
-                            captureString += current;
-                    }
-                }
-
-                return captureString.Trim().ToLower();
+                captureString = BuildProtocolPortionFilter() +" and "+ BuildAttributePortionFilter();
             }
+            else if (NonEmptyProtocolList())
+            {
+                captureString = BuildProtocolPortionFilter();
+            }
+            else if (NonEmptyAttributesList())
+            {
+                captureString = BuildAttributePortionFilter();
+            }
+
+            return captureString.Trim().ToLower();
+        }
+
+        private string BuildProtocolPortionFilter()
+        {
+            string rtrn = "(";
+
+            string current = "";
+            for (int protoIndx = 0; protoIndx < protocols.Count; ++protoIndx)
+            {
+                if (protocols[protoIndx].ToLower() != "dns")
+                    current = protocols[protoIndx];
+                else if (protocols[protoIndx].ToLower() == "dns")
+                    current = "((tcp or udp) and port 53)";
+
+                if (protoIndx < protocols.Count - 1)
+                    rtrn += current + " or ";
+                else
+                    rtrn += current + ")";
+            }
+            
+            return rtrn;
+        }
+
+        private string BuildAttributePortionFilter()
+        {
+            string rtrn = "";
+            for (int attrIndx = 0; attrIndx < attributes.Count; ++attrIndx)
+            {
+                if (attrIndx > 0)
+                    rtrn += " and " + attributes[attrIndx];
+                else
+                    rtrn += attributes[attrIndx];
+            }
+            return rtrn;
+
         }
 
         private void ClearProtocolList()

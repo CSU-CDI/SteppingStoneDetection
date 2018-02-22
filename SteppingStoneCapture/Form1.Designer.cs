@@ -91,7 +91,7 @@
             this.showFilterFieldToolStripMenuItem.Name = "showFilterFieldToolStripMenuItem";
             this.showFilterFieldToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.showFilterFieldToolStripMenuItem.Text = "Show/Hide &Filter Field";
-            this.showFilterFieldToolStripMenuItem.Click += new System.EventHandler(this.showFilterFieldToolStripMenuItem_Click);
+            this.showFilterFieldToolStripMenuItem.Click += new System.EventHandler(this.ShowFilterFieldToolStripMenuItem_Click);
             // 
             // contextMenuStrip1
             // 
@@ -106,14 +106,14 @@
             this.cmbInterfaces.Location = new System.Drawing.Point(9, 37);
             this.cmbInterfaces.Margin = new System.Windows.Forms.Padding(2);
             this.cmbInterfaces.Name = "cmbInterfaces";
-            this.cmbInterfaces.Size = new System.Drawing.Size(230, 21);
+            this.cmbInterfaces.Size = new System.Drawing.Size(207, 21);
             this.cmbInterfaces.TabIndex = 2;
             this.cmbInterfaces.SelectedIndexChanged += new System.EventHandler(this.CmbInterfaces_SelectedIndexChanged);
             // 
             // chkTCP
             // 
             this.chkTCP.AutoSize = true;
-            this.chkTCP.Location = new System.Drawing.Point(9, 62);
+            this.chkTCP.Location = new System.Drawing.Point(19, 62);
             this.chkTCP.Margin = new System.Windows.Forms.Padding(2);
             this.chkTCP.Name = "chkTCP";
             this.chkTCP.Size = new System.Drawing.Size(47, 17);
@@ -124,7 +124,7 @@
             // chkUDP
             // 
             this.chkUDP.AutoSize = true;
-            this.chkUDP.Location = new System.Drawing.Point(87, 62);
+            this.chkUDP.Location = new System.Drawing.Point(82, 62);
             this.chkUDP.Margin = new System.Windows.Forms.Padding(2);
             this.chkUDP.Name = "chkUDP";
             this.chkUDP.Size = new System.Drawing.Size(49, 17);
@@ -170,14 +170,14 @@
             this.txtFilterField.Location = new System.Drawing.Point(9, 118);
             this.txtFilterField.Margin = new System.Windows.Forms.Padding(2);
             this.txtFilterField.Name = "txtFilterField";
-            this.txtFilterField.Size = new System.Drawing.Size(438, 20);
+            this.txtFilterField.Size = new System.Drawing.Size(424, 20);
             this.txtFilterField.TabIndex = 8;
             this.txtFilterField.Visible = false;
             // 
             // lblSrcIP
             // 
             this.lblSrcIP.AutoSize = true;
-            this.lblSrcIP.Location = new System.Drawing.Point(262, 28);
+            this.lblSrcIP.Location = new System.Drawing.Point(231, 25);
             this.lblSrcIP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSrcIP.Name = "lblSrcIP";
             this.lblSrcIP.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -188,7 +188,7 @@
             // lblDestIP
             // 
             this.lblDestIP.AutoSize = true;
-            this.lblDestIP.Location = new System.Drawing.Point(262, 48);
+            this.lblDestIP.Location = new System.Drawing.Point(231, 45);
             this.lblDestIP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDestIP.Name = "lblDestIP";
             this.lblDestIP.Size = new System.Drawing.Size(45, 13);
@@ -198,7 +198,7 @@
             // lblSrcPort
             // 
             this.lblSrcPort.AutoSize = true;
-            this.lblSrcPort.Location = new System.Drawing.Point(262, 70);
+            this.lblSrcPort.Location = new System.Drawing.Point(231, 67);
             this.lblSrcPort.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSrcPort.Name = "lblSrcPort";
             this.lblSrcPort.Size = new System.Drawing.Size(66, 13);
@@ -208,7 +208,7 @@
             // lblDestPort
             // 
             this.lblDestPort.AutoSize = true;
-            this.lblDestPort.Location = new System.Drawing.Point(262, 91);
+            this.lblDestPort.Location = new System.Drawing.Point(231, 88);
             this.lblDestPort.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDestPort.Name = "lblDestPort";
             this.lblDestPort.Size = new System.Drawing.Size(54, 13);
@@ -217,50 +217,50 @@
             // 
             // txtSrcIP
             // 
-            this.txtSrcIP.Location = new System.Drawing.Point(332, 27);
+            this.txtSrcIP.Location = new System.Drawing.Point(301, 24);
             this.txtSrcIP.Margin = new System.Windows.Forms.Padding(2);
             this.txtSrcIP.Name = "txtSrcIP";
-            this.txtSrcIP.Size = new System.Drawing.Size(115, 20);
+            this.txtSrcIP.Size = new System.Drawing.Size(132, 20);
             this.txtSrcIP.TabIndex = 13;
             // 
             // txtDestIP
             // 
-            this.txtDestIP.Location = new System.Drawing.Point(332, 48);
+            this.txtDestIP.Location = new System.Drawing.Point(301, 45);
             this.txtDestIP.Margin = new System.Windows.Forms.Padding(2);
             this.txtDestIP.Name = "txtDestIP";
-            this.txtDestIP.Size = new System.Drawing.Size(115, 20);
+            this.txtDestIP.Size = new System.Drawing.Size(132, 20);
             this.txtDestIP.TabIndex = 14;
             // 
             // txtSrcPort
             // 
-            this.txtSrcPort.Location = new System.Drawing.Point(332, 70);
+            this.txtSrcPort.Location = new System.Drawing.Point(301, 67);
             this.txtSrcPort.Margin = new System.Windows.Forms.Padding(2);
             this.txtSrcPort.Name = "txtSrcPort";
-            this.txtSrcPort.Size = new System.Drawing.Size(116, 20);
+            this.txtSrcPort.Size = new System.Drawing.Size(132, 20);
             this.txtSrcPort.TabIndex = 15;
             // 
             // txtDestPort
             // 
-            this.txtDestPort.Location = new System.Drawing.Point(332, 91);
+            this.txtDestPort.Location = new System.Drawing.Point(301, 88);
             this.txtDestPort.Margin = new System.Windows.Forms.Padding(2);
             this.txtDestPort.Name = "txtDestPort";
-            this.txtDestPort.Size = new System.Drawing.Size(116, 20);
+            this.txtDestPort.Size = new System.Drawing.Size(132, 20);
             this.txtDestPort.TabIndex = 16;
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(452, 28);
+            this.btnStart.Location = new System.Drawing.Point(448, 32);
             this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(94, 29);
             this.btnStart.TabIndex = 17;
             this.btnStart.Text = "&Start";
             this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(452, 62);
+            this.btnReset.Location = new System.Drawing.Point(448, 67);
             this.btnReset.Margin = new System.Windows.Forms.Padding(2);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(94, 31);
@@ -271,7 +271,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(452, 98);
+            this.btnStop.Location = new System.Drawing.Point(448, 103);
             this.btnStop.Margin = new System.Windows.Forms.Padding(2);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(94, 31);
@@ -289,7 +289,7 @@
             this.btnExit.TabIndex = 21;
             this.btnExit.Text = "E&xit";
             this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            this.btnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // btnSave
             // 

@@ -22,21 +22,38 @@ namespace SteppingStoneCapture
     ///  andrew test comment
     public partial class CaptureForm : Form
     {
-        private int deviceIndex = 0;
+        private int deviceIndex;
         private IList<LivePacketDevice> allDevices;
-        private string defaultFilterField = "";
-        private string filter = "";
-        private List<byte[]> packetBytes = new List<byte[]>();
-        private Int32 packetNumber = 0;
-        private bool captFlag = true;
-        private int numThreads = 0;
-        private Boolean boxChecked = false;
-        private CougarFilterBuilder cfb = new CougarFilterBuilder();
+        private string defaultFilterField;
+        private string filter;
+        private List<byte[]> packetBytes;
+        private LinkedList<CougarPacket> packets;
+        private Int32 packetNumber;
+        private bool captFlag;
+        private int numThreads;
+        private Boolean protocolRequested, attributeRequested;
+        private CougarFilterBuilder cfb;
+        private Random rand;
+
+        private int minRandomValue = 0;
+        private int maxRandomValue = (int)Math.Round(int.MaxValue * .75);
 
 
         public CaptureForm()
         {
             InitializeComponent();
+            rand = new Random();
+            deviceIndex = 0;
+            defaultFilterField = "";
+            filter = "";
+            packetBytes = new List<byte[]>();
+            packets = new LinkedList<CougarPacket>();
+            packetNumber = rand.Next(minRandomValue, maxRandomValue);
+            captFlag = true;
+            numThreads = 0;
+            protocolRequested = false;
+            attributeRequested = false;
+            cfb = new CougarFilterBuilder();
         }
 
         private void DetermineNetworkInterface(int numTries = 5)
@@ -58,86 +75,30 @@ namespace SteppingStoneCapture
                 {
                     int offsetForWindowsMachines = 16;
                     LivePacketDevice device = allDevices[i];
+
                     if (device.Description != null)
-                        cmbInterfaces.Items.Add(device.Description.Substring(offsetForWindowsMachines));
+                        if (device.Description.ToLower().Contains("\'microsoft\'"))
+                            cmbInterfaces.Items.Add("Wireless Connector");
+                        else if (device.Description.ToLower().Contains("ethernet"))
+                            cmbInterfaces.Items.Add("Ethernet Connector");
+                        else
+                            cmbInterfaces.Items.Add(device.Description.Substring(offsetForWindowsMachines));
                     else
                         cmbInterfaces.Items.Add("*** (No description available)");
                 }
             }
         }
 
-        private void showFilterFieldToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowFilterFieldToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtFilterField.Visible = !txtFilterField.Visible;
             lblFilterField.Visible = !lblFilterField.Visible;
-        }
-
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        }        
 
         private void CaptureForm_Load(object sender, EventArgs e)
         {
             DetermineNetworkInterface();
         }
-
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            if (!captFlag) captFlag = true;
-            txtFilterField.Text = "";
-
-            foreach (Control c in this.Controls)
-            {
-                if (c is CheckBox chk)
-                {
-                    if (chk.Checked)
-                    {
-                        boxChecked = true;
-                        if (chk.Name != "chkAutoScroll")
-                            cfb.AddToProtocolList(chk.Text);
-                        
-                    }
-                }
-                else if (c is TextBox tb)
-                {
-                    if (tb.Name == "txtSrcIP")
-                    {
-                        if (tb.Text != "")
-                         cfb.AddToAttributeList("src host "+ tb.Text.ToLower());
-                    }
-                    else if (tb.Name == "txtDestIP")
-                    {
-                        if (tb.Text != "")
-                            cfb.AddToAttributeList("dst host " + tb.Text.ToLower());
-                    }
-                    else if (tb.Name == "txtSrcPort")
-                    {
-                        if (tb.Text != "")
-                            cfb.AddToAttributeList("src port " + tb.Text);
-                    }
-                    else if (tb.Name == "txtDestPort")
-                    {
-                        if (tb.Text != "")
-                            cfb.AddToAttributeList("dst port "+tb.Text);
-                    }
-                }
-            }
-
-            filter = cfb.FilterString;
-            txtFilterField.Text = filter;
-            //capture packets     
-            if ((numThreads < 1) && (deviceIndex != 0))
-            {
-                ++numThreads;
-                Thread t = new Thread(new ThreadStart(CapturePackets))
-                {
-                    IsBackground = true
-                };
-                t.Start();                
-            }
-        }
-
 
         //Captures packets while issuing concurrent calls to update the GUI
         /// <summary>
@@ -148,6 +109,7 @@ namespace SteppingStoneCapture
             // Take the selected adapter
             PacketDevice selectedDevice = allDevices[this.deviceIndex];
             int prevInd = 0;
+
             // Open the device
             using (PacketCommunicator communicator =
                 selectedDevice.Open(65536,                                  // portion of the packet to capture
@@ -195,6 +157,68 @@ namespace SteppingStoneCapture
                             throw new InvalidOperationException("The result " + result + " should never be reached here");
                     }
                 }
+            }
+        }
+
+        private void BtnStart_Click(object sender, EventArgs e)
+        {
+            if (!captFlag) captFlag = true;
+
+            foreach (Control c in Controls)
+            {
+                if (c is CheckBox chk)
+                {
+                    if (chk.Checked)
+                    {
+                        protocolRequested = true;
+                        if (chk.Name != "chkAutoScroll")
+                            cfb.AddToProtocolList(chk.Text);
+
+                    }
+                }
+                else if (c is TextBox tb)
+                {
+                    if (tb.Text != "")
+                    {
+                        attributeRequested = true;
+                        switch (tb.Name)
+                        {
+                            case "txtSrcIP":
+                                cfb.AddToAttributeList("src host " + tb.Text.ToLower());
+                                break;
+                            case "txtDestIP":
+                                cfb.AddToAttributeList("dst host " + tb.Text.ToLower());
+                                break;
+                            case "txtSrcPort":
+                                cfb.AddToAttributeList("src port " + tb.Text);
+                                break;
+                            case "txtDestPort":
+                                cfb.AddToAttributeList("dst port " + tb.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+
+            if (protocolRequested || attributeRequested)
+            {
+                filter = cfb.GetFilterString();
+                txtFilterField.Text = filter;
+            }
+            else
+            {
+                filter = txtFilterField.Text;
+            }
+
+            //capture packets     
+            if ((numThreads < 1) && (deviceIndex != 0))
+            {
+                ++numThreads;
+                Thread t = new Thread(new ThreadStart(CapturePackets))
+                {
+                    IsBackground = true
+                };
+                t.Start();
             }
         }
 
@@ -272,6 +296,13 @@ namespace SteppingStoneCapture
             packetBytes.Clear();
         }
 
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+       
+
         //Reset different attributes of the form for the next run
         /// <summary>
         /// Resets attributes of the form for following runs
@@ -284,9 +315,7 @@ namespace SteppingStoneCapture
             packetView.Items.Clear();
             cfb.ClearFilterLists();
             packetBytes.Clear();
-            boxChecked = false;
-        }
-
-        
+            protocolRequested = false;
+        }        
     }
 }
