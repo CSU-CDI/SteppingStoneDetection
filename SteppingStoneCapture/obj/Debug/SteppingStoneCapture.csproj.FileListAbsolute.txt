@@ -1,0 +1,5 @@
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.csprojResolveAssemblyReference.cache
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.CaptureForm.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.Properties.Resources.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.csproj.GenerateResource.Cache
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.csproj.CoreCompileInputs.cache
