@@ -113,7 +113,7 @@
             // chkTCP
             // 
             this.chkTCP.AutoSize = true;
-            this.chkTCP.Location = new System.Drawing.Point(19, 62);
+            this.chkTCP.Location = new System.Drawing.Point(22, 63);
             this.chkTCP.Margin = new System.Windows.Forms.Padding(2);
             this.chkTCP.Name = "chkTCP";
             this.chkTCP.Size = new System.Drawing.Size(47, 17);
@@ -124,7 +124,7 @@
             // chkUDP
             // 
             this.chkUDP.AutoSize = true;
-            this.chkUDP.Location = new System.Drawing.Point(82, 62);
+            this.chkUDP.Location = new System.Drawing.Point(83, 63);
             this.chkUDP.Margin = new System.Windows.Forms.Padding(2);
             this.chkUDP.Name = "chkUDP";
             this.chkUDP.Size = new System.Drawing.Size(49, 17);
@@ -135,7 +135,7 @@
             // chkICMP
             // 
             this.chkICMP.AutoSize = true;
-            this.chkICMP.Location = new System.Drawing.Point(164, 62);
+            this.chkICMP.Location = new System.Drawing.Point(151, 63);
             this.chkICMP.Margin = new System.Windows.Forms.Padding(2);
             this.chkICMP.Name = "chkICMP";
             this.chkICMP.Size = new System.Drawing.Size(52, 17);
@@ -146,7 +146,7 @@
             // chkARP
             // 
             this.chkARP.AutoSize = true;
-            this.chkARP.Location = new System.Drawing.Point(49, 84);
+            this.chkARP.Location = new System.Drawing.Point(50, 81);
             this.chkARP.Margin = new System.Windows.Forms.Padding(2);
             this.chkARP.Name = "chkARP";
             this.chkARP.Size = new System.Drawing.Size(48, 17);
@@ -157,7 +157,7 @@
             // chkDNS
             // 
             this.chkDNS.AutoSize = true;
-            this.chkDNS.Location = new System.Drawing.Point(125, 82);
+            this.chkDNS.Location = new System.Drawing.Point(113, 84);
             this.chkDNS.Margin = new System.Windows.Forms.Padding(2);
             this.chkDNS.Name = "chkDNS";
             this.chkDNS.Size = new System.Drawing.Size(49, 17);

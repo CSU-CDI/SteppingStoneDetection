@@ -41,45 +41,72 @@ namespace SteppingStoneCapture
             AddToFilterLists(stringToAdd, false);
         }
 
+        /// <summary>
+        /// Clears the property lists for following runs
+        /// </summary>
         public void ClearFilterLists()
         {
             ClearAttributesList();
             ClearProtocolList();
         }
 
-        //
-        public string GetFilterString()
+        /// <summary>
+        /// Represents the capture filter built from selected protocols and attributes
+        /// </summary>
+        /// <remarks>
+        /// The default value of an empty string is fine.
+        /// This will be interpreted as 'ip' by the capture filter.
+        /// </remarks>
+        public string FilterString
         {
-            string captureString = "";
+            get
+            {
+                string captureString = "";
 
-            if (NonEmptyAttributesList() && NonEmptyProtocolList())
-            {
-                captureString = BuildProtocolPortionFilter() +" and "+ BuildAttributePortionFilter();
-            }
-            else if (NonEmptyProtocolList())
-            {
-                captureString = BuildProtocolPortionFilter();
-            }
-            else if (NonEmptyAttributesList())
-            {
-                captureString = BuildAttributePortionFilter();
-            }
+                //Use the correct construction style based on selected properties
+                if (HasNonEmptyAttributesList && HasNonEmptyProtocolList)
+                {
+                    captureString = BuildProtocolFilterPortion() + " and " + BuildAttributeFilterPortion();
+                }
+                else if (HasNonEmptyProtocolList)
+                {
+                    captureString = BuildProtocolFilterPortion();
+                }
+                else if (HasNonEmptyAttributesList)
+                {
+                    captureString = BuildAttributeFilterPortion();
+                }
 
-            return captureString.Trim().ToLower();
+                return captureString.Trim().ToLower();
+            }
         }
 
-        private string BuildProtocolPortionFilter()
+        //Builds the Protocol portion of the filter
+        /// <summary>
+        /// Formats selected protocols for the filter
+        /// </summary>
+        /// <example>(tcp or icmp or 'dns')</example>
+        /// <returns>
+        /// String depicting the Protocol Portion of the capture filter
+        /// </returns>
+        private string BuildProtocolFilterPortion()
         {
+            //create a return string
             string rtrn = "(";
 
+            //temp string for construction
             string current = "";
+
+            //for each item, determine the correct construction
             for (int protoIndx = 0; protoIndx < protocols.Count; ++protoIndx)
             {
+                //seperate and format specialized protocols
                 if (protocols[protoIndx].ToLower() != "dns")
                     current = protocols[protoIndx];
                 else if (protocols[protoIndx].ToLower() == "dns")
-                    current = "((tcp or udp) and port 53)";
+                    current = "(tcp or udp) and port 53";
 
+                //append the protocol to the return statement
                 if (protoIndx < protocols.Count - 1)
                     rtrn += current + " or ";
                 else
@@ -89,9 +116,19 @@ namespace SteppingStoneCapture
             return rtrn;
         }
 
-        private string BuildAttributePortionFilter()
+
+        //Builds the Attributes portion of the filter
+        /// <summary>
+        /// Formats selected attributes for the filter
+        /// </summary>
+        /// <example>'src host x and dst host y and dst port z'</example>
+        /// <returns>
+        /// String depicting the Protocol Portion of the capture filter
+        /// </returns>
+        private string BuildAttributeFilterPortion()
         {
             string rtrn = "";
+            //for each attribute, determine how to apply to filter
             for (int attrIndx = 0; attrIndx < attributes.Count; ++attrIndx)
             {
                 if (attrIndx > 0)
@@ -103,21 +140,6 @@ namespace SteppingStoneCapture
 
         }
 
-        private void ClearProtocolList()
-        {
-            protocols.Clear();
-        }
-
-        private void ClearAttributesList()
-        {
-            attributes.Clear();
-        }
-
-        private string CombineEqualIndexedItems()
-        {
-            return "";
-        }
-
         private void AddToFilterLists(string stringToAdd, bool isProtocol)
         {
             if (isProtocol)
@@ -126,14 +148,9 @@ namespace SteppingStoneCapture
                 attributes.Add(stringToAdd);
         }
 
-        private bool NonEmptyProtocolList()
-        {
-            return (protocols.Count > 0);
-        }
-
-        private bool NonEmptyAttributesList()
-        {
-            return (attributes.Count > 0);
-        }
+        private bool HasNonEmptyProtocolList => (protocols.Count > 0);
+        private bool HasNonEmptyAttributesList => (attributes.Count > 0);
+        private void ClearProtocolList() => protocols.Clear();
+        private void ClearAttributesList() => attributes.Clear();
     }
 }

@@ -18,8 +18,6 @@ namespace SteppingStoneCapture
     /// <remarks>
     /// 
     /// </remarks>
-    /// //brian test comment
-    ///  andrew test comment
     public partial class CaptureForm : Form
     {
         private int deviceIndex;
@@ -76,17 +74,81 @@ namespace SteppingStoneCapture
                     int offsetForWindowsMachines = 16;
                     LivePacketDevice device = allDevices[i];
 
-                    if (device.Description != null)
-                        if (device.Description.ToLower().Contains("\'microsoft\'"))
-                            cmbInterfaces.Items.Add("Wireless Connector");
-                        else if (device.Description.ToLower().Contains("ethernet"))
-                            cmbInterfaces.Items.Add("Ethernet Connector");
-                        else
-                            cmbInterfaces.Items.Add(device.Description.Substring(offsetForWindowsMachines));
-                    else
-                        cmbInterfaces.Items.Add("*** (No description available)");
+                    DescribeInterfaceDevice(offsetForWindowsMachines, device);
                 }
             }
+        }
+
+        private void DescribeInterfaceDevice(int offsetForWindowsMachines, LivePacketDevice device)
+        {
+            if (device.Description != null)
+                if (device.Description.ToLower().Contains("\'microsoft\'"))
+                    cmbInterfaces.Items.Add("Wireless Connector");
+                else if (device.Description.ToLower().Contains("ethernet"))
+                    cmbInterfaces.Items.Add("Ethernet Connector");
+                else
+                    cmbInterfaces.Items.Add(device.Description.Substring(offsetForWindowsMachines));
+            else
+                cmbInterfaces.Items.Add("*** (No description available)");
+        }
+
+        private void SearchFormProperties()
+        {
+            foreach (Control c in Controls)
+            {
+                if (c is CheckBox chk)
+                {
+                    if (chk.Checked)
+                    {
+                        protocolRequested = true;
+                        if (chk.Name != "chkAutoScroll")
+                            cfb.AddToProtocolList(chk.Text);
+
+                    }
+                }
+                else if (c is TextBox tb)
+                {
+                    if (tb.Text != "" && tb != txtFilterField)
+                    {
+                        attributeRequested = true;
+                        switch (tb.Name)
+                        {
+                            case "txtSrcIP":
+                                cfb.AddToAttributeList("src host " + tb.Text.ToLower());
+                                break;
+                            case "txtDestIP":
+                                cfb.AddToAttributeList("dst host " + tb.Text.ToLower());
+                                break;
+                            case "txtSrcPort":
+                                cfb.AddToAttributeList("src port " + tb.Text);
+                                break;
+                            case "txtDestPort":
+                                cfb.AddToAttributeList("dst port " + tb.Text);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private string TapFilterStringSource()
+        {
+            string tapped;
+
+            if (protocolRequested || attributeRequested)
+            {
+                tapped = cfb.FilterString;
+
+            }
+            else if (txtFilterField.Text != "")
+            {
+                tapped = txtFilterField.Text;
+            }
+            else
+            {
+                tapped = "ip";
+            }
+            return tapped;
         }
 
         private void ShowFilterFieldToolStripMenuItem_Click(object sender, EventArgs e)
@@ -143,7 +205,7 @@ namespace SteppingStoneCapture
 
                             this.Invoke((MethodInvoker)(() =>
                             {
-                                packetView.Items.Add(new ListViewItem(cp.toPropertyArray()));
+                                packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
                                 
                                 ++prevInd;
                                 if (chkAutoScroll.Checked && prevInd > 12)
@@ -163,62 +225,18 @@ namespace SteppingStoneCapture
         private void BtnStart_Click(object sender, EventArgs e)
         {
             if (!captFlag) captFlag = true;
-
-            foreach (Control c in Controls)
-            {
-                if (c is CheckBox chk)
-                {
-                    if (chk.Checked)
-                    {
-                        protocolRequested = true;
-                        if (chk.Name != "chkAutoScroll")
-                            cfb.AddToProtocolList(chk.Text);
-
-                    }
-                }
-                else if (c is TextBox tb)
-                {
-                    if (tb.Text != "")
-                    {
-                        attributeRequested = true;
-                        switch (tb.Name)
-                        {
-                            case "txtSrcIP":
-                                cfb.AddToAttributeList("src host " + tb.Text.ToLower());
-                                break;
-                            case "txtDestIP":
-                                cfb.AddToAttributeList("dst host " + tb.Text.ToLower());
-                                break;
-                            case "txtSrcPort":
-                                cfb.AddToAttributeList("src port " + tb.Text);
-                                break;
-                            case "txtDestPort":
-                                cfb.AddToAttributeList("dst port " + tb.Text);
-                                break;
-                        }
-                    }
-                }
-            }
-
-            if (protocolRequested || attributeRequested)
-            {
-                filter = cfb.GetFilterString();
-                txtFilterField.Text = filter;
-            }
-            else
-            {
-                filter = txtFilterField.Text;
-            }
+            SearchFormProperties();
+            filter = TapFilterStringSource();
+            txtFilterField.Text = filter;
 
             //capture packets     
             if ((numThreads < 1) && (deviceIndex != 0))
             {
                 ++numThreads;
-                Thread t = new Thread(new ThreadStart(CapturePackets))
+                new Thread(new ThreadStart(CapturePackets))
                 {
                     IsBackground = true
-                };
-                t.Start();
+                }.Start();
             }
         }
 
@@ -301,7 +319,7 @@ namespace SteppingStoneCapture
             Close();
         }
 
-       
+
 
         //Reset different attributes of the form for the next run
         /// <summary>
@@ -316,6 +334,7 @@ namespace SteppingStoneCapture
             cfb.ClearFilterLists();
             packetBytes.Clear();
             protocolRequested = false;
+            attributeRequested = false;
         }        
     }
 }

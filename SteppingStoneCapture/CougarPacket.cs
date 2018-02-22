@@ -2,6 +2,20 @@
 
 namespace SteppingStoneCapture
 {
+    /// <summary>
+    /// Describes a packet with basic properties and functionale
+    /// </summary>
+    /// <remarks>
+    /// Properties:
+    ///     TimeStamp
+    ///     PacketNumber
+    ///     Length/PacketSize
+    ///     Source IP Address
+    ///     Destination Ip Address
+    ///     Type
+    ///     Flags
+    ///     
+    /// </remarks>
     class CougarPacket
     {
         private int packetNumber;
@@ -40,17 +54,20 @@ namespace SteppingStoneCapture
             return description;
         }
 
-        public string[] toPropertyArray()
+        public string[] ToPropertyArray
         {
-            string[] propertyArray = new string[5];
+            get
+            {
+                string[] propertyArray = new string[5];
 
-            propertyArray[0] = PacketNumber.ToString();
-            propertyArray[1] = TimeStamp.ToString();
-            propertyArray[2] = SourceAddress.ToString();
-            propertyArray[3] = DestAddress.ToString();
-            propertyArray[4] = Length.ToString();
+                propertyArray[0] = PacketNumber.ToString();
+                propertyArray[1] = TimeStamp.ToString();
+                propertyArray[2] = SourceAddress.ToString();
+                propertyArray[3] = DestAddress.ToString();
+                propertyArray[4] = Length.ToString();
 
-            return propertyArray;
+                return propertyArray;
+            }
         }
     }
 }
