@@ -157,7 +157,7 @@
             // chkDNS
             // 
             this.chkDNS.AutoSize = true;
-            this.chkDNS.Location = new System.Drawing.Point(113, 84);
+            this.chkDNS.Location = new System.Drawing.Point(111, 81);
             this.chkDNS.Margin = new System.Windows.Forms.Padding(2);
             this.chkDNS.Name = "chkDNS";
             this.chkDNS.Size = new System.Drawing.Size(49, 17);

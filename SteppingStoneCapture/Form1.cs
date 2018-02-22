@@ -73,7 +73,6 @@ namespace SteppingStoneCapture
                 {
                     int offsetForWindowsMachines = 16;
                     LivePacketDevice device = allDevices[i];
-
                     DescribeInterfaceDevice(offsetForWindowsMachines, device);
                 }
             }
@@ -192,28 +191,32 @@ namespace SteppingStoneCapture
                             break;
                         case PacketCommunicatorReceiveResult.Ok:
                             IpV4Datagram ipv4 = packet.Ethernet.IpV4;
-                            IpV4Protocol i = ipv4.Protocol;
 
-                            CougarPacket cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                               ++packetNumber,
-                                                               packet.Length,
-                                                               ipv4.Source.ToString(),
-                                                               ipv4.Destination.ToString());
-
-                            packetInfo = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
-                            packetBytes.Add(packetInfo);
-
-                            this.Invoke((MethodInvoker)(() =>
+                            if (ipv4.IsValid)
                             {
-                                packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
-                                
-                                ++prevInd;
-                                if (chkAutoScroll.Checked && prevInd > 12)
+                                IpV4Protocol i = ipv4.Protocol;
+
+                                CougarPacket cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
+                                                                   ++packetNumber,
+                                                                   packet.Length,
+                                                                   ipv4.Source.ToString(),
+                                                                   ipv4.Destination.ToString());
+
+                                packetInfo = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
+                                packetBytes.Add(packetInfo);
+
+                                this.Invoke((MethodInvoker)(() =>
                                 {
-                                    packetView.Items[packetView.Items.Count - 1].EnsureVisible();
-                                    prevInd = 0;
-                                }
-                            }));
+                                    packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
+
+                                    ++prevInd;
+                                    if (chkAutoScroll.Checked && prevInd > 12)
+                                    {
+                                        packetView.Items[packetView.Items.Count - 1].EnsureVisible();
+                                        prevInd = 0;
+                                    }
+                                }));
+                            }
                             break;
                         default:
                             throw new InvalidOperationException("The result " + result + " should never be reached here");
@@ -335,6 +338,7 @@ namespace SteppingStoneCapture
             packetBytes.Clear();
             protocolRequested = false;
             attributeRequested = false;
+            packetNumber = rand.Next(minRandomValue, maxRandomValue);
         }        
     }
 }
