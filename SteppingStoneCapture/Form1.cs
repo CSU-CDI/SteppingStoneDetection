@@ -12,15 +12,13 @@ namespace SteppingStoneCapture
 {
     //
     /// <summary>
-    /// Captures and displays information of packets transferred
-    /// through a desired network interface
     /// </summary>
     /// <remarks>
     /// 
     /// </remarks>
     public partial class CaptureForm : Form
     {
-        private int deviceIndex;
+        private int deviceIndex = 0;
         private IList<LivePacketDevice> allDevices;
         private string defaultFilterField;
         private string filter;
