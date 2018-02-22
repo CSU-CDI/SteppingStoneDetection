@@ -20,6 +20,7 @@ namespace SteppingStoneCapture
     /// </remarks>
     /// 
     //brian 1st commit
+    //second commit
     public partial class CaptureForm : Form
     {
         private int deviceIndex;
