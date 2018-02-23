@@ -12,6 +12,8 @@ namespace SteppingStoneCapture
 {    
     
     //master comment
+    //local comment
+
     public partial class CaptureForm : Form
     {
         private int deviceIndex = 0;
