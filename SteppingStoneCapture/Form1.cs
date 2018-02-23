@@ -9,8 +9,7 @@ using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
 
 namespace SteppingStoneCapture
-{
-    
+{    
     
     public partial class CaptureForm : Form
     {
