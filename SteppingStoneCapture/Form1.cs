@@ -10,8 +10,8 @@ using PcapDotNet.Packets.IpV4;
 
 namespace SteppingStoneCapture
 {    
-    //local comment
-
+    
+    //master comment
     public partial class CaptureForm : Form
     {
         private int deviceIndex = 0;
