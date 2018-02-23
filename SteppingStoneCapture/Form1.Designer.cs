@@ -31,7 +31,9 @@
             this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showFilterFieldToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadDumpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmbInterfaces = new System.Windows.Forms.ComboBox();
             this.chkTCP = new System.Windows.Forms.CheckBox();
@@ -63,6 +65,8 @@
             this.SourceIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DestIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterVisibilityItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,7 +74,8 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuToolStripMenuItem});
+            this.menuToolStripMenuItem,
+            this.optionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -81,17 +86,37 @@
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showFilterFieldToolStripMenuItem});
+            this.loadDumpFileToolStripMenuItem,
+            this.SaveMenuItem,
+            this.ExitMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "&Menu";
             // 
-            // showFilterFieldToolStripMenuItem
+            // loadDumpFileToolStripMenuItem
             // 
-            this.showFilterFieldToolStripMenuItem.Name = "showFilterFieldToolStripMenuItem";
-            this.showFilterFieldToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.showFilterFieldToolStripMenuItem.Text = "Show/Hide &Filter Field";
-            this.showFilterFieldToolStripMenuItem.Click += new System.EventHandler(this.ShowFilterFieldToolStripMenuItem_Click);
+            this.loadDumpFileToolStripMenuItem.Name = "loadDumpFileToolStripMenuItem";
+            this.loadDumpFileToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.loadDumpFileToolStripMenuItem.Text = "Load Dump File";
+            this.loadDumpFileToolStripMenuItem.Click += new System.EventHandler(this.LoadDumpFileToolStripMenuItem_Click);
+            // 
+            // SaveMenuItem
+            // 
+            this.SaveMenuItem.CheckOnClick = true;
+            this.SaveMenuItem.DoubleClickEnabled = true;
+            this.SaveMenuItem.Name = "SaveMenuItem";
+            this.SaveMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.SaveMenuItem.Text = "Save";
+            this.SaveMenuItem.Click += new System.EventHandler(this.SaveMenuItem_Click);
+            // 
+            // ExitMenuItem
+            // 
+            this.ExitMenuItem.CheckOnClick = true;
+            this.ExitMenuItem.DoubleClickEnabled = true;
+            this.ExitMenuItem.Name = "ExitMenuItem";
+            this.ExitMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.ExitMenuItem.Text = "Exit";
+            this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
             // contextMenuStrip1
             // 
@@ -389,11 +414,26 @@
             this.Length.Text = "Length";
             this.Length.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filterVisibilityItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // filterVisibilityItem
+            // 
+            this.filterVisibilityItem.Name = "filterVisibilityItem";
+            this.filterVisibilityItem.Size = new System.Drawing.Size(162, 22);
+            this.filterVisibilityItem.Text = "Show/Hide Filter";
+            this.filterVisibilityItem.Click += new System.EventHandler(this.filterVisibilityItem_Click);
+            // 
             // CaptureForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 457);
+            this.ClientSize = new System.Drawing.Size(554, 458);
             this.Controls.Add(this.packetView);
             this.Controls.Add(this.chkAutoScroll);
             this.Controls.Add(this.lblCaptureInfo);
@@ -439,7 +479,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem showFilterFieldToolStripMenuItem;
         private System.Windows.Forms.ComboBox cmbInterfaces;
         private System.Windows.Forms.CheckBox chkTCP;
         private System.Windows.Forms.CheckBox chkUDP;
@@ -470,6 +509,11 @@
         private System.Windows.Forms.ColumnHeader SourceIP;
         private System.Windows.Forms.ColumnHeader DestIP;
         private System.Windows.Forms.ColumnHeader Length;
+        private System.Windows.Forms.ToolStripMenuItem SaveMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadDumpFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterVisibilityItem;
     }
 }
 

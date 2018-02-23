@@ -9,14 +9,18 @@ using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
 
 namespace SteppingStoneCapture
-{    
-    
-    //master comment
-    //local comment
-
+{
+    //
+    /// <summary>
+    /// Captures and displays information of packets transferred
+    /// through a desired network interface
+    /// </summary>
+    /// <remarks>
+    /// 
+    /// </remarks>
     public partial class CaptureForm : Form
     {
-        private int deviceIndex = 0;
+        private int deviceIndex;
         private IList<LivePacketDevice> allDevices;
         private string defaultFilterField;
         private string filter;
@@ -146,15 +150,40 @@ namespace SteppingStoneCapture
             return tapped;
         }
 
-        private void ShowFilterFieldToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DumpCapturedPackets()
+        {
+            string fileName = string.Format(@"C:\Users\Public\Documents\{0}_captureFile.txt",
+                                                        DateTime.Now.ToString("dd-MM-yyyy_hhmmssffff"));
+
+            foreach (byte[] barr in packetBytes)
+            {
+                File.AppendAllText(fileName, Encoding.ASCII.GetString(barr));
+            }
+
+            packetBytes.Clear();
+        }
+
+        private void FlipFilterFieldVisibility()
         {
             txtFilterField.Visible = !txtFilterField.Visible;
             lblFilterField.Visible = !lblFilterField.Visible;
-        }        
+        }
 
-        private void CaptureForm_Load(object sender, EventArgs e)
+        //Reset different attributes of the form for the next run
+        /// <summary>
+        /// Resets attributes of the form for following runs
+        /// </summary>
+        private void ResetNecessaryProperties()
         {
-            DetermineNetworkInterface();
+            txtFilterField.Text = defaultFilterField;
+            packetNumber = 0;
+            captFlag = true;
+            packetView.Items.Clear();
+            cfb.ClearFilterLists();
+            packetBytes.Clear();
+            protocolRequested = false;
+            attributeRequested = false;
+            packetNumber = rand.Next(minRandomValue, maxRandomValue);
         }
 
         //Captures packets while issuing concurrent calls to update the GUI
@@ -302,15 +331,7 @@ namespace SteppingStoneCapture
         /// <param name="e"></param>
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            string fileName = string.Format(@"C:\Users\Public\Documents\{0}_captureFile.txt",
-                                            DateTime.Now.ToString("dd-MM-yyyy_hhmmssffff"));
-
-            foreach (byte[] barr in packetBytes)
-            {
-                File.AppendAllText(fileName, Encoding.ASCII.GetString(barr));
-            }
-
-            packetBytes.Clear();
+            DumpCapturedPackets();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)
@@ -318,23 +339,31 @@ namespace SteppingStoneCapture
             Close();
         }
 
-
-
-        //Reset different attributes of the form for the next run
-        /// <summary>
-        /// Resets attributes of the form for following runs
-        /// </summary>
-        private void ResetNecessaryProperties()
+        private void SaveMenuItem_Click(object sender, EventArgs e)
         {
-            txtFilterField.Text = defaultFilterField;
-            packetNumber = 0;
-            captFlag = true;
-            packetView.Items.Clear();
-            cfb.ClearFilterLists();
-            packetBytes.Clear();
-            protocolRequested = false;
-            attributeRequested = false;
-            packetNumber = rand.Next(minRandomValue, maxRandomValue);
-        }        
+            DumpCapturedPackets();
+
+        }
+
+        private void ExitMenuItem_Click(object sender, EventArgs e)
+        {
+            BtnExit_Click(sender,e);
+        }
+
+        private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CustomLoadForm clf = new CustomLoadForm();
+            clf.ShowDialog();
+        }
+
+        private void filterVisibilityItem_Click(object sender, EventArgs e)
+        {
+            FlipFilterFieldVisibility();
+        }
+
+        private void CaptureForm_Load(object sender, EventArgs e)
+        {
+            DetermineNetworkInterface();
+        }
     }
 }
