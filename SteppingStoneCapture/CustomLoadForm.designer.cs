@@ -35,14 +35,14 @@
             // 
             // FilePathTextBox
             // 
-            this.FilePathTextBox.Location = new System.Drawing.Point(50, 12);
+            this.FilePathTextBox.Location = new System.Drawing.Point(12, 12);
             this.FilePathTextBox.Name = "FilePathTextBox";
             this.FilePathTextBox.Size = new System.Drawing.Size(319, 20);
             this.FilePathTextBox.TabIndex = 0;
             // 
             // browseButton
             // 
-            this.browseButton.Location = new System.Drawing.Point(201, 38);
+            this.browseButton.Location = new System.Drawing.Point(175, 38);
             this.browseButton.Name = "browseButton";
             this.browseButton.Size = new System.Drawing.Size(75, 23);
             this.browseButton.TabIndex = 1;
@@ -52,7 +52,7 @@
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(294, 38);
+            this.OKButton.Location = new System.Drawing.Point(256, 38);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 2;
@@ -65,14 +65,13 @@
             this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 68);
+            this.ClientSize = new System.Drawing.Size(343, 68);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.browseButton);
             this.Controls.Add(this.FilePathTextBox);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(442, 172);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(442, 106);
             this.Name = "CustomLoadForm";
             this.Text = "Load from Dump File...";
             this.ResumeLayout(false);

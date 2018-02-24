@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace SteppingStoneCapture
@@ -12,6 +13,7 @@ namespace SteppingStoneCapture
         {
             InitializeComponent();
             this.Text = "Load from Dump File...";
+            DumpFileNameRequested = "";
         }
 
         public CustomLoadForm(string title, string description)
@@ -33,7 +35,7 @@ namespace SteppingStoneCapture
         {
             ofd = new OpenFileDialog
             {
-                InitialDirectory = "c:\\"
+                InitialDirectory = Directory.GetCurrentDirectory()
             };
 
             switch (ofd.ShowDialog())
@@ -47,9 +49,9 @@ namespace SteppingStoneCapture
 
                     break;
                 default:
-                    DialogResult res = MessageBox.Show("No File Path Found..Try Again?","Try Again?", MessageBoxButtons.YesNoCancel);
+                    DialogResult res = MessageBox.Show("No File Path Found...","Try Again?", MessageBoxButtons.YesNoCancel);
                     if (res == DialogResult.Yes)
-                        DetermineDumpFilePath();                  
+                        DetermineDumpFilePath();                        
                     break;
             }
         }

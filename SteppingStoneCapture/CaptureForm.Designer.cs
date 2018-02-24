@@ -34,6 +34,8 @@
             this.loadDumpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterVisibilityItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmbInterfaces = new System.Windows.Forms.ComboBox();
             this.chkTCP = new System.Windows.Forms.CheckBox();
@@ -65,8 +67,6 @@
             this.SourceIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DestIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filterVisibilityItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -117,6 +117,21 @@
             this.ExitMenuItem.Size = new System.Drawing.Size(157, 22);
             this.ExitMenuItem.Text = "Exit";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filterVisibilityItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // filterVisibilityItem
+            // 
+            this.filterVisibilityItem.Name = "filterVisibilityItem";
+            this.filterVisibilityItem.Size = new System.Drawing.Size(162, 22);
+            this.filterVisibilityItem.Text = "Show/Hide Filter";
+            this.filterVisibilityItem.Click += new System.EventHandler(this.FilterVisibilityItem_Click);
             // 
             // contextMenuStrip1
             // 
@@ -202,7 +217,7 @@
             // lblSrcIP
             // 
             this.lblSrcIP.AutoSize = true;
-            this.lblSrcIP.Location = new System.Drawing.Point(231, 25);
+            this.lblSrcIP.Location = new System.Drawing.Point(231, 31);
             this.lblSrcIP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSrcIP.Name = "lblSrcIP";
             this.lblSrcIP.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -213,7 +228,7 @@
             // lblDestIP
             // 
             this.lblDestIP.AutoSize = true;
-            this.lblDestIP.Location = new System.Drawing.Point(231, 45);
+            this.lblDestIP.Location = new System.Drawing.Point(231, 51);
             this.lblDestIP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDestIP.Name = "lblDestIP";
             this.lblDestIP.Size = new System.Drawing.Size(45, 13);
@@ -223,7 +238,7 @@
             // lblSrcPort
             // 
             this.lblSrcPort.AutoSize = true;
-            this.lblSrcPort.Location = new System.Drawing.Point(231, 67);
+            this.lblSrcPort.Location = new System.Drawing.Point(231, 73);
             this.lblSrcPort.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSrcPort.Name = "lblSrcPort";
             this.lblSrcPort.Size = new System.Drawing.Size(66, 13);
@@ -233,7 +248,7 @@
             // lblDestPort
             // 
             this.lblDestPort.AutoSize = true;
-            this.lblDestPort.Location = new System.Drawing.Point(231, 88);
+            this.lblDestPort.Location = new System.Drawing.Point(231, 94);
             this.lblDestPort.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDestPort.Name = "lblDestPort";
             this.lblDestPort.Size = new System.Drawing.Size(54, 13);
@@ -242,7 +257,7 @@
             // 
             // txtSrcIP
             // 
-            this.txtSrcIP.Location = new System.Drawing.Point(301, 24);
+            this.txtSrcIP.Location = new System.Drawing.Point(301, 30);
             this.txtSrcIP.Margin = new System.Windows.Forms.Padding(2);
             this.txtSrcIP.Name = "txtSrcIP";
             this.txtSrcIP.Size = new System.Drawing.Size(132, 20);
@@ -250,7 +265,7 @@
             // 
             // txtDestIP
             // 
-            this.txtDestIP.Location = new System.Drawing.Point(301, 45);
+            this.txtDestIP.Location = new System.Drawing.Point(301, 51);
             this.txtDestIP.Margin = new System.Windows.Forms.Padding(2);
             this.txtDestIP.Name = "txtDestIP";
             this.txtDestIP.Size = new System.Drawing.Size(132, 20);
@@ -258,7 +273,7 @@
             // 
             // txtSrcPort
             // 
-            this.txtSrcPort.Location = new System.Drawing.Point(301, 67);
+            this.txtSrcPort.Location = new System.Drawing.Point(301, 73);
             this.txtSrcPort.Margin = new System.Windows.Forms.Padding(2);
             this.txtSrcPort.Name = "txtSrcPort";
             this.txtSrcPort.Size = new System.Drawing.Size(132, 20);
@@ -266,7 +281,7 @@
             // 
             // txtDestPort
             // 
-            this.txtDestPort.Location = new System.Drawing.Point(301, 88);
+            this.txtDestPort.Location = new System.Drawing.Point(301, 94);
             this.txtDestPort.Margin = new System.Windows.Forms.Padding(2);
             this.txtDestPort.Name = "txtDestPort";
             this.txtDestPort.Size = new System.Drawing.Size(132, 20);
@@ -385,6 +400,7 @@
             this.packetView.TabIndex = 28;
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
+            this.packetView.SelectedIndexChanged += new System.EventHandler(this.packetView_SelectedIndexChanged);
             // 
             // packNum
             // 
@@ -413,21 +429,6 @@
             // 
             this.Length.Text = "Length";
             this.Length.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filterVisibilityItem});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "Options";
-            // 
-            // filterVisibilityItem
-            // 
-            this.filterVisibilityItem.Name = "filterVisibilityItem";
-            this.filterVisibilityItem.Size = new System.Drawing.Size(162, 22);
-            this.filterVisibilityItem.Text = "Show/Hide Filter";
-            this.filterVisibilityItem.Click += new System.EventHandler(this.filterVisibilityItem_Click);
             // 
             // CaptureForm
             // 
