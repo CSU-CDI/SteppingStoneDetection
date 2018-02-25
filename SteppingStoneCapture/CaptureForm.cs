@@ -26,12 +26,13 @@ namespace SteppingStoneCapture
         private string defaultFilterField;
         private string filter;
         private IDictionary<Int32, byte[]> packetBytes;
-        private LinkedList<CougarPacket> packets;
+        private List<Packet> packets;
         private ByteViewerForm bvf;
         private Int32 packetNumber,startPacketNumber;
         private bool captFlag;
         private int numThreads;
         private Boolean protocolRequested, attributeRequested;
+        private volatile Boolean captureAndDumpRequested;
         private CougarFilterBuilder cfb;
         private Random rand;
 
@@ -47,13 +48,14 @@ namespace SteppingStoneCapture
             defaultFilterField = "";
             filter = "";
             packetBytes = new Dictionary<Int32, byte[]>();
-            packets = new LinkedList<CougarPacket>();
+            packets = new List<Packet>();
             startPacketNumber = rand.Next(minRandomValue, maxRandomValue);
             packetNumber = startPacketNumber;
             captFlag = true;
             numThreads = 0;
             protocolRequested = false;
             attributeRequested = false;
+            captureAndDumpRequested = false;
             cfb = new CougarFilterBuilder();
             bvf = new ByteViewerForm();
         }
@@ -156,7 +158,8 @@ namespace SteppingStoneCapture
 
         private void DumpCapturedPackets()
         {
-            string fileName = string.Format(@"C:\Users\Public\Documents\{0}_captureFile.txt",
+            string fileName = string.Format(@"C:\Users\[0}\Documents\{1}_captureFile.txt",
+                                                        Environment.UserName,
                                                         DateTime.Now.ToString("dd-MM-yyyy_hhmmssffff"));
 
             foreach (byte[] barr in packetBytes.Values)
@@ -196,16 +199,18 @@ namespace SteppingStoneCapture
             CougarPacket cp;
             int prevInd = 0;
 
-            DataLinkKind dlk = packet.DataLink.Kind;
-            if (dlk == DataLinkKind.IpV4)
+            IpV4Datagram ipv4 = packet.Ethernet.IpV4;
+
+
+            if (ipv4.IsValid)
             {
-                IpV4Datagram ipv4 = packet.IpV4;
+                IpV4Protocol i = ipv4.Protocol;
                 cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
                                                                    ++packetNumber,
                                                                    packet.Length,
                                                                    ipv4.Source.ToString(),
                                                                    ipv4.Destination.ToString());
-                packets.AddLast(cp);
+                packets.Add(packet);
                 this.Invoke((MethodInvoker)(() =>
                 {
                     packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
@@ -241,6 +246,9 @@ namespace SteppingStoneCapture
                                     1000))                                  // read timeout
             {               
                 communicator.SetFilter(filter);
+                string dumpFileName = String.Format("C:\\Users\\{0}\\Documents\\{1}.pcap",
+                                                     Environment.UserName,
+                                                     DateTime.Now.ToString("dd-MM-yyyy_hhmmssffff"));
                 while (captFlag)
                 {
                     PacketCommunicatorReceiveResult result = communicator.ReceivePacket(out Packet packet);
@@ -252,6 +260,7 @@ namespace SteppingStoneCapture
                             // Timeout elapsed
                             break;
                         case PacketCommunicatorReceiveResult.Ok:
+                            
                             IpV4Datagram ipv4 = packet.Ethernet.IpV4;
                             
 
@@ -266,7 +275,7 @@ namespace SteppingStoneCapture
                                                                    ipv4.Destination.ToString());
 
                                 //packetInfo = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
-                                packetBytes.Add((packetNumber - startPacketNumber) - 1, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
+                                packetBytes.Add((packetNumber - startPacketNumber) - 1, packet.Buffer);
 
                                 this.Invoke((MethodInvoker)(() =>
                                 {
@@ -279,12 +288,24 @@ namespace SteppingStoneCapture
                                         prevInd = 0;
                                     }
                                 }));
+
+
+
+                                if (captureAndDumpRequested)
+                                {
+                                    packets.Add(packet);
+                                }
                             }
                             break;
                         default:
                             throw new InvalidOperationException("The result " + result + " should never be reached here");
                     }
                 }
+
+                using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
+                    foreach (Packet p in packets)
+                        pdf.Dump(p);
+                    
             }
         }
 
@@ -406,12 +427,17 @@ namespace SteppingStoneCapture
 
         private void FilterVisibilityItem_Click(object sender, EventArgs e) => FlipFilterFieldVisibility();
 
+        private void dumpPacketsDuringCaptureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+             captureAndDumpRequested = !captureAndDumpRequested;
+        }
+
         private void packetView_SelectedIndexChanged(object sender, EventArgs e)
         {
             bvf.Visible = true;
             bvf.Activate();
             int index = packetView.FocusedItem.Index;
-            bvf.setBytes(packetBytes[index]);
+            bvf.setBytes(packets[index].Buffer);
         }
 
         private void CaptureForm_Load(object sender, EventArgs e) => DetermineNetworkInterface();

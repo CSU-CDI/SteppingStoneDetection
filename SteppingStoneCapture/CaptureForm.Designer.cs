@@ -67,6 +67,7 @@
             this.SourceIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DestIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.dumpPacketsDuringCaptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -121,7 +122,8 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filterVisibilityItem});
+            this.filterVisibilityItem,
+            this.dumpPacketsDuringCaptureToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -129,7 +131,7 @@
             // filterVisibilityItem
             // 
             this.filterVisibilityItem.Name = "filterVisibilityItem";
-            this.filterVisibilityItem.Size = new System.Drawing.Size(162, 22);
+            this.filterVisibilityItem.Size = new System.Drawing.Size(243, 22);
             this.filterVisibilityItem.Text = "Show/Hide Filter";
             this.filterVisibilityItem.Click += new System.EventHandler(this.FilterVisibilityItem_Click);
             // 
@@ -430,6 +432,13 @@
             this.Length.Text = "Length";
             this.Length.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // dumpPacketsDuringCaptureToolStripMenuItem
+            // 
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Name = "dumpPacketsDuringCaptureToolStripMenuItem";
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Text = "Dump Packets During Capture...";
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Click += new System.EventHandler(this.dumpPacketsDuringCaptureToolStripMenuItem_Click);
+            // 
             // CaptureForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -515,6 +524,7 @@
         private System.Windows.Forms.ToolStripMenuItem loadDumpFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterVisibilityItem;
+        private System.Windows.Forms.ToolStripMenuItem dumpPacketsDuringCaptureToolStripMenuItem;
     }
 }
 
