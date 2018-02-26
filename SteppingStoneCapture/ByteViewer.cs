@@ -16,8 +16,7 @@ namespace SteppingStoneCapture
         public ByteViewerForm()
         {
             // Initialize the controls other than the ByteViewer.
-            InitializeForm();
-
+            InitializeForm();            
             // Initialize the ByteViewer.
             byteviewer = new ByteViewer();
             byteviewer.Location = new Point(8, 46);
@@ -64,12 +63,9 @@ namespace SteppingStoneCapture
                     break;
                 case "Hex":
                     mode = DisplayMode.Hexdump;
-                    break;
-                case "Unicode":
-                    mode = DisplayMode.Unicode;
-                    break;
+                    break;                
                 default:
-                    mode = DisplayMode.Auto;
+                    mode = DisplayMode.Hexdump;
                     break;
             }
 
@@ -111,13 +107,13 @@ namespace SteppingStoneCapture
             group.Text = "Display Mode";
             this.Controls.Add(group);
 
-            System.Windows.Forms.RadioButton rbutton1 = new System.Windows.Forms.RadioButton();
+            /*System.Windows.Forms.RadioButton rbutton1 = new System.Windows.Forms.RadioButton();
             rbutton1.Location = new Point(6, 15);
             rbutton1.Size = new Size(46, 16);
             rbutton1.Text = "Auto";
             rbutton1.Checked = true;
             rbutton1.Click += new EventHandler(this.changeByteMode);
-            group.Controls.Add(rbutton1);
+            group.Controls.Add(rbutton1);*/
 
             System.Windows.Forms.RadioButton rbutton2 = new System.Windows.Forms.RadioButton();
             rbutton2.Location = new Point(54, 15);
@@ -133,19 +129,19 @@ namespace SteppingStoneCapture
             rbutton3.Click += new EventHandler(this.changeByteMode);
             group.Controls.Add(rbutton3);
 
-            System.Windows.Forms.RadioButton rbutton4 = new System.Windows.Forms.RadioButton();
+           /* System.Windows.Forms.RadioButton rbutton4 = new System.Windows.Forms.RadioButton();
             rbutton4.Location = new Point(152, 15);
             rbutton4.Size = new Size(64, 16);
             rbutton4.Text = "Unicode";
             rbutton4.Click += new EventHandler(this.changeByteMode);
             group.Controls.Add(rbutton4);
-            this.ResumeLayout(false);
+            this.ResumeLayout(false);*/
         }
 
      /*   [STAThread]
         static void Main()
         {
             Application.Run(new ByteViewerForm());
-        }*/
+        }*/        
     }
 }

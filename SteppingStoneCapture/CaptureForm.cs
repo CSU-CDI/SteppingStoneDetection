@@ -10,15 +10,7 @@ using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
 
 namespace SteppingStoneCapture
-{
-    //
-    /// <summary>
-    /// Captures and displays information of packets transferred
-    /// through a desired network interface
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
+{   
     public partial class CaptureForm : Form
     {
         private int deviceIndex;
@@ -27,8 +19,9 @@ namespace SteppingStoneCapture
         private string filter;
         private IDictionary<Int32, byte[]> packetBytes;
         private List<Packet> packets;
-        private ByteViewerForm bvf;
-        private Int32 packetNumber,startPacketNumber;
+        //private ByteViewerForm bvf;
+        //private ByteViewerForm newbvf;
+        private Int32 packetNumber;
         private bool captFlag;
         private int numThreads;
         private Boolean protocolRequested, attributeRequested;
@@ -36,8 +29,7 @@ namespace SteppingStoneCapture
         private CougarFilterBuilder cfb;
         private Random rand;
 
-        private int minRandomValue = 0;
-        private int maxRandomValue = (int)Math.Round(int.MaxValue * .25);
+        
 
 
         public CaptureForm()
@@ -49,15 +41,14 @@ namespace SteppingStoneCapture
             filter = "";
             packetBytes = new Dictionary<Int32, byte[]>();
             packets = new List<Packet>();
-            startPacketNumber = rand.Next(minRandomValue, maxRandomValue);
-            packetNumber = startPacketNumber;
+            packetNumber = 0;
             captFlag = true;
             numThreads = 0;
             protocolRequested = false;
             attributeRequested = false;
             captureAndDumpRequested = false;
             cfb = new CougarFilterBuilder();
-            bvf = new ByteViewerForm();
+            //bvf = new ByteViewerForm();
         }
 
         private void DetermineNetworkInterface(int numTries = 5)
@@ -177,10 +168,7 @@ namespace SteppingStoneCapture
         }
 
 
-        //Reset different attributes of the form for the next run
-        /// <summary>
-        /// Resets attributes of the form for following runs
-        /// </summary>
+        
         private void ResetNecessaryProperties()
         {
             txtFilterField.Text = defaultFilterField;
@@ -191,7 +179,7 @@ namespace SteppingStoneCapture
             packetBytes.Clear();
             protocolRequested = false;
             attributeRequested = false;
-            packetNumber = rand.Next(minRandomValue, maxRandomValue);
+            packetNumber = 0;
         }
 
         private void HandleLoadedPacket(Packet packet)
@@ -200,8 +188,6 @@ namespace SteppingStoneCapture
             int prevInd = 0;
 
             IpV4Datagram ipv4 = packet.Ethernet.IpV4;
-
-
             if (ipv4.IsValid)
             {
                 IpV4Protocol i = ipv4.Protocol;
@@ -214,7 +200,7 @@ namespace SteppingStoneCapture
                 this.Invoke((MethodInvoker)(() =>
                 {
                     packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
-                    packetBytes.Add((packetNumber-startPacketNumber)-1, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
+                    packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
 
                     ++prevInd;
                     if (chkAutoScroll.Checked && prevInd > 12)
@@ -226,12 +212,7 @@ namespace SteppingStoneCapture
             }
 
             
-        }
-
-        //Captures packets while issuing concurrent calls to update the GUI
-        /// <summary>
-        /// Capture packets and stores their information
-        /// </summary>
+        }       
         private void CapturePackets()
         {
             // Take the selected adapter
@@ -249,6 +230,7 @@ namespace SteppingStoneCapture
                 string dumpFileName = String.Format("C:\\Users\\{0}\\Documents\\{1}.pcap",
                                                      Environment.UserName,
                                                      DateTime.Now.ToString("dd-MM-yyyy_hhmmssffff"));
+                Console.WriteLine(filter);
                 while (captFlag)
                 {
                     PacketCommunicatorReceiveResult result = communicator.ReceivePacket(out Packet packet);
@@ -260,22 +242,23 @@ namespace SteppingStoneCapture
                             // Timeout elapsed
                             break;
                         case PacketCommunicatorReceiveResult.Ok:
-                            
                             IpV4Datagram ipv4 = packet.Ethernet.IpV4;
                             
 
                             if (ipv4.IsValid)
                             {
                                 IpV4Protocol i = ipv4.Protocol;
+                                Console.WriteLine(i);
 
                                 CougarPacket cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                                   ++packetNumber,
+                                                                   packetNumber,
                                                                    packet.Length,
                                                                    ipv4.Source.ToString(),
                                                                    ipv4.Destination.ToString());
+                                packetNumber++;
 
                                 //packetInfo = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
-                                packetBytes.Add((packetNumber - startPacketNumber) - 1, packet.Buffer);
+                                packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
 
                                 this.Invoke((MethodInvoker)(() =>
                                 {
@@ -288,9 +271,6 @@ namespace SteppingStoneCapture
                                         prevInd = 0;
                                     }
                                 }));
-
-
-
                                 if (captureAndDumpRequested)
                                 {
                                     packets.Add(packet);
@@ -301,7 +281,6 @@ namespace SteppingStoneCapture
                             throw new InvalidOperationException("The result " + result + " should never be reached here");
                     }
                 }
-
                 if (captureAndDumpRequested)
                 {
                     using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
@@ -344,15 +323,10 @@ namespace SteppingStoneCapture
         {
             captFlag = false;
             if (numThreads > 0) --numThreads;
-        }
-
-        //Resets the form and properties for following runs
-        /// <summary>
-        /// Signals for reset of the different controls and 
-        /// properties of the form for following runs
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+            filter = "";
+            cfb.ClearFilterLists();
+        }       
+       
         private void BtnReset_Click(object sender, EventArgs e)
         {         
             //reset every control in the form to its default value
@@ -365,13 +339,7 @@ namespace SteppingStoneCapture
             ResetNecessaryProperties();
         }
 
-        //Captures the selection of desired network interface
-        /// <summary>
-        /// Captures which network interface the user would like to capture packets
-        /// from
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        //Captures the selection of desired network interface       
         private void CmbInterfaces_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbInterfaces.Items != null)
@@ -379,7 +347,6 @@ namespace SteppingStoneCapture
                 deviceIndex = cmbInterfaces.SelectedIndex;
             }
         }
-
 
         private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -405,21 +372,8 @@ namespace SteppingStoneCapture
                 }
             }
 
-        }
-
-
-        //Initiates save of captured packets
-        /// <summary>
-        /// Signals for save of data of packets captured from the last save,
-        /// or reset, up to now in a file
-        /// </summary>
-        /// <remarks>
-        /// Allows user to select which fields to save to file
-        /// Permits users to decide save file type
-        /// </remarks>
-        /// /// 
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        }      
+       
         private void BtnSave_Click(object sender, EventArgs e) => DumpCapturedPackets();
 
         private void BtnExit_Click(object sender, EventArgs e) => Close();
@@ -432,15 +386,27 @@ namespace SteppingStoneCapture
 
         private void dumpPacketsDuringCaptureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-             captureAndDumpRequested = !captureAndDumpRequested;
+            captureAndDumpRequested = !captureAndDumpRequested;
         }
 
-        private void packetView_SelectedIndexChanged(object sender, EventArgs e)
+        /*private void packetView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bvf.Visible = true;
-            bvf.Activate();
-            int index = packetView.FocusedItem.Index;
-            bvf.setBytes(packets[index].Buffer);
+            ByteViewerForm newbvf = new ByteViewerForm();
+            newbvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
+            newbvf.Show();
+            newbvf.TopMost = true;            
+            //bvf.Visible = true;
+            //bvf.Activate();
+            //int index = packetView.FocusedItem.Index + 1;
+            //bvf.setBytes(packetBytes[index]);            
+        } */
+
+        private void btnShowData_Click(object sender, EventArgs e)
+        {
+            ByteViewerForm newbvf = new ByteViewerForm();
+            newbvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
+            newbvf.Show();
+            newbvf.TopMost = true;
         }
 
         private void CaptureForm_Load(object sender, EventArgs e) => DetermineNetworkInterface();
