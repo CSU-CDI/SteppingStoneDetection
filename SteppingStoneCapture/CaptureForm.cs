@@ -24,7 +24,7 @@ namespace SteppingStoneCapture
         private bool captFlag;
         private int numThreads;
         private Boolean protocolRequested, attributeRequested;
-        private volatile Boolean captureAndDumpRequested;
+        private volatile Boolean captureAndDumpRequested, multiWindowDisplay;
         private CougarFilterBuilder cfb;
         private Random rand;
 
@@ -46,6 +46,7 @@ namespace SteppingStoneCapture
             protocolRequested = false;
             attributeRequested = false;
             captureAndDumpRequested = false;
+            multiWindowDisplay = false;
             cfb = new CougarFilterBuilder();
             bvf = new ByteViewerForm();
         }
@@ -254,7 +255,7 @@ namespace SteppingStoneCapture
                                                                    packet.Length,
                                                                    ipv4.Source.ToString(),
                                                                    ipv4.Destination.ToString());
-                                packetNumber++;
+                                ++packetNumber;
 
                                 //packetInfo = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
                                 packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
@@ -381,33 +382,44 @@ namespace SteppingStoneCapture
 
         private void ExitMenuItem_Click(object sender, EventArgs e) => Close();
 
-        private void FilterVisibilityItem_Click(object sender, EventArgs e) => FlipFilterFieldVisibility();
-
-        private void dumpPacketsDuringCaptureToolStripMenuItem_Click(object sender, EventArgs e)
+        private void FilterVisibilityItem_Click(object sender, EventArgs e)
         {
-            captureAndDumpRequested = !captureAndDumpRequested;
+            FlipFilterFieldVisibility();
+            filterVisibilityItem.Checked = txtFilterField.Visible;
         }
 
-        private void packetView_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void PacketView_SelectedIndexChanged(object sender, EventArgs e) => UpdateHexEditor();
 
+        private void UpdateHexEditor()
+        {
             if (packetView.FocusedItem != null)
             {
-                if (bvf.IsDisposed)
+                if (bvf.IsDisposed || multiWindowDisplay)
                     bvf = new ByteViewerForm();
-                bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
+                bvf.setBytes(packetBytes[packetView.FocusedItem.Index+1]);
                 bvf.Show();
                 bvf.TopMost = true;
             }
-        } 
+        }
 
-        private void btnShowData_Click(object sender, EventArgs e)
+        private void btnShowData_Click(object sender, EventArgs e) => UpdateHexEditor();
+
+        private void ShowFilterFieldToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (bvf.IsDisposed)
-                bvf = new ByteViewerForm();
-            bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
-            bvf.Show();
-            bvf.TopMost = true;
+            FlipFilterFieldVisibility();
+            showFilterFieldItem.Checked = txtFilterField.Visible;
+        }
+
+        private void CaptureAndDumpMenuItem_Click(object sender, EventArgs e)
+        {
+            captureAndDumpRequested = !captureAndDumpRequested;
+            captureAndDumpMenuItem.Checked = captureAndDumpRequested;
+        }
+
+        private void MultiWindowDisplayMenuItem_Click(object sender, EventArgs e)
+        {
+            multiWindowDisplay = !multiWindowDisplay;
+            multiWindowDisplayMenuItem.Checked = multiWindowDisplay;
         }
 
         private void CaptureForm_Load(object sender, EventArgs e) => DetermineNetworkInterface();
