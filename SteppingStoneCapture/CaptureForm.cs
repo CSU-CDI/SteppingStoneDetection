@@ -281,9 +281,12 @@ namespace SteppingStoneCapture
                             throw new InvalidOperationException("The result " + result + " should never be reached here");
                     }
                 }
-                using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
-                    foreach (Packet p in packets)
-                        pdf.Dump(p);
+                if (captureAndDumpRequested)
+                {
+                    using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
+                        foreach (Packet p in packets)
+                            pdf.Dump(p);
+                }                
             }
         }
 
