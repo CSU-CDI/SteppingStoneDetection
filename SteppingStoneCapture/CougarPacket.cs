@@ -16,7 +16,7 @@ namespace SteppingStoneCapture
     ///     Flags
     ///     
     /// </remarks>
-    class CougarPacket
+    public class CougarPacket
     {
         private int packetNumber;
         private string timeStamp;

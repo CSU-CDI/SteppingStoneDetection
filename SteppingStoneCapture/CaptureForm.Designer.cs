@@ -40,6 +40,8 @@
             this.showFilterFieldItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dumpPacketsDuringCaptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.captureAndDumpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hexEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.multiWindowDisplayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmbInterfaces = new System.Windows.Forms.ComboBox();
             this.chkTCP = new System.Windows.Forms.CheckBox();
@@ -72,8 +74,7 @@
             this.DestIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnShowData = new System.Windows.Forms.Button();
-            this.hexEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.multiWindowDisplayMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rawPacketViewItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -148,11 +149,10 @@
             this.filterVisibilityItem.Name = "filterVisibilityItem";
             this.filterVisibilityItem.Size = new System.Drawing.Size(152, 22);
             this.filterVisibilityItem.Text = "Visual";
-            
             // 
             // showFilterFieldItem
             // 
-            this.showFilterFieldItem.Name = "showFilterFieldMenuItem";
+            this.showFilterFieldItem.Name = "showFilterFieldItem";
             this.showFilterFieldItem.Size = new System.Drawing.Size(190, 22);
             this.showFilterFieldItem.Text = "Show/Hide Filter Field";
             this.showFilterFieldItem.Click += new System.EventHandler(this.ShowFilterFieldToolStripMenuItem_Click);
@@ -171,6 +171,22 @@
             this.captureAndDumpMenuItem.Size = new System.Drawing.Size(246, 22);
             this.captureAndDumpMenuItem.Text = "Dump Packets During Capture....";
             this.captureAndDumpMenuItem.Click += new System.EventHandler(this.CaptureAndDumpMenuItem_Click);
+            // 
+            // hexEditorToolStripMenuItem
+            // 
+            this.hexEditorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.multiWindowDisplayMenuItem,
+            this.rawPacketViewItem});
+            this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hexEditorToolStripMenuItem.Text = "Hex Editor";
+            // 
+            // multiWindowDisplayMenuItem
+            // 
+            this.multiWindowDisplayMenuItem.Name = "multiWindowDisplayMenuItem";
+            this.multiWindowDisplayMenuItem.Size = new System.Drawing.Size(284, 22);
+            this.multiWindowDisplayMenuItem.Text = "Display Selected Packet in New Window";
+            this.multiWindowDisplayMenuItem.Click += new System.EventHandler(this.MultiWindowDisplayMenuItem_Click);
             // 
             // contextMenuStrip1
             // 
@@ -481,20 +497,12 @@
             this.btnShowData.UseVisualStyleBackColor = true;
             this.btnShowData.Click += new System.EventHandler(this.btnShowData_Click);
             // 
-            // hexEditorToolStripMenuItem
+            // rawPacketViewItem
             // 
-            this.hexEditorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.multiWindowDisplayMenuItem});
-            this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.hexEditorToolStripMenuItem.Text = "Hex Editor";
-            // 
-            // multiWindowDisplayMenuItem
-            // 
-            this.multiWindowDisplayMenuItem.Name = "multiWindowDisplayMenuItem";
-            this.multiWindowDisplayMenuItem.Size = new System.Drawing.Size(284, 22);
-            this.multiWindowDisplayMenuItem.Text = "Display Selected Packet in New Window";
-            this.multiWindowDisplayMenuItem.Click += new System.EventHandler(this.MultiWindowDisplayMenuItem_Click);
+            this.rawPacketViewItem.Name = "rawPacketViewItem";
+            this.rawPacketViewItem.Size = new System.Drawing.Size(284, 22);
+            this.rawPacketViewItem.Text = "Raw Packet View";
+            this.rawPacketViewItem.Click += new System.EventHandler(this.rawPacketViewItem_Click);
             // 
             // CaptureForm
             // 
@@ -589,6 +597,7 @@
         private System.Windows.Forms.ToolStripMenuItem captureAndDumpMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hexEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem multiWindowDisplayMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rawPacketViewItem;
     }
 }
 

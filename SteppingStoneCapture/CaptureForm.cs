@@ -24,9 +24,10 @@ namespace SteppingStoneCapture
         private bool captFlag;
         private int numThreads;
         private Boolean protocolRequested, attributeRequested;
-        private volatile Boolean captureAndDumpRequested, multiWindowDisplay;
+        private volatile Boolean captureAndDumpRequested, multiWindowDisplay, rawPacketViewDesired;
         private CougarFilterBuilder cfb;
         private Random rand;
+        private int lastSelectedIndex = 0; 
 
         
 
@@ -47,6 +48,7 @@ namespace SteppingStoneCapture
             attributeRequested = false;
             captureAndDumpRequested = false;
             multiWindowDisplay = false;
+            rawPacketViewDesired = false;
             cfb = new CougarFilterBuilder();
             bvf = new ByteViewerForm();
         }
@@ -262,6 +264,7 @@ namespace SteppingStoneCapture
 
                                 this.Invoke((MethodInvoker)(() =>
                                 {
+                                    packets.Add(packet);
                                     packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
 
                                     ++prevInd;
@@ -271,10 +274,7 @@ namespace SteppingStoneCapture
                                         prevInd = 0;
                                     }
                                 }));
-                                if (captureAndDumpRequested)
-                                {
-                                    packets.Add(packet);
-                                }
+                                                                   
                             }
                             break;
                         default:
@@ -388,7 +388,15 @@ namespace SteppingStoneCapture
             filterVisibilityItem.Checked = txtFilterField.Visible;
         }
 
-        private void PacketView_SelectedIndexChanged(object sender, EventArgs e) => UpdateHexEditor();
+        private void PacketView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selected = packetView.FocusedItem.Index + 1;
+            if (selected != lastSelectedIndex)
+            {
+                UpdateHexEditor();
+                lastSelectedIndex = selected;
+            }
+        }
 
         private void UpdateHexEditor()
         {
@@ -396,7 +404,11 @@ namespace SteppingStoneCapture
             {
                 if (bvf.IsDisposed || multiWindowDisplay)
                     bvf = new ByteViewerForm();
-                bvf.setBytes(packetBytes[packetView.FocusedItem.Index+1]);
+                if (rawPacketViewDesired)
+                    bvf.setBytes(packets[packetView.FocusedItem.Index + 1].Buffer);
+                else
+                    bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
+
                 bvf.Show();
                 bvf.TopMost = true;
             }
@@ -414,6 +426,13 @@ namespace SteppingStoneCapture
         {
             captureAndDumpRequested = !captureAndDumpRequested;
             captureAndDumpMenuItem.Checked = captureAndDumpRequested;
+        }
+
+        private void rawPacketViewItem_Click(object sender, EventArgs e)
+        {
+            rawPacketViewDesired = !rawPacketViewDesired;
+            rawPacketViewItem.Checked = rawPacketViewDesired;
+            lastSelectedIndex = -1;
         }
 
         private void MultiWindowDisplayMenuItem_Click(object sender, EventArgs e)
