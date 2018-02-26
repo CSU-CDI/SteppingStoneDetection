@@ -36,6 +36,7 @@
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterVisibilityItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dumpPacketsDuringCaptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cmbInterfaces = new System.Windows.Forms.ComboBox();
             this.chkTCP = new System.Windows.Forms.CheckBox();
@@ -122,7 +123,8 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filterVisibilityItem});
+            this.filterVisibilityItem,
+            this.dumpPacketsDuringCaptureToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -130,9 +132,16 @@
             // filterVisibilityItem
             // 
             this.filterVisibilityItem.Name = "filterVisibilityItem";
-            this.filterVisibilityItem.Size = new System.Drawing.Size(195, 26);
+            this.filterVisibilityItem.Size = new System.Drawing.Size(291, 26);
             this.filterVisibilityItem.Text = "Show/Hide Filter";
             this.filterVisibilityItem.Click += new System.EventHandler(this.FilterVisibilityItem_Click);
+            // 
+            // dumpPacketsDuringCaptureToolStripMenuItem
+            // 
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Name = "dumpPacketsDuringCaptureToolStripMenuItem";
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(291, 26);
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Text = "Dump Packets During Capture...";
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Click += new System.EventHandler(this.dumpPacketsDuringCaptureToolStripMenuItem_Click);
             // 
             // contextMenuStrip1
             // 
@@ -389,13 +398,12 @@
             this.packetView.FullRowSelect = true;
             this.packetView.GridLines = true;
             this.packetView.Location = new System.Drawing.Point(12, 196);
-            this.packetView.Margin = new System.Windows.Forms.Padding(4);
+            this.packetView.Margin = new System.Windows.Forms.Padding(5);
             this.packetView.Name = "packetView";
             this.packetView.Size = new System.Drawing.Size(709, 307);
             this.packetView.TabIndex = 28;
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
-            //this.packetView.SelectedIndexChanged += new System.EventHandler(this.packetView_SelectedIndexChanged);
             // 
             // packNum
             // 
@@ -522,6 +530,7 @@
         private System.Windows.Forms.ToolStripMenuItem loadDumpFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterVisibilityItem;
+        private System.Windows.Forms.ToolStripMenuItem dumpPacketsDuringCaptureToolStripMenuItem;
         private System.Windows.Forms.Button btnShowData;
     }
 }
