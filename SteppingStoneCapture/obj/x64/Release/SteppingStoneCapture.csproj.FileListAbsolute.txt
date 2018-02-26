@@ -31,3 +31,5 @@ C:\Users\andrew\Desktop\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Rele
 C:\Users\andrew\Desktop\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.csproj.CoreCompileInputs.cache
 C:\Users\andrew\Desktop\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.exe
 C:\Users\andrew\Desktop\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.pdb
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.ByteViewerForm.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.CustomLoadForm.resources
