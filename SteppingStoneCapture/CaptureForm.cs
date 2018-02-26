@@ -19,8 +19,7 @@ namespace SteppingStoneCapture
         private string filter;
         private IDictionary<Int32, byte[]> packetBytes;
         private List<Packet> packets;
-        //private ByteViewerForm bvf;
-        //private ByteViewerForm newbvf;
+        private ByteViewerForm bvf;
         private Int32 packetNumber;
         private bool captFlag;
         private int numThreads;
@@ -48,7 +47,7 @@ namespace SteppingStoneCapture
             attributeRequested = false;
             captureAndDumpRequested = false;
             cfb = new CougarFilterBuilder();
-            //bvf = new ByteViewerForm();
+            bvf = new ByteViewerForm();
         }
 
         private void DetermineNetworkInterface(int numTries = 5)
@@ -389,24 +388,26 @@ namespace SteppingStoneCapture
             captureAndDumpRequested = !captureAndDumpRequested;
         }
 
-        /*private void packetView_SelectedIndexChanged(object sender, EventArgs e)
+        private void packetView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ByteViewerForm newbvf = new ByteViewerForm();
-            newbvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
-            newbvf.Show();
-            newbvf.TopMost = true;            
-            //bvf.Visible = true;
-            //bvf.Activate();
-            //int index = packetView.FocusedItem.Index + 1;
-            //bvf.setBytes(packetBytes[index]);            
-        } */
+
+            if (packetView.FocusedItem != null)
+            {
+                if (bvf.IsDisposed)
+                    bvf = new ByteViewerForm();
+                bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
+                bvf.Show();
+                bvf.TopMost = true;
+            }
+        } 
 
         private void btnShowData_Click(object sender, EventArgs e)
         {
-            ByteViewerForm newbvf = new ByteViewerForm();
-            newbvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
-            newbvf.Show();
-            newbvf.TopMost = true;
+            if (bvf.IsDisposed)
+                bvf = new ByteViewerForm();
+            bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
+            bvf.Show();
+            bvf.TopMost = true;
         }
 
         private void CaptureForm_Load(object sender, EventArgs e) => DetermineNetworkInterface();

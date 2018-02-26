@@ -404,6 +404,7 @@
             this.packetView.TabIndex = 28;
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
+            this.packetView.SelectedIndexChanged += new System.EventHandler(packetView_SelectedIndexChanged); 
             // 
             // packNum
             // 
