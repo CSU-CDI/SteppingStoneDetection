@@ -1,4 +1,5 @@
 ﻿using PcapDotNet.Packets.IpV4;
+using System.Net;
 
 namespace SteppingStoneCapture
 {
@@ -62,12 +63,17 @@ namespace SteppingStoneCapture
 
                 propertyArray[0] = PacketNumber.ToString();
                 propertyArray[1] = TimeStamp.ToString();
-                propertyArray[2] = SourceAddress.ToString();
-                propertyArray[3] = DestAddress.ToString();
+                propertyArray[2] = SourceAddress.ToString() == getLocalIP() ? "My Computer" : SourceAddress.ToString();
+                propertyArray[3] = DestAddress.ToString() == getLocalIP() ? "My Computer" : DestAddress.ToString();
                 propertyArray[4] = Length.ToString();
 
                 return propertyArray;
             }
+        }
+
+        private string getLocalIP()
+        {
+            return Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
         }
     }
 }
