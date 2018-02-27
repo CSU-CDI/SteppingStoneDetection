@@ -9,6 +9,7 @@ using PcapDotNet.Core;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Transport;
+using PcapDotNet.Packets.Icmp;
 
 namespace SteppingStoneCapture
 {   
@@ -235,9 +236,12 @@ namespace SteppingStoneCapture
                                                    tcp.DestinationPort,
                                                    tcp.Checksum,
                                                    tcp.SequenceNumber,
-                                                   tcp.AcknowledgmentNumber);
-                        cp.Payload = tcp.Payload;
-                        Console.WriteLine(cp.Payload);
+                                                   tcp.AcknowledgmentNumber)
+                        {
+                            Payload = tcp.Payload
+                        };
+                        cp.getPayload();
+                        //Console.WriteLine(cp.Payload);
                         break;
                     case "udp":
                         //udp packet received
@@ -248,12 +252,27 @@ namespace SteppingStoneCapture
                                                    ipv4.Source.ToString(),
                                                    ipv4.Destination.ToString(),
                                                    udp.SourcePort,
-                                                   udp.DestinationPort);
-                        cp.Payload = udp.Payload;
+                                                   udp.DestinationPort)
+                        {
+                            Payload = udp.Payload
+                        };
+                        cp.getPayload();
                         //Console.WriteLine(udp.Payload);
                         break;
+                    case "internetcontrolmessageprotocol":
+                        IcmpDatagram icmp = ipv4.Icmp;
+                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
+                                                   packetNumber,
+                                                   packet.Length,
+                                                   ipv4.Source.ToString(),
+                                                   ipv4.Destination.ToString())
+                        {
+                            Payload = icmp.Payload
+                        };
+                        cp.getPayload();
+                        break;
                     default:
-                        throw new Exception("neither udp nor tcp packet; protocol: " + protocol);
+                        throw new Exception("not udp, tcp, or icmp packet; protocol: " + protocol);
 
                 }
 
@@ -336,8 +355,10 @@ namespace SteppingStoneCapture
                                                                    tcp.DestinationPort,
                                                                    tcp.Checksum,
                                                                    tcp.SequenceNumber,
-                                                                   tcp.AcknowledgmentNumber);
-                                        cp.Payload = tcp.Payload;                                        
+                                                                   tcp.AcknowledgmentNumber)
+                                        {
+                                            Payload = tcp.Payload
+                                        };
                                         cp.getPayload();
                                         Console.WriteLine(BitConverter.ToString(cp.PayloadData).Replace("-", " "));
                                         break;
@@ -350,13 +371,27 @@ namespace SteppingStoneCapture
                                                                    ipv4.Source.ToString(),
                                                                    ipv4.Destination.ToString(),
                                                                    udp.SourcePort,
-                                                                   udp.DestinationPort);
-                                        cp.Payload = udp.Payload;
+                                                                   udp.DestinationPort)
+                                        {
+                                            Payload = udp.Payload
+                                        };
                                         cp.getPayload();
                                         Console.WriteLine(BitConverter.ToString(cp.PayloadData).Replace("-", " "));
                                         break;
-                                    default:
-                                        throw new Exception("neither udp nor tcp packet; protocol: " + protocol);
+                                    case "internetcontrolmessageprotocol":
+                                        IcmpDatagram icmp = ipv4.Icmp;
+                                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
+                                                                   packetNumber,
+                                                                   packet.Length,
+                                                                   ipv4.Source.ToString(),
+                                                                   ipv4.Destination.ToString())
+                                        {
+                                            Payload = icmp.Payload
+                                        };
+                                        cp.getPayload();
+                                        break;                                        
+                                    default:                                        
+                                        throw new Exception("not udp, tcp, or icmp packet; protocol: " + protocol);                                      
 
                                 }
 

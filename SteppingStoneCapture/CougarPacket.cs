@@ -34,9 +34,7 @@ namespace SteppingStoneCapture
         private uint seqNum;
         private uint ackNum;
         private Datagram payload;
-        private byte[] payloadData;
-        //private TcpDatagram tcpPayload;
-        //private UdpDatagram udpPayload;
+        private byte[] payloadData;      
         
 
 
@@ -54,8 +52,7 @@ namespace SteppingStoneCapture
         public uint AckNum { get => ackNum; set => ackNum = value; }
         public Datagram Payload { get => payload; set => payload = value; }
         public byte[] PayloadData { get => payloadData;  }
-        //public TcpDatagram TCPPayload { get => tcpPayload; set => tcpPayload = value; }
-        //public UdpDatagram UDPPayload { get => udpPayload; set => udpPayload = value; }
+        
         
         
 
@@ -81,9 +78,7 @@ namespace SteppingStoneCapture
             this.dstPort = dstPort;
             this.chkSum = chkSum;
             this.seqNum = seqNum;
-            this.ackNum = ackNum;
-            //this.tcpPayload = tcpPayload;
-            //this.udpPayload = udpPayload;
+            this.ackNum = ackNum;            
             this.payload = payload;
         }
 
