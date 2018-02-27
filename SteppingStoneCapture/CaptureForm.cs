@@ -171,8 +171,66 @@ namespace SteppingStoneCapture
             lblFilterField.Visible = !lblFilterField.Visible;
         }
 
+        private CougarPacket DetermineCorrectPacketFormat(Packet packet, IpV4Datagram ipv4, IpV4Protocol protocol)
+        {
+            CougarPacket cp;
+            switch (protocol.ToString().ToLower())
+            {
+                case "tcp":
+                    //tcp packet received
+                    TcpDatagram tcp = ipv4.Tcp;
+                    cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
+                                               packetNumber,
+                                               packet.Length,
+                                               ipv4.Source.ToString(),
+                                               ipv4.Destination.ToString(),
+                                               tcp.SourcePort,
+                                               tcp.DestinationPort,
+                                               tcp.Checksum,
+                                               tcp.SequenceNumber,
+                                               tcp.AcknowledgmentNumber)
+                    {
+                        Payload = tcp.Payload
+                    };
+                    cp.getPayload();
 
-        
+                    break;
+                case "udp":
+                    //udp packet received
+                    UdpDatagram udp = ipv4.Udp;
+                    cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
+                                               packetNumber,
+                                               packet.Length,
+                                               ipv4.Source.ToString(),
+                                               ipv4.Destination.ToString(),
+                                               udp.SourcePort,
+                                               udp.DestinationPort)
+                    {
+                        Payload = udp.Payload
+                    };
+                    cp.getPayload();
+
+                    break;
+                case "internetcontrolmessageprotocol":
+                    IcmpDatagram icmp = ipv4.Icmp;
+                    cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
+                                               packetNumber,
+                                               packet.Length,
+                                               ipv4.Source.ToString(),
+                                               ipv4.Destination.ToString())
+                    {
+                        Payload = icmp.Payload
+                    };
+                    cp.getPayload();
+                    break;
+                default:
+                    throw new Exception("not udp, tcp, or icmp packet; protocol: " + protocol);
+
+            }
+
+            return cp;
+        }
+
         private void ResetNecessaryProperties()
         {
             txtFilterField.Text = defaultFilterField;
@@ -222,65 +280,9 @@ namespace SteppingStoneCapture
                 IpV4Protocol protocol = ipv4.Protocol;
                 CougarPacket cp;
 
-                switch (protocol.ToString().ToLower())
-                {
-                    case "tcp":
-                        //tcp packet received
-                        TcpDatagram tcp = ipv4.Tcp;
-                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                   packetNumber,
-                                                   packet.Length,
-                                                   ipv4.Source.ToString(),
-                                                   ipv4.Destination.ToString(),
-                                                   tcp.SourcePort,
-                                                   tcp.DestinationPort,
-                                                   tcp.Checksum,
-                                                   tcp.SequenceNumber,
-                                                   tcp.AcknowledgmentNumber)
-                        {
-                            Payload = tcp.Payload
-                        };
-                        cp.getPayload();
-                        //Console.WriteLine(cp.Payload);
-                        break;
-                    case "udp":
-                        //udp packet received
-                        UdpDatagram udp = ipv4.Udp;
-                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                   packetNumber,
-                                                   packet.Length,
-                                                   ipv4.Source.ToString(),
-                                                   ipv4.Destination.ToString(),
-                                                   udp.SourcePort,
-                                                   udp.DestinationPort)
-                        {
-                            Payload = udp.Payload
-                        };
-                        cp.getPayload();
-                        //Console.WriteLine(udp.Payload);
-                        break;
-                    case "internetcontrolmessageprotocol":
-                        IcmpDatagram icmp = ipv4.Icmp;
-                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                   packetNumber,
-                                                   packet.Length,
-                                                   ipv4.Source.ToString(),
-                                                   ipv4.Destination.ToString())
-                        {
-                            Payload = icmp.Payload
-                        };
-                        cp.getPayload();
-                        break;
-                    default:
-                        throw new Exception("not udp, tcp, or icmp packet; protocol: " + protocol);
+                ++packetNumber;
+                cp = DetermineCorrectPacketFormat(packet, ipv4, protocol);
 
-                }
-
-                /*cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                                   ++packetNumber,
-                                                                   packet.Length,
-                                                                   ipv4.Source.ToString(),
-                                                                   ipv4.Destination.ToString());*/
                 packets.Add(packet);
                 this.Invoke((MethodInvoker)(() =>
                 {
@@ -296,8 +298,11 @@ namespace SteppingStoneCapture
                 }));
             }
 
-            
-        }       
+
+        }
+
+       
+
         private void CapturePackets()
         {
             // Take the selected adapter
@@ -338,73 +343,13 @@ namespace SteppingStoneCapture
                             if (ipv4.IsValid)
                             {
                                 IpV4Protocol protocol = ipv4.Protocol;
-                                //Console.WriteLine(protocol.ToString().ToLower());
 
                                 CougarPacket cp;
-                                switch (protocol.ToString().ToLower())
-                                {
-                                    case "tcp":
-                                        //tcp packet received
-                                        TcpDatagram tcp = ipv4.Tcp;
-                                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                                   packetNumber,
-                                                                   packet.Length,
-                                                                   ipv4.Source.ToString(),
-                                                                   ipv4.Destination.ToString(),
-                                                                   tcp.SourcePort,
-                                                                   tcp.DestinationPort,
-                                                                   tcp.Checksum,
-                                                                   tcp.SequenceNumber,
-                                                                   tcp.AcknowledgmentNumber)
-                                        {
-                                            Payload = tcp.Payload
-                                        };
-                                        cp.getPayload();
-                                        Console.WriteLine(BitConverter.ToString(cp.PayloadData).Replace("-", " "));
-                                        break;
-                                    case "udp":
-                                        //udp packet received
-                                        UdpDatagram udp = ipv4.Udp;
-                                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                                   packetNumber,
-                                                                   packet.Length,
-                                                                   ipv4.Source.ToString(),
-                                                                   ipv4.Destination.ToString(),
-                                                                   udp.SourcePort,
-                                                                   udp.DestinationPort)
-                                        {
-                                            Payload = udp.Payload
-                                        };
-                                        cp.getPayload();
-                                        Console.WriteLine(BitConverter.ToString(cp.PayloadData).Replace("-", " "));
-                                        break;
-                                    case "internetcontrolmessageprotocol":
-                                        IcmpDatagram icmp = ipv4.Icmp;
-                                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                                   packetNumber,
-                                                                   packet.Length,
-                                                                   ipv4.Source.ToString(),
-                                                                   ipv4.Destination.ToString())
-                                        {
-                                            Payload = icmp.Payload
-                                        };
-                                        cp.getPayload();
-                                        break;                                        
-                                    default:                                        
-                                        throw new Exception("not udp, tcp, or icmp packet; protocol: " + protocol);                                      
-
-                                }
-
-
-                                /*cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                                                   packetNumber,
-                                                                   packet.Length,
-                                                                   ipv4.Source.ToString(),
-                                                                   ipv4.Destination.ToString());*/
-
                                 ++packetNumber;
+                                cp = DetermineCorrectPacketFormat(packet, ipv4, protocol);
 
-                                //packetInfo = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
+                                
+
                                 packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
 
                                 this.Invoke((MethodInvoker)(() =>
