@@ -273,9 +273,9 @@ namespace SteppingStoneCapture
                                                                    tcp.DestinationPort,
                                                                    tcp.Checksum,
                                                                    tcp.SequenceNumber,
-                                                                   tcp.AcknowledgmentNumber,
-                                                                   tcp.Payload);
-                                        //Console.WriteLine(cp.ToPropertyArray.ToString());
+                                                                   tcp.AcknowledgmentNumber);
+                                        cp.Payload = tcp.Payload;
+                                        //Console.WriteLine(cp.Payload);
                                         break;
                                     case "udp":
                                         //udp packet received
@@ -287,7 +287,8 @@ namespace SteppingStoneCapture
                                                                    ipv4.Destination.ToString(),
                                                                    udp.SourcePort,
                                                                    udp.DestinationPort);
-                                        //Console.WriteLine(udp.);
+                                        cp.Payload = udp.Payload;
+                                        //Console.WriteLine(udp.Payload);
                                         break;
                                     default:
                                         throw new Exception("neither udp nor tcp packet; protocol: " + protocol);

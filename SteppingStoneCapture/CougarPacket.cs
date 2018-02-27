@@ -1,5 +1,6 @@
 ﻿using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets;
+using PcapDotNet.Packets.Transport;
 using System.Net;
 
 namespace SteppingStoneCapture
@@ -31,6 +32,8 @@ namespace SteppingStoneCapture
         private uint seqNum;
         private uint ackNum;
         private Datagram payload;
+        //private TcpDatagram tcpPayload;
+        //private UdpDatagram udpPayload;
         
 
 
@@ -47,6 +50,8 @@ namespace SteppingStoneCapture
         public uint SeqNum { get => seqNum; set => seqNum = value; }
         public uint AckNum { get => ackNum; set => ackNum = value; }
         public Datagram Payload { get => payload; set => payload = value; }
+        //public TcpDatagram TCPPayload { get => tcpPayload; set => tcpPayload = value; }
+        //public UdpDatagram UDPPayload { get => udpPayload; set => udpPayload = value; }
         
         
 
@@ -72,12 +77,15 @@ namespace SteppingStoneCapture
             this.chkSum = chkSum;
             this.seqNum = seqNum;
             this.ackNum = ackNum;
+            //this.tcpPayload = tcpPayload;
+            //this.udpPayload = udpPayload;
             this.payload = payload;
+            
         }
 
         public override string ToString()
         {
-            string description = string.Format("Packet #: {0}, TimeStamp: {1}, Length: {2}, SrcAddress: {3}, DstAddress: {4}, SrcPort: {5}, DstPort: {6}, CheckSum: {7}, Sequence #: {8}, Ack #: {9}, Payload: \n{10}",
+            string description = string.Format("Packet #: {0}, TimeStamp: {1}, Length: {2}, SrcAddress: {3}, DstAddress: {4}, SrcPort: {5}, DstPort: {6}, CheckSum: {7}, Sequence #: {8}, Ack #: {9}, Payload: {10}",
                                                 PacketNumber,
                                                 TimeStamp,
                                                 Length,
