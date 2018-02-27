@@ -74,12 +74,12 @@
             this.SourceIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DestIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Length = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnShowData = new System.Windows.Forms.Button();
             this.srcPort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.dstPort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chkSum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.seqNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ackNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnShowData = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,7 +152,7 @@
             this.filterVisibilityItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showFilterFieldItem});
             this.filterVisibilityItem.Name = "filterVisibilityItem";
-            this.filterVisibilityItem.Size = new System.Drawing.Size(154, 26);
+            this.filterVisibilityItem.Size = new System.Drawing.Size(181, 26);
             this.filterVisibilityItem.Text = "Visual";
             // 
             // showFilterFieldItem
@@ -167,7 +167,7 @@
             this.dumpPacketsDuringCaptureToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.captureAndDumpMenuItem});
             this.dumpPacketsDuringCaptureToolStripMenuItem.Name = "dumpPacketsDuringCaptureToolStripMenuItem";
-            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.dumpPacketsDuringCaptureToolStripMenuItem.Text = "Capture";
             // 
             // captureAndDumpMenuItem
@@ -183,7 +183,7 @@
             this.multiWindowDisplayMenuItem,
             this.rawPacketViewItem});
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.hexEditorToolStripMenuItem.Text = "Hex Editor";
             // 
             // multiWindowDisplayMenuItem
@@ -195,6 +195,8 @@
             // 
             // rawPacketViewItem
             // 
+            this.rawPacketViewItem.Checked = true;
+            this.rawPacketViewItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.rawPacketViewItem.Name = "rawPacketViewItem";
             this.rawPacketViewItem.Size = new System.Drawing.Size(349, 26);
             this.rawPacketViewItem.Text = "Raw Packet View";
@@ -460,7 +462,7 @@
             this.packetView.FullRowSelect = true;
             this.packetView.GridLines = true;
             this.packetView.Location = new System.Drawing.Point(12, 196);
-            this.packetView.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.packetView.Margin = new System.Windows.Forms.Padding(5);
             this.packetView.Name = "packetView";
             this.packetView.Size = new System.Drawing.Size(709, 307);
             this.packetView.TabIndex = 28;
@@ -496,17 +498,6 @@
             this.Length.Text = "Length";
             this.Length.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // btnShowData
-            // 
-            this.btnShowData.Location = new System.Drawing.Point(340, 516);
-            this.btnShowData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnShowData.Name = "btnShowData";
-            this.btnShowData.Size = new System.Drawing.Size(125, 38);
-            this.btnShowData.TabIndex = 29;
-            this.btnShowData.Text = "Show &Data";
-            this.btnShowData.UseVisualStyleBackColor = true;
-            this.btnShowData.Click += new System.EventHandler(this.btnShowData_Click);
-            // 
             // srcPort
             // 
             this.srcPort.Text = "Src Port";
@@ -526,6 +517,17 @@
             // ackNum
             // 
             this.ackNum.Text = "Ack #";
+            // 
+            // btnShowData
+            // 
+            this.btnShowData.Location = new System.Drawing.Point(340, 516);
+            this.btnShowData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnShowData.Name = "btnShowData";
+            this.btnShowData.Size = new System.Drawing.Size(125, 38);
+            this.btnShowData.TabIndex = 29;
+            this.btnShowData.Text = "Show &Data";
+            this.btnShowData.UseVisualStyleBackColor = true;
+            this.btnShowData.Click += new System.EventHandler(this.btnShowData_Click);
             // 
             // CaptureForm
             // 

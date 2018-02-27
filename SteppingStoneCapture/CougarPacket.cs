@@ -107,8 +107,23 @@ namespace SteppingStoneCapture
                                                 ChkSum,
                                                 SeqNum,
                                                 AckNum,
-                                                BitConverter.ToString(payloadData).Replace("-", " "));
+                                                buildByteString(BitConverter.ToString(payloadData).Replace("-", " ")));
             return description;
+        }
+
+        private string buildByteString(string test)
+        {
+            int bytesTrav = 0;
+            string result = "";
+            for (int i = 0; i<test.Length;++i)
+            {
+                result += test[i];
+                if (bytesTrav % 15 == 0) {
+                    result += "\n";
+                }
+                ++bytesTrav;
+            }
+            return result;
         }
 
         public string[] ToPropertyArray

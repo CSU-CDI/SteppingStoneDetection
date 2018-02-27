@@ -48,9 +48,9 @@ namespace SteppingStoneCapture
             numThreads = 0;
             protocolRequested = false;
             attributeRequested = false;
-            captureAndDumpRequested = false;
-            multiWindowDisplay = false;
-            rawPacketViewDesired = false;
+            captureAndDumpRequested = captureAndDumpMenuItem.Checked;
+            multiWindowDisplay = multiWindowDisplayMenuItem.Checked;
+            rawPacketViewDesired = rawPacketViewItem.Checked;
             cfb = new CougarFilterBuilder();
             bvf = new ByteViewerForm();
         }
@@ -190,7 +190,7 @@ namespace SteppingStoneCapture
                                                tcp.SequenceNumber,
                                                tcp.AcknowledgmentNumber)
                     {
-                        Payload = tcp.Payload
+                        Payload = tcp.Payload                        
                     };
                     cp.getPayload();
 
