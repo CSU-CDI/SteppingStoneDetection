@@ -120,5 +120,23 @@ namespace SteppingStoneCapture
             rbutton3.Checked = true;
             group.Controls.Add(rbutton3);
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // ByteViewerForm
+            // 
+            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.Name = "ByteViewerForm";
+            this.Load += new System.EventHandler(this.ByteViewerForm_Load);
+            this.ResumeLayout(false);
+
+        }
+
+        private void ByteViewerForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

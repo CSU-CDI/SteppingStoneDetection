@@ -185,20 +185,83 @@ namespace SteppingStoneCapture
             packetNumber = 0;
         }
 
-        private void HandleLoadedPacket(Packet packet)
+        private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CougarPacket cp;
+            var clf = new CustomLoadForm();
+            clf.ShowDialog();
+
+            string loadPath = clf.DumpFileNameRequested;
+            if (loadPath != "")
+            {
+                // Create the offline device
+                OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
+
+                // Open the capture file
+                using (PacketCommunicator communicator =
+                    selectedDevice.Open(65536,                                  // portion of the packet to capture
+                                                                                // 65536 guarantees that the whole packet will be captured on all the link layers
+                                        PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
+                                        1000))                                  // read timeout
+                {
+                    // Read and dispatch packets until EOF is reached
+                    communicator.ReceivePackets(0, HandleLoadedPacket);
+
+                }
+            }
+
+        }
+
+        private void HandleLoadedPacket(Packet packet)
+        {            
             int prevInd = 0;
 
             IpV4Datagram ipv4 = packet.Ethernet.IpV4;
             if (ipv4.IsValid)
             {
-                IpV4Protocol i = ipv4.Protocol;
-                cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
+                IpV4Protocol protocol = ipv4.Protocol;
+                CougarPacket cp;
+
+                switch (protocol.ToString().ToLower())
+                {
+                    case "tcp":
+                        //tcp packet received
+                        TcpDatagram tcp = ipv4.Tcp;
+                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
+                                                   packetNumber,
+                                                   packet.Length,
+                                                   ipv4.Source.ToString(),
+                                                   ipv4.Destination.ToString(),
+                                                   tcp.SourcePort,
+                                                   tcp.DestinationPort,
+                                                   tcp.Checksum,
+                                                   tcp.SequenceNumber,
+                                                   tcp.AcknowledgmentNumber);
+                        cp.Payload = tcp.Payload;
+                        Console.WriteLine(cp.Payload);
+                        break;
+                    case "udp":
+                        //udp packet received
+                        UdpDatagram udp = ipv4.Udp;
+                        cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
+                                                   packetNumber,
+                                                   packet.Length,
+                                                   ipv4.Source.ToString(),
+                                                   ipv4.Destination.ToString(),
+                                                   udp.SourcePort,
+                                                   udp.DestinationPort);
+                        cp.Payload = udp.Payload;
+                        //Console.WriteLine(udp.Payload);
+                        break;
+                    default:
+                        throw new Exception("neither udp nor tcp packet; protocol: " + protocol);
+
+                }
+
+                /*cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
                                                                    ++packetNumber,
                                                                    packet.Length,
                                                                    ipv4.Source.ToString(),
-                                                                   ipv4.Destination.ToString());
+                                                                   ipv4.Destination.ToString());*/
                 packets.Add(packet);
                 this.Invoke((MethodInvoker)(() =>
                 {
@@ -274,8 +337,9 @@ namespace SteppingStoneCapture
                                                                    tcp.Checksum,
                                                                    tcp.SequenceNumber,
                                                                    tcp.AcknowledgmentNumber);
-                                        cp.Payload = tcp.Payload;
-                                        //Console.WriteLine(cp.Payload);
+                                        cp.Payload = tcp.Payload;                                        
+                                        cp.getPayload();
+                                        Console.WriteLine(BitConverter.ToString(cp.PayloadData).Replace("-", " "));
                                         break;
                                     case "udp":
                                         //udp packet received
@@ -288,7 +352,8 @@ namespace SteppingStoneCapture
                                                                    udp.SourcePort,
                                                                    udp.DestinationPort);
                                         cp.Payload = udp.Payload;
-                                        //Console.WriteLine(udp.Payload);
+                                        cp.getPayload();
+                                        Console.WriteLine(BitConverter.ToString(cp.PayloadData).Replace("-", " "));
                                         break;
                                     default:
                                         throw new Exception("neither udp nor tcp packet; protocol: " + protocol);
@@ -393,31 +458,7 @@ namespace SteppingStoneCapture
             }
         }
 
-        private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var clf = new CustomLoadForm();
-            clf.ShowDialog();
-
-            string loadPath = clf.DumpFileNameRequested;
-            if (loadPath != "")
-            {
-                // Create the offline device
-                OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
-
-                // Open the capture file
-                using (PacketCommunicator communicator =
-                    selectedDevice.Open(65536,                                  // portion of the packet to capture
-                                                                                // 65536 guarantees that the whole packet will be captured on all the link layers
-                                        PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
-                                        1000))                                  // read timeout
-                {
-                    // Read and dispatch packets until EOF is reached
-                   communicator.ReceivePackets(0, HandleLoadedPacket);
-                    
-                }
-            }
-
-        }      
+              
        
         private void BtnSave_Click(object sender, EventArgs e) => DumpCapturedPackets();
 

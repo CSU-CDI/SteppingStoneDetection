@@ -2,6 +2,8 @@
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.Transport;
 using System.Net;
+using System.IO;
+using System;
 
 namespace SteppingStoneCapture
 {
@@ -32,6 +34,7 @@ namespace SteppingStoneCapture
         private uint seqNum;
         private uint ackNum;
         private Datagram payload;
+        private byte[] payloadData;
         //private TcpDatagram tcpPayload;
         //private UdpDatagram udpPayload;
         
@@ -50,6 +53,7 @@ namespace SteppingStoneCapture
         public uint SeqNum { get => seqNum; set => seqNum = value; }
         public uint AckNum { get => ackNum; set => ackNum = value; }
         public Datagram Payload { get => payload; set => payload = value; }
+        public byte[] PayloadData { get => payloadData;  }
         //public TcpDatagram TCPPayload { get => tcpPayload; set => tcpPayload = value; }
         //public UdpDatagram UDPPayload { get => udpPayload; set => udpPayload = value; }
         
@@ -65,7 +69,8 @@ namespace SteppingStoneCapture
                             int chkSum = 0,
                             uint seqNum = 0,
                             uint ackNum = 0,
-                            Datagram payload = null)
+                            Datagram payload = null,
+                            byte[] payloadData = null)
         {
             TimeStamp = timeStamp;
             PacketNumber = packetNumber;
@@ -80,7 +85,18 @@ namespace SteppingStoneCapture
             //this.tcpPayload = tcpPayload;
             //this.udpPayload = udpPayload;
             this.payload = payload;
-            
+        }
+
+        public void getPayload()
+        {
+            if (payload != null)
+            {
+                using (MemoryStream ms = payload.ToMemoryStream())
+                {
+                    payloadData = new byte[payload.Length];
+                    ms.Read(payloadData, 0, payload.Length);
+                }
+            }            
         }
 
         public override string ToString()
@@ -96,7 +112,7 @@ namespace SteppingStoneCapture
                                                 ChkSum,
                                                 SeqNum,
                                                 AckNum,
-                                                Payload);
+                                                BitConverter.ToString(payloadData).Replace("-", " "));
             return description;
         }
 
