@@ -79,8 +79,8 @@
             this.chkSum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.seqNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ackNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnShowData = new System.Windows.Forms.Button();
             this.Flags = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnShowData = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,7 +112,7 @@
             // 
             this.loadDumpFileToolStripMenuItem.Name = "loadDumpFileToolStripMenuItem";
             this.loadDumpFileToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
-            this.loadDumpFileToolStripMenuItem.Text = "Load Dump File";
+            this.loadDumpFileToolStripMenuItem.Text = "&Load Dump File";
             this.loadDumpFileToolStripMenuItem.Click += new System.EventHandler(this.LoadDumpFileToolStripMenuItem_Click);
             // 
             // SaveMenuItem
@@ -121,7 +121,7 @@
             this.SaveMenuItem.DoubleClickEnabled = true;
             this.SaveMenuItem.Name = "SaveMenuItem";
             this.SaveMenuItem.Size = new System.Drawing.Size(189, 26);
-            this.SaveMenuItem.Text = "Save";
+            this.SaveMenuItem.Text = "Sa&ve";
             this.SaveMenuItem.Click += new System.EventHandler(this.SaveMenuItem_Click);
             // 
             // ExitMenuItem
@@ -130,7 +130,7 @@
             this.ExitMenuItem.DoubleClickEnabled = true;
             this.ExitMenuItem.Name = "ExitMenuItem";
             this.ExitMenuItem.Size = new System.Drawing.Size(189, 26);
-            this.ExitMenuItem.Text = "Exit";
+            this.ExitMenuItem.Text = "Exi&t";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
             // toolStripSeparator1
@@ -146,7 +146,7 @@
             this.hexEditorToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
-            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Text = "&Options";
             // 
             // filterVisibilityItem
             // 
@@ -154,13 +154,13 @@
             this.showFilterFieldItem});
             this.filterVisibilityItem.Name = "filterVisibilityItem";
             this.filterVisibilityItem.Size = new System.Drawing.Size(181, 26);
-            this.filterVisibilityItem.Text = "Visual";
+            this.filterVisibilityItem.Text = "&Visual";
             // 
             // showFilterFieldItem
             // 
             this.showFilterFieldItem.Name = "showFilterFieldItem";
             this.showFilterFieldItem.Size = new System.Drawing.Size(231, 26);
-            this.showFilterFieldItem.Text = "Show/Hide Filter Field";
+            this.showFilterFieldItem.Text = "Show/Hide &Filter Field";
             this.showFilterFieldItem.Click += new System.EventHandler(this.ShowFilterFieldToolStripMenuItem_Click);
             // 
             // dumpPacketsDuringCaptureToolStripMenuItem
@@ -169,13 +169,13 @@
             this.captureAndDumpMenuItem});
             this.dumpPacketsDuringCaptureToolStripMenuItem.Name = "dumpPacketsDuringCaptureToolStripMenuItem";
             this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.dumpPacketsDuringCaptureToolStripMenuItem.Text = "Capture";
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Text = "&Capture";
             // 
             // captureAndDumpMenuItem
             // 
             this.captureAndDumpMenuItem.Name = "captureAndDumpMenuItem";
             this.captureAndDumpMenuItem.Size = new System.Drawing.Size(294, 26);
-            this.captureAndDumpMenuItem.Text = "Dump Packets During Capture....";
+            this.captureAndDumpMenuItem.Text = "&Dump Packets During Capture....";
             this.captureAndDumpMenuItem.Click += new System.EventHandler(this.CaptureAndDumpMenuItem_Click);
             // 
             // hexEditorToolStripMenuItem
@@ -185,13 +185,13 @@
             this.rawPacketViewItem});
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
             this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.hexEditorToolStripMenuItem.Text = "Hex Editor";
+            this.hexEditorToolStripMenuItem.Text = "&Hex Editor";
             // 
             // multiWindowDisplayMenuItem
             // 
             this.multiWindowDisplayMenuItem.Name = "multiWindowDisplayMenuItem";
             this.multiWindowDisplayMenuItem.Size = new System.Drawing.Size(349, 26);
-            this.multiWindowDisplayMenuItem.Text = "Display Selected Packet in New Window";
+            this.multiWindowDisplayMenuItem.Text = "&Display Selected Packet in New Window";
             this.multiWindowDisplayMenuItem.Click += new System.EventHandler(this.MultiWindowDisplayMenuItem_Click);
             // 
             // rawPacketViewItem
@@ -200,7 +200,7 @@
             this.rawPacketViewItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.rawPacketViewItem.Name = "rawPacketViewItem";
             this.rawPacketViewItem.Size = new System.Drawing.Size(349, 26);
-            this.rawPacketViewItem.Text = "Raw Packet View";
+            this.rawPacketViewItem.Text = "&Raw Packet View";
             this.rawPacketViewItem.Click += new System.EventHandler(this.rawPacketViewItem_Click);
             // 
             // contextMenuStrip1
@@ -520,6 +520,10 @@
             // 
             this.ackNum.Text = "Ack #";
             // 
+            // Flags
+            // 
+            this.Flags.Text = "Flags";
+            // 
             // btnShowData
             // 
             this.btnShowData.Location = new System.Drawing.Point(340, 516);
@@ -530,10 +534,6 @@
             this.btnShowData.Text = "Show &Data";
             this.btnShowData.UseVisualStyleBackColor = true;
             this.btnShowData.Click += new System.EventHandler(this.btnShowData_Click);
-            // 
-            // Flags
-            // 
-            this.Flags.Text = "Flags";
             // 
             // CaptureForm
             // 
