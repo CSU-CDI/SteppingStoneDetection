@@ -346,11 +346,11 @@ namespace SteppingStoneCapture
                                     packets.Add(packet);
                                     packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
 
-                                    ++prevInd;
-                                    if (chkAutoScroll.Checked && prevInd > 12)
+                                    //++prevInd;
+                                    if (chkAutoScroll.Checked/* && prevInd > 12*/)
                                     {
                                         packetView.Items[packetView.Items.Count - 1].EnsureVisible();
-                                        prevInd = 0;
+                                        //prevInd = 0;
                                     }
                                 }));
                                                                    
