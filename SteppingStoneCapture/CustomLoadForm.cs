@@ -35,7 +35,7 @@ namespace SteppingStoneCapture
         {
             ofd = new OpenFileDialog
             {
-                InitialDirectory = String.Format("C:\\Users\\{0}\\Documents", Environment.UserName)
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
 
             switch (ofd.ShowDialog())

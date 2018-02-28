@@ -322,9 +322,7 @@ namespace SteppingStoneCapture
                     return;
                 }
                 communicator.SetFilter(filter);
-                string dumpFileName = String.Format("C:\\Users\\{0}\\Documents\\{1}.pcap",
-                                                     Environment.UserName,
-                                                     DateTime.Now.ToString("dd-MM-yyyy_hhmmssffff"));
+
                 Console.WriteLine(filter);
                 while (captFlag)
                 {
@@ -346,9 +344,7 @@ namespace SteppingStoneCapture
 
                                 CougarPacket cp;
                                 ++packetNumber;
-                                cp = DetermineCorrectPacketFormat(packet, ipv4, protocol);
-
-                                
+                                cp = DetermineCorrectPacketFormat(packet, ipv4, protocol);                                
 
                                 packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
 
@@ -373,13 +369,49 @@ namespace SteppingStoneCapture
                 }
                 if (captureAndDumpRequested)
                 {
-                    using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
-                        foreach (Packet p in packets)
-                            pdf.Dump(p);
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        string dumpFileName = DetermineDumpFilePath();
+
+                        using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
+                            foreach (Packet p in packets)
+                                pdf.Dump(p);
+                    }));
                 }
-                    
+
             }
         }
+
+        private static string DetermineDumpFilePath()
+        {
+            SaveFileDialog sfd = new SaveFileDialog()
+            {
+                InitialDirectory = String.Format("C:\\Users\\{0}\\Documents", Environment.UserName)
+
+            };
+            sfd.Filter = "(*.pcap)|*.pcap|All files (*.*)|*.*";
+
+
+            string dumpFileName = sfd.FileName;
+            switch (sfd.ShowDialog())
+            {
+
+                case DialogResult.OK:
+                    if (sfd.FileName != "")
+                    {
+                        dumpFileName = sfd.FileName;
+                    }
+
+                    break;
+                default:
+                    MessageBox.Show("No File Path Found...");
+                    DetermineDumpFilePath();
+                    break;
+            }
+
+            return dumpFileName;
+        }
+
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
