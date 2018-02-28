@@ -153,7 +153,7 @@
             this.filterVisibilityItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showFilterFieldItem});
             this.filterVisibilityItem.Name = "filterVisibilityItem";
-            this.filterVisibilityItem.Size = new System.Drawing.Size(181, 26);
+            this.filterVisibilityItem.Size = new System.Drawing.Size(154, 26);
             this.filterVisibilityItem.Text = "&Visual";
             // 
             // showFilterFieldItem
@@ -168,7 +168,7 @@
             this.dumpPacketsDuringCaptureToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.captureAndDumpMenuItem});
             this.dumpPacketsDuringCaptureToolStripMenuItem.Name = "dumpPacketsDuringCaptureToolStripMenuItem";
-            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
             this.dumpPacketsDuringCaptureToolStripMenuItem.Text = "&Capture";
             // 
             // captureAndDumpMenuItem
@@ -184,7 +184,7 @@
             this.multiWindowDisplayMenuItem,
             this.rawPacketViewItem});
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
             this.hexEditorToolStripMenuItem.Text = "&Hex Editor";
             // 
             // multiWindowDisplayMenuItem
@@ -474,8 +474,7 @@
             // 
             // packNum
             // 
-            this.packNum.Text = "Packet No.";
-            this.packNum.Width = 70;
+            this.packNum.Text = "Packet #";
             // 
             // TimeStamp
             // 
@@ -510,11 +509,11 @@
             // 
             // chkSum
             // 
-            this.chkSum.Text = "CheckSum";
+            this.chkSum.Text = "ChkSum";
             // 
             // seqNum
             // 
-            this.seqNum.Text = "Sequence #";
+            this.seqNum.Text = "Seq #";
             // 
             // ackNum
             // 
@@ -523,6 +522,7 @@
             // Flags
             // 
             this.Flags.Text = "Flags";
+            this.Flags.Width = 100;
             // 
             // btnShowData
             // 
