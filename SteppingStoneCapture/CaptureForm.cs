@@ -37,6 +37,7 @@ namespace SteppingStoneCapture
         public CaptureForm()
         {
             InitializeComponent();
+            rawPacketViewItem.Checked = true;
             rand = new Random();
             deviceIndex = 0;
             defaultFilterField = "";
