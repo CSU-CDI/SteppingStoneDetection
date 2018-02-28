@@ -29,10 +29,7 @@ namespace SteppingStoneCapture
         private volatile Boolean captureAndDumpRequested, multiWindowDisplay, rawPacketViewDesired;
         private CougarFilterBuilder cfb;
         private Random rand;
-        private int lastSelectedIndex = 0; 
-
-        
-
+        private int lastSelectedIndex = 0;
 
         public CaptureForm()
         {
@@ -152,18 +149,15 @@ namespace SteppingStoneCapture
             return tapped;
         }
 
-        private void DumpCapturedPackets()
+        private void DumpCapturedPackets(string fileName)
         {
             if (packetBytes.Values.Count > 0)
             {
-                string fileName = DetermineFilePath("save");
 
                 foreach (byte[] barr in packetBytes.Values)
                 {
                     File.AppendAllText(fileName, Encoding.ASCII.GetString(barr));
                 }
-
-                packetBytes.Clear();
             }
         }
 
@@ -300,11 +294,7 @@ namespace SteppingStoneCapture
                     }
                 }));
             }
-
-
-        }
-
-       
+        }       
 
         private void CapturePackets()
         {
@@ -374,45 +364,61 @@ namespace SteppingStoneCapture
                 {
                     this.Invoke((MethodInvoker)(() =>
                     {
-                        string dumpFileName = DetermineFilePath("dump");
-
-                        using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
-                            foreach (Packet p in packets)
-                                pdf.Dump(p);
+                        string dumpFileName = DetermineFilePath(communicator);
                     }));
                 }
 
             }
         }
 
-        private static string DetermineFilePath(string saveOrDump)
+        private void DumpPackets(PacketCommunicator communicator, string dumpFileName)
+        {
+            using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
+                foreach (Packet p in packets)
+                    pdf.Dump(p);
+        }
+
+        private string DetermineFilePath(PacketCommunicator pc = null)
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
 
             };
-
-            if(saveOrDump == "dump")
-                sfd.Filter = "(*.pcap)|*.pcap|All files (*.*)|*.*";
-            else if(saveOrDump == "save")
-                sfd.Filter = "(*.txt)|*.txt|All files (*.*)|*.*";
+            
+            sfd.Filter = "Dump Files (*.pcap)| *.pcap| Text File (*.txt)| *.txt |All files (*.*)|*.*";
+            sfd.FilterIndex = 0;
 
 
             string dumpFileName = sfd.FileName;
+            
             switch (sfd.ShowDialog())
             {
-
                 case DialogResult.OK:
+                    MessageBox.Show(sfd.FilterIndex.ToString());
                     if (sfd.FileName != "")
                     {
-                        dumpFileName = sfd.FileName;
+                        dumpFileName = sfd.FileName;  
+                        if (sfd.FilterIndex == 1)
+                        {
+
+                            using (PacketCommunicator communicator =
+                allDevices[1].Open(65536,                                  // portion of the packet to capture
+                                                                            // 65536 guarantees that the whole packet will be captured on all the link layers
+                                    PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
+                                    1000))
+                                DumpPackets(communicator, dumpFileName+".pcap");
+                        }
+                        else if(sfd.FilterIndex == 2)
+                        {
+                            DumpCapturedPackets(dumpFileName+".txt");
+                        }                    
                     }
 
                     break;
                 default:
                     MessageBox.Show("No File Path Found...");
-                    dumpFileName = DetermineFilePath(saveOrDump);
+                    dumpFileName = DetermineFilePath();
                     break;
             }
 
@@ -479,11 +485,11 @@ namespace SteppingStoneCapture
 
               
        
-        private void BtnSave_Click(object sender, EventArgs e) => DumpCapturedPackets();
+        private void BtnSave_Click(object sender, EventArgs e) => DetermineFilePath();
 
         private void BtnExit_Click(object sender, EventArgs e) => Close();
 
-        private void SaveMenuItem_Click(object sender, EventArgs e) =>  DumpCapturedPackets();
+        private void SaveMenuItem_Click(object sender, EventArgs e) =>  DetermineFilePath();
 
         private void ExitMenuItem_Click(object sender, EventArgs e) => Close();
 
