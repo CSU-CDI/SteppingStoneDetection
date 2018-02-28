@@ -189,12 +189,13 @@ namespace SteppingStoneCapture
                                                tcp.DestinationPort,
                                                tcp.Checksum,
                                                tcp.SequenceNumber,
-                                               tcp.AcknowledgmentNumber)
+                                               tcp.AcknowledgmentNumber,
+                                               tcp.ControlBits.ToString())
                     {
                         Payload = tcp.Payload                        
                     };
                     cp.getPayload();
-
+                    
                     break;
                 case "udp":
                     //udp packet received
@@ -210,7 +211,7 @@ namespace SteppingStoneCapture
                         Payload = udp.Payload
                     };
                     cp.getPayload();
-
+                    
                     break;
                 case "internetcontrolmessageprotocol":
                     IcmpDatagram icmp = ipv4.Icmp;

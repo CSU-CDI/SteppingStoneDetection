@@ -33,6 +33,7 @@ namespace SteppingStoneCapture
         private int chkSum;
         private uint seqNum;
         private uint ackNum;
+        private string tcpFlags;
         private Datagram payload;
         private byte[] payloadData;      
         
@@ -52,6 +53,7 @@ namespace SteppingStoneCapture
         public uint AckNum { get => ackNum; set => ackNum = value; }
         public Datagram Payload { get => payload; set => payload = value; }
         public byte[] PayloadData { get => payloadData;  }
+        public string TCPFlags { get => tcpFlags; set => tcpFlags = value; }
         
         
         
@@ -66,6 +68,7 @@ namespace SteppingStoneCapture
                             int chkSum = 0,
                             uint seqNum = 0,
                             uint ackNum = 0,
+                            string tcpFlags = "",
                             Datagram payload = null,
                             byte[] payloadData = null)
         {
@@ -78,7 +81,8 @@ namespace SteppingStoneCapture
             this.dstPort = dstPort;
             this.chkSum = chkSum;
             this.seqNum = seqNum;
-            this.ackNum = ackNum;            
+            this.ackNum = ackNum;
+            this.tcpFlags = tcpFlags;
             this.payload = payload;
         }
 
@@ -107,11 +111,11 @@ namespace SteppingStoneCapture
                                                 ChkSum,
                                                 SeqNum,
                                                 AckNum,
-                                                buildByteString(BitConverter.ToString(payloadData).Replace("-", " ")));
+                                                BitConverter.ToString(payloadData).Replace("-", " "));
             return description;
         }
 
-        private string buildByteString(string test)
+        /*private string buildByteString(string test)
         {
             int bytesTrav = 0;
             string result = "";
@@ -124,13 +128,13 @@ namespace SteppingStoneCapture
                 ++bytesTrav;
             }
             return result;
-        }
+        }*/
 
         public string[] ToPropertyArray
         {
             get
             {
-                string[] propertyArray = new string[10];
+                string[] propertyArray = new string[11];
 
                 propertyArray[0] = PacketNumber.ToString();
                 propertyArray[1] = TimeStamp.ToString();
@@ -142,6 +146,7 @@ namespace SteppingStoneCapture
                 propertyArray[7] = ChkSum.ToString();
                 propertyArray[8] = SeqNum.ToString();
                 propertyArray[9] = AckNum.ToString();
+                propertyArray[10] = tcpFlags;
 
                 return propertyArray;
             }

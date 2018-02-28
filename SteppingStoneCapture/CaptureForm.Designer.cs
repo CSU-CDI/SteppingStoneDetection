@@ -80,6 +80,7 @@
             this.seqNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ackNum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnShowData = new System.Windows.Forms.Button();
+            this.Flags = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -458,7 +459,8 @@
             this.dstPort,
             this.chkSum,
             this.seqNum,
-            this.ackNum});
+            this.ackNum,
+            this.Flags});
             this.packetView.FullRowSelect = true;
             this.packetView.GridLines = true;
             this.packetView.Location = new System.Drawing.Point(12, 196);
@@ -528,6 +530,10 @@
             this.btnShowData.Text = "Show &Data";
             this.btnShowData.UseVisualStyleBackColor = true;
             this.btnShowData.Click += new System.EventHandler(this.btnShowData_Click);
+            // 
+            // Flags
+            // 
+            this.Flags.Text = "Flags";
             // 
             // CaptureForm
             // 
@@ -628,6 +634,7 @@
         private System.Windows.Forms.ColumnHeader chkSum;
         private System.Windows.Forms.ColumnHeader seqNum;
         private System.Windows.Forms.ColumnHeader ackNum;
+        private System.Windows.Forms.ColumnHeader Flags;
     }
 }
 
