@@ -154,16 +154,17 @@ namespace SteppingStoneCapture
 
         private void DumpCapturedPackets()
         {
-            string fileName = string.Format(@"C:\Users\[0}\Documents\{1}_captureFile.txt",
-                                                        Environment.UserName,
-                                                        DateTime.Now.ToString("dd-MM-yyyy_hhmmssffff"));
-
-            foreach (byte[] barr in packetBytes.Values)
+            if (packetBytes.Values.Count > 0)
             {
-                File.AppendAllText(fileName, Encoding.ASCII.GetString(barr));
-            }
+                string fileName = DetermineFilePath("save");
 
-            packetBytes.Clear();
+                foreach (byte[] barr in packetBytes.Values)
+                {
+                    File.AppendAllText(fileName, Encoding.ASCII.GetString(barr));
+                }
+
+                packetBytes.Clear();
+            }
         }
 
         private void FlipFilterFieldVisibility()
@@ -373,7 +374,7 @@ namespace SteppingStoneCapture
                 {
                     this.Invoke((MethodInvoker)(() =>
                     {
-                        string dumpFileName = DetermineDumpFilePath();
+                        string dumpFileName = DetermineFilePath("dump");
 
                         using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
                             foreach (Packet p in packets)
@@ -384,14 +385,18 @@ namespace SteppingStoneCapture
             }
         }
 
-        private static string DetermineDumpFilePath()
+        private static string DetermineFilePath(string saveOrDump)
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
-                InitialDirectory = String.Format("C:\\Users\\{0}\\Documents", Environment.UserName)
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
 
             };
-            sfd.Filter = "(*.pcap)|*.pcap|All files (*.*)|*.*";
+
+            if(saveOrDump == "dump")
+                sfd.Filter = "(*.pcap)|*.pcap|All files (*.*)|*.*";
+            else if(saveOrDump == "save")
+                sfd.Filter = "(*.txt)|*.txt|All files (*.*)|*.*";
 
 
             string dumpFileName = sfd.FileName;
@@ -407,14 +412,14 @@ namespace SteppingStoneCapture
                     break;
                 default:
                     MessageBox.Show("No File Path Found...");
-                    DetermineDumpFilePath();
+                    dumpFileName = DetermineFilePath(saveOrDump);
                     break;
             }
 
             return dumpFileName;
         }
 
-
+       
         private void BtnStart_Click(object sender, EventArgs e)
         {
             if (!captFlag) captFlag = true;
@@ -478,7 +483,7 @@ namespace SteppingStoneCapture
 
         private void BtnExit_Click(object sender, EventArgs e) => Close();
 
-        private void SaveMenuItem_Click(object sender, EventArgs e) => DumpCapturedPackets();
+        private void SaveMenuItem_Click(object sender, EventArgs e) =>  DumpCapturedPackets();
 
         private void ExitMenuItem_Click(object sender, EventArgs e) => Close();
 
