@@ -30,6 +30,8 @@ namespace SteppingStoneCapture
         private CougarFilterBuilder cfb;
         private Random rand;
         private int lastSelectedIndex = 0;
+        private int initialWindowHeight, initialWindowWidth;
+        private List<int> initComponentHeights, initComponentWidths;
 
         public CaptureForm()
         {
@@ -51,6 +53,10 @@ namespace SteppingStoneCapture
             rawPacketViewDesired = rawPacketViewItem.Checked;
             cfb = new CougarFilterBuilder();
             bvf = new ByteViewerForm();
+            initialWindowHeight = this.Height;
+            initialWindowWidth = this.Width;
+            initComponentHeights = new List<int>();
+            initComponentWidths = new List<int>();
         }
 
         private void DetermineNetworkInterface(int numTries = 5)
@@ -287,7 +293,7 @@ namespace SteppingStoneCapture
                     packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
 
                     ++prevInd;
-                    if (chkAutoScroll.Checked && prevInd > 12)
+                    if (chkAutoScroll.Checked /*&& prevInd > 12*/)
                     {
                         packetView.Items[packetView.Items.Count - 1].EnsureVisible();
                         prevInd = 0;
@@ -537,6 +543,31 @@ namespace SteppingStoneCapture
         {
             captureAndDumpRequested = !captureAndDumpRequested;
             captureAndDumpMenuItem.Checked = captureAndDumpRequested;
+        }
+
+        private void CaptureForm_ResizeBegin(object sender, EventArgs e)
+        {
+            initialWindowHeight = this.Height;
+            initialWindowWidth = this.Width;
+
+            foreach (Control c in this.Controls)
+            {
+                initComponentHeights.Add(c.Height);
+                initComponentWidths.Add(c.Width);
+            }
+        }
+
+        private void CaptureForm_ResizeEnd(object sender, EventArgs e)
+        {
+            int finalWindowHeight = this.Height;
+            int finalWindowWidth = this.Width;
+
+
+
+            foreach (Control c in this.Controls)
+            {
+
+            }
         }
 
         private void rawPacketViewItem_Click(object sender, EventArgs e)

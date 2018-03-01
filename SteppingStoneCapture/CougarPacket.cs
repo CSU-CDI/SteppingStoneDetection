@@ -100,7 +100,7 @@ namespace SteppingStoneCapture
 
         public override string ToString()
         {
-            string description = string.Format("Packet #: {0}, TimeStamp: {1}, Length: {2}, SrcAddress: {3}, DstAddress: {4}, SrcPort: {5}, DstPort: {6}, CheckSum: {7}, Sequence #: {8}, Ack #: {9}, Payload: {10}",
+            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}",
                                                 PacketNumber,
                                                 TimeStamp,
                                                 Length,
