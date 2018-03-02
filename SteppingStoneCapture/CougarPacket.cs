@@ -98,7 +98,7 @@ namespace SteppingStoneCapture
 
         public override string ToString()
         {
-            string pay = (payloadData != null) ? BitConverter.ToString(payloadData).Replace("-", " ") : "No Payload";
+            string pay = (payloadData != null) ? BitConverter.ToString(payloadData).Replace("-", " ") : "nil";
             string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}",
                                                 PacketNumber,
                                                 TimeStamp,
@@ -114,46 +114,25 @@ namespace SteppingStoneCapture
             return description;
         }
         
-        /*private string buildByteString(string test)
-        {
-            int bytesTrav = 0;
-            string result = "";
-            for (int i = 0; i<test.Length;++i)
-            {
-                result += test[i];
-                if (bytesTrav % 15 == 0) {
-                    result += "\n";
-                }
-                ++bytesTrav;
-            }
-            return result;
-        }*/
-
+       
         public string[] ToPropertyArray
         {
             get
             {
                 string[] propertyArray = new string[11];
-                Console.WriteLine("property array");
                 propertyArray[0] = PacketNumber.ToString();
                 propertyArray[1] = TimeStamp.ToString();
                 propertyArray[2] = SourceAddress.ToString() == getLocalIP() ? "My Computer" : SourceAddress.ToString();
                 propertyArray[3] = DestAddress.ToString() == getLocalIP() ? "My Computer" : DestAddress.ToString();
                 propertyArray[4] = Length.ToString();
-                propertyArray[5] = SrcPort.ToString();
-                propertyArray[6] = DstPort.ToString();
-                propertyArray[7] = ChkSum.ToString();
-                propertyArray[8] = SeqNum.ToString();
-                propertyArray[9] = AckNum.ToString();
-                propertyArray[10] = TCPFlags;
-                /*
+                
                 propertyArray[5] = (SrcPort == 0) ? "---" : SrcPort.ToString();
                 propertyArray[6] = (DstPort == 0) ? "---" : DstPort.ToString();
                 propertyArray[7] = (ChkSum == 0) ? "---" : ChkSum.ToString();
                 propertyArray[8] = (SeqNum == 0) ? "---" : SeqNum.ToString();
                 propertyArray[9] = (AckNum == 0) ? "---" : AckNum.ToString();
                 propertyArray[10] = (TCPFlags.Length == 0) ? "---" : TCPFlags;
-                */
+                
 
                 return propertyArray;
             }
