@@ -243,13 +243,13 @@ namespace SteppingStoneCapture
             return cp;
         }
 
-        private void PrintInCorrectFormat(Packet packet)
+        private void PrintInCorrectFormat(Packet packet) // why did you choose this method name?
         {
             if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
                 CougarPacket cp = DetermineCorrectPacketFormat(packet);
-                Console.WriteLine(cp.ToString());
+                //Console.WriteLine(cp.ToString());
                 packets.Add(packet);
                 this.Invoke((MethodInvoker)(() =>
                 {
@@ -293,7 +293,7 @@ namespace SteppingStoneCapture
             packetNumber = 0;
         }
 
-        private void HandleLoadedPacket(Packet packet)
+        private void HandleLoadedPacket(Packet packet) // why did you use/change this method for the sole purpose of calling another method with the same parameter?
         {
             PrintInCorrectFormat(packet);
         }
@@ -316,6 +316,7 @@ namespace SteppingStoneCapture
                     return;
                 }
                 communicator.SetFilter(filter);
+                Console.WriteLine(filter);
 
                 while (captFlag)
                 {
@@ -418,15 +419,8 @@ namespace SteppingStoneCapture
             }
         }
 
-        //Signals for cease of capture function
-        /// <summary>
-        /// Signals for program to cease capture
-        /// </summary>
-        /// <remarks>
-        /// Additionally, decreases number of running threads by one
-        /// </remarks>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        //Signals for cease of capture function        
+        /// Additionally, decreases number of running threads by one        
         private void BtnStop_Click(object sender, EventArgs e)
         {
             captFlag = false;
@@ -441,9 +435,25 @@ namespace SteppingStoneCapture
             foreach (Control c in Controls)
             {
                 if (c is CheckBox ck) ck.Checked = false;   
-                else if (c is TextBox tb) tb.Text = "";                
+                if (c is TextBox tb) tb.Text = "";  
+                if (c is GroupBox gb1)
+                {
+                    foreach (Control subC1 in gb1.Controls)
+                    {
+                        if (subC1 is CheckBox subCk) subCk.Checked = false;
+                        if (subC1 is TextBox subTb) subTb.Text = "";
+                        if (subC1 is GroupBox gb2)
+                        {
+                            foreach (Control subC2 in gb2.Controls)
+                            {
+                                if (subC2 is CheckBox sub2Ck) sub2Ck.Checked = false;
+                                if (subC2 is TextBox sub2Tb) sub2Tb.Text = "";                                
+                            }
+                        }
+                    }
+                }
             }
-
+            
             ResetNecessaryProperties();
         }
 
@@ -494,7 +504,7 @@ namespace SteppingStoneCapture
             captureAndDumpMenuItem.Checked = captureAndDumpRequested;
         }
 
-        private void CaptureForm_ResizeBegin(object sender, EventArgs e)
+        /*private void CaptureForm_ResizeBegin(object sender, EventArgs e)
         {
             initialWindowHeight = this.Height;
             initialWindowWidth = this.Width;
@@ -504,14 +514,14 @@ namespace SteppingStoneCapture
                 initComponentHeights.Add(c.Height);
                 initComponentWidths.Add(c.Width);
             }
-        }
+        }        
 
         private void CaptureForm_ResizeEnd(object sender, EventArgs e)
         {
             int finalWindowHeight = this.Height;
             int finalWindowWidth = this.Width;
 
-        }
+        }*/
 
         private void RawPacketViewItem_Click(object sender, EventArgs e)
         {
