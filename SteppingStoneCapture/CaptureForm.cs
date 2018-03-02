@@ -10,9 +10,10 @@ using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Transport;
 using PcapDotNet.Packets.Icmp;
+using PcapDotNet.Packets.Arp;
 
 namespace SteppingStoneCapture
-{   
+{
     public partial class CaptureForm : Form
     {
         private int deviceIndex;
@@ -86,12 +87,12 @@ namespace SteppingStoneCapture
         private void DescribeInterfaceDevice(int offsetForWindowsMachines, LivePacketDevice device)
         {
             if (device.Description != null)
-                 if (device.Description.ToLower().Contains("\'microsoft\'"))
-                     cmbInterfaces.Items.Add("Wireless Connector");
-                 else if (device.Description.ToLower().Contains("ethernet"))
-                     cmbInterfaces.Items.Add("Ethernet Connector");
-                 else
-                     cmbInterfaces.Items.Add(device.Description.Substring(offsetForWindowsMachines));
+                if (device.Description.ToLower().Contains("\'microsoft\'"))
+                    cmbInterfaces.Items.Add("Wireless Connector");
+                else if (device.Description.ToLower().Contains("ethernet"))
+                    cmbInterfaces.Items.Add("Ethernet Connector");
+                else
+                    cmbInterfaces.Items.Add(device.Description.Substring(offsetForWindowsMachines));
             else
                 cmbInterfaces.Items.Add("*** (No description available)");
         }
@@ -173,65 +174,110 @@ namespace SteppingStoneCapture
             lblFilterField.Visible = !lblFilterField.Visible;
         }
 
-        private CougarPacket DetermineCorrectPacketFormat(Packet packet, IpV4Datagram ipv4, IpV4Protocol protocol)
+        private CougarPacket DetermineCorrectPacketFormat(Packet packet)
         {
-            CougarPacket cp;
-            switch (protocol.ToString().ToLower())
-            {
-                case "tcp":
-                    //tcp packet received
-                    TcpDatagram tcp = ipv4.Tcp;
-                    cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                               packetNumber,
-                                               packet.Length,
-                                               ipv4.Source.ToString(),
-                                               ipv4.Destination.ToString(),
-                                               tcp.SourcePort,
-                                               tcp.DestinationPort,
-                                               tcp.Checksum,
-                                               tcp.SequenceNumber,
-                                               tcp.AcknowledgmentNumber,
-                                               tcp.ControlBits.ToString())
-                    {
-                        Payload = tcp.Payload                        
-                    };
-                    cp.getPayload();
-                    
-                    break;
-                case "udp":
-                    //udp packet received
-                    UdpDatagram udp = ipv4.Udp;
-                    cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                               packetNumber,
-                                               packet.Length,
-                                               ipv4.Source.ToString(),
-                                               ipv4.Destination.ToString(),
-                                               udp.SourcePort,
-                                               udp.DestinationPort)
-                    {
-                        Payload = udp.Payload
-                    };
-                    cp.getPayload();
-                    
-                    break;
-                case "internetcontrolmessageprotocol":
-                    IcmpDatagram icmp = ipv4.Icmp;
-                    cp = new CougarPacket(packet.Timestamp.ToString("hh:mm:ss.fff"),
-                                               packetNumber,
-                                               packet.Length,
-                                               ipv4.Source.ToString(),
-                                               ipv4.Destination.ToString())
-                    {
-                        Payload = icmp.Payload
-                    };
-                    cp.getPayload();
-                    break;
-                default:
-                    throw new Exception("not udp, tcp, or icmp packet; protocol: " + protocol);
+            CougarPacket cp = new CougarPacket();
+            if (packet.Ethernet.IpV4.IsValid) {
+                IpV4Datagram ipv4 = packet.Ethernet.IpV4;
+                switch (ipv4.Protocol.ToString().ToLower())
+                {
+                    case "tcp":
+                        //tcp packet received
+                        TcpDatagram tcp = ipv4.Tcp;
+                        cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
+                        cp.PacketNumber = packetNumber;
+                        cp.Length = packet.Length;
+                        cp.SourceAddress = ipv4.Source;
+                        cp.DestAddress = ipv4.Destination;
+                        cp.SrcPort = tcp.SourcePort;
+                        cp.DstPort = tcp.DestinationPort;
+                        cp.ChkSum = tcp.Checksum;
+                        cp.AckNum = tcp.AcknowledgmentNumber;
+                        cp.SeqNum = tcp.SequenceNumber;
+                        cp.Payload = tcp.Payload;
+                        cp.TCPFlags = tcp.ControlBits.ToString();
+                        cp.getPayload();
+                        
+                        break;
+                    case "udp":
+                        //udp packet received
+                        UdpDatagram udp = ipv4.Udp;
 
+                        cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
+                        cp.PacketNumber = packetNumber;
+                        cp.Length = packet.Length;
+                        cp.SourceAddress = ipv4.Source;
+                        cp.DestAddress = ipv4.Destination;
+                        cp.SrcPort = udp.SourcePort;
+                        cp.DstPort = udp.DestinationPort;
+                        cp.Payload = udp.Payload;
+                        cp.getPayload();
+
+                        break;
+                    case "internetcontrolmessageprotocol":
+                        IcmpDatagram icmp = ipv4.Icmp;
+                        cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
+                        cp.PacketNumber = packetNumber;
+                        cp.Length = packet.Length;
+                        cp.SourceAddress = ipv4.Source;
+                        cp.DestAddress = ipv4.Destination;
+                        cp.Payload = icmp.Payload;
+                        cp.getPayload();
+                        break;
+                    default:
+                        throw new Exception("not udp, tcp, or icmp packet; protocol: " + ipv4.Protocol);
+                }
             }
 
+            else if (packet.Ethernet.Arp.IsValid)
+            {
+                ArpDatagram arp = packet.Ethernet.Arp;
+                cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
+                cp.PacketNumber = packetNumber;
+                cp.Length = packet.Length;
+                cp.SourceAddress = arp.SenderProtocolIpV4Address;
+                cp.DestAddress = arp.TargetProtocolIpV4Address;
+            }
+        
+
             return cp;
+        }
+
+        private void PrintInCorrectFormat(Packet packet)
+        {
+            if (packet.Ethernet.IsValid)
+            {
+                ++packetNumber;
+                CougarPacket cp = DetermineCorrectPacketFormat(packet);
+                Console.WriteLine(cp.ToString());
+                packets.Add(packet);
+                this.Invoke((MethodInvoker)(() =>
+                {
+                    packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
+                    packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
+
+                    if (chkAutoScroll.Checked && packetView.Items.Count > 0/*&& prevInd > 12*/)
+                    {
+                        packetView.Items[packetView.Items.Count - 1].EnsureVisible();
+                    }
+                }));
+            }
+        }
+
+        private void UpdateHexEditor()
+        {
+            if (packetView.SelectedIndices[0] < packetView.Items.Count && packetView.FocusedItem != null)
+            {
+                if (bvf.IsDisposed || multiWindowDisplay)
+                    bvf = new ByteViewerForm();
+                if (rawPacketViewDesired)
+                    bvf.setBytes(packets[packetView.FocusedItem.Index + 1].Buffer);
+                else
+                    bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
+
+                bvf.Show();
+                bvf.TopMost = true;
+            }
         }
 
         private void ResetNecessaryProperties()
@@ -247,66 +293,15 @@ namespace SteppingStoneCapture
             packetNumber = 0;
         }
 
-        private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var clf = new CustomLoadForm();
-            clf.ShowDialog();
-
-            string loadPath = clf.DumpFileNameRequested;
-            if (loadPath != "")
-            {
-                // Create the offline device
-                OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
-
-                // Open the capture file
-                using (PacketCommunicator communicator =
-                    selectedDevice.Open(65536,                                  // portion of the packet to capture
-                                                                                // 65536 guarantees that the whole packet will be captured on all the link layers
-                                        PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
-                                        1000))                                  // read timeout
-                {
-                    // Read and dispatch packets until EOF is reached
-                    communicator.ReceivePackets(0, HandleLoadedPacket);
-
-                }
-            }
-
-        }
-
         private void HandleLoadedPacket(Packet packet)
-        {            
-            int prevInd = 0;
-
-            IpV4Datagram ipv4 = packet.Ethernet.IpV4;
-            if (ipv4.IsValid)
-            {
-                IpV4Protocol protocol = ipv4.Protocol;
-                CougarPacket cp;
-
-                ++packetNumber;
-                cp = DetermineCorrectPacketFormat(packet, ipv4, protocol);
-
-                packets.Add(packet);
-                this.Invoke((MethodInvoker)(() =>
-                {
-                    packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
-                    packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
-
-                    ++prevInd;
-                    if (chkAutoScroll.Checked /*&& prevInd > 12*/)
-                    {
-                        packetView.Items[packetView.Items.Count - 1].EnsureVisible();
-                        prevInd = 0;
-                    }
-                }));
-            }
-        }       
+        {
+            PrintInCorrectFormat(packet);
+        }
 
         private void CapturePackets()
         {
             // Take the selected adapter
             PacketDevice selectedDevice = allDevices[this.deviceIndex];
-            int prevInd = 0;
 
             // Open the device
             using (PacketCommunicator communicator =
@@ -322,50 +317,23 @@ namespace SteppingStoneCapture
                 }
                 communicator.SetFilter(filter);
 
-                Console.WriteLine(filter);
                 while (captFlag)
                 {
                     PacketCommunicatorReceiveResult result = communicator.ReceivePacket(out Packet packet);
                   
-                    
                     switch (result)
                     {
                         case PacketCommunicatorReceiveResult.Timeout:
                             // Timeout elapsed
                             break;
                         case PacketCommunicatorReceiveResult.Ok:
-                            IpV4Datagram ipv4 = packet.Ethernet.IpV4;
-                            
-
-                            if (ipv4.IsValid)
-                            {
-                                IpV4Protocol protocol = ipv4.Protocol;
-
-                                CougarPacket cp;
-                                ++packetNumber;
-                                cp = DetermineCorrectPacketFormat(packet, ipv4, protocol);                                
-
-                                packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
-
-                                this.Invoke((MethodInvoker)(() =>
-                                {
-                                    packets.Add(packet);
-                                    packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
-
-                                    //++prevInd;
-                                    if (chkAutoScroll.Checked/* && prevInd > 12*/)
-                                    {
-                                        packetView.Items[packetView.Items.Count - 1].EnsureVisible();
-                                        //prevInd = 0;
-                                    }
-                                }));
-                                                                   
-                            }
+                            PrintInCorrectFormat(packet);                            
                             break;
                         default:
                             throw new InvalidOperationException("The result " + result + " should never be reached here");
                     }
                 }
+
                 if (captureAndDumpRequested)
                 {
                     this.Invoke((MethodInvoker)(() =>
@@ -401,18 +369,17 @@ namespace SteppingStoneCapture
             switch (sfd.ShowDialog())
             {
                 case DialogResult.OK:
-                    MessageBox.Show(sfd.FilterIndex.ToString());
                     if (sfd.FileName != "")
                     {
                         dumpFileName = sfd.FileName;  
                         if (sfd.FilterIndex == 1)
                         {
 
-                            using (PacketCommunicator communicator =
-                allDevices[1].Open(65536,                                  // portion of the packet to capture
+                            using (PacketCommunicator communicator = 
+                                    allDevices[1].Open(65536,               // portion of the packet to capture
                                                                             // 65536 guarantees that the whole packet will be captured on all the link layers
-                                    PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
-                                    1000))
+                                       PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
+                                       1000))
                                 DumpPackets(communicator, dumpFileName+".pcap");
                         }
                         else if(sfd.FilterIndex == 2)
@@ -487,9 +454,7 @@ namespace SteppingStoneCapture
             {
                 deviceIndex = cmbInterfaces.SelectedIndex;
             }
-        }
-
-              
+        }              
        
         private void BtnSave_Click(object sender, EventArgs e) => DetermineFilePath();
 
@@ -512,22 +477,6 @@ namespace SteppingStoneCapture
             {
                 UpdateHexEditor();
                 lastSelectedIndex = selected;
-            }
-        }
-
-        private void UpdateHexEditor()
-        {
-            if (packetView.FocusedItem != null)
-            {
-                if (bvf.IsDisposed || multiWindowDisplay)
-                    bvf = new ByteViewerForm();
-                if (rawPacketViewDesired)
-                    bvf.setBytes(packets[packetView.FocusedItem.Index + 1].Buffer);
-                else
-                    bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
-
-                bvf.Show();
-                bvf.TopMost = true;
             }
         }
 
@@ -562,15 +511,9 @@ namespace SteppingStoneCapture
             int finalWindowHeight = this.Height;
             int finalWindowWidth = this.Width;
 
-
-
-            foreach (Control c in this.Controls)
-            {
-
-            }
         }
 
-        private void rawPacketViewItem_Click(object sender, EventArgs e)
+        private void RawPacketViewItem_Click(object sender, EventArgs e)
         {
             rawPacketViewDesired = !rawPacketViewDesired;
             rawPacketViewItem.Checked = rawPacketViewDesired;
@@ -581,6 +524,31 @@ namespace SteppingStoneCapture
         {
             multiWindowDisplay = !multiWindowDisplay;
             multiWindowDisplayMenuItem.Checked = multiWindowDisplay;
+        }
+
+        private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var clf = new CustomLoadForm();
+            clf.ShowDialog();
+
+            string loadPath = clf.DumpFileNameRequested;
+            if (loadPath != "")
+            {
+                // Create the offline device
+                OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
+
+                // Open the capture file
+                using (PacketCommunicator communicator =
+                    selectedDevice.Open(65536,                                  // portion of the packet to capture
+                                                                                // 65536 guarantees that the whole packet will be captured on all the link layers
+                                        PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
+                                        1000))                                  // read timeout
+                {
+                    // Read and dispatch packets until EOF is reached
+                    communicator.ReceivePackets(0, HandleLoadedPacket);
+
+                }
+            }
         }
 
         private void CaptureForm_Load(object sender, EventArgs e) => DetermineNetworkInterface();

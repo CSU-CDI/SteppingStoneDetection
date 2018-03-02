@@ -205,7 +205,7 @@
             this.rawPacketViewItem.Name = "rawPacketViewItem";
             this.rawPacketViewItem.Size = new System.Drawing.Size(284, 22);
             this.rawPacketViewItem.Text = "&Raw Packet View";
-            this.rawPacketViewItem.Click += new System.EventHandler(this.rawPacketViewItem_Click);
+            this.rawPacketViewItem.Click += new System.EventHandler(this.RawPacketViewItem_Click);
             // 
             // contextMenuStrip1
             // 
