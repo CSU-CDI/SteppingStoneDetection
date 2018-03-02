@@ -39,11 +39,7 @@ namespace SteppingStoneCapture
         private uint ackNum;
         private string tcpFlags;
         private Datagram payload;
-        private byte[] payloadData;      
-        
-
-
-
+        private byte[] payloadData;    
 
         public string TimeStamp { get => timeStamp; set => timeStamp = value; }
         public int PacketNumber { get => packetNumber; set => packetNumber = value; }
@@ -58,8 +54,6 @@ namespace SteppingStoneCapture
         public Datagram Payload { get => payload; set => payload = value; }
         public byte[] PayloadData { get => payloadData;  }
         public string TCPFlags { get => tcpFlags; set => tcpFlags = value; }
-        
-        
         
 
         public CougarPacket(string timeStamp = "-",
@@ -146,18 +140,20 @@ namespace SteppingStoneCapture
                 propertyArray[2] = SourceAddress.ToString() == getLocalIP() ? "My Computer" : SourceAddress.ToString();
                 propertyArray[3] = DestAddress.ToString() == getLocalIP() ? "My Computer" : DestAddress.ToString();
                 propertyArray[4] = Length.ToString();
-                /*propertyArray[5] = SrcPort.ToString();
+                propertyArray[5] = SrcPort.ToString();
                 propertyArray[6] = DstPort.ToString();
                 propertyArray[7] = ChkSum.ToString();
                 propertyArray[8] = SeqNum.ToString();
                 propertyArray[9] = AckNum.ToString();
-                propertyArray[10] = TCPFlags;*/
+                propertyArray[10] = TCPFlags;
+                /*
                 propertyArray[5] = (SrcPort == 0) ? "---" : SrcPort.ToString();
                 propertyArray[6] = (DstPort == 0) ? "---" : DstPort.ToString();
                 propertyArray[7] = (ChkSum == 0) ? "---" : ChkSum.ToString();
                 propertyArray[8] = (SeqNum == 0) ? "---" : SeqNum.ToString();
                 propertyArray[9] = (AckNum == 0) ? "---" : AckNum.ToString();
                 propertyArray[10] = (TCPFlags.Length == 0) ? "---" : TCPFlags;
+                */
 
                 return propertyArray;
             }
