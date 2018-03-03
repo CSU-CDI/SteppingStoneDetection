@@ -385,7 +385,6 @@ namespace SteppingStoneCapture
                     return;
                 }
                 communicator.SetFilter(filter);
-                Console.WriteLine(filter);
 
                 while (captFlag)
                 {

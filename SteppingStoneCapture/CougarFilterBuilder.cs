@@ -9,7 +9,6 @@ namespace SteppingStoneCapture
     class CougarFilterBuilder
     {
         private List<string> protocols = new List<string>();
-        private List<string> attributes = new List<string>();
         private string ipConjunction;
         private string portConjunction;
         private List<string> ipList = new List<string>();
@@ -69,8 +68,6 @@ namespace SteppingStoneCapture
             get
             {
                 string captureString = "";
-                Console.WriteLine("ips: "+ipList.Count);
-                Console.WriteLine("ports: " + portList.Count);
 
                 //Use the correct construction style based on selected properties
                 if (HasNonEmptyAttributesList && HasNonEmptyProtocolList)
@@ -140,7 +137,6 @@ namespace SteppingStoneCapture
             //for each attribute, determine how to apply to filter
             for (int attrIndx = 0; attrIndx < ipList.Count; ++attrIndx)
             {
-                Console.WriteLine(ipList[attrIndx]);
                 if (attrIndx != 0)
                     rtrn += " " + IpConjunction + " " + ipList[attrIndx];
                 else
@@ -155,7 +151,6 @@ namespace SteppingStoneCapture
 
                 for (int attrIndx = 0; attrIndx < portList.Count; ++attrIndx)
                 {
-                    Console.WriteLine(portList[attrIndx]);
                     if (attrIndx != 0)
                         rtrn += " " + PortConjunction + " " + portList[attrIndx];
                     else
@@ -164,7 +159,6 @@ namespace SteppingStoneCapture
                     }
                 }
             }
-            Console.WriteLine("Filter: "+rtrn);
             if (rtrn.Length == 1) rtrn = "ip";
             else rtrn += ")";
             return rtrn;
