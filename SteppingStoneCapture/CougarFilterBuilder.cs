@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System;
 namespace SteppingStoneCapture
 {
     //Applies entered attributes to each selected protocol to build a filter string
@@ -10,6 +10,17 @@ namespace SteppingStoneCapture
     {
         private List<string> protocols = new List<string>();
         private List<string> attributes = new List<string>();
+        private string ipConjunction;
+        private string portConjunction;
+        private List<string> ipList = new List<string>();
+        private List<string> portList = new List<string>();
+
+
+        public CougarFilterBuilder(string ipConjunction, string portConjunction)
+        {
+            IpConjunction = ipConjunction;
+            PortConjunction = portConjunction;
+        }
 
         //Adds item to protocol list
         /// <summary>
@@ -23,22 +34,18 @@ namespace SteppingStoneCapture
         /// </param>
         public void AddToProtocolList(string stringToAdd)
         {
-            AddToFilterLists(stringToAdd, true);
+            protocols.Add(stringToAdd);
         }
 
-        //Adds item to attribute list
-        /// <summary>
-        /// Adds item to attribute list
-        /// </summary>
-        /// <remarks>
-        /// Helper function to AddToFilterLists with forced false isProtocol
-        /// </remarks>
-        /// <param name="stringToAdd">
-        /// An IP address or Port No. with their respective attribute tags applied: ie 'src host someIPAddress'
-        /// </param>
-        public void AddToAttributeList(string stringToAdd)
+
+        public void AddIP(string ip)
         {
-            AddToFilterLists(stringToAdd, false);
+            ipList.Add(ip);
+
+        }
+        public void AddPort(string port)
+        {
+            portList.Add(port);
         }
 
         /// <summary>
@@ -62,6 +69,8 @@ namespace SteppingStoneCapture
             get
             {
                 string captureString = "";
+                Console.WriteLine("ips: "+ipList.Count);
+                Console.WriteLine("ports: " + portList.Count);
 
                 //Use the correct construction style based on selected properties
                 if (HasNonEmptyAttributesList && HasNonEmptyProtocolList)
@@ -112,7 +121,7 @@ namespace SteppingStoneCapture
                 else
                     rtrn += current + ")";
             }
-            
+
             return rtrn;
         }
 
@@ -127,30 +136,52 @@ namespace SteppingStoneCapture
         /// </returns>
         private string BuildAttributeFilterPortion()
         {
-            string rtrn = "";
+            string rtrn = "(";
             //for each attribute, determine how to apply to filter
-            for (int attrIndx = 0; attrIndx < attributes.Count; ++attrIndx)
+            for (int attrIndx = 0; attrIndx < ipList.Count; ++attrIndx)
             {
-                if (attrIndx > 0)
-                    rtrn += " and " + attributes[attrIndx];
+                Console.WriteLine(ipList[attrIndx]);
+                if (attrIndx != 0)
+                    rtrn += " " + IpConjunction + " " + ipList[attrIndx];
                 else
-                    rtrn += attributes[attrIndx];
+                {
+                    rtrn += ipList[attrIndx];
+                }
             }
+
+            if (portList.Count != 0)
+            {
+                if (rtrn.Length > 1) rtrn += ") and (";
+
+                for (int attrIndx = 0; attrIndx < portList.Count; ++attrIndx)
+                {
+                    Console.WriteLine(portList[attrIndx]);
+                    if (attrIndx != 0)
+                        rtrn += " " + PortConjunction + " " + portList[attrIndx];
+                    else
+                    {
+                        rtrn += portList[attrIndx];
+                    }
+                }
+            }
+            Console.WriteLine("Filter: "+rtrn);
+            if (rtrn.Length == 1) rtrn = "ip";
+            else rtrn += ")";
             return rtrn;
 
         }
 
-        private void AddToFilterLists(string stringToAdd, bool isProtocol)
-        {
-            if (isProtocol)
-                protocols.Add(stringToAdd);
-            else
-                attributes.Add(stringToAdd);
-        }
-
         private bool HasNonEmptyProtocolList => (protocols.Count > 0);
-        private bool HasNonEmptyAttributesList => (attributes.Count > 0);
+        private bool HasNonEmptyAttributesList => (ipList.Count > 0 || portList.Count > 0);
+
+        public string PortConjunction { get => portConjunction; set => portConjunction = value; }
+        public string IpConjunction { get => ipConjunction; set => ipConjunction = value; }
+
         private void ClearProtocolList() => protocols.Clear();
-        private void ClearAttributesList() => attributes.Clear();
+        private void ClearAttributesList()
+        {
+                portList.Clear();
+            ipList.Clear();
+        }
     }
 }

@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using System.ComponentModel.Design;
 using PcapDotNet.Core;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
@@ -31,8 +30,6 @@ namespace SteppingStoneCapture
         private CougarFilterBuilder cfb;
         private Random rand;
         private int lastSelectedIndex = 0;
-        private int initialWindowHeight, initialWindowWidth;
-        private List<int> initComponentHeights, initComponentWidths;
 
         public CaptureForm()
         {
@@ -52,12 +49,8 @@ namespace SteppingStoneCapture
             captureAndDumpRequested = captureAndDumpMenuItem.Checked;
             multiWindowDisplay = multiWindowDisplayMenuItem.Checked;
             rawPacketViewDesired = rawPacketViewItem.Checked;
-            cfb = new CougarFilterBuilder();
+            cfb = new CougarFilterBuilder("or", "or");
             bvf = new ByteViewerForm();
-            initialWindowHeight = this.Height;
-            initialWindowWidth = this.Width;
-            initComponentHeights = new List<int>();
-            initComponentWidths = new List<int>();
         }
 
         private void DetermineNetworkInterface(int numTries = 5)
@@ -101,36 +94,118 @@ namespace SteppingStoneCapture
         {
             foreach (Control c in Controls)
             {
-                if (c is CheckBox chk)
+                
+                if (c is GroupBox gb)
                 {
-                    if (chk.Checked)
-                    {
-                        protocolRequested = true;
-                        if (chk.Name != "chkAutoScroll")
-                            cfb.AddToProtocolList(chk.Text);
-
-                    }
-                }
-                else if (c is TextBox tb)
-                {
-                    if (tb.Text != "" && tb != txtFilterField)
-                    {
-                        attributeRequested = true;
-                        switch (tb.Name)
+                    foreach (Control c1 in gb.Controls) {
+                        if (c1 is CheckBox chk)
                         {
-                            case "txtSrcIP":
-                                cfb.AddToAttributeList("src host " + tb.Text.ToLower());
-                                break;
-                            case "txtDestIP":
-                                cfb.AddToAttributeList("dst host " + tb.Text.ToLower());
-                                break;
-                            case "txtSrcPort":
-                                cfb.AddToAttributeList("src port " + tb.Text);
-                                break;
-                            case "txtDestPort":
-                                cfb.AddToAttributeList("dst port " + tb.Text);
-                                break;
+                            if (chk.Checked)
+                            {
+                                protocolRequested = true;
+                                if (chk.Name != "chkAutoScroll")
+                                    cfb.AddToProtocolList(chk.Text);
+                            }
                         }
+                        if (c1 is GroupBox gb2)
+                            foreach (Control c2 in gb2.Controls)
+                            {
+                                if (c2 is TextBox tb)
+                                {
+                                    if (tb.Text != "" && tb != txtFilterField)
+                                    {
+                                        attributeRequested = true;
+                                        switch (tb.Name)
+                                        {
+                                            case "txtIpOne":
+                                                if (chkSrcIP1.Checked)
+                                                {
+                                                    if (!chkIPNOT.Checked)
+                                                        cfb.AddIP("src host " + tb.Text.ToLower());
+                                                    else
+                                                        cfb.AddIP("not src host " + tb.Text.ToLower());
+                                                }
+                                                else if (chkDstIP1.Checked)
+                                                {
+                                                    if (!chkIPNOT.Checked)
+                                                        cfb.AddIP("dst host " + tb.Text.ToLower());
+                                                    else
+                                                        cfb.AddIP("not dst host " + tb.Text.ToLower());
+                                                }
+                                                break;
+                                            case "txtIpTwo":
+                                                if (chkSrcIP2.Checked)
+                                                {
+                                                    if (!chkIPNOT2.Checked)
+                                                        cfb.AddIP("src host " + tb.Text.ToLower());
+                                                    else
+                                                        cfb.AddIP("not src host " + tb.Text.ToLower());
+                                                }
+                                                else if (chkDstIP2.Checked)
+                                                {
+                                                    if (!chkIPNOT2.Checked)
+                                                        cfb.AddIP("dst host " + tb.Text.ToLower());
+                                                    else
+                                                        cfb.AddIP("not dst host " + tb.Text.ToLower());
+                                                }
+
+                                                break;
+                                            case "txtPortOne":
+                                                if (chkSrcPort1.Checked)
+                                                {
+                                                    if (!chkPortNOT.Checked)
+                                                        cfb.AddPort("src port " + tb.Text.ToLower());
+                                                    else
+                                                        cfb.AddPort("not src port " + tb.Text.ToLower());
+                                                }
+                                                else if (chkDstPort1.Checked)
+                                                {
+                                                    if (!chkPortNOT.Checked)
+                                                        cfb.AddPort("dst port " + tb.Text.ToLower());
+                                                    else
+                                                        cfb.AddPort("not dst port " + tb.Text.ToLower());
+                                                }
+                                                break;
+                                            case "txtPortTwo":
+                                                if (chkSrcPort2.Checked)
+                                                {
+                                                    if (!chkNotPort2.Checked)
+                                                        cfb.AddPort("src port " + tb.Text.ToLower());
+                                                    else
+                                                        cfb.AddPort("not src port " + tb.Text.ToLower());
+                                                }
+                                                else if (chkDstPort2.Checked)
+                                                {
+                                                    if (!chkNotPort2.Checked)
+                                                        cfb.AddPort("dst port " + tb.Text.ToLower());
+                                                    else
+                                                        cfb.AddPort("not dst port " + tb.Text.ToLower());
+                                                }
+                                                break;
+                                        }
+                                    }
+                                }
+
+                                else if (c2 is CheckBox cb)
+                                {
+                                    if (cb.Checked)
+                                        switch (cb.Name)
+                                        {
+                                            case "chkIPAND":
+                                                cfb.IpConjunction = "and";
+                                                break;
+                                            case "chkIPOR":
+                                                cfb.IpConjunction = "or";
+                                                break;
+                                            case "chkPortAND":
+                                                cfb.PortConjunction = "and";
+                                                break;
+                                            case "chkPortOR":
+                                                cfb.PortConjunction = "or";
+                                                break;
+                                        }
+                                }
+                            }
                     }
                 }
             }
@@ -243,13 +318,12 @@ namespace SteppingStoneCapture
             return cp;
         }
 
-        private void PrintInCorrectFormat(Packet packet) // why did you choose this method name?
+        private void PrintPacket(Packet packet)
         {
             if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
                 CougarPacket cp = DetermineCorrectPacketFormat(packet);
-                //Console.WriteLine(cp.ToString());
                 packets.Add(packet);
                 this.Invoke((MethodInvoker)(() =>
                 {
@@ -293,11 +367,6 @@ namespace SteppingStoneCapture
             packetNumber = 0;
         }
 
-        private void HandleLoadedPacket(Packet packet) // why did you use/change this method for the sole purpose of calling another method with the same parameter?
-        {
-            PrintInCorrectFormat(packet);
-        }
-
         private void CapturePackets()
         {
             // Take the selected adapter
@@ -328,7 +397,7 @@ namespace SteppingStoneCapture
                             // Timeout elapsed
                             break;
                         case PacketCommunicatorReceiveResult.Ok:
-                            PrintInCorrectFormat(packet);                            
+                            PrintPacket(packet);                            
                             break;
                         default:
                             throw new InvalidOperationException("The result " + result + " should never be reached here");
@@ -398,7 +467,6 @@ namespace SteppingStoneCapture
 
             return dumpFileName;
         }
-
        
         private void BtnStart_Click(object sender, EventArgs e)
         {
@@ -504,25 +572,6 @@ namespace SteppingStoneCapture
             captureAndDumpMenuItem.Checked = captureAndDumpRequested;
         }
 
-        /*private void CaptureForm_ResizeBegin(object sender, EventArgs e)
-        {
-            initialWindowHeight = this.Height;
-            initialWindowWidth = this.Width;
-
-            foreach (Control c in this.Controls)
-            {
-                initComponentHeights.Add(c.Height);
-                initComponentWidths.Add(c.Width);
-            }
-        }        
-
-        private void CaptureForm_ResizeEnd(object sender, EventArgs e)
-        {
-            int finalWindowHeight = this.Height;
-            int finalWindowWidth = this.Width;
-
-        }*/
-
         private void RawPacketViewItem_Click(object sender, EventArgs e)
         {
             rawPacketViewDesired = !rawPacketViewDesired;
@@ -555,7 +604,7 @@ namespace SteppingStoneCapture
                                         1000))                                  // read timeout
                 {
                     // Read and dispatch packets until EOF is reached
-                    communicator.ReceivePackets(0, HandleLoadedPacket);
+                    communicator.ReceivePackets(0, PrintPacket);
 
                 }
             }
