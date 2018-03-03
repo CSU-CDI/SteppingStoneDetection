@@ -174,7 +174,7 @@ namespace SteppingStoneCapture
         private void ClearProtocolList() => protocols.Clear();
         private void ClearAttributesList()
         {
-                portList.Clear();
+            portList.Clear();
             ipList.Clear();
         }
     }
