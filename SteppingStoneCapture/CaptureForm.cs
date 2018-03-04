@@ -577,6 +577,66 @@ namespace SteppingStoneCapture
             lastSelectedIndex = -1;
         }
 
+        private void chkSrcIP1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSrcIP1.Checked) chkDstIP1.Checked = false;
+        }
+
+        private void chkDstIP1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkDstIP1.Checked) chkSrcIP1.Checked = false;
+        }
+
+        private void chkSrcIP2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSrcIP2.Checked) chkDstIP2.Checked = false;
+        }
+
+        private void chkDstIP2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkDstIP2.Checked) chkSrcIP2.Checked = false;
+        }
+
+        private void chkSrcPort1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSrcPort1.Checked) chkDstPort1.Checked = false;
+        }
+
+        private void chkDstPort1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkDstPort1.Checked) chkSrcPort1.Checked = false;
+        }
+
+        private void chkSrcPort2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSrcPort2.Checked) chkDstPort2.Checked = false;
+        }
+
+        private void chkDstPort2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkDstPort2.Checked) chkSrcPort2.Checked = false;
+        }
+
+        private void chkIPAND_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkIPAND.Checked) chkIPOR.Checked = false;
+        }
+
+        private void chkIPOR_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkIPOR.Checked) chkIPAND.Checked = false;
+        }
+
+        private void chkPortAND_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkPortAND.Checked) chkPortOR.Checked = false;
+        }
+
+        private void chkPortOR_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkPortOR.Checked) chkPortAND.Checked = false;
+        }
+
         private void MultiWindowDisplayMenuItem_Click(object sender, EventArgs e)
         {
             multiWindowDisplay = !multiWindowDisplay;
