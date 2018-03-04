@@ -373,7 +373,7 @@
             this.packetView.FullRowSelect = true;
             this.packetView.GridLines = true;
             this.packetView.Location = new System.Drawing.Point(12, 370);
-            this.packetView.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.packetView.Margin = new System.Windows.Forms.Padding(5);
             this.packetView.Name = "packetView";
             this.packetView.Size = new System.Drawing.Size(983, 291);
             this.packetView.TabIndex = 28;
@@ -502,8 +502,8 @@
             // 
             this.chkNotPort2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkNotPort2.AutoSize = true;
-            this.chkNotPort2.Location = new System.Drawing.Point(441, 103);
-            this.chkNotPort2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkNotPort2.Location = new System.Drawing.Point(438, 103);
+            this.chkNotPort2.Margin = new System.Windows.Forms.Padding(4);
             this.chkNotPort2.Name = "chkNotPort2";
             this.chkNotPort2.Size = new System.Drawing.Size(52, 21);
             this.chkNotPort2.TabIndex = 64;
@@ -565,7 +565,7 @@
             this.txtPortOne.Location = new System.Drawing.Point(207, 39);
             this.txtPortOne.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPortOne.Name = "txtPortOne";
-            this.txtPortOne.Size = new System.Drawing.Size(220, 22);
+            this.txtPortOne.Size = new System.Drawing.Size(221, 22);
             this.txtPortOne.TabIndex = 56;
             // 
             // chkSrcPort2
@@ -584,7 +584,7 @@
             // 
             this.txtPortTwo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPortTwo.Location = new System.Drawing.Point(207, 101);
+            this.txtPortTwo.Location = new System.Drawing.Point(208, 103);
             this.txtPortTwo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPortTwo.Name = "txtPortTwo";
             this.txtPortTwo.Size = new System.Drawing.Size(220, 22);
@@ -661,8 +661,8 @@
             // 
             this.chkIPNOT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIPNOT2.AutoSize = true;
-            this.chkIPNOT2.Location = new System.Drawing.Point(438, 85);
-            this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkIPNOT2.Location = new System.Drawing.Point(438, 100);
+            this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4);
             this.chkIPNOT2.Name = "chkIPNOT2";
             this.chkIPNOT2.Size = new System.Drawing.Size(52, 21);
             this.chkIPNOT2.TabIndex = 61;
@@ -712,7 +712,7 @@
             this.txtIpOne.Location = new System.Drawing.Point(207, 30);
             this.txtIpOne.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtIpOne.Name = "txtIpOne";
-            this.txtIpOne.Size = new System.Drawing.Size(220, 22);
+            this.txtIpOne.Size = new System.Drawing.Size(221, 22);
             this.txtIpOne.TabIndex = 52;
             // 
             // chkSrcIP1
@@ -752,7 +752,7 @@
             // lblIP2
             // 
             this.lblIP2.AutoSize = true;
-            this.lblIP2.Location = new System.Drawing.Point(164, 86);
+            this.lblIP2.Location = new System.Drawing.Point(164, 100);
             this.lblIP2.Name = "lblIP2";
             this.lblIP2.Size = new System.Drawing.Size(37, 17);
             this.lblIP2.TabIndex = 51;
@@ -762,10 +762,10 @@
             // 
             this.txtIpTwo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtIpTwo.Location = new System.Drawing.Point(207, 84);
+            this.txtIpTwo.Location = new System.Drawing.Point(207, 100);
             this.txtIpTwo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtIpTwo.Name = "txtIpTwo";
-            this.txtIpTwo.Size = new System.Drawing.Size(220, 22);
+            this.txtIpTwo.Size = new System.Drawing.Size(221, 22);
             this.txtIpTwo.TabIndex = 53;
             // 
             // chkDstIP2
