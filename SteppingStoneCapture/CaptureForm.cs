@@ -30,6 +30,7 @@ namespace SteppingStoneCapture
         private CougarFilterBuilder cfb;
         private Random rand;
         private int lastSelectedIndex = 0;
+        private Boolean adjusted = false;
 
         public CaptureForm()
         {
@@ -230,11 +231,10 @@ namespace SteppingStoneCapture
             return tapped;
         }
 
-        private void DumpCapturedPackets(string fileName)
+        private void DumpCapturedPackets(string fileName) // dumps to text file
         {
             if (packetBytes.Values.Count > 0)
             {
-
                 foreach (byte[] barr in packetBytes.Values)
                 {
                     File.AppendAllText(fileName, Encoding.ASCII.GetString(barr));
@@ -242,21 +242,20 @@ namespace SteppingStoneCapture
             }
         }
 
-        private void FlipFilterFieldVisibility()
+        private void FlipFilterFieldVisibility() // show or hide filter textbox
         {
             txtFilterField.Visible = !txtFilterField.Visible;
             lblFilterField.Visible = !lblFilterField.Visible;
         }
 
-        private CougarPacket DetermineCorrectPacketFormat(Packet packet)
+        private CougarPacket DetermineCorrectPacketFormat(Packet packet) // looks at the most recent packet and determines what protocol it carries
         {
             CougarPacket cp = new CougarPacket();
             if (packet.Ethernet.IpV4.IsValid) {
                 IpV4Datagram ipv4 = packet.Ethernet.IpV4;
                 switch (ipv4.Protocol.ToString().ToLower())
                 {
-                    case "tcp":
-                        //tcp packet received
+                    case "tcp":  // tcp packet received
                         TcpDatagram tcp = ipv4.Tcp;
                         cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
                         cp.PacketNumber = packetNumber;
@@ -273,10 +272,8 @@ namespace SteppingStoneCapture
                         cp.getPayload();
                         
                         break;
-                    case "udp":
-                        //udp packet received
+                    case "udp":  // udp packet received
                         UdpDatagram udp = ipv4.Udp;
-
                         cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
                         cp.PacketNumber = packetNumber;
                         cp.Length = packet.Length;
@@ -288,7 +285,7 @@ namespace SteppingStoneCapture
                         cp.getPayload();
 
                         break;
-                    case "internetcontrolmessageprotocol":
+                    case "internetcontrolmessageprotocol":  // icmp packet received
                         IcmpDatagram icmp = ipv4.Icmp;
                         cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
                         cp.PacketNumber = packetNumber;
@@ -303,7 +300,7 @@ namespace SteppingStoneCapture
                 }
             }
 
-            else if (packet.Ethernet.Arp.IsValid)
+            else if (packet.Ethernet.Arp.IsValid) // arp packet received
             {
                 ArpDatagram arp = packet.Ethernet.Arp;
                 cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
@@ -317,19 +314,25 @@ namespace SteppingStoneCapture
             return cp;
         }
 
-        private void PrintPacket(Packet packet)
+        private void PrintPacket(Packet packet) // main packet handler method (should probably be renamed to the original HandleLoadedPacket name to make more sense)
         {
             if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
-                CougarPacket cp = DetermineCorrectPacketFormat(packet);
+                CougarPacket cp = DetermineCorrectPacketFormat(packet);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);
-                this.Invoke((MethodInvoker)(() =>
+                this.Invoke((MethodInvoker)(() => // this is used to access the main form from within a separate thread (i.e. this capture thread)
                 {
-                    packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
-                    packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
-
-                    if (chkAutoScroll.Checked && packetView.Items.Count > 0/*&& prevInd > 12*/)
+                    packetView.Items.Add(new ListViewItem(cp.ToPropertyArray)); // add packet info to listview (must be string array)
+                    packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));  
+                    if (adjusted == false) // these next few lines are for resizing the listview items.  should only be called once after 10 packets have shown up
+                    if ((packetNumber % 10 == 0))
+                    {
+                        packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                        packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                        adjusted = true;
+                    }
+                    if (chkAutoScroll.Checked)
                     {
                         packetView.Items[packetView.Items.Count - 1].EnsureVisible();
                     }
@@ -364,9 +367,10 @@ namespace SteppingStoneCapture
             protocolRequested = false;
             attributeRequested = false;
             packetNumber = 0;
+            packets.Clear();
         }
 
-        private void CapturePackets()
+        private void CapturePackets() // captures live packets coming OTA or OTW
         {
             // Take the selected adapter
             PacketDevice selectedDevice = allDevices[this.deviceIndex];
@@ -395,7 +399,7 @@ namespace SteppingStoneCapture
                             // Timeout elapsed
                             break;
                         case PacketCommunicatorReceiveResult.Ok:
-                            PrintPacket(packet);                            
+                            PrintPacket(packet); // call the main packet handler                        
                             break;
                         default:
                             throw new InvalidOperationException("The result " + result + " should never be reached here");
@@ -413,7 +417,7 @@ namespace SteppingStoneCapture
             }
         }
 
-        private void DumpPackets(PacketCommunicator communicator, string dumpFileName)
+        private void DumpPackets(PacketCommunicator communicator, string dumpFileName) // write pakets to dump file
         {
             using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
                 foreach (Packet p in packets)
@@ -424,13 +428,10 @@ namespace SteppingStoneCapture
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-
-            };
-            
-            sfd.Filter = "Dump Files (*.pcap)| *.pcap| Text File (*.txt)| *.txt |All files (*.*)|*.*";
-            sfd.FilterIndex = 0;
-
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "Dump Files (*.pcap)| *.pcap| Text File (*.txt)| *.txt |All files (*.*)|*.*",
+                FilterIndex = 0
+        };
 
             string dumpFileName = sfd.FileName;
             
@@ -473,6 +474,7 @@ namespace SteppingStoneCapture
             SearchFormProperties();
             filter = TapFilterStringSource();
             txtFilterField.Text = filter;
+            packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
             //capture packets     
             if ((numThreads < 1) && (deviceIndex != 0))
@@ -668,6 +670,12 @@ namespace SteppingStoneCapture
             }
         }
 
-        private void CaptureForm_Load(object sender, EventArgs e) => DetermineNetworkInterface();
+        private void CaptureForm_Load(object sender, EventArgs e)
+        {
+            DetermineNetworkInterface();
+            packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);    
+           
+        }
+            
     }
 }
