@@ -321,7 +321,8 @@ namespace SteppingStoneCapture
                 ++packetNumber;
                 CougarPacket cp = DetermineCorrectPacketFormat(packet);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);
-                this.Invoke((MethodInvoker)(() => // this is used to access the main form from within a separate thread (i.e. this capture thread)
+                if (cp.SourceAddress.ToString() != "0.0.0.0") 
+                    this.Invoke((MethodInvoker)(() => // this is used to access the main form from within a separate thread (i.e. this capture thread)
                 {
                     packetView.Items.Add(new ListViewItem(cp.ToPropertyArray)); // add packet info to listview (must be string array)
                     packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));  
