@@ -230,7 +230,7 @@ namespace SteppingStoneCapture
             return tapped;
         }
 
-        private void DumpCapturedPackets(string fileName)
+        private void SaveCapturedPackets(string fileName)
         {
             if (packetBytes.Values.Count > 0)
             {
@@ -343,7 +343,7 @@ namespace SteppingStoneCapture
             {
                 if (bvf.IsDisposed || multiWindowDisplay)
                     bvf = new ByteViewerForm();
-                if (rawPacketViewDesired)
+                if (rawPacketViewDesired && packets.Count > 0)
                     bvf.setBytes(packets[packetView.FocusedItem.Index + 1].Buffer);
                 else
                     bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
@@ -424,8 +424,8 @@ namespace SteppingStoneCapture
         {
             SaveFileDialog sfd = new SaveFileDialog()
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                AddExtension = false
             };
             
             sfd.Filter = "Dump Files (*.pcap)| *.pcap| Text File (*.txt)| *.txt |All files (*.*)|*.*";
@@ -443,16 +443,16 @@ namespace SteppingStoneCapture
                         if (sfd.FilterIndex == 1)
                         {
 
-                            using (PacketCommunicator communicator = 
+                            using (PacketCommunicator communicator =
                                     allDevices[1].Open(65536,               // portion of the packet to capture
                                                                             // 65536 guarantees that the whole packet will be captured on all the link layers
                                        PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
                                        1000))
-                                DumpPackets(communicator, dumpFileName+".pcap");
+                                DumpPackets(communicator, dumpFileName);
                         }
                         else if(sfd.FilterIndex == 2)
                         {
-                            DumpCapturedPackets(dumpFileName+".txt");
+                            SaveCapturedPackets(dumpFileName);
                         }                    
                     }
 
@@ -589,25 +589,124 @@ namespace SteppingStoneCapture
             clf.ShowDialog();
 
             string loadPath = clf.DumpFileNameRequested;
-            if (loadPath != "")
+            if (loadPath != "" && File.Exists(loadPath))
             {
-                // Create the offline device
-                OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
+                ResetNecessaryProperties();
 
-                // Open the capture file
-                using (PacketCommunicator communicator =
-                    selectedDevice.Open(65536,                                  // portion of the packet to capture
-                                                                                // 65536 guarantees that the whole packet will be captured on all the link layers
-                                        PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
-                                        1000))                                  // read timeout
+                switch (Path.GetExtension(loadPath))
                 {
-                    // Read and dispatch packets until EOF is reached
-                    communicator.ReceivePackets(0, PrintPacket);
+                    case (".pcap"):
+                        // Create the offline device
+                        OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
 
+                        // Open the capture file
+                        using (PacketCommunicator communicator =
+                            selectedDevice.Open(65536,                                  // portion of the packet to capture
+                                                                                        // 65536 guarantees that the whole packet will be captured on all the link layers
+                                                PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
+                                                1000))                                  // read timeout
+                        {
+                            // Read and dispatch packets until EOF is reached
+                            communicator.ReceivePackets(0, PrintPacket);
+
+                        }
+                        break;
+
+                    case (".txt"):
+                        string currentPacket;
+                        using (StreamReader reader = new StreamReader(loadPath))
+                            while ((currentPacket = reader.ReadLine()) != null)
+                            {
+                                String[] packetAttributes = currentPacket.Split(',');
+                                string timeStamp = "-";
+                                int packetNumber = 0;
+                                int length = 0;
+                                string sourceIp = "0.0.0.0";
+                                string destinationIp = "0.0.0.0";
+                                int srcPort = 0;
+                                int dstPort = 0;
+                                int chkSum = 0;
+                                uint seqNum = 0;
+                                uint ackNum = 0;
+                                string tcpFlags = "";
+                                byte[] payloadBytes = { };
+                                
+                                for (int i = 0; i < packetAttributes.Length; ++i)
+                                {
+
+                                    switch (i)
+                                    {
+                                        case 0:
+                                            packetNumber = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 1:                                            
+                                            timeStamp = packetAttributes[i];
+                                            break;
+                                        case 2:
+                                            length = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 3:
+                                            sourceIp = packetAttributes[i];
+                                            break;
+                                        case 4:
+                                            destinationIp = packetAttributes[i];
+                                            break;
+                                        case 5:
+                                            srcPort = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 6:
+                                            dstPort = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 7:
+                                            chkSum = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 8:
+                                            seqNum = Convert.ToUInt32(packetAttributes[i]);
+                                            break;
+                                        case 9:
+                                            ackNum = Convert.ToUInt32(packetAttributes[i]);
+                                            break;
+                                        case 10:
+                                            tcpFlags = packetAttributes[i];
+                                            break;
+                                        case 11:
+                                            payloadBytes = ConvertHexStringToByteArray(packetAttributes[i]);
+                                            break;
+                                    }
+                                }
+                                CougarPacket cp = new CougarPacket(timeStamp, packetNumber, length, sourceIp,
+                                                                    destinationIp, srcPort, dstPort, chkSum,
+                                                                    seqNum, ackNum, tcpFlags, payloadData: payloadBytes);
+
+                                packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
+                                packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
+
+                                if (chkAutoScroll.Checked && packetView.Items.Count > 0)
+                                {
+                                    packetView.Items[packetView.Items.Count - 1].EnsureVisible();
+                                }
+                            }
+                        break;
                 }
             }
         }
 
+        public byte[] ConvertHexStringToByteArray(string hexString)
+        {
+            /*if (hexString.Length % 2 != 0)
+            {
+                throw new ArgumentException(String.Format( "The binary key cannot have an odd number of digits: {0}", hexString));
+            }*/
+            //Console.WriteLine("converting "+hexString);
+            byte[] HexAsBytes = new byte[hexString.Length / 2];
+            for (int index = 0; index < HexAsBytes.Length; index++)
+            {
+                string byteValue = hexString.Substring(index * 2, 2);
+                HexAsBytes[index] = byte.Parse(byteValue, System.Globalization.NumberStyles.HexNumber);
+            }
+            
+            return HexAsBytes;
+        }
         private void CaptureForm_Load(object sender, EventArgs e) => DetermineNetworkInterface();
     }
 }

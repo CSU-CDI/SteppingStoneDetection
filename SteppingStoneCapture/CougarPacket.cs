@@ -30,8 +30,6 @@ namespace SteppingStoneCapture
         private int length;
         private IpV4Address sourceAddress;
         private IpV4Address destAddress;
-        private ReadOnlyCollection<byte> senderHWAddr;
-        private ReadOnlyCollection<byte> targHWAddr;
         private int srcPort;
         private int dstPort;
         private int chkSum;
@@ -82,8 +80,21 @@ namespace SteppingStoneCapture
             AckNum = ackNum;
             TCPFlags = tcpFlags;
             Payload = payload;
+            setPayloadData(payloadData);
         }
 
+        public void setPayloadData(byte[] inArr)
+        {
+            if (inArr != null)
+            {
+                this.payloadData = new byte[inArr.Length];
+                for (int i = 0; i < inArr.Length; ++i)
+                {
+                    this.payloadData[i] = inArr[i];
+                }
+            }
+            else this.payloadData = null;
+        }
         public void getPayload()
         {
             if (payload != null)
@@ -99,7 +110,7 @@ namespace SteppingStoneCapture
         public override string ToString()
         {
             string pay = (payloadData != null) ? BitConverter.ToString(payloadData).Replace("-", " ") : "nil";
-            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}",
+            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}",
                                                 PacketNumber,
                                                 TimeStamp,
                                                 Length,
@@ -110,6 +121,7 @@ namespace SteppingStoneCapture
                                                 ChkSum,
                                                 SeqNum,
                                                 AckNum,
+                                                tcpFlags.Replace(',',';'),
                                                 pay);
             return description;
         }
@@ -137,9 +149,6 @@ namespace SteppingStoneCapture
                 return propertyArray;
             }
         }
-
-        public ReadOnlyCollection<byte> TargHWAddr { get => targHWAddr; set => targHWAddr = value; }
-        public ReadOnlyCollection<byte> SenderHWAddr { get => senderHWAddr; set => senderHWAddr = value; }
 
         private string getLocalIP()
         {
