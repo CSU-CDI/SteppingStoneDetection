@@ -238,7 +238,7 @@ namespace SteppingStoneCapture
             {
                 string myAddress = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
                 Console.WriteLine(myAddress);
-                for (int i=1; i<packetBytes.Count; i++)
+                for (int i=0; i<packetBytes.Count; ++i)
                 {                    
                     if (packets[i].Ethernet.IpV4.IsValid)
                     {                        
