@@ -244,14 +244,10 @@ namespace SteppingStoneCapture
                     {                        
                         if (packets[i].Ethernet.IpV4.Destination.ToString() == myAddress)
                         {
-                            Console.WriteLine("Index: " + i + ", Incoming: " + packets[i].Ethernet.IpV4.Destination.ToString());
-                            Console.WriteLine(Encoding.ASCII.GetString(packetBytes[i]));                            
                             File.AppendAllText(fileName[0] + "-incoming." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
                         }
                         else if (packets[i].Ethernet.IpV4.Source.ToString() == myAddress)
                         {
-                            Console.WriteLine("Index: " + i + ", Outgoing: " + packets[i].Ethernet.IpV4.Source.ToString());
-                            Console.WriteLine(Encoding.ASCII.GetString(packetBytes[i]));
                             File.AppendAllText(fileName[0] + "-outgoing." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
                         }
                     }
@@ -268,12 +264,6 @@ namespace SteppingStoneCapture
                     }
                     File.AppendAllText(fileName[0] + "-MOTHER." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
                 }
-                /*foreach (byte[] barr in packetBytes.Values) // convert this into regular for loop and use the index numbers to reference packets[i]
-                {                                           // if packets[i].ipv4 isvalid then check source/dest ip addresses to write to incoming/outgoing
-                                                            // else check if isvalid arp packet then get source/dest addresses                                                            
-                                                            // finally, after determining incoming/outgoing, use the same index of packetBytes to write to file like what is currently done
-                    File.AppendAllText(fileName[0]+"-MOTHER-"+fileName[1], Encoding.ASCII.GetString(barr));
-                }*/
             }
         }
 
