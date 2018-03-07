@@ -20,7 +20,7 @@ namespace SteppingStoneCapture
         private IList<LivePacketDevice> allDevices;
         private string defaultFilterField;
         private string filter;
-        private IDictionary<Int32, byte[]> packetBytes;
+        private List<byte[]> packetBytes;
         private List<Packet> packets;
         private ByteViewerForm bvf;
         private Int32 packetNumber;
@@ -41,7 +41,7 @@ namespace SteppingStoneCapture
             deviceIndex = 0;
             defaultFilterField = "";
             filter = "";
-            packetBytes = new Dictionary<Int32, byte[]>();
+            packetBytes = new List< byte[]>();
             packets = new List<Packet>();
             packetNumber = 0;
             captFlag = true;
@@ -234,11 +234,11 @@ namespace SteppingStoneCapture
 
         private void DumpCapturedPackets(string[] fileName) // dumps to text file
         {
-            if (packetBytes.Values.Count > 0)
+            if (packetBytes.Count > 0)
             {
                 string myAddress = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
                 Console.WriteLine(myAddress);
-                for (int i=1; i<packetBytes.Values.Count; i++)
+                for (int i=1; i<packetBytes.Count; i++)
                 {                    
                     if (packets[i].Ethernet.IpV4.IsValid)
                     {                        
@@ -360,7 +360,7 @@ namespace SteppingStoneCapture
                     this.Invoke((MethodInvoker)(() => // this is used to access the main form from within a separate thread (i.e. this capture thread)
                 {
                     packetView.Items.Add(new ListViewItem(cp.ToPropertyArray)); // add packet info to listview (must be string array)
-                    packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));  
+                    packetBytes.Add( Encoding.ASCII.GetBytes(cp.ToString() + "\n"));  
                     if (adjusted == false) // these next few lines are for resizing the listview items.  should only be called once after 10 packets have shown up
                     if ((packetNumber % 10 == 0))
                     {
@@ -778,7 +778,7 @@ namespace SteppingStoneCapture
                                                                     seqNum, ackNum, tcpFlags, payloadData: payloadBytes);
 
                                 packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
-                                packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
+                                packetBytes.Add(Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
 
                                 if (chkAutoScroll.Checked && packetView.Items.Count > 0)
                                 {
