@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Net;
 using PcapDotNet.Core;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
@@ -231,14 +232,48 @@ namespace SteppingStoneCapture
             return tapped;
         }
 
-        private void DumpCapturedPackets(string fileName) // dumps to text file
+        private void DumpCapturedPackets(string[] fileName) // dumps to text file
         {
             if (packetBytes.Values.Count > 0)
             {
-                foreach (byte[] barr in packetBytes.Values)
-                {
-                    File.AppendAllText(fileName, Encoding.ASCII.GetString(barr));
+                string myAddress = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
+                Console.WriteLine(myAddress);
+                for (int i=1; i<packetBytes.Values.Count; i++)
+                {                    
+                    if (packets[i].Ethernet.IpV4.IsValid)
+                    {                        
+                        if (packets[i].Ethernet.IpV4.Destination.ToString() == myAddress)
+                        {
+                            Console.WriteLine("Index: " + i + ", Incoming: " + packets[i].Ethernet.IpV4.Destination.ToString());
+                            Console.WriteLine(Encoding.ASCII.GetString(packetBytes[i]));                            
+                            File.AppendAllText(fileName[0] + "-incoming." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
+                        }
+                        else if (packets[i].Ethernet.IpV4.Source.ToString() == myAddress)
+                        {
+                            Console.WriteLine("Index: " + i + ", Outgoing: " + packets[i].Ethernet.IpV4.Source.ToString());
+                            Console.WriteLine(Encoding.ASCII.GetString(packetBytes[i]));
+                            File.AppendAllText(fileName[0] + "-outgoing." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
+                        }
+                    }
+                    else if (packets[i].Ethernet.Arp.IsValid)
+                    {
+                        if (packets[i].Ethernet.Arp.TargetProtocolAddress.ToString() == myAddress)
+                        {
+                            File.AppendAllText(fileName[0] + "-incoming." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
+                        }
+                        else if (packets[i].Ethernet.Arp.SenderProtocolAddress.ToString() == myAddress)
+                        {
+                            File.AppendAllText(fileName[0] + "-outgoing." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
+                        }
+                    }
+                    File.AppendAllText(fileName[0] + "-MOTHER." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
                 }
+                /*foreach (byte[] barr in packetBytes.Values) // convert this into regular for loop and use the index numbers to reference packets[i]
+                {                                           // if packets[i].ipv4 isvalid then check source/dest ip addresses to write to incoming/outgoing
+                                                            // else check if isvalid arp packet then get source/dest addresses                                                            
+                                                            // finally, after determining incoming/outgoing, use the same index of packetBytes to write to file like what is currently done
+                    File.AppendAllText(fileName[0]+"-MOTHER-"+fileName[1], Encoding.ASCII.GetString(barr));
+                }*/
             }
         }
 
@@ -249,7 +284,7 @@ namespace SteppingStoneCapture
         }
 
         private CougarPacket DetermineCorrectPacketFormat(Packet packet) // looks at the most recent packet and determines what protocol it carries
-        {
+        {            
             CougarPacket cp = new CougarPacket();
             if (packet.Ethernet.IpV4.IsValid) {
                 IpV4Datagram ipv4 = packet.Ethernet.IpV4;
@@ -454,7 +489,8 @@ namespace SteppingStoneCapture
                         }
                         else if(sfd.FilterIndex == 2)
                         {
-                            DumpCapturedPackets(dumpFileName);
+                            string[] filename = dumpFileName.Split('.');
+                            DumpCapturedPackets(filename);
                         }                    
                     }
 
