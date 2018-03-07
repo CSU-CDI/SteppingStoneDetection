@@ -16,6 +16,7 @@ namespace SteppingStoneCapture
 {
     public partial class CaptureForm : Form
     {
+        // probably needs a buffer to count so many packets and then force print to file when full
         private int deviceIndex;
         private IList<LivePacketDevice> allDevices;
         private string defaultFilterField;
@@ -238,32 +239,38 @@ namespace SteppingStoneCapture
             {
                 string myAddress = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
                 Console.WriteLine(myAddress);
-                for (int i=0; i<packetBytes.Count; ++i)
-                {                    
-                    if (packets[i].Ethernet.IpV4.IsValid)
-                    {                        
-                        if (packets[i].Ethernet.IpV4.Destination.ToString() == myAddress)
-                        {
-                            File.AppendAllText(fileName[0] + "-incoming." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
-                        }
-                        else if (packets[i].Ethernet.IpV4.Source.ToString() == myAddress)
-                        {
-                            File.AppendAllText(fileName[0] + "-outgoing." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
-                        }
-                    }
-                    else if (packets[i].Ethernet.Arp.IsValid)
+
+                using (FileStream fs = File.OpenWrite(fileName[0] + "-MOTHER." + fileName[1]))
+                using (FileStream ifs = File.OpenWrite(fileName[0] + "-incoming." + fileName[1]))
+                using (FileStream ofs = File.OpenWrite(fileName[0] + "-outgoing." + fileName[1]))
+                    for (int i = 0; i < packetBytes.Count; ++i)
                     {
-                        if (packets[i].Ethernet.Arp.TargetProtocolAddress.ToString() == myAddress)
+                        if (packets[i].Ethernet.IpV4.IsValid)
                         {
-                            File.AppendAllText(fileName[0] + "-incoming." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
+
+                            if (packets[i].Ethernet.IpV4.Destination.ToString() == myAddress)
+                            {
+                                ifs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                            }
+                            else if (packets[i].Ethernet.IpV4.Source.ToString() == myAddress)
+                            {
+                                ofs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                            }
                         }
-                        else if (packets[i].Ethernet.Arp.SenderProtocolAddress.ToString() == myAddress)
+                        else if (packets[i].Ethernet.Arp.IsValid)
                         {
-                            File.AppendAllText(fileName[0] + "-outgoing." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
+                            if (packets[i].Ethernet.Arp.TargetProtocolAddress.ToString() == myAddress)
+                            {
+                                ifs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                            }
+                            else if (packets[i].Ethernet.Arp.SenderProtocolAddress.ToString() == myAddress)
+                            {
+                                ofs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                            }
                         }
+                       
+                        fs.Write(packetBytes[i], 0, packetBytes[i].Length);
                     }
-                    File.AppendAllText(fileName[0] + "-MOTHER." + fileName[1], Encoding.ASCII.GetString(packetBytes[i]));
-                }
             }
         }
 
@@ -368,7 +375,7 @@ namespace SteppingStoneCapture
 
         private void UpdateHexEditor()
         {
-            if (packetView.SelectedIndices[0] < packetView.Items.Count && packetView.FocusedItem != null)
+            if (/*packetView.SelectedIndices[0] < packetView.Items.Count &&*/ packetView.FocusedItem != null)
             {
                 if (bvf.IsDisposed || multiWindowDisplay)
                     bvf = new ByteViewerForm();
