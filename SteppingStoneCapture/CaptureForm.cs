@@ -237,39 +237,116 @@ namespace SteppingStoneCapture
         {
             if (packetBytes.Count > 0)
             {
-                string myAddress = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
-                Console.WriteLine(myAddress);
-
-                using (FileStream fs = File.OpenWrite(fileName[0] + "-MOTHER." + fileName[1]))
-                using (FileStream ifs = File.OpenWrite(fileName[0] + "-incoming." + fileName[1]))
-                using (FileStream ofs = File.OpenWrite(fileName[0] + "-outgoing." + fileName[1]))
+                using (FileStream fs = File.OpenWrite(fileName[0]+fileName[1]))
                     for (int i = 0; i < packetBytes.Count; ++i)
                     {
+                        fs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                    }
+            }
+        }
+
+        private void DumpAllPacketsFromConnection(string fileName, string addressOne, string addressTwo, int desiredPort)
+        {
+
+            string[] fileNameParts = fileName.Split('.');
+            // open a file to store packets from a desired connection
+            if (fileNameParts[1] == "txt")
+                using (FileStream fs = File.OpenWrite(fileName))
+                    for (int i = 0; i < packetBytes.Count; ++i)
+                    {
+                        // check if ip
                         if (packets[i].Ethernet.IpV4.IsValid)
                         {
+                            IpV4Datagram ipv4 = packets[i].Ethernet.IpV4;
 
-                            if (packets[i].Ethernet.IpV4.Destination.ToString() == myAddress)
+                            // for all tcp or udp packets
+                            if (ipv4.Tcp.IsValid)
                             {
-                                ifs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                                bool ipComp1 = (ipv4.Destination.ToString() == addressOne && ipv4.Source.ToString() == addressTwo);
+                                bool ipComp2 = (ipv4.Source.ToString() == addressOne && ipv4.Destination.ToString() == addressTwo);
+                                bool portComp = (ipv4.Tcp.SourcePort == desiredPort || ipv4.Tcp.DestinationPort == desiredPort);
+
+                                if ((ipComp1 || ipComp2) && portComp)
+                                {
+                                    fs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                                }
                             }
-                            else if (packets[i].Ethernet.IpV4.Source.ToString() == myAddress)
+                            else if (ipv4.Udp.IsValid)
                             {
-                                ofs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                                bool ipComp1 = (ipv4.Destination.ToString() == addressOne && ipv4.Source.ToString() == addressTwo);
+                                bool ipComp2 = (ipv4.Source.ToString() == addressOne && ipv4.Destination.ToString() == addressTwo);
+                                bool portComp = (ipv4.Udp.SourcePort == desiredPort || ipv4.Udp.DestinationPort == desiredPort);
+
+                                if ((ipComp1 || ipComp2) && portComp)
+                                {
+                                    fs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                                }
                             }
                         }
                         else if (packets[i].Ethernet.Arp.IsValid)
                         {
-                            if (packets[i].Ethernet.Arp.TargetProtocolAddress.ToString() == myAddress)
+                            ArpDatagram arp = packets[i].Ethernet.Arp;
+
+                            bool ipComp1 = (arp.TargetProtocolIpV4Address.ToString() == addressOne && arp.SenderProtocolIpV4Address.ToString() == addressTwo);
+                            bool ipComp2 = (arp.TargetProtocolIpV4Address.ToString() == addressTwo && arp.SenderProtocolIpV4Address.ToString() == addressOne);
+                            if (ipComp1 || ipComp2)
                             {
-                                ifs.Write(packetBytes[i], 0, packetBytes[i].Length);
-                            }
-                            else if (packets[i].Ethernet.Arp.SenderProtocolAddress.ToString() == myAddress)
-                            {
-                                ofs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                                fs.Write(packetBytes[i], 0, packetBytes[i].Length);
                             }
                         }
-                       
-                        fs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                    }
+
+            else if(fileNameParts[1] == "pcap")
+            {
+
+                using (PacketCommunicator communicator =
+                allDevices[1].Open(65536,                                  // portion of the packet to capture
+                                                                           // 65536 guarantees that the whole packet will be captured on all the link layers
+                                    PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
+                                    1000))
+                using (PacketDumpFile pdf = communicator.OpenDump(fileName))
+                    for (int i = 0; i < packetBytes.Count; ++i)
+                    {
+                        // check if ip
+                        if (packets[i].Ethernet.IpV4.IsValid)
+                        {
+                            IpV4Datagram ipv4 = packets[i].Ethernet.IpV4;
+
+                            // for all tcp or udp packets
+                            if (ipv4.Tcp.IsValid)
+                            {
+                                bool ipComp1 = (ipv4.Destination.ToString() == addressOne && ipv4.Source.ToString() == addressTwo);
+                                bool ipComp2 = (ipv4.Source.ToString() == addressOne && ipv4.Destination.ToString() == addressTwo);
+                                bool portComp = (ipv4.Tcp.SourcePort == desiredPort || ipv4.Tcp.DestinationPort == desiredPort);
+
+                                if ((ipComp1 || ipComp2) && portComp)
+                                {
+                                    pdf.Dump(packets[i]);
+                                }
+                            }
+                            else if (ipv4.Udp.IsValid)
+                            {
+                                bool ipComp1 = (ipv4.Destination.ToString() == addressOne && ipv4.Source.ToString() == addressTwo);
+                                bool ipComp2 = (ipv4.Source.ToString() == addressOne && ipv4.Destination.ToString() == addressTwo);
+                                bool portComp = (ipv4.Udp.SourcePort == desiredPort || ipv4.Udp.DestinationPort == desiredPort);
+
+                                if ((ipComp1 || ipComp2) && portComp)
+                                {
+                                    pdf.Dump(packets[i]);
+                                }
+                            }
+                        }
+                        else if (packets[i].Ethernet.Arp.IsValid)
+                        {
+                            ArpDatagram arp = packets[i].Ethernet.Arp;
+
+                            bool ipComp1 = (arp.TargetProtocolIpV4Address.ToString() == addressOne && arp.SenderProtocolIpV4Address.ToString() == addressTwo);
+                            bool ipComp2 = (arp.TargetProtocolIpV4Address.ToString() == addressTwo && arp.SenderProtocolIpV4Address.ToString() == addressOne);
+                            if (ipComp1 || ipComp2)
+                            {
+                                pdf.Dump(packets[i]);
+                            }
+                        }
                     }
             }
         }
