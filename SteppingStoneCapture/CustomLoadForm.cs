@@ -50,8 +50,7 @@ namespace SteppingStoneCapture
                     break;
                 default:
                     DialogResult res = MessageBox.Show("No File Path Found...","Try Again?", MessageBoxButtons.YesNoCancel);
-                    if (res == DialogResult.Yes)
-                        DetermineDumpFilePath();                        
+                    if (res == DialogResult.Yes) DetermineDumpFilePath();
                     break;
             }
         }

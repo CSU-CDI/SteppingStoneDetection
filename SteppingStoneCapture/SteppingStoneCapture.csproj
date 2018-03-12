@@ -92,6 +92,12 @@
     <Compile Include="CustomLoadForm.designer.cs">
       <DependentUpon>CustomLoadForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NumberPacketsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NumberPacketsForm.Designer.cs">
+      <DependentUpon>NumberPacketsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ByteViewer.resx">
@@ -102,6 +108,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomLoadForm.resx">
       <DependentUpon>CustomLoadForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NumberPacketsForm.resx">
+      <DependentUpon>NumberPacketsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

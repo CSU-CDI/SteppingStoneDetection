@@ -19,7 +19,7 @@ namespace SteppingStoneCapture
         private IList<LivePacketDevice> allDevices;
         private string defaultFilterField;
         private string filter;
-        private IDictionary<Int32, byte[]> packetBytes;
+        private IList< byte[]> packetBytes;
         private List<Packet> packets;
         private ByteViewerForm bvf;
         private Int32 packetNumber;
@@ -31,6 +31,7 @@ namespace SteppingStoneCapture
         private Random rand;
         private int lastSelectedIndex = 0;
         private Boolean adjusted = false;
+        private int maxFilePackets;
 
         public CaptureForm()
         {
@@ -40,7 +41,7 @@ namespace SteppingStoneCapture
             deviceIndex = 0;
             defaultFilterField = "";
             filter = "";
-            packetBytes = new Dictionary<Int32, byte[]>();
+            packetBytes = new List<byte[]>();
             packets = new List<Packet>();
             packetNumber = 0;
             captFlag = true;
@@ -52,6 +53,12 @@ namespace SteppingStoneCapture
             rawPacketViewDesired = rawPacketViewItem.Checked;
             cfb = new CougarFilterBuilder("or", "or");
             bvf = new ByteViewerForm();
+            
+            System.IO.StreamReader readingFile = new System.IO.StreamReader(Directory.GetCurrentDirectory()+"\\default.txt");
+            string readingLine = readingFile.ReadLine();
+            string [] values = readingLine.Split('=');
+            maxFilePackets = Int32.Parse(values[1].Replace("\n",""));
+            
         }
 
         private void DetermineNetworkInterface(int numTries = 5)
@@ -231,15 +238,135 @@ namespace SteppingStoneCapture
             return tapped;
         }
 
+        private void DumpAllPacketsFromConnection(string fileName, string addressOne, string addressTwo, int desiredPort)
+        {
+
+            string[] fileNameParts = fileName.Split('.');
+            // open a file to store packets from a desired connection
+            if (fileNameParts[1] == "txt")
+                using (FileStream fs = File.OpenWrite(fileName))
+                    for (int i = 0; i < packetBytes.Count; ++i)
+                    {
+                        // check if ip
+                        if (packets[i].Ethernet.IpV4.IsValid)
+                        {
+                            IpV4Datagram ipv4 = packets[i].Ethernet.IpV4;
+
+                            // for all tcp or udp packets
+                            if (ipv4.Tcp.IsValid)
+                            {
+                                bool ipComp1 = (ipv4.Destination.ToString() == addressOne && ipv4.Source.ToString() == addressTwo);
+                                bool ipComp2 = (ipv4.Source.ToString() == addressOne && ipv4.Destination.ToString() == addressTwo);
+                                bool portComp = (ipv4.Tcp.SourcePort == desiredPort || ipv4.Tcp.DestinationPort == desiredPort);
+
+                                if ((ipComp1 || ipComp2) && portComp)
+                                {
+                                    fs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                                }
+                            }
+                            else if (ipv4.Udp.IsValid)
+                            {
+                                bool ipComp1 = (ipv4.Destination.ToString() == addressOne && ipv4.Source.ToString() == addressTwo);
+                                bool ipComp2 = (ipv4.Source.ToString() == addressOne && ipv4.Destination.ToString() == addressTwo);
+                                bool portComp = (ipv4.Udp.SourcePort == desiredPort || ipv4.Udp.DestinationPort == desiredPort);
+
+                                if ((ipComp1 || ipComp2) && portComp)
+                                {
+                                    fs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                                }
+                            }
+                        }
+                        else if (packets[i].Ethernet.Arp.IsValid)
+                        {
+                            ArpDatagram arp = packets[i].Ethernet.Arp;
+
+                            bool ipComp1 = (arp.TargetProtocolIpV4Address.ToString() == addressOne && arp.SenderProtocolIpV4Address.ToString() == addressTwo);
+                            bool ipComp2 = (arp.TargetProtocolIpV4Address.ToString() == addressTwo && arp.SenderProtocolIpV4Address.ToString() == addressOne);
+                            if (ipComp1 || ipComp2)
+                            {
+                                fs.Write(packetBytes[i], 0, packetBytes[i].Length);
+                            }
+                        }
+                    }
+
+            else if (fileNameParts[1] == "pcap")
+            {
+
+                using (PacketCommunicator communicator =
+                allDevices[1].Open(65536,                                  // portion of the packet to capture
+                                                                           // 65536 guarantees that the whole packet will be captured on all the link layers
+                                    PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
+                                    1000))
+                using (PacketDumpFile pdf = communicator.OpenDump(fileName))
+                    for (int i = 0; i < packetBytes.Count; ++i)
+                    {
+                        // check if ip
+                        if (packets[i].Ethernet.IpV4.IsValid)
+                        {
+                            IpV4Datagram ipv4 = packets[i].Ethernet.IpV4;
+
+                            // for all tcp or udp packets
+                            if (ipv4.Tcp.IsValid)
+                            {
+                                bool ipComp1 = (ipv4.Destination.ToString() == addressOne && ipv4.Source.ToString() == addressTwo);
+                                bool ipComp2 = (ipv4.Source.ToString() == addressOne && ipv4.Destination.ToString() == addressTwo);
+                                bool portComp = (ipv4.Tcp.SourcePort == desiredPort || ipv4.Tcp.DestinationPort == desiredPort);
+
+                                if ((ipComp1 || ipComp2) && portComp)
+                                {
+                                    pdf.Dump(packets[i]);
+                                }
+                            }
+                            else if (ipv4.Udp.IsValid)
+                            {
+                                bool ipComp1 = (ipv4.Destination.ToString() == addressOne && ipv4.Source.ToString() == addressTwo);
+                                bool ipComp2 = (ipv4.Source.ToString() == addressOne && ipv4.Destination.ToString() == addressTwo);
+                                bool portComp = (ipv4.Udp.SourcePort == desiredPort || ipv4.Udp.DestinationPort == desiredPort);
+
+                                if ((ipComp1 || ipComp2) && portComp)
+                                {
+                                    pdf.Dump(packets[i]);
+                                }
+                            }
+                        }
+                        else if (packets[i].Ethernet.Arp.IsValid)
+                        {
+                            ArpDatagram arp = packets[i].Ethernet.Arp;
+
+                            bool ipComp1 = (arp.TargetProtocolIpV4Address.ToString() == addressOne && arp.SenderProtocolIpV4Address.ToString() == addressTwo);
+                            bool ipComp2 = (arp.TargetProtocolIpV4Address.ToString() == addressTwo && arp.SenderProtocolIpV4Address.ToString() == addressOne);
+                            if (ipComp1 || ipComp2)
+                            {
+                                pdf.Dump(packets[i]);
+                            }
+                        }
+                    }
+            }
+        }
+
         private void DumpCapturedPackets(string fileName) // dumps to text file
         {
-            if (packetBytes.Values.Count > 0)
+            int indexF = 0;
+            int countP = 0;
+            string[] file = fileName.Split('.');
+            //fileName.
+            if (packetBytes.Count > 0)
             {
-                foreach (byte[] barr in packetBytes.Values)
+                FileStream fs = File.OpenWrite(file[0] + "_" + (indexF + 1).ToString() + '.' + file[1]);
+                foreach (byte[] barr in packetBytes)
                 {
-                    File.AppendAllText(fileName, Encoding.ASCII.GetString(barr));
+                    if (countP % maxFilePackets == 0 && countP != 0 ) {
+                        indexF++;
+                            fs.Close();
+                            fs = File.OpenWrite(file[0] + "_" + (indexF + 1).ToString() + '.' + file[1]);
+                    }
+                    countP++;
+                    fs.Write(barr,0, barr.Length);
                 }
+
+                fs.Close();
             }
+            
         }
 
         private void FlipFilterFieldVisibility() // show or hide filter textbox
@@ -296,7 +423,8 @@ namespace SteppingStoneCapture
                         cp.getPayload();
                         break;
                     default:
-                        throw new Exception("not udp, tcp, or icmp packet; protocol: " + ipv4.Protocol);
+                        //throw new Exception("not udp, tcp, or icmp packet; protocol: " + ipv4.Protocol);
+                        break;
                 }
             }
 
@@ -325,7 +453,7 @@ namespace SteppingStoneCapture
                     this.Invoke((MethodInvoker)(() => // this is used to access the main form from within a separate thread (i.e. this capture thread)
                 {
                     packetView.Items.Add(new ListViewItem(cp.ToPropertyArray)); // add packet info to listview (must be string array)
-                    packetBytes.Add(packetNumber, Encoding.ASCII.GetBytes(cp.ToString() + "\n"));  
+                    packetBytes.Add(Encoding.ASCII.GetBytes(cp.ToString() + "\n"));  
                     if (adjusted == false) // these next few lines are for resizing the listview items.  should only be called once after 10 packets have shown up
                     if ((packetNumber % 10 == 0))
                     {
@@ -343,18 +471,22 @@ namespace SteppingStoneCapture
 
         private void UpdateHexEditor()
         {
-            if (packetView.SelectedIndices[0] < packetView.Items.Count && packetView.FocusedItem != null)
+            try
             {
-                if (bvf.IsDisposed || multiWindowDisplay)
-                    bvf = new ByteViewerForm();
-                if (rawPacketViewDesired)
-                    bvf.setBytes(packets[packetView.FocusedItem.Index + 1].Buffer);
-                else
-                    bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
+                if (packetView.FocusedItem.Index >= 0 && packetView.FocusedItem.Index < packetView.Items.Count && packetView.FocusedItem != null)
+                {
+                    if (bvf.IsDisposed || multiWindowDisplay)
+                        bvf = new ByteViewerForm();
+                    if (rawPacketViewDesired)
+                        bvf.setBytes(packets[packetView.FocusedItem.Index + 1].Buffer);
+                    else
+                        bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
 
-                bvf.Show();
-                bvf.TopMost = true;
+                    bvf.Show();
+                    bvf.TopMost = true;
+                }
             }
+            catch (Exception e) { }
         }
 
         private void ResetNecessaryProperties()
@@ -450,18 +582,19 @@ namespace SteppingStoneCapture
                                                                             // 65536 guarantees that the whole packet will be captured on all the link layers
                                        PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
                                        1000))
-                                DumpPackets(communicator, dumpFileName+".pcap");
+                                DumpPackets(communicator, dumpFileName);
                         }
                         else if(sfd.FilterIndex == 2)
                         {
-                            DumpCapturedPackets(dumpFileName+".txt");
+                            DumpCapturedPackets(dumpFileName);
                         }                    
                     }
 
                     break;
                 default:
-                    MessageBox.Show("No File Path Found...");
-                    dumpFileName = DetermineFilePath();
+                    DialogResult res = MessageBox.Show("No File Path Found...Try Again?", "Error!", MessageBoxButtons.YesNo);
+                    if (res == DialogResult.Yes)
+                        dumpFileName = DetermineFilePath();
                     break;
             }
 
@@ -551,7 +684,7 @@ namespace SteppingStoneCapture
 
         private void PacketView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int selected = packetView.FocusedItem.Index + 1;
+            int selected = packetView.FocusedItem.Index;
             if (selected != lastSelectedIndex)
             {
                 UpdateHexEditor();
@@ -640,6 +773,19 @@ namespace SteppingStoneCapture
             if (chkPortOR.Checked) chkPortAND.Checked = false;
         }
 
+        private void grpFilterParams_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numberOfPactketsPerFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NumberPacketsForm nf = new NumberPacketsForm(maxFilePackets);
+            // nf.Show();
+            nf.ShowDialog();
+            maxFilePackets = nf.NumPackets;
+        }
+
         private void MultiWindowDisplayMenuItem_Click(object sender, EventArgs e)
         {
             multiWindowDisplay = !multiWindowDisplay;
@@ -652,23 +798,123 @@ namespace SteppingStoneCapture
             clf.ShowDialog();
 
             string loadPath = clf.DumpFileNameRequested;
-            if (loadPath != "")
+            if (loadPath != "" && File.Exists(loadPath))
             {
-                // Create the offline device
-                OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
+                ResetNecessaryProperties();
 
-                // Open the capture file
-                using (PacketCommunicator communicator =
-                    selectedDevice.Open(65536,                                  // portion of the packet to capture
-                                                                                // 65536 guarantees that the whole packet will be captured on all the link layers
-                                        PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
-                                        1000))                                  // read timeout
+                switch (Path.GetExtension(loadPath))
                 {
-                    // Read and dispatch packets until EOF is reached
-                    communicator.ReceivePackets(0, PrintPacket);
+                    case (".pcap"):
+                        // Create the offline device
+                        OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
 
+                        // Open the capture file
+                        using (PacketCommunicator communicator =
+                            selectedDevice.Open(65536,                                  // portion of the packet to capture
+                                                                                        // 65536 guarantees that the whole packet will be captured on all the link layers
+                                                PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
+                                                1000))                                  // read timeout
+                        {
+                            // Read and dispatch packets until EOF is reached
+                            communicator.ReceivePackets(0, PrintPacket);
+
+                        }
+                        break;
+
+                    case (".txt"):
+                        string currentPacket;
+                        using (StreamReader reader = new StreamReader(loadPath))
+                            while ((currentPacket = reader.ReadLine()) != null)
+                            {
+                                String[] packetAttributes = currentPacket.Split(',');
+                                string timeStamp = "-";
+                                int packetNumber = 0;
+                                int length = 0;
+                                string sourceIp = "0.0.0.0";
+                                string destinationIp = "0.0.0.0";
+                                int srcPort = 0;
+                                int dstPort = 0;
+                                int chkSum = 0;
+                                uint seqNum = 0;
+                                uint ackNum = 0;
+                                string tcpFlags = "";
+                                byte[] payloadBytes = new byte[400];
+
+                                for (int i = 0; i < packetAttributes.Length; ++i)
+                                {
+
+                                    switch (i)
+                                    {
+                                        case 0:
+                                            packetNumber = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 1:
+                                            timeStamp = packetAttributes[i];
+                                            break;
+                                        case 2:
+                                            length = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 3:
+                                            sourceIp = packetAttributes[i];
+                                            break;
+                                        case 4:
+                                            destinationIp = packetAttributes[i];
+                                            break;
+                                        case 5:
+                                            srcPort = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 6:
+                                            dstPort = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 7:
+                                            chkSum = Convert.ToInt32(packetAttributes[i]);
+                                            break;
+                                        case 8:
+                                            seqNum = Convert.ToUInt32(packetAttributes[i]);
+                                            break;
+                                        case 9:
+                                            ackNum = Convert.ToUInt32(packetAttributes[i]);
+                                            break;
+                                        case 10:
+                                                tcpFlags = packetAttributes[i];
+                                            break;
+                                        case 11:
+                                            payloadBytes = ConvertHexStringToByteArray(packetAttributes[i]);
+                                            break;
+                                    }
+                                }
+                                CougarPacket cp = new CougarPacket(timeStamp, packetNumber, length, sourceIp,
+                                                                    destinationIp, srcPort, dstPort, chkSum,
+                                                                    seqNum, ackNum, tcpFlags, payloadData: payloadBytes);
+
+                                packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
+                                packetBytes.Add(Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
+
+                                if (chkAutoScroll.Checked && packetView.Items.Count > 0)
+                                {
+                                    packetView.Items[packetView.Items.Count - 1].EnsureVisible();
+                                }
+                            }
+                        break;
                 }
             }
+        }
+
+        public byte[] ConvertHexStringToByteArray(string hexString)
+        {
+            /*if (hexString.Length % 2 != 0)
+            {
+                throw new ArgumentException(String.Format( "The binary key cannot have an odd number of digits: {0}", hexString));
+            }*/
+            //Console.WriteLine("converting "+hexString);
+            byte[] HexAsBytes = new byte[hexString.Length / 2];
+            for (int index = 0; index < HexAsBytes.Length; index++)
+            {
+                string byteValue = hexString.Substring(index * 2, 2);
+                HexAsBytes[index] = byte.Parse(byteValue, System.Globalization.NumberStyles.HexNumber);
+            }
+            Console.WriteLine(HexAsBytes.Length);
+            return HexAsBytes;
         }
 
         private void CaptureForm_Load(object sender, EventArgs e)

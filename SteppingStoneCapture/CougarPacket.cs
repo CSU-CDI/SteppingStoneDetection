@@ -30,8 +30,6 @@ namespace SteppingStoneCapture
         private int length;
         private IpV4Address sourceAddress;
         private IpV4Address destAddress;
-        private ReadOnlyCollection<byte> senderHWAddr;
-        private ReadOnlyCollection<byte> targHWAddr;
         private int srcPort;
         private int dstPort;
         private int chkSum;
@@ -39,7 +37,7 @@ namespace SteppingStoneCapture
         private uint ackNum;
         private string tcpFlags;
         private Datagram payload;
-        private byte[] payloadData;    
+        private byte[] payloadData;
 
         public string TimeStamp { get => timeStamp; set => timeStamp = value; }
         public int PacketNumber { get => packetNumber; set => packetNumber = value; }
@@ -52,9 +50,9 @@ namespace SteppingStoneCapture
         public uint SeqNum { get => seqNum; set => seqNum = value; }
         public uint AckNum { get => ackNum; set => ackNum = value; }
         public Datagram Payload { get => payload; set => payload = value; }
-        public byte[] PayloadData { get => payloadData;  }
+        public byte[] PayloadData { get => payloadData; }
         public string TCPFlags { get => tcpFlags; set => tcpFlags = value; }
-        
+
 
         public CougarPacket(string timeStamp = "-",
                             int packetNumber = 0,
@@ -82,8 +80,21 @@ namespace SteppingStoneCapture
             AckNum = ackNum;
             TCPFlags = tcpFlags;
             Payload = payload;
+            setPayloadData(payloadData);
         }
 
+        public void setPayloadData(byte[] inArr)
+        {
+            if (inArr != null)
+            {
+                this.payloadData = new byte[inArr.Length];
+                for (int i = 0; i < inArr.Length; ++i)
+                {
+                    this.payloadData[i] = inArr[i];
+                }
+            }
+            else this.payloadData = null;
+        }
         public void getPayload()
         {
             if (payload != null)
@@ -93,13 +104,14 @@ namespace SteppingStoneCapture
                     payloadData = new byte[payload.Length];
                     ms.Read(payloadData, 0, payload.Length);
                 }
-            }            
+            }
         }
 
         public override string ToString()
         {
             string pay = (payloadData != null) ? BitConverter.ToString(payloadData).Replace("-", " ") : "nil";
-            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}",
+            string flags = (tcpFlags.Length > 1) ? tcpFlags.Replace(',', ';') : "---";
+            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}",
                                                 PacketNumber,
                                                 TimeStamp,
                                                 Length,
@@ -110,11 +122,12 @@ namespace SteppingStoneCapture
                                                 ChkSum,
                                                 SeqNum,
                                                 AckNum,
+                                                flags,
                                                 pay);
             return description;
         }
-        
-       
+
+
         public string[] ToPropertyArray
         {
             get
@@ -125,21 +138,18 @@ namespace SteppingStoneCapture
                 propertyArray[2] = SourceAddress.ToString() == getLocalIP() ? "My Computer" : SourceAddress.ToString();
                 propertyArray[3] = DestAddress.ToString() == getLocalIP() ? "My Computer" : DestAddress.ToString();
                 propertyArray[4] = Length.ToString();
-                
+
                 propertyArray[5] = (SrcPort == 0) ? "---" : SrcPort.ToString();
                 propertyArray[6] = (DstPort == 0) ? "---" : DstPort.ToString();
                 propertyArray[7] = (ChkSum == 0) ? "---" : ChkSum.ToString();
                 propertyArray[8] = (SeqNum == 0) ? "---" : SeqNum.ToString();
                 propertyArray[9] = (AckNum == 0) ? "---" : AckNum.ToString();
-                propertyArray[10] = (TCPFlags.Length == 0) ? "---" : TCPFlags;
-                
+                propertyArray[10] = (TCPFlags.Length < 2) ? "---" : TCPFlags;
+
 
                 return propertyArray;
             }
         }
-
-        public ReadOnlyCollection<byte> TargHWAddr { get => targHWAddr; set => targHWAddr = value; }
-        public ReadOnlyCollection<byte> SenderHWAddr { get => senderHWAddr; set => senderHWAddr = value; }
 
         private string getLocalIP()
         {
