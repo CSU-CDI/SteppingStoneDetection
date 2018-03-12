@@ -14,6 +14,7 @@ namespace SteppingStoneCapture
             InitializeComponent();
             this.Text = "Load from Dump File...";
             DumpFileNameRequested = "";
+            
         }
 
         public CustomLoadForm(string title, string description)
@@ -35,7 +36,8 @@ namespace SteppingStoneCapture
         {
             ofd = new OpenFileDialog
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                AddExtension = false
             };
 
             switch (ofd.ShowDialog())
