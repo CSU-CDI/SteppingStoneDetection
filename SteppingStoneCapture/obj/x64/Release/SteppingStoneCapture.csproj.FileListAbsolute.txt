@@ -90,3 +90,4 @@ C:\Users\andrew\Downloads\SteppingStoneDetection - Copy (2)\SteppingStoneCapture
 C:\Users\andrew\Downloads\SteppingStoneDetection - Copy (2)\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.csproj.CoreCompileInputs.cache
 C:\Users\andrew\Downloads\SteppingStoneDetection - Copy (2)\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.exe
 C:\Users\andrew\Downloads\SteppingStoneDetection - Copy (2)\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.pdb
+C:\Users\andrew\Desktop\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.NumberPacketsForm.resources

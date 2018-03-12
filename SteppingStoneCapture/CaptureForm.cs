@@ -477,7 +477,7 @@ namespace SteppingStoneCapture
                 {
                     if (bvf.IsDisposed || multiWindowDisplay)
                         bvf = new ByteViewerForm();
-                    if (rawPacketViewDesired)
+                    if (rawPacketViewDesired && packets.Count > 0)
                         bvf.setBytes(packets[packetView.FocusedItem.Index + 1].Buffer);
                     else
                         bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
@@ -824,8 +824,10 @@ namespace SteppingStoneCapture
                     case (".txt"):
                         string currentPacket;
                         using (StreamReader reader = new StreamReader(loadPath))
+                            // add using statement for raw file
                             while ((currentPacket = reader.ReadLine()) != null)
                             {
+                                // while there's a line in the text there should be one in raw
                                 String[] packetAttributes = currentPacket.Split(',');
                                 string timeStamp = "-";
                                 int packetNumber = 0;
@@ -838,7 +840,7 @@ namespace SteppingStoneCapture
                                 uint seqNum = 0;
                                 uint ackNum = 0;
                                 string tcpFlags = "";
-                                byte[] payloadBytes = new byte[400];
+                                byte[] payloadBytes = { };
 
                                 for (int i = 0; i < packetAttributes.Length; ++i)
                                 {
@@ -876,7 +878,7 @@ namespace SteppingStoneCapture
                                             ackNum = Convert.ToUInt32(packetAttributes[i]);
                                             break;
                                         case 10:
-                                                tcpFlags = packetAttributes[i];
+                                            tcpFlags = packetAttributes[i];
                                             break;
                                         case 11:
                                             payloadBytes = ConvertHexStringToByteArray(packetAttributes[i]);
@@ -889,7 +891,7 @@ namespace SteppingStoneCapture
 
                                 packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
                                 packetBytes.Add(Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
-
+                                //add corresponding raw bytes to packets list
                                 if (chkAutoScroll.Checked && packetView.Items.Count > 0)
                                 {
                                     packetView.Items[packetView.Items.Count - 1].EnsureVisible();
