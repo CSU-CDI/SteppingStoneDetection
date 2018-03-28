@@ -493,7 +493,6 @@
             this.grpFilterParams.TabIndex = 30;
             this.grpFilterParams.TabStop = false;
             this.grpFilterParams.Text = "Filter Parameters";
-            this.grpFilterParams.Enter += new System.EventHandler(this.grpFilterParams_Enter);
             // 
             // grpPorts
             // 

@@ -459,7 +459,7 @@ namespace SteppingStoneCapture
             }
         }
 
-        private void DumpCapturedPacketsToMotherFiles(string fileName) // dumps to text file
+        private void DumpCapturedPacketsToMotherTextFiles(string fileName) // dumps to text file
         {
             int indexF = 0;
             int countP = 0;
@@ -484,7 +484,7 @@ namespace SteppingStoneCapture
                     }
                     countP++;
                     fs.Write(barr, 0, barr.Length);
-                    fsRaw.WriteLine(String.Format("{0}", BitConverter.ToString(packets[i].Buffer)));
+                    fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(packets[i].Buffer).Replace("-",""), packets[i].Timestamp.ToString("hh:mm:ss.fff"), packets[i].DataLink,packets[i].OriginalLength));
                     ++i;
                 }
 
@@ -502,19 +502,23 @@ namespace SteppingStoneCapture
 
         private CougarPacket DetermineCorrectPacketFormat(Packet packet) // looks at the most recent packet and determines what protocol it carries
         {
-            CougarPacket cp = new CougarPacket();
+            CougarPacket cp = new CougarPacket
+            {
+                TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff"),
+                PacketNumber = packetNumber,
+                Length = packet.Length
+            };
+
             if (packet.Ethernet.IpV4.IsValid)
             {
                 IpV4Datagram ipv4 = packet.Ethernet.IpV4;
+                cp.SourceAddress = ipv4.Source;
+                cp.DestAddress = ipv4.Destination;
+
                 switch (ipv4.Protocol.ToString().ToLower())
                 {
                     case "tcp":  // tcp packet received
                         TcpDatagram tcp = ipv4.Tcp;
-                        cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
-                        cp.PacketNumber = packetNumber;
-                        cp.Length = packet.Length;
-                        cp.SourceAddress = ipv4.Source;
-                        cp.DestAddress = ipv4.Destination;
                         cp.SrcPort = tcp.SourcePort;
                         cp.DstPort = tcp.DestinationPort;
                         cp.ChkSum = tcp.Checksum;
@@ -527,11 +531,6 @@ namespace SteppingStoneCapture
 
                     case "udp":  // udp packet received
                         UdpDatagram udp = ipv4.Udp;
-                        cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
-                        cp.PacketNumber = packetNumber;
-                        cp.Length = packet.Length;
-                        cp.SourceAddress = ipv4.Source;
-                        cp.DestAddress = ipv4.Destination;
                         cp.SrcPort = udp.SourcePort;
                         cp.DstPort = udp.DestinationPort;
                         cp.Payload = udp.Payload;
@@ -540,11 +539,6 @@ namespace SteppingStoneCapture
 
                     case "internetcontrolmessageprotocol":  // icmp packet received
                         IcmpDatagram icmp = ipv4.Icmp;
-                        cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
-                        cp.PacketNumber = packetNumber;
-                        cp.Length = packet.Length;
-                        cp.SourceAddress = ipv4.Source;
-                        cp.DestAddress = ipv4.Destination;
                         cp.Payload = icmp.Payload;
                         cp.getPayload();
                         break;
@@ -556,10 +550,7 @@ namespace SteppingStoneCapture
 
             else if (packet.Ethernet.Arp.IsValid) // arp packet received
             {
-                ArpDatagram arp = packet.Ethernet.Arp;
-                cp.TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff");
-                cp.PacketNumber = packetNumber;
-                cp.Length = packet.Length;
+                ArpDatagram arp = packet.Ethernet.Arp;                
                 cp.SourceAddress = arp.SenderProtocolIpV4Address;
                 cp.DestAddress = arp.TargetProtocolIpV4Address;
             }
@@ -712,7 +703,7 @@ namespace SteppingStoneCapture
                         }
                         else if (sfd.FilterIndex == 2)
                         {
-                            DumpCapturedPacketsToMotherFiles(dumpFileName);
+                            DumpCapturedPacketsToMotherTextFiles(dumpFileName);
                         }
                     }
 
@@ -899,10 +890,7 @@ namespace SteppingStoneCapture
             if (chkPortOR.Checked) chkPortAND.Checked = false;
         }
 
-        private void grpFilterParams_Enter(object sender, EventArgs e)
-        {
-
-        }
+     
 
         private void numberOfPactketsPerFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -943,105 +931,45 @@ namespace SteppingStoneCapture
                         {
                             // Read and dispatch packets until EOF is reached
                             communicator.ReceivePackets(0, PrintPacket);
-
                         }
                         break;
 
                     case (".txt"):
                         string currentPacket;
-                        using (StreamReader reader = new StreamReader(loadPath))
-                            // add using statement for raw file
-                            while ((currentPacket = reader.ReadLine()) != null)
+                        string rawLoadPath = "";
+                        string[] path = loadPath.Split('.');
+                        if (!loadPath.Contains("_raw"))
+                            rawLoadPath = path[0] + "_raw." + path[1];
+                        else rawLoadPath = loadPath;
+                       
+                        using (StreamReader raw_reader = new StreamReader(rawLoadPath))
+                        {                            
+                            while ((currentPacket = raw_reader.ReadLine()) != null)
                             {
-                                // while there's a line in the text there should be one in raw
-                                String[] packetAttributes = currentPacket.Split(',');
-                                string timeStamp = "-";
-                                int packetNumber = 0;
-                                int length = 0;
-                                string sourceIp = "0.0.0.0";
-                                string destinationIp = "0.0.0.0";
-                                int srcPort = 0;
-                                int dstPort = 0;
-                                int chkSum = 0;
-                                uint seqNum = 0;
-                                uint ackNum = 0;
-                                string tcpFlags = "";
-                                byte[] payloadBytes = { };
-
-                                for (int i = 0; i < packetAttributes.Length; ++i)
-                                {
-
-                                    switch (i)
-                                    {
-                                        case 0:
-                                            packetNumber = Convert.ToInt32(packetAttributes[i]);
-                                            break;
-                                        case 1:
-                                            timeStamp = packetAttributes[i];
-                                            break;
-                                        case 2:
-                                            length = Convert.ToInt32(packetAttributes[i]);
-                                            break;
-                                        case 3:
-                                            sourceIp = packetAttributes[i];
-                                            break;
-                                        case 4:
-                                            destinationIp = packetAttributes[i];
-                                            break;
-                                        case 5:
-                                            srcPort = Convert.ToInt32(packetAttributes[i]);
-                                            break;
-                                        case 6:
-                                            dstPort = Convert.ToInt32(packetAttributes[i]);
-                                            break;
-                                        case 7:
-                                            chkSum = Convert.ToInt32(packetAttributes[i]);
-                                            break;
-                                        case 8:
-                                            seqNum = Convert.ToUInt32(packetAttributes[i]);
-                                            break;
-                                        case 9:
-                                            ackNum = Convert.ToUInt32(packetAttributes[i]);
-                                            break;
-                                        case 10:
-                                            tcpFlags = packetAttributes[i];
-                                            break;
-                                        case 11:
-                                            payloadBytes = ConvertHexStringToByteArray(packetAttributes[i]);
-                                            break;
-                                    }
-                                }
-                                CougarPacket cp = new CougarPacket(timeStamp, packetNumber, length, sourceIp,
-                                                                    destinationIp, srcPort, dstPort, chkSum,
-                                                                    seqNum, ackNum, tcpFlags, payloadData: payloadBytes);
-
-                                packetView.Items.Add(new ListViewItem(cp.ToPropertyArray));
-                                packetBytes.Add(Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
-                                //add corresponding raw bytes to packets list
-                                if (chkAutoScroll.Checked && packetView.Items.Count > 0)
-                                {
-                                    packetView.Items[packetView.Items.Count - 1].EnsureVisible();
-                                }
+                                string[] packetInformation = currentPacket.Split(',');
+                                DateTime dt;
+                                dt = DateTime.Parse(packetInformation[1]);
+                                DataLink dl = new DataLink(DataLinkKind.Ethernet);
+                                UInt32.TryParse(packetInformation[3], out uint x);
+                                byte[] packetData = ConvertHexStringToByteArray(packetInformation[0].Replace("-", ""));
+                               
+                                Packet p = new Packet(packetData, dt, dl, x);
+                                PrintPacket(p);
                             }
-                        break;
+                        };
+                            break;
                 }
             }
         }
 
         public byte[] ConvertHexStringToByteArray(string hexString)
         {
-            /*if (hexString.Length % 2 != 0)
-            {
-                throw new ArgumentException(String.Format( "The binary key cannot have an odd number of digits: {0}", hexString));
-            }*/
-            //Console.WriteLine("converting "+hexString);
             byte[] HexAsBytes = new byte[hexString.Length / 2];
             for (int index = 0; index < HexAsBytes.Length; index++)
             {
                 string byteValue = hexString.Substring(index * 2, 2);
-                HexAsBytes[index] = byte.Parse(byteValue, System.Globalization.NumberStyles.HexNumber);
+                HexAsBytes[index] = byte.Parse(byteValue, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
             }
-            Console.WriteLine(HexAsBytes.Length);
             return HexAsBytes;
         }
 
@@ -1049,7 +977,6 @@ namespace SteppingStoneCapture
         {
             DetermineNetworkInterface();
             packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
         }
 
     }
