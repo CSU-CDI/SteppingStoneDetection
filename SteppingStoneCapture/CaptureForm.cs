@@ -918,6 +918,30 @@ namespace SteppingStoneCapture
             ios.Show();
         }
 
+        private void incomingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IOConnection ios = new IOConnection();
+            ios.Text = "Save Incoming Connection....";
+            Label lbl = (Label)ios.Controls[0];
+            lbl.Text = "Filter Capture for Incoming...";               
+            
+            ios.Show();
+
+            //connection split logic goes here
+        }
+
+        private void outgoingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IOConnection ios = new IOConnection();
+            ios.Text = "Save Outgoing Connection....";
+            Label lbl = (Label)ios.Controls[0];
+            lbl.Text = "Filter Capture for Outgoing...";
+
+            ios.Show();
+
+            //connection split logic goes here
+        }
+
         private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var clf = new CustomLoadForm();

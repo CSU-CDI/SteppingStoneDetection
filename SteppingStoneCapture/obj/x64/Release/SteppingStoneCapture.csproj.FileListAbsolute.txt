@@ -95,3 +95,5 @@ C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStone
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOConnection.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOStream.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.NumberPacketsForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOConnection.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOStream.resources

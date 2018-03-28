@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 using System.Windows.Forms;
 
 namespace SteppingStoneCapture
@@ -15,6 +16,7 @@ namespace SteppingStoneCapture
         public IOConnection()
         {
             InitializeComponent();
+            txtIpOne.Text = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
         }
     }
 }
