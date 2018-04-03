@@ -922,8 +922,14 @@ namespace SteppingStoneCapture
         {
             IOConnection ios = new IOConnection();
             ios.Text = "Save Incoming Connection....";
-            Label lbl = (Label)ios.Controls[0];
-            lbl.Text = "Filter Capture for Incoming...";               
+            foreach (Control c in ios.Controls)
+            {
+                if (c is Label l && l.Name=="lblDescription")
+                {
+                    l.Text = "Filter Capture for Incoming...";
+                }
+            }
+                          
             
             ios.Show();
 
@@ -934,8 +940,14 @@ namespace SteppingStoneCapture
         {
             IOConnection ios = new IOConnection();
             ios.Text = "Save Outgoing Connection....";
-            Label lbl = (Label)ios.Controls[0];
-            lbl.Text = "Filter Capture for Outgoing...";
+            foreach (Control c in ios.Controls)
+            {
+                if (c is Label l && l.Name == "lblDescription")
+                {
+                    l.Text = "Filter Capture for Outgoing...";
+                }
+            }
+
 
             ios.Show();
 
