@@ -35,7 +35,14 @@
             this.lblIP1 = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.lblDescription = new System.Windows.Forms.Label();
+            this.AckChk = new System.Windows.Forms.CheckBox();
+            this.EchoChk = new System.Windows.Forms.CheckBox();
+            this.sendChk = new System.Windows.Forms.CheckBox();
+            this.ConnectionCombo = new System.Windows.Forms.ComboBox();
+            this.connectionLabel = new System.Windows.Forms.Label();
+            this.streamsGrpBox = new System.Windows.Forms.GroupBox();
             this.grpConnectionFilter.SuspendLayout();
+            this.streamsGrpBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpConnectionFilter
@@ -45,9 +52,9 @@
             this.grpConnectionFilter.Controls.Add(this.txtIpOne);
             this.grpConnectionFilter.Controls.Add(this.lblIP1);
             this.grpConnectionFilter.Location = new System.Drawing.Point(2, 18);
-            this.grpConnectionFilter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpConnectionFilter.Margin = new System.Windows.Forms.Padding(2);
             this.grpConnectionFilter.Name = "grpConnectionFilter";
-            this.grpConnectionFilter.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpConnectionFilter.Padding = new System.Windows.Forms.Padding(2);
             this.grpConnectionFilter.Size = new System.Drawing.Size(283, 99);
             this.grpConnectionFilter.TabIndex = 0;
             this.grpConnectionFilter.TabStop = false;
@@ -68,7 +75,7 @@
             // 
             this.txtPort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPort.Location = new System.Drawing.Point(73, 63);
-            this.txtPort.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPort.Margin = new System.Windows.Forms.Padding(2);
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(167, 20);
             this.txtPort.TabIndex = 62;
@@ -77,8 +84,9 @@
             // 
             this.txtIpOne.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.txtIpOne.Location = new System.Drawing.Point(73, 19);
-            this.txtIpOne.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtIpOne.Margin = new System.Windows.Forms.Padding(2);
             this.txtIpOne.Name = "txtIpOne";
+            this.txtIpOne.ReadOnly = true;
             this.txtIpOne.Size = new System.Drawing.Size(167, 20);
             this.txtIpOne.TabIndex = 61;
             // 
@@ -96,8 +104,8 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(188, 137);
-            this.btnOk.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnOk.Location = new System.Drawing.Point(330, 207);
+            this.btnOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(93, 33);
             this.btnOk.TabIndex = 58;
@@ -114,22 +122,86 @@
             this.lblDescription.TabIndex = 59;
             this.lblDescription.Text = "Filter Capture by Incoming / Outgoing Connection ...";
             // 
+            // AckChk
+            // 
+            this.AckChk.AutoSize = true;
+            this.AckChk.Location = new System.Drawing.Point(6, 24);
+            this.AckChk.Name = "AckChk";
+            this.AckChk.Size = new System.Drawing.Size(108, 17);
+            this.AckChk.TabIndex = 60;
+            this.AckChk.Text = "Acknowledgment";
+            this.AckChk.UseVisualStyleBackColor = true;
+            // 
+            // EchoChk
+            // 
+            this.EchoChk.AutoSize = true;
+            this.EchoChk.Location = new System.Drawing.Point(6, 48);
+            this.EchoChk.Name = "EchoChk";
+            this.EchoChk.Size = new System.Drawing.Size(51, 17);
+            this.EchoChk.TabIndex = 61;
+            this.EchoChk.Text = "Echo";
+            this.EchoChk.UseVisualStyleBackColor = true;
+            // 
+            // sendChk
+            // 
+            this.sendChk.AutoSize = true;
+            this.sendChk.Location = new System.Drawing.Point(6, 72);
+            this.sendChk.Name = "sendChk";
+            this.sendChk.Size = new System.Drawing.Size(51, 17);
+            this.sendChk.TabIndex = 62;
+            this.sendChk.Text = "Send";
+            this.sendChk.UseVisualStyleBackColor = true;
+            // 
+            // ConnectionCombo
+            // 
+            this.ConnectionCombo.FormattingEnabled = true;
+            this.ConnectionCombo.Location = new System.Drawing.Point(75, 152);
+            this.ConnectionCombo.Name = "ConnectionCombo";
+            this.ConnectionCombo.Size = new System.Drawing.Size(348, 21);
+            this.ConnectionCombo.TabIndex = 63;
+            // 
+            // connectionLabel
+            // 
+            this.connectionLabel.AutoSize = true;
+            this.connectionLabel.Location = new System.Drawing.Point(9, 155);
+            this.connectionLabel.Name = "connectionLabel";
+            this.connectionLabel.Size = new System.Drawing.Size(64, 13);
+            this.connectionLabel.TabIndex = 64;
+            this.connectionLabel.Text = "Connection:";
+            // 
+            // streamsGrpBox
+            // 
+            this.streamsGrpBox.Controls.Add(this.EchoChk);
+            this.streamsGrpBox.Controls.Add(this.AckChk);
+            this.streamsGrpBox.Controls.Add(this.sendChk);
+            this.streamsGrpBox.Location = new System.Drawing.Point(295, 18);
+            this.streamsGrpBox.Name = "streamsGrpBox";
+            this.streamsGrpBox.Size = new System.Drawing.Size(128, 100);
+            this.streamsGrpBox.TabIndex = 65;
+            this.streamsGrpBox.TabStop = false;
+            this.streamsGrpBox.Text = "Streams";
+            // 
             // IOConnection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 181);
+            this.ClientSize = new System.Drawing.Size(434, 254);
+            this.Controls.Add(this.streamsGrpBox);
+            this.Controls.Add(this.connectionLabel);
+            this.Controls.Add(this.ConnectionCombo);
             this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.grpConnectionFilter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "IOConnection";
             this.Text = "Incoming/Outgoing Connection";
             this.grpConnectionFilter.ResumeLayout(false);
             this.grpConnectionFilter.PerformLayout();
+            this.streamsGrpBox.ResumeLayout(false);
+            this.streamsGrpBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,5 +216,11 @@
         private System.Windows.Forms.TextBox txtIpOne;
         private System.Windows.Forms.Label lblIP1;
         private System.Windows.Forms.Label lblDescription;
+        private System.Windows.Forms.CheckBox AckChk;
+        private System.Windows.Forms.CheckBox EchoChk;
+        private System.Windows.Forms.CheckBox sendChk;
+        private System.Windows.Forms.ComboBox ConnectionCombo;
+        private System.Windows.Forms.Label connectionLabel;
+        private System.Windows.Forms.GroupBox streamsGrpBox;
     }
 }

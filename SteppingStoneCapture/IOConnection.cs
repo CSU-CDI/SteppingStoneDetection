@@ -18,5 +18,6 @@ namespace SteppingStoneCapture
             InitializeComponent();
             txtIpOne.Text = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
         }
+        
     }
 }
