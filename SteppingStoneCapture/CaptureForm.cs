@@ -20,6 +20,7 @@ namespace SteppingStoneCapture
         private string defaultFilterField;
         private string filter;
         private IList<byte[]> packetBytes;
+        private IList<CougarPacket> cougarpackets;
         private List<Packet> packets;
         private ByteViewerForm bvf;
         private Int32 packetNumber;
@@ -43,6 +44,7 @@ namespace SteppingStoneCapture
             filter = "";
             packetBytes = new List<byte[]>();
             packets = new List<Packet>();
+            cougarpackets = new List<CougarPacket>();
             packetNumber = 0;
             captFlag = true;
             numThreads = 0;
@@ -555,6 +557,7 @@ namespace SteppingStoneCapture
                 cp.DestAddress = arp.TargetProtocolIpV4Address;
             }
 
+            cougarpackets.Add(cp);
 
             return cp;
         }

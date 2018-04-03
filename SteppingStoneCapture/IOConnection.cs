@@ -13,11 +13,16 @@ namespace SteppingStoneCapture
 {
     public partial class IOConnection : Form
     {
+        private bool applyPort = false;
         public IOConnection()
         {
             InitializeComponent();
             txtIpOne.Text = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
         }
-        
+
+        private void applyBtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

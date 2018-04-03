@@ -191,6 +191,7 @@
             this.applyBtn.TabIndex = 64;
             this.applyBtn.Text = "Apply";
             this.applyBtn.UseVisualStyleBackColor = true;
+            this.applyBtn.Click += new System.EventHandler(this.applyBtn_Click);
             // 
             // IOConnection
             // 

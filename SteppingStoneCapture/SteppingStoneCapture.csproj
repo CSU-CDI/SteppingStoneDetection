@@ -92,6 +92,7 @@
     <Compile Include="CustomLoadForm.designer.cs">
       <DependentUpon>CustomLoadForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IOConnection.cs">
       <SubType>Form</SubType>
     </Compile>

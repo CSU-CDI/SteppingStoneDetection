@@ -38,6 +38,7 @@ namespace SteppingStoneCapture
         private string tcpFlags;
         private Datagram payload;
         private byte[] payloadData;
+        private IpV4Address sensorIP;
 
         public string TimeStamp { get => timeStamp; set => timeStamp = value; }
         public int PacketNumber { get => packetNumber; set => packetNumber = value; }
@@ -52,6 +53,7 @@ namespace SteppingStoneCapture
         public Datagram Payload { get => payload; set => payload = value; }
         public byte[] PayloadData { get => payloadData; }
         public string TCPFlags { get => tcpFlags; set => tcpFlags = value; }
+        public IpV4Address SensorIP { get => sensorIP; set => sensorIP = value; }
 
 
         public CougarPacket(string timeStamp = "-",
@@ -59,6 +61,7 @@ namespace SteppingStoneCapture
                             int length = 0,
                             string sourceIp = "0.0.0.0",
                             string destinationIp = "0.0.0.0",
+                            string sensorIP = "0.0.0.0",
                             int srcPort = 0,
                             int dstPort = 0,
                             int chkSum = 0,
@@ -79,6 +82,7 @@ namespace SteppingStoneCapture
             SeqNum = seqNum;
             AckNum = ackNum;
             TCPFlags = tcpFlags;
+            if (sensorIP == "0.0.0.0") SensorIP = new IpV4Address(getLocalIP());
             Payload = payload;
             setPayloadData(payloadData);
         }
@@ -111,7 +115,7 @@ namespace SteppingStoneCapture
         {
             string pay = (payloadData != null) ? BitConverter.ToString(payloadData).Replace("-", "") : "nil";
             string flags = (tcpFlags.Length > 1) ? tcpFlags.Replace(',', ';') : "---";
-            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}",
+            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11},{12}",
                                                 PacketNumber,
                                                 TimeStamp,
                                                 Length,
@@ -123,7 +127,8 @@ namespace SteppingStoneCapture
                                                 SeqNum,
                                                 AckNum,
                                                 flags,
-                                                pay);
+                                                pay,
+                                                SensorIP);
             return description;
         }
 
