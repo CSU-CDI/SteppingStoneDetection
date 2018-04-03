@@ -906,11 +906,11 @@ namespace SteppingStoneCapture
             multiWindowDisplayMenuItem.Checked = multiWindowDisplay;
         }
 
-        private void filterConenctionToolStripMenuItem_Click(object sender, EventArgs e)
+        /*private void filterConenctionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             IOConnection ios = new IOConnection();
             ios.Show();
-        }
+        }*/
 
         private void filterStreamToolStripMenuItem_Click(object sender, EventArgs e)
         {

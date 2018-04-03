@@ -221,7 +221,7 @@
             this.filterConenctionToolStripMenuItem.Name = "filterConenctionToolStripMenuItem";
             this.filterConenctionToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.filterConenctionToolStripMenuItem.Text = "Filter &Connection...";
-            this.filterConenctionToolStripMenuItem.Click += new System.EventHandler(this.filterConenctionToolStripMenuItem_Click);
+            //this.filterConenctionToolStripMenuItem.Click += new System.EventHandler(this.filterConenctionToolStripMenuItem_Click);
             // 
             // incomingToolStripMenuItem
             // 
