@@ -991,10 +991,17 @@ namespace SteppingStoneCapture
                         string[] path = loadPath.Split('.');
                         if (!loadPath.Contains("_raw"))
                             rawLoadPath = path[0] + "_raw." + path[1];
-                        else rawLoadPath = loadPath;
-                       
+                        else
+                        {
+                            rawLoadPath = loadPath;
+                            loadPath = loadPath.Replace("_raw", "");
+                        }
+
                         using (StreamReader raw_reader = new StreamReader(rawLoadPath))
-                        {                            
+                        using (StreamReader fs = new StreamReader(File.OpenRead(loadPath)))
+                        {
+                            int currentIndex = 0;
+
                             while ((currentPacket = raw_reader.ReadLine()) != null)
                             {
                                 string[] packetInformation = currentPacket.Split(',');
@@ -1003,9 +1010,14 @@ namespace SteppingStoneCapture
                                 DataLink dl = new DataLink(DataLinkKind.Ethernet);
                                 UInt32.TryParse(packetInformation[3], out uint x);
                                 byte[] packetData = ConvertHexStringToByteArray(packetInformation[0].Replace("-", ""));
-                               
+
                                 Packet p = new Packet(packetData, dt, dl, x);
                                 PrintPacket(p);
+                                if ((currentPacket = fs.ReadLine()) != null)
+                                {
+                                    string[] packetInfo = currentPacket.Split(',');
+                                    cougarpackets[currentIndex].SensorIP = new IpV4Address(packetInfo[packetInfo.Length-1]);
+                                }
                             }
                         };
                             break;

@@ -106,6 +106,7 @@
             // 
             // btnOk
             // 
+            this.btnOk.Enabled = false;
             this.btnOk.Location = new System.Drawing.Point(330, 207);
             this.btnOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnOk.Name = "btnOk";
