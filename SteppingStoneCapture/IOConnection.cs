@@ -33,6 +33,11 @@ namespace SteppingStoneCapture
             InitializeComponent();
             txtIpOne.Text = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
         }
+        public IOConnection(string sensorip)
+        {
+            InitializeComponent();
+            txtIpOne.Text = sensorip;
+        }
 
         public IOConnection(string sensorip, List<CougarPacket> cougarpackets, List<Packet> packets, bool incomingConnection = false)
         {

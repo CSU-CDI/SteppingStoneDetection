@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Net;
 using PcapDotNet.Core;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
@@ -590,6 +591,34 @@ namespace SteppingStoneCapture
             }
         }
 
+        private void PrintPacket(Packet packet, string sensorIP) // main packet handler method (should probably be renamed to the original HandleLoadedPacket name to make more sense)
+        {
+            if (packet.Ethernet.IsValid)
+            {
+                ++packetNumber;
+                CougarPacket cp = DetermineCorrectPacketFormat(packet);
+                cp.SensorIP = new IpV4Address(sensorIP);// create new cougarpacket wtih proper protocol information related to this particular packet
+                packets.Add(packet);
+                if (cp.SourceAddress.ToString() != "0.0.0.0")
+                    this.Invoke((MethodInvoker)(() => // this is used to access the , main form from within a separate thread (i.e. this capture thread)
+                    {
+                        packetView.Items.Add(new ListViewItem(cp.ToPropertyArray)); // add packet info to listview (must be string array)
+                        packetBytes.Add(Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
+                        if (adjusted == false) // these next few lines are for resizing the listview items.  should only be called once after 10 packets have shown up
+                            if ((packetNumber % 10 == 0))
+                            {
+                                packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                                packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                                adjusted = true;
+                            }
+                        if (chkAutoScroll.Checked)
+                        {
+                            packetView.Items[packetView.Items.Count - 1].EnsureVisible();
+                        }
+                    }));
+            }
+        }
+
         private void UpdateHexEditor()
         {
             try
@@ -599,9 +628,9 @@ namespace SteppingStoneCapture
                     if (bvf.IsDisposed || multiWindowDisplay)
                         bvf = new ByteViewerForm();
                     if (rawPacketViewDesired && packets.Count > 0)
-                        bvf.setBytes(packets[packetView.FocusedItem.Index + 1].Buffer);
+                        bvf.setBytes(packets[packetView.FocusedItem.Index].Buffer);
                     else
-                        bvf.setBytes(packetBytes[packetView.FocusedItem.Index + 1]);
+                        bvf.setBytes(packetBytes[packetView.FocusedItem.Index]);
 
                     bvf.Show();
                     bvf.TopMost = true;
@@ -924,8 +953,13 @@ namespace SteppingStoneCapture
 
         private void incomingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // string sensorip, List<CougarPacket> cougarpackets, List<Packet> packets, bool incomingConnection = false
-            IOConnection ioc = new IOConnection(Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString(), cougarpackets, packets, true);
+            string sensor = "";
+            if (cougarpackets.Count > 0)
+                sensor = cougarpackets[0].SensorIP.ToString();
+            else
+                sensor = Dns.GetHostByName(Dns.GetHostByName().AddressList[0].ToString());
+           // Console.WriteLine("This is the supposed sensor ip: "+cougarpackets[0].SensorIP.ToString());
+            IOConnection ioc = new IOConnection(sensor, cougarpackets,packets,true);
             ioc.Text = "Save Incoming Connection....";
             foreach (Control c in ioc.Controls)
             {
@@ -941,7 +975,13 @@ namespace SteppingStoneCapture
 
         private void outgoingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IOConnection ioc = new IOConnection(Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString(), cougarpackets, packets);
+            string sensor = "";
+            if (cougarpackets.Count > 0)
+                sensor = cougarpackets[0].SensorIP.ToString();
+            else
+                sensor = Dns.GetHostByName(Dns.GetHostByName().AddressList[0].ToString());
+           // Console.WriteLine("This is the supposed sensor ip: " + cougarpackets[0].SensorIP.ToString());
+            IOConnection ioc = new IOConnection(sensor, cougarpackets, packets, true);
             ioc.Text = "Save Outgoing Connection....";
             foreach (Control c in ioc.Controls)
             {
@@ -994,28 +1034,28 @@ namespace SteppingStoneCapture
                         }
 
                         using (StreamReader raw_reader = new StreamReader(rawLoadPath))
-                        using (StreamReader fs = new StreamReader(File.OpenRead(loadPath)))
-                        {
-                            int currentIndex = 0;
-
-                            while ((currentPacket = raw_reader.ReadLine()) != null)
+                            using (StreamReader fs = new StreamReader(File.OpenRead(loadPath)))
                             {
-                                string[] packetInformation = currentPacket.Split(',');
-                                DateTime dt;
-                                dt = DateTime.Parse(packetInformation[1]);
-                                DataLink dl = new DataLink(DataLinkKind.Ethernet);
-                                UInt32.TryParse(packetInformation[3], out uint x);
-                                byte[] packetData = ConvertHexStringToByteArray(packetInformation[0].Replace("-", ""));
+//int currentIndex = 0;
 
-                                Packet p = new Packet(packetData, dt, dl, x);
-                                PrintPacket(p);
-                                if ((currentPacket = fs.ReadLine()) != null)
+                                while ((currentPacket = raw_reader.ReadLine()) != null)
                                 {
-                                    string[] packetInfo = currentPacket.Split(',');
-                                    cougarpackets[currentIndex].SensorIP = new IpV4Address(packetInfo[packetInfo.Length-1]);
+                                    string[] packetInformation = currentPacket.Split(',');
+                                    DateTime dt;
+                                    dt = DateTime.Parse(packetInformation[1]);
+                                    DataLink dl = new DataLink(DataLinkKind.Ethernet);
+                                    UInt32.TryParse(packetInformation[3], out uint x);
+                                    byte[] packetData = ConvertHexStringToByteArray(packetInformation[0].Replace("-", ""));
+                                    if ((currentPacket = fs.ReadLine()) != null)
+                                    {
+                                        Packet p = new Packet(packetData, dt, dl, x);
+                                                                          
+                                        string[] packetInfo = currentPacket.Split(',');
+                                        PrintPacket(p, packetInfo[packetInfo.Length - 1]);
+                                       // ++currentIndex;
+                                    }
                                 }
-                            }
-                        };
+                            };
                             break;
                 }
             }
