@@ -957,8 +957,8 @@ namespace SteppingStoneCapture
             if (cougarpackets.Count > 0)
                 sensor = cougarpackets[0].SensorIP.ToString();
             else
-                sensor = Dns.GetHostByName(Dns.GetHostByName().AddressList[0].ToString());
-           // Console.WriteLine("This is the supposed sensor ip: "+cougarpackets[0].SensorIP.ToString());
+                sensor = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
+            // Console.WriteLine("This is the supposed sensor ip: "+cougarpackets[0].SensorIP.ToString());
             IOConnection ioc = new IOConnection(sensor, cougarpackets,packets,true);
             ioc.Text = "Save Incoming Connection....";
             foreach (Control c in ioc.Controls)
@@ -979,9 +979,9 @@ namespace SteppingStoneCapture
             if (cougarpackets.Count > 0)
                 sensor = cougarpackets[0].SensorIP.ToString();
             else
-                sensor = Dns.GetHostByName(Dns.GetHostByName().AddressList[0].ToString());
-           // Console.WriteLine("This is the supposed sensor ip: " + cougarpackets[0].SensorIP.ToString());
-            IOConnection ioc = new IOConnection(sensor, cougarpackets, packets, true);
+                sensor = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
+            // Console.WriteLine("This is the supposed sensor ip: " + cougarpackets[0].SensorIP.ToString());
+            IOConnection ioc = new IOConnection(sensor, cougarpackets, packets);
             ioc.Text = "Save Outgoing Connection....";
             foreach (Control c in ioc.Controls)
             {
