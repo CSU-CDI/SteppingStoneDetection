@@ -10,6 +10,7 @@ using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Transport;
 using PcapDotNet.Packets.Icmp;
 using PcapDotNet.Packets.Arp;
+using System.Net;
 
 namespace SteppingStoneCapture
 {
@@ -20,7 +21,7 @@ namespace SteppingStoneCapture
         private string defaultFilterField;
         private string filter;
         private IList<byte[]> packetBytes;
-        private IList<CougarPacket> cougarpackets;
+        private List<CougarPacket> cougarpackets;
         private List<Packet> packets;
         private ByteViewerForm bvf;
         private Int32 packetNumber;
@@ -923,38 +924,33 @@ namespace SteppingStoneCapture
 
         private void incomingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IOConnection ios = new IOConnection();
-            ios.Text = "Save Incoming Connection....";
-            foreach (Control c in ios.Controls)
+            // string sensorip, List<CougarPacket> cougarpackets, List<Packet> packets, bool incomingConnection = false
+            IOConnection ioc = new IOConnection(Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString(), cougarpackets, packets, true);
+            ioc.Text = "Save Incoming Connection....";
+            foreach (Control c in ioc.Controls)
             {
                 if (c is Label l && l.Name=="lblDescription")
                 {
-                    l.Text = "Filter Capture for Incoming...";
+                    l.Text = "Filter Capture for Incoming Connection...";
                 }
             }
-                          
-            
-            ios.Show();
 
-            //connection split logic goes here
+            ioc.IncomingConnection = true;
+            ioc.Show();           
         }
 
         private void outgoingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IOConnection ios = new IOConnection();
-            ios.Text = "Save Outgoing Connection....";
-            foreach (Control c in ios.Controls)
+            IOConnection ioc = new IOConnection(Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString(), cougarpackets, packets);
+            ioc.Text = "Save Outgoing Connection....";
+            foreach (Control c in ioc.Controls)
             {
                 if (c is Label l && l.Name == "lblDescription")
                 {
-                    l.Text = "Filter Capture for Outgoing...";
+                    l.Text = "Filter Capture for Outgoing Connection...";
                 }
             }
-
-
-            ios.Show();
-
-            //connection split logic goes here
+            ioc.Show();           
         }
 
         private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
