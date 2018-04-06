@@ -49,27 +49,66 @@ namespace SteppingStoneCapture
             this.cougarpackets = cougarpackets;
             this.packets = packets;
             this.incomingConnection = incomingConnection;
-            
-            /*foreach (CougarPacket cp in cougarpackets)
-                Console.WriteLine(cp.ToString());*/
         }
 
-        private void applyBtn_Click(object sender, EventArgs e)
+        private void applyBtn_Click(object sender, EventArgs e) // this button filters connections on port# as well as filters on tcp flags
         {            
-            bool result = int.TryParse(txtPort.Text, out int port);
-            //Console.WriteLine("apply port result: "+result + " " + port + " " + incomingConnection);
+            bool result = int.TryParse(txtPort.Text, out int port);            
             if (result && port < 65535 && port > 0)
             {
                 string key = "";
                 if (incomingConnection) // if the user selected to filter on incoming connection
                 {
-                    // write code to filter packet lists here
-                    int i = 0;                    
+                    for (int j=0; j<cougarpackets.Count; ++j) // begin loop to filter each packet
+                    {
+                        if (cougarpackets[j].DstPort == port && cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text)) // is it an incoming packet?
+                        {                            
+                            filteredCougarPackets.Add(cougarpackets[j]);
+                            filteredRawPackets.Add(packets[j]);
+
+                            if (AckChk.Checked)
+                            {    
+                                if (!cougarpackets[j].TCPFlags.Contains("Acknowledgment"))
+                                {
+                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                                    continue;
+                                }
+                                
+                            }
+                            else if (sendChk.Checked)
+                            {                               
+                                if (!cougarpackets[j].TCPFlags.Contains("Push"))
+                                {
+                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                                    continue;
+                                }
+                            }
+                            else if (EchoChk.Checked) // this one probably needs more refinement to determine ip/ports to be positive it is an echo
+                            {                                
+                                if (!cougarpackets[j].TCPFlags.Contains("Push, Acknowledgment"))
+                                {
+                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                                    continue;
+                                }
+                            } // end stream filters for incoming connection
+
+                            key = cougarpackets[j].SourceAddress + " - " + cougarpackets[j].SrcPort;
+                            if (!dropdownListItems.ContainsKey(key))
+                            {
+                                dropdownListItems.Add(key, packets[j]);
+                                ConnectionCombo.Items.Add(key);
+                            }
+                        } // end incoming filter if statement
+                    } // end for loop
+
+                    /*int i = 0;                    
                     foreach (CougarPacket cp in cougarpackets)
                     {
-                        //Console.WriteLine(cp.ToString());
                         if (cp.DstPort == port && cp.DestAddress.ToString().Equals(txtIpOne.Text))
-                        {
+                        {                            
                             filteredCougarPackets.Add(cp);
                             filteredRawPackets.Add(packets[i]);
                             key = cp.SourceAddress + " - " + cp.SrcPort;
@@ -80,12 +119,55 @@ namespace SteppingStoneCapture
                             }                                
                         }
                         i++;
-                    }                    
+                    }*/                    
                 }
                 else // if the user selected to filter on outgoing connection
                 {
-                    // write code to filter packet lists here
-                    int i = 0;
+                    for (int j = 0; j < cougarpackets.Count; ++j) // begin loop to filter each packet
+                    {                        
+                        if (cougarpackets[j].DstPort == port && cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text)) // is it an outgoing packet?
+                        {                            
+                            filteredCougarPackets.Add(cougarpackets[j]);
+                            filteredRawPackets.Add(packets[j]);
+
+                            if (AckChk.Checked)
+                            {                                
+                                if (!cougarpackets[j].TCPFlags.Contains("Acknowledgment")) // remove packets that don't contain ack
+                                {
+                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                                    continue;
+                                }
+                            }
+                            else if (sendChk.Checked)
+                            {                                
+                                if (!cougarpackets[j].TCPFlags.Contains("Push")) // remove packets that don't contain push
+                                {
+                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                                    continue;
+                                }
+                            }
+                            else if (EchoChk.Checked) // TODO: this one probably needs more refinement to determine ip/ports to be positive it is an echo
+                            {
+                                if (!cougarpackets[j].TCPFlags.Contains("Push, Acknowledgment")) // remove packets that don't contain echo
+                                {
+                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                                    continue;
+                                }
+                            } // end stream filters for outgoing connection
+
+                            key = cougarpackets[j].DestAddress + " - " + cougarpackets[j].SrcPort;
+                            if (!dropdownListItems.ContainsKey(key))
+                            {
+                                dropdownListItems.Add(key, packets[j]);
+                                ConnectionCombo.Items.Add(key);
+                            }
+                        } // end outgoing filter if statement
+                    } // end for loop
+
+                    /*int i = 0;
                     foreach (CougarPacket cp in cougarpackets)
                     {
                         if (cp.DstPort == port && cp.SourceAddress.ToString().Equals(txtIpOne.Text))
@@ -100,7 +182,7 @@ namespace SteppingStoneCapture
                             }                                
                         }
                         i++;
-                    }                     
+                    }*/
                 }
                 btnOk.Enabled = true;
                 ConnectionCombo.Enabled = true;                
@@ -112,50 +194,51 @@ namespace SteppingStoneCapture
         }
 
         private void DumpCapturedPacketsToMotherTextFiles(string fileName) // dumps to text file
-        {
-            Console.WriteLine("got to DumpCapturedPacketsToMotherTextFiles");
-            Console.WriteLine(fileName);
+        {            
             int indexF = 0;            
             string[] file = fileName.Split('.');
-            /*foreach (string poo in file)
-                Console.WriteLine(poo);*/
-            //fileName.
+
+            //Console.WriteLine("filteredraw packets count: " + filteredRawPackets.Count);
             if (filteredRawPackets.Count > 0)
             {
                 //open file stream for mother file and raw mother file
                 FileStream fs = File.OpenWrite(file[0] + "_" + (indexF + 1).ToString() + '.' + file[1]);
                 StreamWriter fsRaw = new StreamWriter(file[0] + "_" + (indexF + 1).ToString() + "_raw" + '.' + file[1]);
+
                 string[] selectedConnection = ConnectionCombo.SelectedItem.ToString().Split('-');
-                //Console.WriteLine(selectedConnection[0]);
                 selectedConnection[0] = selectedConnection[0].Trim();
-                selectedConnection[1] = selectedConnection[1].Trim();
-
-
-                int i = 0;
-                Console.WriteLine("filtered cougar packet length: "+filteredCougarPackets.Count);
-                foreach (CougarPacket cp in filteredCougarPackets)
+                selectedConnection[1] = selectedConnection[1].Trim();                
+                
+                if (incomingConnection)
                 {
-                    if (incomingConnection)
+                    int i = 0;
+                    byte[] barr;
+                    foreach (CougarPacket cp in filteredCougarPackets)
                     {
-                        if (cp.SourceAddress.ToString().Equals(selectedConnection[0]) && cp.DstPort == Int32.Parse(selectedConnection[1]))
+                        if (cp.SourceAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
                         {
-                            byte[] barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
+                            barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
                             fs.Write(barr, 0, barr.Length);
                             fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(filteredRawPackets[i].Buffer).Replace("-", ""), filteredRawPackets[i].Timestamp.ToString("hh:mm:ss.fff"), filteredRawPackets[i].DataLink, filteredRawPackets[i].OriginalLength));
                         }
+                        ++i;
                     }
-                    else
-                    {
-                        if (cp.DestAddress.ToString().Equals(selectedConnection[0]) && cp.DstPort == Int32.Parse(selectedConnection[1]))
-                        {
-                            byte[] barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
-                            fs.Write(barr, 0, barr.Length);
-                            fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(filteredRawPackets[i].Buffer).Replace("-", ""), filteredRawPackets[i].Timestamp.ToString("hh:mm:ss.fff"), filteredRawPackets[i].DataLink, filteredRawPackets[i].OriginalLength));
-                        }
-                    }
-                    ++i;
                 }
-
+                else
+                {
+                    int i = 0;
+                    byte[] barr;
+                    foreach (CougarPacket cp in filteredCougarPackets)
+                    {
+                        if (cp.DestAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
+                        {
+                            barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
+                            fs.Write(barr, 0, barr.Length);
+                            fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(filteredRawPackets[i].Buffer).Replace("-", ""), filteredRawPackets[i].Timestamp.ToString("hh:mm:ss.fff"), filteredRawPackets[i].DataLink, filteredRawPackets[i].OriginalLength));
+                        }
+                        ++i;
+                    }
+                }
                 fs.Close();
                 fsRaw.Close();
             }
@@ -171,7 +254,7 @@ namespace SteppingStoneCapture
                 FilterIndex = 0
             };
 
-            string dumpFileName = "";//sfd.FileName;
+            string dumpFileName = "";
 
             switch (sfd.ShowDialog())
             {
@@ -179,8 +262,7 @@ namespace SteppingStoneCapture
                     if (sfd.FileName != "")
                     {
                         dumpFileName = sfd.FileName;
-                        DumpCapturedPacketsToMotherTextFiles(dumpFileName);
-                        Console.WriteLine(dumpFileName);
+                        DumpCapturedPacketsToMotherTextFiles(dumpFileName);                        
                     }
                     break;
                 default:
@@ -196,11 +278,42 @@ namespace SteppingStoneCapture
         private void btnOk_Click(object sender, EventArgs e)
         {
             DetermineFilePath();
+            this.Close();
         }
 
         private void IOConnection_Load(object sender, EventArgs e)
         {
 
         }
+
+        private void AckChk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (AckChk.Checked)
+            {
+                EchoChk.Checked = false;
+                sendChk.Checked = false;
+            }
+            btnOk.Enabled = false;
+        }
+
+        private void EchoChk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EchoChk.Checked)
+            {
+                sendChk.Checked = false;
+                AckChk.Checked = false;
+            }
+            btnOk.Enabled = false;
+        }
+
+        private void sendChk_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sendChk.Checked)
+            {
+                AckChk.Checked = false;
+                EchoChk.Checked = false;
+            }
+            btnOk.Enabled = false;
+        }   
     }
 }
