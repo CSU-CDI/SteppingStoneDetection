@@ -604,7 +604,7 @@ namespace SteppingStoneCapture
                     {
                         packetView.Items.Add(new ListViewItem(cp.ToPropertyArray)); // add packet info to listview (must be string array)
                         packetBytes.Add(Encoding.ASCII.GetBytes(cp.ToString() + "\n"));
-                        if (adjusted == false) // these next few lines are for resizing the listview items.  should only be called once after 10 packets have shown up
+                        if (!adjusted) // these next few lines are for resizing the listview items.  only called once after 10 packets have shown up
                             if ((packetNumber % 10 == 0))
                             {
                                 packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -783,30 +783,33 @@ namespace SteppingStoneCapture
 
         private void BtnReset_Click(object sender, EventArgs e)
         {
-            //reset every control in the form to its default value
-            foreach (Control c in Controls)
+            if (MessageBox.Show("Are you sure you want to reset this capture?","Reset?", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                if (c is CheckBox ck) ck.Checked = false;
-                if (c is TextBox tb) tb.Text = "";
-                if (c is GroupBox gb1)
+                //reset every control in the form to its default value
+                foreach (Control c in Controls)
                 {
-                    foreach (Control subC1 in gb1.Controls)
+                    if (c is CheckBox ck) ck.Checked = false;
+                    if (c is TextBox tb) tb.Text = "";
+                    if (c is GroupBox gb1)
                     {
-                        if (subC1 is CheckBox subCk) subCk.Checked = false;
-                        if (subC1 is TextBox subTb) subTb.Text = "";
-                        if (subC1 is GroupBox gb2)
+                        foreach (Control subC1 in gb1.Controls)
                         {
-                            foreach (Control subC2 in gb2.Controls)
+                            if (subC1 is CheckBox subCk) subCk.Checked = false;
+                            if (subC1 is TextBox subTb) subTb.Text = "";
+                            if (subC1 is GroupBox gb2)
                             {
-                                if (subC2 is CheckBox sub2Ck) sub2Ck.Checked = false;
-                                if (subC2 is TextBox sub2Tb) sub2Tb.Text = "";
+                                foreach (Control subC2 in gb2.Controls)
+                                {
+                                    if (subC2 is CheckBox sub2Ck) sub2Ck.Checked = false;
+                                    if (subC2 is TextBox sub2Tb) sub2Tb.Text = "";
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            ResetNecessaryProperties();
+                ResetNecessaryProperties();
+            }                   
         }
 
         //Captures the selection of desired network interface       
@@ -820,11 +823,23 @@ namespace SteppingStoneCapture
 
         private void BtnSave_Click(object sender, EventArgs e) => DetermineFilePath();
 
-        private void BtnExit_Click(object sender, EventArgs e) => Close();
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to exit?","Exit?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Close();
+            }
+        }
 
         private void SaveMenuItem_Click(object sender, EventArgs e) => DetermineFilePath();
 
-        private void ExitMenuItem_Click(object sender, EventArgs e) => Close();
+        private void ExitMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to exit?", "Exit?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Close();
+            }
+        }
 
         private void FilterVisibilityItem_Click(object sender, EventArgs e)
         {
@@ -937,13 +952,7 @@ namespace SteppingStoneCapture
         {
             multiWindowDisplay = !multiWindowDisplay;
             multiWindowDisplayMenuItem.Checked = multiWindowDisplay;
-        }
-
-        /*private void filterConenctionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            IOConnection ios = new IOConnection();
-            ios.Show();
-        }*/
+        }       
 
         private void filterStreamToolStripMenuItem_Click(object sender, EventArgs e)
         {
