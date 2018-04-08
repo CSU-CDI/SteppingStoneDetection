@@ -66,34 +66,8 @@ namespace SteppingStoneCapture
                             filteredCougarPackets.Add(cougarpackets[j]);
                             filteredRawPackets.Add(packets[j]);
 
-                            if (AckChk.Checked)
-                            {    
-                                if (!cougarpackets[j].TCPFlags.Contains("Acknowledgment"))
-                                {
-                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                                    continue;
-                                }
-                                
-                            }
-                            else if (sendChk.Checked)
-                            {                               
-                                if (!cougarpackets[j].TCPFlags.Contains("Push"))
-                                {
-                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                                    continue;
-                                }
-                            }
-                            else if (EchoChk.Checked) // this one probably needs more refinement to determine ip/ports to be positive it is an echo
-                            {                                
-                                if (!cougarpackets[j].TCPFlags.Contains("Push, Acknowledgment"))
-                                {
-                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                                    continue;
-                                }
-                            } // end stream filters for incoming connection
+                            if (filterStream(j))
+                                continue;
 
                             key = cougarpackets[j].SourceAddress + " - " + cougarpackets[j].SrcPort;
                             if (!dropdownListItems.ContainsKey(key))
@@ -102,24 +76,7 @@ namespace SteppingStoneCapture
                                 ConnectionCombo.Items.Add(key);
                             }
                         } // end incoming filter if statement
-                    } // end for loop
-
-                    /*int i = 0;                    
-                    foreach (CougarPacket cp in cougarpackets)
-                    {
-                        if (cp.DstPort == port && cp.DestAddress.ToString().Equals(txtIpOne.Text))
-                        {                            
-                            filteredCougarPackets.Add(cp);
-                            filteredRawPackets.Add(packets[i]);
-                            key = cp.SourceAddress + " - " + cp.SrcPort;
-                            if (!dropdownListItems.ContainsKey(key))
-                            {                                
-                                dropdownListItems.Add(key, packets[i]);
-                                ConnectionCombo.Items.Add(key);
-                            }                                
-                        }
-                        i++;
-                    }*/                    
+                    } // end for loop                   
                 }
                 else // if the user selected to filter on outgoing connection
                 {
@@ -130,33 +87,8 @@ namespace SteppingStoneCapture
                             filteredCougarPackets.Add(cougarpackets[j]);
                             filteredRawPackets.Add(packets[j]);
 
-                            if (AckChk.Checked)
-                            {                                
-                                if (!cougarpackets[j].TCPFlags.Contains("Acknowledgment")) // remove packets that don't contain ack
-                                {
-                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                                    continue;
-                                }
-                            }
-                            else if (sendChk.Checked)
-                            {                                
-                                if (!cougarpackets[j].TCPFlags.Contains("Push")) // remove packets that don't contain push
-                                {
-                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                                    continue;
-                                }
-                            }
-                            else if (EchoChk.Checked) // TODO: this one probably needs more refinement to determine ip/ports to be positive it is an echo
-                            {
-                                if (!cougarpackets[j].TCPFlags.Contains("Push, Acknowledgment")) // remove packets that don't contain echo
-                                {
-                                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                                    continue;
-                                }
-                            } // end stream filters for outgoing connection
+                            if (filterStream(j))
+                                continue;
 
                             key = cougarpackets[j].DestAddress + " - " + cougarpackets[j].SrcPort;
                             if (!dropdownListItems.ContainsKey(key))
@@ -166,23 +98,6 @@ namespace SteppingStoneCapture
                             }
                         } // end outgoing filter if statement
                     } // end for loop
-
-                    /*int i = 0;
-                    foreach (CougarPacket cp in cougarpackets)
-                    {
-                        if (cp.DstPort == port && cp.SourceAddress.ToString().Equals(txtIpOne.Text))
-                        {
-                            filteredCougarPackets.Add(cp);
-                            filteredRawPackets.Add(packets[i]);
-                            key = cp.DestAddress + " - " + cp.DstPort;
-                            if (!dropdownListItems.ContainsKey(key))
-                            {
-                                dropdownListItems.Add(key, packets[i]);
-                                ConnectionCombo.Items.Add(key);
-                            }                                
-                        }
-                        i++;
-                    }*/
                 }
                 btnOk.Enabled = true;
                 ConnectionCombo.Enabled = true;                
@@ -197,8 +112,7 @@ namespace SteppingStoneCapture
         {            
             int indexF = 0;            
             string[] file = fileName.Split('.');
-
-            //Console.WriteLine("filteredraw packets count: " + filteredRawPackets.Count);
+            
             if (filteredRawPackets.Count > 0)
             {
                 //open file stream for mother file and raw mother file
@@ -314,6 +228,39 @@ namespace SteppingStoneCapture
                 EchoChk.Checked = false;
             }
             btnOk.Enabled = false;
-        }   
+        }
+
+        private Boolean filterStream(int j)
+        {
+            if (AckChk.Checked)
+            {
+                if (!cougarpackets[j].TCPFlags.Contains("Acknowledgment"))
+                {
+                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                    return true;
+                }
+            }
+            else if (sendChk.Checked)
+            {
+                if (!cougarpackets[j].TCPFlags.Contains("Push"))
+                {
+                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                    return true;
+                }
+            }
+            else if (EchoChk.Checked) // this one probably needs more refinement to determine ip/ports to be positive it is an echo
+            {
+                if (!cougarpackets[j].TCPFlags.Contains("Push, Acknowledgment"))
+                {
+                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
