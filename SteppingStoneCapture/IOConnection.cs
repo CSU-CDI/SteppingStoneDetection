@@ -126,25 +126,7 @@ namespace SteppingStoneCapture
                     filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
                     filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
                     return true;
-                }
-                /*else if (incoming)
-                {
-                    if (!(cougarpackets[j].DstPort == port) || !cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text))
-                    {
-                        filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                        filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                        return true;
-                    }
-                }
-                else if (!incoming)
-                {
-                    if (!(cougarpackets[j].DstPort == port) || !cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text))
-                    {
-                        filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                        filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                        return true;
-                    }
-                }*/
+                }                
             }
             else if (EchoChk.Checked)
             {
@@ -156,7 +138,7 @@ namespace SteppingStoneCapture
                 }
                 else if (incoming)
                 {
-                    if (!(cougarpackets[j].SrcPort == port) || !cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text))
+                    if (cougarpackets[j].SrcPort != port || !cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text))
                     {
                         filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
                         filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
@@ -165,7 +147,7 @@ namespace SteppingStoneCapture
                 }
                 else if (!incoming)
                 {
-                    if (!(cougarpackets[j].SrcPort == port) || !cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text))
+                    if (cougarpackets[j].SrcPort != port || !cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text))
                     {
                         filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
                         filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);

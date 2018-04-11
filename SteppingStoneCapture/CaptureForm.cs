@@ -35,6 +35,7 @@ namespace SteppingStoneCapture
         private int lastSelectedIndex = 0;
         private Boolean adjusted = false;
         private int maxFilePackets;
+        private PacketDevice selectedDevice;
 
         public CaptureForm()
         {
@@ -64,30 +65,7 @@ namespace SteppingStoneCapture
             maxFilePackets = Int32.Parse(values[1].Replace("\n", ""));
 
         }
-
-        private void DetermineNetworkInterface(int numTries = 5)
-        {
-            //Detect all interfaces
-            allDevices = LivePacketDevice.AllLocalMachine;
-
-            //Try the allotted number of times if no interfaces detected
-            if (allDevices.Count == 0)
-            {
-                if (numTries > 0)
-                    DetermineNetworkInterface(--numTries);
-            }
-
-            //list available interfaces in ComboBox
-            else if (allDevices.Count > 0)
-            {
-                for (int i = 0; i != allDevices.Count; ++i)
-                {
-                    int offsetForWindowsMachines = 16;
-                    LivePacketDevice device = allDevices[i];
-                    DescribeInterfaceDevice(offsetForWindowsMachines, device);
-                }
-            }
-        }
+        
 
         private void DescribeInterfaceDevice(int offsetForWindowsMachines, LivePacketDevice device)
         {
@@ -656,7 +634,11 @@ namespace SteppingStoneCapture
         private void CapturePackets() // captures live packets coming OTA or OTW
         {
             // Take the selected adapter
-            PacketDevice selectedDevice = allDevices[this.deviceIndex];
+            selectedDevice = allDevices[this.deviceIndex];
+            foreach (DeviceAddress address in selectedDevice.Addresses)
+            {
+                Console.WriteLine(address.Address);
+            }
 
             // Open the device
             using (PacketCommunicator communicator =
@@ -818,7 +800,7 @@ namespace SteppingStoneCapture
             if (cmbInterfaces.Items != null)
             {
                 deviceIndex = cmbInterfaces.SelectedIndex;
-            }
+            }            
         }
 
         private void BtnSave_Click(object sender, EventArgs e) => DetermineFilePath();
@@ -1085,6 +1067,37 @@ namespace SteppingStoneCapture
         {
             DetermineNetworkInterface();
             packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            /*//Console.WriteLine(LivePacketDevice.AllLocalMachine);
+            for (int i=0; i< LivePacketDevice.AllLocalMachine.Count; i++)
+            {
+                LivePacketDevice test = LivePacketDevice.AllLocalMachine[i];
+                Console.WriteLine(test.Addresses.ToString());                
+            }*/
+        }
+
+        private void DetermineNetworkInterface(int numTries = 5)
+        {
+            //Detect all interfaces
+            allDevices = LivePacketDevice.AllLocalMachine;
+
+            //Try the allotted number of times if no interfaces detected
+            if (allDevices.Count == 0)
+            {
+                if (numTries > 0)
+                    DetermineNetworkInterface(--numTries);
+            }
+
+            //list available interfaces in ComboBox
+            else if (allDevices.Count > 0)
+            {
+                for (int i = 0; i != allDevices.Count; ++i)
+                {
+                    int offsetForWindowsMachines = 16;
+                    LivePacketDevice device = allDevices[i];
+                    DescribeInterfaceDevice(offsetForWindowsMachines, device);
+                }
+            }
         }
 
     }
