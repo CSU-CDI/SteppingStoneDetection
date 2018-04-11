@@ -66,7 +66,7 @@ namespace SteppingStoneCapture
                             filteredCougarPackets.Add(cougarpackets[j]);
                             filteredRawPackets.Add(packets[j]);
 
-                            if (filterStream(j))
+                            if (filterStream(j, incomingConnection, port))
                                 continue;
 
                             key = cougarpackets[j].SourceAddress + " - " + cougarpackets[j].SrcPort;
@@ -87,7 +87,7 @@ namespace SteppingStoneCapture
                             filteredCougarPackets.Add(cougarpackets[j]);
                             filteredRawPackets.Add(packets[j]);
 
-                            if (filterStream(j))
+                            if (filterStream(j, incomingConnection, port))
                                 continue;
 
                             key = cougarpackets[j].DestAddress + " - " + cougarpackets[j].SrcPort;
@@ -106,6 +106,74 @@ namespace SteppingStoneCapture
             {
                 MessageBox.Show("Must enter a valid port number!", "Port Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }           
+        }
+
+        private Boolean filterStream(int j, Boolean incoming, int port)
+        {
+            if (AckChk.Checked)
+            {
+                if (!cougarpackets[j].TCPFlags.Contains("Acknowledgment") || cougarpackets[j].TCPFlags.Contains("Push"))
+                {
+                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                    return true;
+                }
+            }
+            else if (sendChk.Checked) // only check if P==1 and chk sensor ip and port...will be different for incoming and outgoing
+            {                            // send and echo are concerned with direction
+                if (!cougarpackets[j].TCPFlags.Contains("Push") || cougarpackets[j].TCPFlags.Contains("Acknowledgment"))
+                {
+                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                    return true;
+                }
+                /*else if (incoming)
+                {
+                    if (!(cougarpackets[j].DstPort == port) || !cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text))
+                    {
+                        filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                        filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                        return true;
+                    }
+                }
+                else if (!incoming)
+                {
+                    if (!(cougarpackets[j].DstPort == port) || !cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text))
+                    {
+                        filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                        filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                        return true;
+                    }
+                }*/
+            }
+            else if (EchoChk.Checked)
+            {
+                if (!cougarpackets[j].TCPFlags.Contains("Push"))
+                {
+                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                    return true;
+                }
+                else if (incoming)
+                {
+                    if (!(cougarpackets[j].SrcPort == port) || !cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text))
+                    {
+                        filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                        filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                        return true;
+                    }
+                }
+                else if (!incoming)
+                {
+                    if (!(cougarpackets[j].SrcPort == port) || !cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text))
+                    {
+                        filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+                        filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void DumpCapturedPacketsToMotherTextFiles(string fileName) // dumps to text file
@@ -230,37 +298,6 @@ namespace SteppingStoneCapture
             btnOk.Enabled = false;
         }
 
-        private Boolean filterStream(int j)
-        {
-            if (AckChk.Checked)
-            {
-                if (!cougarpackets[j].TCPFlags.Contains("Acknowledgment"))
-                {
-                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                    return true;
-                }
-            }
-            else if (sendChk.Checked)
-            {
-                if (!cougarpackets[j].TCPFlags.Contains("Push"))
-                {
-                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                    return true;
-                }
-            }
-            else if (EchoChk.Checked) // this one probably needs more refinement to determine ip/ports to be positive it is an echo
-            {
-                if (!cougarpackets[j].TCPFlags.Contains("Push, Acknowledgment"))
-                {
-                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
-                    return true;
-                }
-            }
-            return false;
-        }
 
     }
 }

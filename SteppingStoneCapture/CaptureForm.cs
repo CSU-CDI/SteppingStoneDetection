@@ -648,9 +648,9 @@ namespace SteppingStoneCapture
             cfb.ClearFilterLists();
             packetBytes.Clear();
             protocolRequested = false;
-            attributeRequested = false;
-            packetNumber = 0;
+            attributeRequested = false;            
             packets.Clear();
+            cougarpackets.Clear();
         }
 
         private void CapturePackets() // captures live packets coming OTA or OTW

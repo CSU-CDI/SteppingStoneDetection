@@ -106,6 +106,16 @@
             this.chkARP = new System.Windows.Forms.CheckBox();
             this.chkUDP = new System.Windows.Forms.CheckBox();
             this.chkICMP = new System.Windows.Forms.CheckBox();
+            this.analysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutUsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contentTHumbrprintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timeThumbprintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stepFunctionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.packetMAtchingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rAndomWalkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lengthEstimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.crossoverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.grpFilterParams.SuspendLayout();
             this.grpPorts.SuspendLayout();
@@ -120,7 +130,9 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
             this.optionsToolStripMenuItem,
-            this.configurationToolStripMenuItem});
+            this.configurationToolStripMenuItem,
+            this.analysisToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
@@ -201,7 +213,7 @@
             this.captureAndDumpMenuItem,
             this.filterConenctionToolStripMenuItem});
             this.dumpPacketsDuringCaptureToolStripMenuItem.Name = "dumpPacketsDuringCaptureToolStripMenuItem";
-            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
             this.dumpPacketsDuringCaptureToolStripMenuItem.Text = "&Capture";
             // 
             // captureAndDumpMenuItem
@@ -547,7 +559,7 @@
             // 
             this.chkNotPort2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkNotPort2.AutoSize = true;
-            this.chkNotPort2.Location = new System.Drawing.Point(446, 103);
+            this.chkNotPort2.Location = new System.Drawing.Point(447, 103);
             this.chkNotPort2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkNotPort2.Name = "chkNotPort2";
             this.chkNotPort2.Size = new System.Drawing.Size(52, 21);
@@ -559,7 +571,7 @@
             // 
             this.chkPortNOT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkPortNOT.AutoSize = true;
-            this.chkPortNOT.Location = new System.Drawing.Point(446, 41);
+            this.chkPortNOT.Location = new System.Drawing.Point(447, 41);
             this.chkPortNOT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkPortNOT.Name = "chkPortNOT";
             this.chkPortNOT.Size = new System.Drawing.Size(52, 21);
@@ -706,7 +718,7 @@
             // 
             this.chkIPNOT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIPNOT2.AutoSize = true;
-            this.chkIPNOT2.Location = new System.Drawing.Point(446, 100);
+            this.chkIPNOT2.Location = new System.Drawing.Point(447, 100);
             this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkIPNOT2.Name = "chkIPNOT2";
             this.chkIPNOT2.Size = new System.Drawing.Size(52, 21);
@@ -718,7 +730,7 @@
             // 
             this.chkIPNOT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIPNOT.AutoSize = true;
-            this.chkIPNOT.Location = new System.Drawing.Point(446, 30);
+            this.chkIPNOT.Location = new System.Drawing.Point(447, 30);
             this.chkIPNOT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkIPNOT.Name = "chkIPNOT";
             this.chkIPNOT.Size = new System.Drawing.Size(52, 21);
@@ -908,6 +920,76 @@
             this.chkICMP.Text = "ICMP";
             this.chkICMP.UseVisualStyleBackColor = true;
             // 
+            // analysisToolStripMenuItem
+            // 
+            this.analysisToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contentTHumbrprintToolStripMenuItem,
+            this.timeThumbprintToolStripMenuItem,
+            this.stepFunctionToolStripMenuItem,
+            this.packetMAtchingToolStripMenuItem,
+            this.rAndomWalkToolStripMenuItem,
+            this.lengthEstimationToolStripMenuItem,
+            this.crossoverToolStripMenuItem});
+            this.analysisToolStripMenuItem.Name = "analysisToolStripMenuItem";
+            this.analysisToolStripMenuItem.Size = new System.Drawing.Size(86, 24);
+            this.analysisToolStripMenuItem.Text = "&Detection";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutUsToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // aboutUsToolStripMenuItem
+            // 
+            this.aboutUsToolStripMenuItem.Name = "aboutUsToolStripMenuItem";
+            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.aboutUsToolStripMenuItem.Text = "&About Us";
+            // 
+            // contentTHumbrprintToolStripMenuItem
+            // 
+            this.contentTHumbrprintToolStripMenuItem.Name = "contentTHumbrprintToolStripMenuItem";
+            this.contentTHumbrprintToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.contentTHumbrprintToolStripMenuItem.Text = "&Content Thumbprint";
+            // 
+            // timeThumbprintToolStripMenuItem
+            // 
+            this.timeThumbprintToolStripMenuItem.Name = "timeThumbprintToolStripMenuItem";
+            this.timeThumbprintToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.timeThumbprintToolStripMenuItem.Text = "&Time Thumbprint";
+            // 
+            // stepFunctionToolStripMenuItem
+            // 
+            this.stepFunctionToolStripMenuItem.Name = "stepFunctionToolStripMenuItem";
+            this.stepFunctionToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.stepFunctionToolStripMenuItem.Text = "&Step Function";
+            // 
+            // packetMAtchingToolStripMenuItem
+            // 
+            this.packetMAtchingToolStripMenuItem.Name = "packetMAtchingToolStripMenuItem";
+            this.packetMAtchingToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.packetMAtchingToolStripMenuItem.Text = "&Packet Matching";
+            // 
+            // rAndomWalkToolStripMenuItem
+            // 
+            this.rAndomWalkToolStripMenuItem.Name = "rAndomWalkToolStripMenuItem";
+            this.rAndomWalkToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.rAndomWalkToolStripMenuItem.Text = "&Random Walk";
+            // 
+            // lengthEstimationToolStripMenuItem
+            // 
+            this.lengthEstimationToolStripMenuItem.Name = "lengthEstimationToolStripMenuItem";
+            this.lengthEstimationToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.lengthEstimationToolStripMenuItem.Text = "Clustering-Partitionin&g";
+            // 
+            // crossoverToolStripMenuItem
+            // 
+            this.crossoverToolStripMenuItem.Name = "crossoverToolStripMenuItem";
+            this.crossoverToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.crossoverToolStripMenuItem.Text = "Cross&over-Packet";
+            // 
             // CaptureForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1029,6 +1111,16 @@
         private System.Windows.Forms.ToolStripMenuItem filterConenctionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem incomingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem outgoingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem analysisToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contentTHumbrprintToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem timeThumbprintToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stepFunctionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem packetMAtchingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rAndomWalkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lengthEstimationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem crossoverToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutUsToolStripMenuItem;
     }
 }
 
