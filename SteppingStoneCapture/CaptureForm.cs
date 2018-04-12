@@ -635,9 +635,16 @@ namespace SteppingStoneCapture
         {
             // Take the selected adapter
             selectedDevice = allDevices[this.deviceIndex];
+            
+            
             foreach (DeviceAddress address in selectedDevice.Addresses)
-            {
-                Console.WriteLine(address.Address);
+            {                
+                if (!address.Address.ToString().Contains("Internet6"))
+                {
+                    string temp = address.Address.ToString();
+                    string[] ipv4addy = temp.Split();
+                    Console.WriteLine(ipv4addy[1]);
+                }                     
             }
 
             // Open the device
