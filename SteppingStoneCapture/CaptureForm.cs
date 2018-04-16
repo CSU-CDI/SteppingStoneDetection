@@ -640,9 +640,8 @@ namespace SteppingStoneCapture
             foreach (DeviceAddress address in selectedDevice.Addresses)
             {                
                 if (!address.Address.ToString().Contains("Internet6"))
-                {
-                    string temp = address.Address.ToString();
-                    string[] ipv4addy = temp.Split();
+                {                   
+                    string[] ipv4addy = address.Address.ToString().Split();
                     Console.WriteLine(ipv4addy[1]);
                 }                     
             }
