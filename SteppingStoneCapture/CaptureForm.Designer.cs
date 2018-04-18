@@ -85,6 +85,7 @@
             this.lblFilterField = new System.Windows.Forms.Label();
             this.grpFilterParams = new System.Windows.Forms.GroupBox();
             this.grpPorts = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.chkNotPort2 = new System.Windows.Forms.CheckBox();
             this.chkPortNOT = new System.Windows.Forms.CheckBox();
             this.chkPortOR = new System.Windows.Forms.CheckBox();
@@ -117,7 +118,6 @@
             this.chkARP = new System.Windows.Forms.CheckBox();
             this.chkUDP = new System.Windows.Forms.CheckBox();
             this.chkICMP = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.grpFilterParams.SuspendLayout();
             this.grpPorts.SuspendLayout();
@@ -631,6 +631,16 @@
             this.grpPorts.TabStop = false;
             this.grpPorts.Text = "Ports";
             // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.Location = new System.Drawing.Point(76, 50);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(300, 3);
+            this.label2.TabIndex = 65;
+            // 
             // chkNotPort2
             // 
             this.chkNotPort2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -945,7 +955,7 @@
             this.grpFilterProtocols.Controls.Add(this.chkARP);
             this.grpFilterProtocols.Controls.Add(this.chkUDP);
             this.grpFilterProtocols.Controls.Add(this.chkICMP);
-            this.grpFilterProtocols.Location = new System.Drawing.Point(12, 96);
+            this.grpFilterProtocols.Location = new System.Drawing.Point(12, 83);
             this.grpFilterProtocols.Margin = new System.Windows.Forms.Padding(2);
             this.grpFilterProtocols.Name = "grpFilterProtocols";
             this.grpFilterProtocols.Padding = new System.Windows.Forms.Padding(2);
@@ -1008,16 +1018,6 @@
             this.chkICMP.TabIndex = 67;
             this.chkICMP.Text = "ICMP";
             this.chkICMP.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Location = new System.Drawing.Point(76, 50);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(300, 3);
-            this.label2.TabIndex = 65;
             // 
             // CaptureForm
             // 
