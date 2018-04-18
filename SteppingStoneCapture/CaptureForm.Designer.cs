@@ -373,6 +373,7 @@
             this.cmbInterfaces.Name = "cmbInterfaces";
             this.cmbInterfaces.Size = new System.Drawing.Size(200, 21);
             this.cmbInterfaces.TabIndex = 2;
+            this.cmbInterfaces.DropDown += new System.EventHandler(this.cmbInterfaces_DropDown);
             this.cmbInterfaces.SelectedIndexChanged += new System.EventHandler(this.CmbInterfaces_SelectedIndexChanged);
             // 
             // txtFilterField
