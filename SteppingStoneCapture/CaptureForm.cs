@@ -450,7 +450,20 @@ namespace SteppingStoneCapture
                     Console.WriteLine("This program works only on Ethernet networks.");
                     return;
                 }
-                communicator.SetFilter(filter);
+                try
+                {
+                    //Console.WriteLine("Filter: " + filter);
+                    communicator.SetFilter(filter);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Improper filter syntax!\nError info:\n" + e);
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        txtFilterField.Text = "";
+                    }));                    
+                }
+                
 
                 while (captFlag)
                 {
