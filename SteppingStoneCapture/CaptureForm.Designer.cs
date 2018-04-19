@@ -119,6 +119,7 @@
             this.chkARP = new System.Windows.Forms.CheckBox();
             this.chkUDP = new System.Windows.Forms.CheckBox();
             this.chkICMP = new System.Windows.Forms.CheckBox();
+            this.newCaptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.grpFilterParams.SuspendLayout();
             this.grpPorts.SuspendLayout();
@@ -147,6 +148,7 @@
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newCaptureToolStripMenuItem,
             this.loadDumpFileToolStripMenuItem,
             this.SaveMenuItem,
             this.ExitMenuItem,
@@ -158,7 +160,7 @@
             // loadDumpFileToolStripMenuItem
             // 
             this.loadDumpFileToolStripMenuItem.Name = "loadDumpFileToolStripMenuItem";
-            this.loadDumpFileToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.loadDumpFileToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
             this.loadDumpFileToolStripMenuItem.Text = "&Load Dump File";
             this.loadDumpFileToolStripMenuItem.Click += new System.EventHandler(this.LoadDumpFileToolStripMenuItem_Click);
             // 
@@ -167,7 +169,7 @@
             this.SaveMenuItem.CheckOnClick = true;
             this.SaveMenuItem.DoubleClickEnabled = true;
             this.SaveMenuItem.Name = "SaveMenuItem";
-            this.SaveMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.SaveMenuItem.Size = new System.Drawing.Size(229, 26);
             this.SaveMenuItem.Text = "Sa&ve";
             this.SaveMenuItem.Click += new System.EventHandler(this.SaveMenuItem_Click);
             // 
@@ -176,14 +178,14 @@
             this.ExitMenuItem.CheckOnClick = true;
             this.ExitMenuItem.DoubleClickEnabled = true;
             this.ExitMenuItem.Name = "ExitMenuItem";
-            this.ExitMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.ExitMenuItem.Size = new System.Drawing.Size(229, 26);
             this.ExitMenuItem.Text = "Exi&t";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(226, 6);
             // 
             // optionsToolStripMenuItem
             // 
@@ -504,7 +506,7 @@
             this.packetView.FullRowSelect = true;
             this.packetView.GridLines = true;
             this.packetView.Location = new System.Drawing.Point(12, 292);
-            this.packetView.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.packetView.Margin = new System.Windows.Forms.Padding(5);
             this.packetView.Name = "packetView";
             this.packetView.Size = new System.Drawing.Size(983, 370);
             this.packetView.TabIndex = 28;
@@ -646,7 +648,7 @@
             this.chkNotPort2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkNotPort2.AutoSize = true;
             this.chkNotPort2.Location = new System.Drawing.Point(446, 78);
-            this.chkNotPort2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkNotPort2.Margin = new System.Windows.Forms.Padding(4);
             this.chkNotPort2.Name = "chkNotPort2";
             this.chkNotPort2.Size = new System.Drawing.Size(52, 21);
             this.chkNotPort2.TabIndex = 64;
@@ -817,7 +819,7 @@
             this.chkIPNOT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIPNOT2.AutoSize = true;
             this.chkIPNOT2.Location = new System.Drawing.Point(446, 69);
-            this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4);
             this.chkIPNOT2.Name = "chkIPNOT2";
             this.chkIPNOT2.Size = new System.Drawing.Size(52, 21);
             this.chkIPNOT2.TabIndex = 61;
@@ -1018,6 +1020,13 @@
             this.chkICMP.Text = "ICMP";
             this.chkICMP.UseVisualStyleBackColor = true;
             // 
+            // newCaptureToolStripMenuItem
+            // 
+            this.newCaptureToolStripMenuItem.Name = "newCaptureToolStripMenuItem";
+            this.newCaptureToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
+            this.newCaptureToolStripMenuItem.Text = "&New Capture Window";
+            this.newCaptureToolStripMenuItem.Click += new System.EventHandler(this.newCaptureToolStripMenuItem_Click);
+            // 
             // CaptureForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1152,6 +1161,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutUsToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem newCaptureToolStripMenuItem;
     }
 }
 

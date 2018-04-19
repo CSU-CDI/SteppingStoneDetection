@@ -461,6 +461,10 @@ namespace SteppingStoneCapture
                     this.Invoke((MethodInvoker)(() =>
                     {
                         txtFilterField.Text = "";
+                        txtIpOne.Text = "";
+                        txtIpTwo.Text = "";
+                        txtPortOne.Text = "";
+                        txtPortTwo.Text = "";
                     }));                    
                 }
                 
@@ -882,6 +886,13 @@ namespace SteppingStoneCapture
                 }
             }
             senderComboBox.DropDownWidth = width;
+        }
+
+        private void newCaptureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CaptureForm ncf = new CaptureForm();
+            ncf.Show();
+
         }
 
         public byte[] ConvertHexStringToByteArray(string hexString)
