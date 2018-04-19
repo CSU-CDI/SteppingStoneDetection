@@ -25,6 +25,7 @@ namespace SteppingStoneCapture
             byteviewer.Anchor = AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Top;
             byteviewer.SetBytes(new byte[] { });
             this.Controls.Add(byteviewer);
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         // Show a file selection dialog and cues the byte viewer to 
@@ -77,8 +78,8 @@ namespace SteppingStoneCapture
             this.ClientSize = new System.Drawing.Size(680, 440);
             this.MinimumSize = new System.Drawing.Size(660, 400);
             this.Size = new System.Drawing.Size(680, 440);
-            this.Name = "Byte Viewer Form";
-            this.Text = "Byte Viewer Form";
+            this.Name = "Packet Detail";
+            this.Text = "Packet Detail";
 
             /*this.button1 = new System.Windows.Forms.Button();
             this.button1.Location = new System.Drawing.Point(8, 8);
@@ -123,12 +124,14 @@ namespace SteppingStoneCapture
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ByteViewerForm));
             this.SuspendLayout();
             // 
             // ByteViewerForm
             // 
             this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Name = "ByteViewerForm";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Packet Detail";
             this.Load += new System.EventHandler(this.ByteViewerForm_Load);
             this.ResumeLayout(false);
 
@@ -136,7 +139,7 @@ namespace SteppingStoneCapture
 
         private void ByteViewerForm_Load(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

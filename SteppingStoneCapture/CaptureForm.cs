@@ -532,20 +532,6 @@ namespace SteppingStoneCapture
 
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            foreach (Control c in Controls)
-            {
-                if (c is GroupBox gb)
-                {
-                    foreach (Control subC in Controls)
-                    {
-                        if (subC is TextBox tb)
-                        {
-                            // input validation would go here... this needs to be abstracted in order to be able to reuse
-                        }
-                    }
-                }
-            }
-
             if (!captFlag) captFlag = true;
 
             SearchFormProperties();
