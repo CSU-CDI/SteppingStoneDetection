@@ -99,3 +99,4 @@ C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStone
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOStream.resources
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.csproj.CopyComplete
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.StepFunction.StepFunctionForm.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.StepFunction.StepFunctionForm.resources

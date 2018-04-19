@@ -433,7 +433,7 @@ namespace SteppingStoneCapture
                 if (!address.Address.ToString().Contains("Internet6"))
                 {                   
                     string[] ipv4addy = address.Address.ToString().Split();
-                    Console.WriteLine(ipv4addy[1]);
+                    //Console.WriteLine(ipv4addy[1]);
                     sensorAddress = ipv4addy[1];
                 }                     
             }
