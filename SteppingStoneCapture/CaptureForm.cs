@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Net;
+using System.Drawing;
 using PcapDotNet.Core;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
@@ -847,6 +848,29 @@ namespace SteppingStoneCapture
             }
         }
 
+        private void cmbInterfaces_DropDown(object sender, EventArgs e)
+        {
+            ComboBox senderComboBox = (ComboBox)sender;
+            int width = senderComboBox.DropDownWidth;
+            Graphics g = senderComboBox.CreateGraphics();
+            Font font = senderComboBox.Font;
+            int vertScrollBarWidth =
+                (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
+                ? SystemInformation.VerticalScrollBarWidth : 0;
+
+            int newWidth;
+            foreach (string s in ((ComboBox)sender).Items)
+            {
+                newWidth = (int)g.MeasureString(s, font).Width
+                    + vertScrollBarWidth;
+                if (width < newWidth)
+                {
+                    width = newWidth;
+                }
+            }
+            senderComboBox.DropDownWidth = width;
+        }
+
         public byte[] ConvertHexStringToByteArray(string hexString)
         {
             byte[] HexAsBytes = new byte[hexString.Length / 2];
@@ -881,7 +905,7 @@ namespace SteppingStoneCapture
             {
                 for (int i = 0; i != allDevices.Count; ++i)
                 {
-                    int offsetForWindowsMachines = 16;
+                    int offsetForWindowsMachines = 0;
                     LivePacketDevice device = allDevices[i];
                     DescribeInterfaceDevice(offsetForWindowsMachines, device);
                 }
