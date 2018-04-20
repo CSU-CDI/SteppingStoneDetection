@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using System.Net;
+using System.Net.NetworkInformation;
 using System.Drawing;
 using PcapDotNet.Core;
 using PcapDotNet.Packets;
@@ -69,6 +69,7 @@ namespace SteppingStoneCapture
         private void DescribeInterfaceDevice(int offsetForWindowsMachines, LivePacketDevice device)
         {
             string ipAddress = "";
+            string prefix = "";
             foreach (DeviceAddress address in device.Addresses)
             {
                 if (!address.Address.ToString().Contains("Internet6"))
@@ -79,15 +80,18 @@ namespace SteppingStoneCapture
                 }
             }
 
-            if (device.Description != null)
+            if (ipAddress != "") prefix = ipAddress + " - ";
+            cmbInterfaces.Items.Add(prefix + device.Name);
+            
+            /*if (device.Description != null)
                 if (device.Description.ToLower().Contains("\'microsoft\'"))
-                    cmbInterfaces.Items.Add(ipAddress + " - Wireless Connector");
+                    cmbInterfaces.Items.Add(prefix + "Wireless Connector");
                 else if (device.Description.ToLower().Contains("ethernet"))
-                    cmbInterfaces.Items.Add(ipAddress + " - Ethernet Connector");
+                    cmbInterfaces.Items.Add(prefix + "Ethernet Connector");
                 else
-                    cmbInterfaces.Items.Add(ipAddress + " - " + device.Description.Substring(offsetForWindowsMachines));
+                    cmbInterfaces.Items.Add(prefix + device.Description.Substring(offsetForWindowsMachines));
             else
-                cmbInterfaces.Items.Add(ipAddress + " - Description Unavailable");
+                cmbInterfaces.Items.Add(prefix + "*** Description Unavailable");*/
         }
 
         private void SearchFormProperties()
@@ -279,7 +283,8 @@ namespace SteppingStoneCapture
                 TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff"),
                 PacketNumber = packetNumber,
                 Length = packet.Length,
-                SensorIP = new IpV4Address(sensorAddress)
+                SensorIP = new IpV4Address(sensorAddress),
+                
             };
 
             if (packet.Ethernet.IpV4.IsValid)
@@ -433,7 +438,6 @@ namespace SteppingStoneCapture
                 if (!address.Address.ToString().Contains("Internet6"))
                 {                   
                     string[] ipv4addy = address.Address.ToString().Split();
-                    //Console.WriteLine(ipv4addy[1]);
                     sensorAddress = ipv4addy[1];
                 }                     
             }
@@ -457,7 +461,8 @@ namespace SteppingStoneCapture
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Improper filter syntax!\nError info:\n" + e);
+                    
+                    MessageBox.Show("Improper filter syntax!\nError info:\n" + e.Message, "Error!");
                     this.Invoke((MethodInvoker)(() =>
                     {
                         txtFilterField.Text = "";
@@ -465,7 +470,9 @@ namespace SteppingStoneCapture
                         txtIpTwo.Text = "";
                         txtPortOne.Text = "";
                         txtPortTwo.Text = "";
-                    }));                    
+                    }));
+                    ResetNecessaryProperties();
+                    captFlag = false;
                 }
                 
 
@@ -614,6 +621,7 @@ namespace SteppingStoneCapture
         {
             if (cmbInterfaces.Items != null)
             {
+                Console.WriteLine(cmbInterfaces.SelectedIndex);
                 deviceIndex = cmbInterfaces.SelectedIndex;
             }            
         }
@@ -760,8 +768,6 @@ namespace SteppingStoneCapture
             string sensor = "";
             if (cougarpackets.Count > 0)
                 sensor = cougarpackets[0].SensorIP.ToString();
-            else
-                sensor = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
             // Console.WriteLine("This is the supposed sensor ip: "+cougarpackets[0].SensorIP.ToString());
             IOConnection ioc = new IOConnection(sensor, cougarpackets,packets,true);
             ioc.Text = "Save Incoming Connection....";
@@ -782,8 +788,8 @@ namespace SteppingStoneCapture
             string sensor = "";
             if (cougarpackets.Count > 0)
                 sensor = cougarpackets[0].SensorIP.ToString();
-            else
-                sensor = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
+          //  else
+            //    sensor = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
             // Console.WriteLine("This is the supposed sensor ip: " + cougarpackets[0].SensorIP.ToString());
             IOConnection ioc = new IOConnection(sensor, cougarpackets, packets);
             ioc.Text = "Save Outgoing Connection....";
@@ -914,16 +920,61 @@ namespace SteppingStoneCapture
 
         private void DetermineNetworkInterface(int numTries = 5)
         {
+            var allLocalInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+
             //Detect all interfaces
             allDevices = LivePacketDevice.AllLocalMachine;
 
             //Try the allotted number of times if no interfaces detected
-            if (allDevices.Count == 0)
+            if (allDevices.Count == 0 || allLocalInterfaces.Length == 0)
             {
                 if (numTries > 0)
                     DetermineNetworkInterface(--numTries);
             }
+            else if (allDevices.Count > 0  && allLocalInterfaces.Length > 0)
+            {
+                int start = Math.Max(allLocalInterfaces.Length, allDevices.Count)-1;
+                for (int ndx = start; ndx >= 0; --ndx)
+                {
+                   
+                    var nic = allLocalInterfaces[ndx];
+                    var ipprops = nic.GetIPProperties();
+                    var unicast = ipprops.UnicastAddresses;
+                    string address = "";
+                    string lpdAddr = "";
+                    string nicAddr = "";
+                    foreach (UnicastIPAddressInformation uni in unicast)
+                    {
+                        nicAddr = uni.Address.ToString();
 
+
+                        foreach (LivePacketDevice lpd in allDevices)
+                        {
+                            foreach (DeviceAddress addr in lpd.Addresses)
+                            {
+                                if (!addr.Address.ToString().Contains("Internet6"))
+                                {
+                                    string[] ipv4addy = addr.Address.ToString().Split();
+                                    lpdAddr = ipv4addy[1];
+                                }
+
+                                if (nicAddr == lpdAddr) address = nicAddr;
+                            }
+                        }
+                    }
+                    Boolean interfaceTypeCheck = (nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                                                    && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback;
+                    string descript = nic.Description;
+                    string Format = "{0,27} | {1}";
+                    if (nic.OperationalStatus == OperationalStatus.Up)
+                        Format = "* {0,17} | {1}";
+                    descript = String.Format(Format, address, descript);
+                    if (interfaceTypeCheck)
+                    cmbInterfaces.Items.Add(descript);
+                }
+                
+            }
+            /*
             //list available interfaces in ComboBox
             else if (allDevices.Count > 0)
             {
@@ -933,7 +984,7 @@ namespace SteppingStoneCapture
                     LivePacketDevice device = allDevices[i];
                     DescribeInterfaceDevice(offsetForWindowsMachines, device);
                 }
-            }
+            }*/
         }
 
     }

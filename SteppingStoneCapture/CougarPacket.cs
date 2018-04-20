@@ -82,7 +82,7 @@ namespace SteppingStoneCapture
             SeqNum = seqNum;
             AckNum = ackNum;
             TCPFlags = tcpFlags;
-            if (sensorIP == "0.0.0.0") SensorIP = new IpV4Address(getLocalIP());
+//            if (sensorIP == "0.0.0.0") SensorIP = new IpV4Address(getLocalIP());
             Payload = payload;
             setPayloadData(payloadData);
         }
@@ -140,8 +140,8 @@ namespace SteppingStoneCapture
                 string[] propertyArray = new string[11];
                 propertyArray[0] = PacketNumber.ToString();
                 propertyArray[1] = TimeStamp.ToString();
-                propertyArray[2] = SourceAddress.ToString() == getLocalIP() ? "My Computer" : SourceAddress.ToString();
-                propertyArray[3] = DestAddress.ToString() == getLocalIP() ? "My Computer" : DestAddress.ToString();
+                propertyArray[2] = SourceAddress.ToString() == SensorIP.ToString() ? "My Computer" : SourceAddress.ToString();
+                propertyArray[3] = DestAddress.ToString() == SensorIP.ToString() ? "My Computer" : DestAddress.ToString();
                 propertyArray[4] = Length.ToString();
 
                 propertyArray[5] = (SrcPort == 0) ? "---" : SrcPort.ToString();
@@ -154,11 +154,6 @@ namespace SteppingStoneCapture
 
                 return propertyArray;
             }
-        }
-
-        private string getLocalIP()
-        {
-            return Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
         }
     }
 }
