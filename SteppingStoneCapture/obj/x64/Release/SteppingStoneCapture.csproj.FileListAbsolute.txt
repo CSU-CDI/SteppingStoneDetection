@@ -1,12 +1,6 @@
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\SteppingStoneCapture.exe.config
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\SteppingStoneCapture.exe
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\SteppingStoneCapture.pdb
-C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\PcapDotNet.Base.pdb
-C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\PcapDotNet.Base.xml
-C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\PcapDotNet.Core.pdb
-C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\PcapDotNet.Core.xml
-C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\PcapDotNet.Packets.pdb
-C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\PcapDotNet.Packets.xml
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.csprojResolveAssemblyReference.cache
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.CaptureForm.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Properties.Resources.resources

@@ -39,6 +39,7 @@ namespace SteppingStoneCapture
 
         public CaptureForm()
         {
+            //checkFirst();
             InitializeComponent();
             rawPacketViewItem.Checked = true;
             deviceIndex = 0;
@@ -64,7 +65,28 @@ namespace SteppingStoneCapture
             string[] values = readingLine.Split('=');
             maxFilePackets = Int32.Parse(values[1].Replace("\n", ""));
 
-        }        
+        }
+
+        private void checkFirst()
+        {   ///////////////////////////////////////////////////////////////////
+            /// check .Net framework version and other dependencies here... ///
+            ///////////////////////////////////////////////////////////////////
+            if (MessageBox.Show("Are you sure you want to exit?", "Exit?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                if (System.Windows.Forms.Application.MessageLoop)
+                {
+                    // WinForms app
+                    System.Windows.Forms.Application.Exit();
+                }
+                else
+                {
+                    // Console app
+                    System.Environment.Exit(1);
+                }
+            }
+
+            MessageBox.Show("Checking for dependencies");
+        }
 
         private void DescribeInterfaceDevice(int offsetForWindowsMachines, LivePacketDevice device)
         {
@@ -892,14 +914,7 @@ namespace SteppingStoneCapture
                 }
             }
             senderComboBox.DropDownWidth = width;
-        }
-
-        private void newCaptureToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CaptureForm ncf = new CaptureForm();
-            ncf.Show();
-
-        }
+        }       
 
         public byte[] ConvertHexStringToByteArray(string hexString)
         {

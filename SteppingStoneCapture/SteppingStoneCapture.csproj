@@ -170,7 +170,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="csu_logo_tower_Bhj_icon-test.ico" />
     <Content Include="csu_logo_tower_Bhj_icon.ico" />
     <None Include="Resources\nsa.png" />
   </ItemGroup>
