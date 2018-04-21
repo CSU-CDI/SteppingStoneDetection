@@ -1,4 +1,13 @@
-﻿namespace SteppingStoneCapture
+﻿static class ControlExtender
+{
+    public static void DoubleBuffered(this System.Windows.Forms.Control control, bool enable)
+    {
+        var doubleBufferPropertyInfo = control.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        doubleBufferPropertyInfo.SetValue(control, enable, null);
+    }
+}
+
+namespace SteppingStoneCapture
 {
     partial class CaptureForm
     {
@@ -378,6 +387,7 @@
             // 
             // cmbInterfaces
             // 
+            this.cmbInterfaces.ContextMenuStrip = this.contextMenuStrip1;
             this.cmbInterfaces.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbInterfaces.FormattingEnabled = true;
             this.cmbInterfaces.Location = new System.Drawing.Point(12, 49);
@@ -524,6 +534,8 @@
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
             this.packetView.SelectedIndexChanged += new System.EventHandler(this.PacketView_SelectedIndexChanged);
+            ControlExtender.DoubleBuffered(this.packetView, true);//stops flickering
+
             // 
             // packNum
             // 
@@ -968,7 +980,7 @@
             this.grpFilterProtocols.Controls.Add(this.chkARP);
             this.grpFilterProtocols.Controls.Add(this.chkUDP);
             this.grpFilterProtocols.Controls.Add(this.chkICMP);
-            this.grpFilterProtocols.Location = new System.Drawing.Point(12, 83);
+            this.grpFilterProtocols.Location = new System.Drawing.Point(13, 90);
             this.grpFilterProtocols.Margin = new System.Windows.Forms.Padding(2);
             this.grpFilterProtocols.Name = "grpFilterProtocols";
             this.grpFilterProtocols.Padding = new System.Windows.Forms.Padding(2);

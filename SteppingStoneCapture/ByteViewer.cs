@@ -9,9 +9,7 @@ namespace SteppingStoneCapture
 {
     public class ByteViewerForm : System.Windows.Forms.Form
     {
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.ComponentModel.Design.ByteViewer byteviewer;
+        private ByteViewer byteviewer;
         public CougarPacket cp;
 
         public ByteViewerForm()

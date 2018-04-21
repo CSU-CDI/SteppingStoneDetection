@@ -921,7 +921,7 @@ namespace SteppingStoneCapture
         private void DetermineNetworkInterface(int numTries = 5)
         {
             var allLocalInterfaces = NetworkInterface.GetAllNetworkInterfaces();
-
+            int activeIndex = 0;
             //Detect all interfaces
             allDevices = LivePacketDevice.AllLocalMachine;
 
@@ -937,9 +937,9 @@ namespace SteppingStoneCapture
                 for (int ndx = start; ndx >= 0; --ndx)
                 {
                    
-                    var nic = allLocalInterfaces[ndx];
-                    var ipprops = nic.GetIPProperties();
-                    var unicast = ipprops.UnicastAddresses;
+                    NetworkInterface nic = allLocalInterfaces[ndx];
+                    IPInterfaceProperties ipprops = nic.GetIPProperties();
+                    UnicastIPAddressInformationCollection unicast = ipprops.UnicastAddresses;
                     string address = "";
                     string lpdAddr = "";
                     string nicAddr = "";
@@ -948,8 +948,10 @@ namespace SteppingStoneCapture
                         nicAddr = uni.Address.ToString();
 
 
-                        foreach (LivePacketDevice lpd in allDevices)
+                        for (int x = 0; x < allDevices.Count; ++x)// LivePacketDevice lpd in allDevices)
                         {
+                            LivePacketDevice lpd = allDevices[x];
+
                             foreach (DeviceAddress addr in lpd.Addresses)
                             {
                                 if (!addr.Address.ToString().Contains("Internet6"))
@@ -958,7 +960,13 @@ namespace SteppingStoneCapture
                                     lpdAddr = ipv4addy[1];
                                 }
 
-                                if (nicAddr == lpdAddr) address = nicAddr;
+                                if (nicAddr == lpdAddr)
+                                {
+                                    address = nicAddr;
+                                    //needs tuning so active device will be default shown
+
+                                    deviceIndex = x;  
+                                }
                             }
                         }
                     }
@@ -967,12 +975,17 @@ namespace SteppingStoneCapture
                     string descript = nic.Description;
                     string Format = "{0,27} | {1}";
                     if (nic.OperationalStatus == OperationalStatus.Up)
+                    {
                         Format = "* {0,17} | {1}";
+                      //  ++activeIndex;
+                    }
                     descript = String.Format(Format, address, descript);
                     if (interfaceTypeCheck)
-                    cmbInterfaces.Items.Add(descript);
+                    {
+                        cmbInterfaces.Items.Add(descript);
+                    }
                 }
-                
+               //f cmbInterfaces.SelectedIndex = activeIndex;
             }
             /*
             //list available interfaces in ComboBox
