@@ -64,6 +64,9 @@
     <Reference Include="PcapDotNet.Core">
       <HintPath>..\..\..\..\PCAP\PcapDotNet.DevelopersPack.1.0.4\PcapDotNet.DevelopersPack.1.0.4.x64\PcapDotNet.DevelopersPack\3rdParty\PcapDotNet\PcapDotNet.Core.dll</HintPath>
     </Reference>
+    <Reference Include="PcapDotNet.Core.Extensions">
+      <HintPath>..\..\..\..\..\Documents\Pcap.Net\Binaries\PcapDotNet.Core.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="PcapDotNet.Packets">
       <HintPath>..\..\..\..\PCAP\PcapDotNet.DevelopersPack.1.0.4\PcapDotNet.DevelopersPack.1.0.4.x64\PcapDotNet.DevelopersPack\3rdParty\PcapDotNet\PcapDotNet.Packets.dll</HintPath>
     </Reference>

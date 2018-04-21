@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Net.NetworkInformation;
+using System.Linq;
 using System.Drawing;
 using PcapDotNet.Core;
+using PcapDotNet.Core.Extensions;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Transport;
@@ -18,7 +20,7 @@ namespace SteppingStoneCapture
     public partial class CaptureForm : Form
     {
         private int deviceIndex;
-        private IList<LivePacketDevice> allDevices;
+        private IList<LivePacketDevice> allLivePacketDevices;
         private string defaultFilterField;
         private string filter;
         private IList<byte[]> packetBytes;
@@ -104,7 +106,7 @@ namespace SteppingStoneCapture
 
             if (ipAddress != "") prefix = ipAddress + " - ";
             cmbInterfaces.Items.Add(prefix + device.Name);
-            
+
             /*if (device.Description != null)
                 if (device.Description.ToLower().Contains("\'microsoft\'"))
                     cmbInterfaces.Items.Add(prefix + "Wireless Connector");
@@ -282,7 +284,7 @@ namespace SteppingStoneCapture
                     }
                     countP++;
                     fs.Write(barr, 0, barr.Length);
-                    fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(packets[i].Buffer).Replace("-",""), packets[i].Timestamp.ToString("hh:mm:ss.fff"), packets[i].DataLink,packets[i].OriginalLength));
+                    fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(packets[i].Buffer).Replace("-", ""), packets[i].Timestamp.ToString("hh:mm:ss.fff"), packets[i].DataLink, packets[i].OriginalLength));
                     ++i;
                 }
 
@@ -306,7 +308,7 @@ namespace SteppingStoneCapture
                 PacketNumber = packetNumber,
                 Length = packet.Length,
                 SensorIP = new IpV4Address(sensorAddress),
-                
+
             };
 
             if (packet.Ethernet.IpV4.IsValid)
@@ -350,7 +352,7 @@ namespace SteppingStoneCapture
 
             else if (packet.Ethernet.Arp.IsValid) // arp packet received
             {
-                ArpDatagram arp = packet.Ethernet.Arp;                
+                ArpDatagram arp = packet.Ethernet.Arp;
                 cp.SourceAddress = arp.SenderProtocolIpV4Address;
                 cp.DestAddress = arp.TargetProtocolIpV4Address;
             }
@@ -444,7 +446,7 @@ namespace SteppingStoneCapture
             cfb.ClearFilterLists();
             packetBytes.Clear();
             protocolRequested = false;
-            attributeRequested = false;            
+            attributeRequested = false;
             packets.Clear();
             cougarpackets.Clear();
         }
@@ -453,15 +455,15 @@ namespace SteppingStoneCapture
         {
 
             // Take the selected adapter
-            selectedDevice = allDevices[this.deviceIndex];
-        
+            selectedDevice = allLivePacketDevices[this.deviceIndex];
+
             foreach (DeviceAddress address in selectedDevice.Addresses)
-            {                
+            {
                 if (!address.Address.ToString().Contains("Internet6"))
-                {                   
+                {
                     string[] ipv4addy = address.Address.ToString().Split();
                     sensorAddress = ipv4addy[1];
-                }                     
+                }
             }
 
             // Open the device
@@ -483,7 +485,7 @@ namespace SteppingStoneCapture
                 }
                 catch (Exception e)
                 {
-                    
+
                     MessageBox.Show("Improper filter syntax!\nError info:\n" + e.Message, "Error!");
                     this.Invoke((MethodInvoker)(() =>
                     {
@@ -496,7 +498,7 @@ namespace SteppingStoneCapture
                     ResetNecessaryProperties();
                     captFlag = false;
                 }
-                
+
 
                 while (captFlag)
                 {
@@ -554,8 +556,8 @@ namespace SteppingStoneCapture
                         {
 
                             using (PacketCommunicator communicator =
-                                    allDevices[1].Open(65536,               // portion of the packet to capture
-                                                                            // 65536 guarantees that the whole packet will be captured on all the link layers
+                                    allLivePacketDevices[1].Open(65536,               // portion of the packet to capture
+                                                                                      // 65536 guarantees that the whole packet will be captured on all the link layers
                                        PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
                                        1000))
                                 DumpPackets(communicator, dumpFileName);
@@ -587,7 +589,7 @@ namespace SteppingStoneCapture
             packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
             //capture packets     
-            if ((numThreads < 1) && (deviceIndex != 0))
+            if ((numThreads < 1) && (deviceIndex >= 0))
             {
                 ++numThreads;
                 new Thread(new ThreadStart(CapturePackets))
@@ -609,7 +611,7 @@ namespace SteppingStoneCapture
 
         private void BtnReset_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to reset this capture?","Reset?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to reset this capture?", "Reset?", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 //reset every control in the form to its default value
                 foreach (Control c in Controls)
@@ -635,7 +637,7 @@ namespace SteppingStoneCapture
                 }
 
                 ResetNecessaryProperties();
-            }                   
+            }
         }
 
         //Captures the selection of desired network interface       
@@ -645,14 +647,14 @@ namespace SteppingStoneCapture
             {
                 Console.WriteLine(cmbInterfaces.SelectedIndex);
                 deviceIndex = cmbInterfaces.SelectedIndex;
-            }            
+            }
         }
 
         private void BtnSave_Click(object sender, EventArgs e) => DetermineFilePath();
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to exit?","Exit?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to exit?", "Exit?", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 Close();
             }
@@ -777,7 +779,7 @@ namespace SteppingStoneCapture
         {
             multiWindowDisplay = !multiWindowDisplay;
             multiWindowDisplayMenuItem.Checked = multiWindowDisplay;
-        }       
+        }
 
         private void filterStreamToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -791,18 +793,18 @@ namespace SteppingStoneCapture
             if (cougarpackets.Count > 0)
                 sensor = cougarpackets[0].SensorIP.ToString();
             // Console.WriteLine("This is the supposed sensor ip: "+cougarpackets[0].SensorIP.ToString());
-            IOConnection ioc = new IOConnection(sensor, cougarpackets,packets,true);
+            IOConnection ioc = new IOConnection(sensor, cougarpackets, packets, true);
             ioc.Text = "Save Incoming Connection....";
             foreach (Control c in ioc.Controls)
             {
-                if (c is Label l && l.Name=="lblDescription")
+                if (c is Label l && l.Name == "lblDescription")
                 {
                     l.Text = "Filter Capture for Incoming Connection...";
                 }
             }
 
             ioc.IncomingConnection = true;
-            ioc.Show();           
+            ioc.Show();
         }
 
         private void outgoingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -810,7 +812,7 @@ namespace SteppingStoneCapture
             string sensor = "";
             if (cougarpackets.Count > 0)
                 sensor = cougarpackets[0].SensorIP.ToString();
-          //  else
+            //  else
             //    sensor = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
             // Console.WriteLine("This is the supposed sensor ip: " + cougarpackets[0].SensorIP.ToString());
             IOConnection ioc = new IOConnection(sensor, cougarpackets, packets);
@@ -822,7 +824,7 @@ namespace SteppingStoneCapture
                     l.Text = "Filter Capture for Outgoing Connection...";
                 }
             }
-            ioc.Show();           
+            ioc.Show();
         }
 
         private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -866,29 +868,29 @@ namespace SteppingStoneCapture
                         }
 
                         using (StreamReader raw_reader = new StreamReader(rawLoadPath))
-                            using (StreamReader fs = new StreamReader(File.OpenRead(loadPath)))
-                            {
-//int currentIndex = 0;
+                        using (StreamReader fs = new StreamReader(File.OpenRead(loadPath)))
+                        {
+                            //int currentIndex = 0;
 
-                                while ((currentPacket = raw_reader.ReadLine()) != null)
+                            while ((currentPacket = raw_reader.ReadLine()) != null)
+                            {
+                                string[] packetInformation = currentPacket.Split(',');
+                                DateTime dt;
+                                dt = DateTime.Parse(packetInformation[1]);
+                                DataLink dl = new DataLink(DataLinkKind.Ethernet);
+                                UInt32.TryParse(packetInformation[3], out uint x);
+                                byte[] packetData = ConvertHexStringToByteArray(packetInformation[0].Replace("-", ""));
+                                if ((currentPacket = fs.ReadLine()) != null)
                                 {
-                                    string[] packetInformation = currentPacket.Split(',');
-                                    DateTime dt;
-                                    dt = DateTime.Parse(packetInformation[1]);
-                                    DataLink dl = new DataLink(DataLinkKind.Ethernet);
-                                    UInt32.TryParse(packetInformation[3], out uint x);
-                                    byte[] packetData = ConvertHexStringToByteArray(packetInformation[0].Replace("-", ""));
-                                    if ((currentPacket = fs.ReadLine()) != null)
-                                    {
-                                        Packet p = new Packet(packetData, dt, dl, x);
-                                                                          
-                                        string[] packetInfo = currentPacket.Split(',');
-                                        PrintPacket(p, packetInfo[packetInfo.Length - 1]);
-                                       // ++currentIndex;
-                                    }
+                                    Packet p = new Packet(packetData, dt, dl, x);
+
+                                    string[] packetInfo = currentPacket.Split(',');
+                                    PrintPacket(p, packetInfo[packetInfo.Length - 1]);
+                                    // ++currentIndex;
                                 }
-                            };
-                            break;
+                            }
+                        };
+                        break;
                 }
             }
         }
@@ -914,7 +916,7 @@ namespace SteppingStoneCapture
                 }
             }
             senderComboBox.DropDownWidth = width;
-        }       
+        }
 
         public byte[] ConvertHexStringToByteArray(string hexString)
         {
@@ -935,85 +937,84 @@ namespace SteppingStoneCapture
 
         private void DetermineNetworkInterface(int numTries = 5)
         {
-            var allLocalInterfaces = NetworkInterface.GetAllNetworkInterfaces();
-            int activeIndex = 0;
+            var allLocalNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            var possibleCaptureDevices = from nic in allLocalNetworkInterfaces
+                                         where (nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                                                    && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback
+                                         select nic;
             //Detect all interfaces
-            allDevices = LivePacketDevice.AllLocalMachine;
+            allLivePacketDevices = LivePacketDevice.AllLocalMachine;
+            string descript = "";
+            
+            string inactiveFormat = "{0,27} | {1}";
+            string activeFormat = "* {0,17} | {1}";
+            string Format = inactiveFormat;
 
             //Try the allotted number of times if no interfaces detected
-            if (allDevices.Count == 0 || allLocalInterfaces.Length == 0)
+            if (allLivePacketDevices.Count == 0 || allLocalNetworkInterfaces.Length == 0)
             {
                 if (numTries > 0)
                     DetermineNetworkInterface(--numTries);
             }
-            else if (allDevices.Count > 0  && allLocalInterfaces.Length > 0)
+            Dictionary<int, string> devices = new Dictionary<int, string>();
+
+            // possibleCaptureDevices = possibleCaptureDevices.Reverse();
+            for (int i = 0; i < allLivePacketDevices.Count; ++i)
             {
-                int start = Math.Max(allLocalInterfaces.Length, allDevices.Count)-1;
-                for (int ndx = start; ndx >= 0; --ndx)
+                LivePacketDevice livePacketDevice = allLivePacketDevices[i];
+                NetworkInterface nic = LivePacketDeviceExtensions.GetNetworkInterface(livePacketDevice);
+                string address = "";
+                descript = nic.Description;
+               
+                if (nic != null)
                 {
-                   
-                    NetworkInterface nic = allLocalInterfaces[ndx];
                     IPInterfaceProperties ipprops = nic.GetIPProperties();
                     UnicastIPAddressInformationCollection unicast = ipprops.UnicastAddresses;
-                    string address = "";
+                    
                     string lpdAddr = "";
                     string nicAddr = "";
                     foreach (UnicastIPAddressInformation uni in unicast)
                     {
+                        
                         nicAddr = uni.Address.ToString();
 
-
-                        for (int x = 0; x < allDevices.Count; ++x)// LivePacketDevice lpd in allDevices)
+                        foreach (DeviceAddress addr in livePacketDevice.Addresses)
                         {
-                            LivePacketDevice lpd = allDevices[x];
-
-                            foreach (DeviceAddress addr in lpd.Addresses)
+                            if (!addr.Address.ToString().Contains("Internet6"))
                             {
-                                if (!addr.Address.ToString().Contains("Internet6"))
-                                {
-                                    string[] ipv4addy = addr.Address.ToString().Split();
-                                    lpdAddr = ipv4addy[1];
-                                }
-
-                                if (nicAddr == lpdAddr)
-                                {
-                                    address = nicAddr;
-                                    //needs tuning so active device will be default shown
-
-                                    deviceIndex = x;  
-                                }
+                                string[] ipv4addy = addr.Address.ToString().Split();
+                                lpdAddr = ipv4addy[1];
                             }
+
+                            if (nicAddr == lpdAddr)
+                            {
+                                address = nicAddr;
+                                //needs tuning so active device will be default shown
+                                                                
+                                Format = inactiveFormat;
+                                if (nic.OperationalStatus == OperationalStatus.Up)
+                                {
+                                    Format = activeFormat;
+                                    //  ++activeIndex;
+                                }
+                                
+                            }
+
                         }
                     }
-                    Boolean interfaceTypeCheck = (nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
-                                                    && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback;
-                    string descript = nic.Description;
-                    string Format = "{0,27} | {1}";
-                    if (nic.OperationalStatus == OperationalStatus.Up)
-                    {
-                        Format = "* {0,17} | {1}";
-                      //  ++activeIndex;
-                    }
-                    descript = String.Format(Format, address, descript);
-                    if (interfaceTypeCheck)
-                    {
-                        cmbInterfaces.Items.Add(descript);
-                    }
+                    
                 }
-               //f cmbInterfaces.SelectedIndex = activeIndex;
-            }
-            /*
-            //list available interfaces in ComboBox
-            else if (allDevices.Count > 0)
-            {
-                for (int i = 0; i != allDevices.Count; ++i)
-                {
-                    int offsetForWindowsMachines = 0;
-                    LivePacketDevice device = allDevices[i];
-                    DescribeInterfaceDevice(offsetForWindowsMachines, device);
-                }
-            }*/
-        }
+                Console.WriteLine("Before format " + descript);
+                descript = String.Format(Format, address, descript);
+                Console.WriteLine("After format " + descript);
+                // Console.WriteLine(i + "\n" + descript);
+                cmbInterfaces.Items.Add(descript);
 
+            }
+
+
+        }
     }
 }
+
+
