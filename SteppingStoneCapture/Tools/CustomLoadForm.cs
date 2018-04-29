@@ -2,18 +2,19 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace SteppingStoneCapture
+namespace SteppingStoneCapture.Tools
+
 {
     internal partial class CustomLoadForm : Form
     {
         private OpenFileDialog ofd;
-        private string dumpFileNameRequested;
+        private string fileNameRequested;
 
         public CustomLoadForm()
         {
             InitializeComponent();
             this.Text = "Load from Dump File...";
-            DumpFileNameRequested = "";
+            FileNameRequested = "";
             
         }
 
@@ -22,8 +23,8 @@ namespace SteppingStoneCapture
             this.Text = title;          
 
         }
-
-        public string DumpFileNameRequested { get => dumpFileNameRequested; set => dumpFileNameRequested = value; }
+        
+        public string FileNameRequested { get => fileNameRequested; set => fileNameRequested = value; }
 
         private void BrowseButton_Click(object sender, EventArgs e)
         {
@@ -37,7 +38,7 @@ namespace SteppingStoneCapture
             ofd = new OpenFileDialog
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                AddExtension = false
+                AddExtension = extensionChkBox.Checked
             };
 
             switch (ofd.ShowDialog())
@@ -46,7 +47,7 @@ namespace SteppingStoneCapture
                     if (ofd.FileName != "")
                     {
                         FilePathTextBox.Text += ofd.FileName;
-                        DumpFileNameRequested = ofd.FileName;
+                        FileNameRequested = ofd.FileName;
                     }
 
                     break;

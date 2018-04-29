@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
-namespace SteppingStoneCapture
+namespace SteppingStoneCapture.Tools
 {
     //Applies entered attributes to each selected protocol to build a filter string
     /// <summary>

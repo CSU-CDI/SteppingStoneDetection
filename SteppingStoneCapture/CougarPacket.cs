@@ -6,6 +6,8 @@ using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using PcapDotNet.Packets.Icmp;
+using PcapDotNet.Packets.Arp;
 
 namespace SteppingStoneCapture
 {
@@ -111,6 +113,67 @@ namespace SteppingStoneCapture
             }
         }
 
+        public static CougarPacket DetermineCorrectPacketFormat(Packet packet, string sensorAddress, int packetNumber) // looks at the most recent packet and determines what protocol it carries
+        {
+            CougarPacket cp = new CougarPacket
+            {
+                TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff"),
+                PacketNumber = packetNumber,
+                Length = packet.Length,
+                SensorIP = new IpV4Address(sensorAddress),
+
+            };
+
+            if (packet.Ethernet.IpV4.IsValid)
+            {
+                IpV4Datagram ipv4 = packet.Ethernet.IpV4;
+                cp.SourceAddress = ipv4.Source;
+                cp.DestAddress = ipv4.Destination;
+
+                switch (ipv4.Protocol.ToString().ToLower())
+                {
+                    case "tcp":  // tcp packet received
+                        TcpDatagram tcp = ipv4.Tcp;
+                        cp.SrcPort = tcp.SourcePort;
+                        cp.DstPort = tcp.DestinationPort;
+                        cp.ChkSum = tcp.Checksum;
+                        cp.AckNum = tcp.AcknowledgmentNumber;
+                        cp.SeqNum = tcp.SequenceNumber;
+                        cp.Payload = tcp.Payload;
+                        cp.TCPFlags = tcp.ControlBits.ToString();
+                        cp.getPayload();
+                        break;
+
+                    case "udp":  // udp packet received
+                        UdpDatagram udp = ipv4.Udp;
+                        cp.SrcPort = udp.SourcePort;
+                        cp.DstPort = udp.DestinationPort;
+                        cp.Payload = udp.Payload;
+                        cp.getPayload();
+                        break;
+
+                    case "internetcontrolmessageprotocol":  // icmp packet received
+                        IcmpDatagram icmp = ipv4.Icmp;
+                        cp.Payload = icmp.Payload;
+                        cp.getPayload();
+                        break;
+                    default:
+                        //throw new Exception("not udp, tcp, or icmp packet; protocol: " + ipv4.Protocol);
+                        break;
+                }
+            }
+
+            else if (packet.Ethernet.Arp.IsValid) // arp packet received
+            {
+                ArpDatagram arp = packet.Ethernet.Arp;
+                cp.SourceAddress = arp.SenderProtocolIpV4Address;
+                cp.DestAddress = arp.TargetProtocolIpV4Address;
+            }
+
+            
+
+            return cp;
+        }
         public override string ToString()
         {
             string pay = (payloadData != null) ? BitConverter.ToString(payloadData).Replace("-", "") : "nil";

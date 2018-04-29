@@ -149,9 +149,9 @@ namespace SteppingStoneCapture
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(1012, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(759, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -163,38 +163,34 @@ namespace SteppingStoneCapture
             this.ExitMenuItem,
             this.toolStripSeparator1});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "&Menu";
             // 
             // loadDumpFileToolStripMenuItem
             // 
             this.loadDumpFileToolStripMenuItem.Name = "loadDumpFileToolStripMenuItem";
-            this.loadDumpFileToolStripMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.loadDumpFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadDumpFileToolStripMenuItem.Text = "&Load Dump File";
             this.loadDumpFileToolStripMenuItem.Click += new System.EventHandler(this.LoadDumpFileToolStripMenuItem_Click);
             // 
             // SaveMenuItem
             // 
-            this.SaveMenuItem.CheckOnClick = true;
-            this.SaveMenuItem.DoubleClickEnabled = true;
             this.SaveMenuItem.Name = "SaveMenuItem";
-            this.SaveMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.SaveMenuItem.Size = new System.Drawing.Size(180, 22);
             this.SaveMenuItem.Text = "Sa&ve";
             this.SaveMenuItem.Click += new System.EventHandler(this.SaveMenuItem_Click);
             // 
             // ExitMenuItem
             // 
-            this.ExitMenuItem.CheckOnClick = true;
-            this.ExitMenuItem.DoubleClickEnabled = true;
             this.ExitMenuItem.Name = "ExitMenuItem";
-            this.ExitMenuItem.Size = new System.Drawing.Size(189, 26);
+            this.ExitMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ExitMenuItem.Text = "Exi&t";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // optionsToolStripMenuItem
             // 
@@ -203,7 +199,7 @@ namespace SteppingStoneCapture
             this.dumpPacketsDuringCaptureToolStripMenuItem,
             this.hexEditorToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(73, 24);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "&Options";
             // 
             // filterVisibilityItem
@@ -211,13 +207,13 @@ namespace SteppingStoneCapture
             this.filterVisibilityItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showFilterFieldItem});
             this.filterVisibilityItem.Name = "filterVisibilityItem";
-            this.filterVisibilityItem.Size = new System.Drawing.Size(154, 26);
+            this.filterVisibilityItem.Size = new System.Drawing.Size(128, 22);
             this.filterVisibilityItem.Text = "&Visual";
             // 
             // showFilterFieldItem
             // 
             this.showFilterFieldItem.Name = "showFilterFieldItem";
-            this.showFilterFieldItem.Size = new System.Drawing.Size(231, 26);
+            this.showFilterFieldItem.Size = new System.Drawing.Size(190, 22);
             this.showFilterFieldItem.Text = "Show/Hide &Filter Field";
             this.showFilterFieldItem.Click += new System.EventHandler(this.ShowFilterFieldToolStripMenuItem_Click);
             // 
@@ -227,13 +223,13 @@ namespace SteppingStoneCapture
             this.captureAndDumpMenuItem,
             this.filterConenctionToolStripMenuItem});
             this.dumpPacketsDuringCaptureToolStripMenuItem.Name = "dumpPacketsDuringCaptureToolStripMenuItem";
-            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
+            this.dumpPacketsDuringCaptureToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.dumpPacketsDuringCaptureToolStripMenuItem.Text = "&Capture";
             // 
             // captureAndDumpMenuItem
             // 
             this.captureAndDumpMenuItem.Name = "captureAndDumpMenuItem";
-            this.captureAndDumpMenuItem.Size = new System.Drawing.Size(294, 26);
+            this.captureAndDumpMenuItem.Size = new System.Drawing.Size(246, 22);
             this.captureAndDumpMenuItem.Text = "&Dump Packets During Capture....";
             this.captureAndDumpMenuItem.Click += new System.EventHandler(this.CaptureAndDumpMenuItem_Click);
             // 
@@ -243,20 +239,20 @@ namespace SteppingStoneCapture
             this.incomingToolStripMenuItem,
             this.outgoingToolStripMenuItem});
             this.filterConenctionToolStripMenuItem.Name = "filterConenctionToolStripMenuItem";
-            this.filterConenctionToolStripMenuItem.Size = new System.Drawing.Size(294, 26);
+            this.filterConenctionToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
             this.filterConenctionToolStripMenuItem.Text = "Filter &Connection...";
             // 
             // incomingToolStripMenuItem
             // 
             this.incomingToolStripMenuItem.Name = "incomingToolStripMenuItem";
-            this.incomingToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.incomingToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.incomingToolStripMenuItem.Text = "&Incoming";
             this.incomingToolStripMenuItem.Click += new System.EventHandler(this.incomingToolStripMenuItem_Click);
             // 
             // outgoingToolStripMenuItem
             // 
             this.outgoingToolStripMenuItem.Name = "outgoingToolStripMenuItem";
-            this.outgoingToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.outgoingToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.outgoingToolStripMenuItem.Text = "&Outgoing";
             this.outgoingToolStripMenuItem.Click += new System.EventHandler(this.outgoingToolStripMenuItem_Click);
             // 
@@ -266,13 +262,13 @@ namespace SteppingStoneCapture
             this.multiWindowDisplayMenuItem,
             this.rawPacketViewItem});
             this.hexEditorToolStripMenuItem.Name = "hexEditorToolStripMenuItem";
-            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
+            this.hexEditorToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.hexEditorToolStripMenuItem.Text = "&Hex Editor";
             // 
             // multiWindowDisplayMenuItem
             // 
             this.multiWindowDisplayMenuItem.Name = "multiWindowDisplayMenuItem";
-            this.multiWindowDisplayMenuItem.Size = new System.Drawing.Size(349, 26);
+            this.multiWindowDisplayMenuItem.Size = new System.Drawing.Size(284, 22);
             this.multiWindowDisplayMenuItem.Text = "&Display Selected Packet in New Window";
             this.multiWindowDisplayMenuItem.Click += new System.EventHandler(this.MultiWindowDisplayMenuItem_Click);
             // 
@@ -281,7 +277,7 @@ namespace SteppingStoneCapture
             this.rawPacketViewItem.Checked = true;
             this.rawPacketViewItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.rawPacketViewItem.Name = "rawPacketViewItem";
-            this.rawPacketViewItem.Size = new System.Drawing.Size(349, 26);
+            this.rawPacketViewItem.Size = new System.Drawing.Size(284, 22);
             this.rawPacketViewItem.Text = "&Raw Packet View";
             this.rawPacketViewItem.Click += new System.EventHandler(this.RawPacketViewItem_Click);
             // 
@@ -290,13 +286,13 @@ namespace SteppingStoneCapture
             this.configurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.numberOfPactketsPerFileToolStripMenuItem});
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
-            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(112, 24);
+            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.configurationToolStripMenuItem.Text = "&Configuration";
             // 
             // numberOfPactketsPerFileToolStripMenuItem
             // 
             this.numberOfPactketsPerFileToolStripMenuItem.Name = "numberOfPactketsPerFileToolStripMenuItem";
-            this.numberOfPactketsPerFileToolStripMenuItem.Size = new System.Drawing.Size(259, 26);
+            this.numberOfPactketsPerFileToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.numberOfPactketsPerFileToolStripMenuItem.Text = "Number of &Packets per file";
             this.numberOfPactketsPerFileToolStripMenuItem.Click += new System.EventHandler(this.numberOfPactketsPerFileToolStripMenuItem_Click);
             // 
@@ -311,49 +307,50 @@ namespace SteppingStoneCapture
             this.lengthEstimationToolStripMenuItem,
             this.crossoverToolStripMenuItem});
             this.analysisToolStripMenuItem.Name = "analysisToolStripMenuItem";
-            this.analysisToolStripMenuItem.Size = new System.Drawing.Size(86, 24);
+            this.analysisToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
             this.analysisToolStripMenuItem.Text = "&Detection";
             // 
             // contentTHumbrprintToolStripMenuItem
             // 
             this.contentTHumbrprintToolStripMenuItem.Name = "contentTHumbrprintToolStripMenuItem";
-            this.contentTHumbrprintToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.contentTHumbrprintToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.contentTHumbrprintToolStripMenuItem.Text = "&Content Thumbprint";
             // 
             // timeThumbprintToolStripMenuItem
             // 
             this.timeThumbprintToolStripMenuItem.Name = "timeThumbprintToolStripMenuItem";
-            this.timeThumbprintToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.timeThumbprintToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.timeThumbprintToolStripMenuItem.Text = "&Time Thumbprint";
             // 
             // stepFunctionToolStripMenuItem
             // 
             this.stepFunctionToolStripMenuItem.Name = "stepFunctionToolStripMenuItem";
-            this.stepFunctionToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.stepFunctionToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.stepFunctionToolStripMenuItem.Text = "&Step Function";
+            this.stepFunctionToolStripMenuItem.Click += new System.EventHandler(this.stepFunctionToolStripMenuItem_Click);
             // 
             // packetMAtchingToolStripMenuItem
             // 
             this.packetMAtchingToolStripMenuItem.Name = "packetMAtchingToolStripMenuItem";
-            this.packetMAtchingToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.packetMAtchingToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.packetMAtchingToolStripMenuItem.Text = "&Packet Matching";
             // 
             // rAndomWalkToolStripMenuItem
             // 
             this.rAndomWalkToolStripMenuItem.Name = "rAndomWalkToolStripMenuItem";
-            this.rAndomWalkToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.rAndomWalkToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.rAndomWalkToolStripMenuItem.Text = "&Random Walk";
             // 
             // lengthEstimationToolStripMenuItem
             // 
             this.lengthEstimationToolStripMenuItem.Name = "lengthEstimationToolStripMenuItem";
-            this.lengthEstimationToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.lengthEstimationToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.lengthEstimationToolStripMenuItem.Text = "Clustering-Partitionin&g";
             // 
             // crossoverToolStripMenuItem
             // 
             this.crossoverToolStripMenuItem.Name = "crossoverToolStripMenuItem";
-            this.crossoverToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.crossoverToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.crossoverToolStripMenuItem.Text = "Cross&over-Packet";
             // 
             // helpToolStripMenuItem
@@ -361,13 +358,13 @@ namespace SteppingStoneCapture
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutUsToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // aboutUsToolStripMenuItem
             // 
             this.aboutUsToolStripMenuItem.Name = "aboutUsToolStripMenuItem";
-            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
+            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.aboutUsToolStripMenuItem.Text = "&About Us";
             // 
             // contextMenuStrip1
@@ -381,10 +378,10 @@ namespace SteppingStoneCapture
             this.cmbInterfaces.ContextMenuStrip = this.contextMenuStrip1;
             this.cmbInterfaces.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbInterfaces.FormattingEnabled = true;
-            this.cmbInterfaces.Location = new System.Drawing.Point(16, 60);
-            this.cmbInterfaces.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmbInterfaces.Location = new System.Drawing.Point(12, 49);
+            this.cmbInterfaces.Margin = new System.Windows.Forms.Padding(2);
             this.cmbInterfaces.Name = "cmbInterfaces";
-            this.cmbInterfaces.Size = new System.Drawing.Size(265, 24);
+            this.cmbInterfaces.Size = new System.Drawing.Size(200, 21);
             this.cmbInterfaces.TabIndex = 2;
             this.cmbInterfaces.DropDown += new System.EventHandler(this.cmbInterfaces_DropDown);
             this.cmbInterfaces.SelectedIndexChanged += new System.EventHandler(this.CmbInterfaces_SelectedIndexChanged);
@@ -393,20 +390,20 @@ namespace SteppingStoneCapture
             // 
             this.txtFilterField.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtFilterField.Location = new System.Drawing.Point(16, 240);
-            this.txtFilterField.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtFilterField.Location = new System.Drawing.Point(12, 195);
+            this.txtFilterField.Margin = new System.Windows.Forms.Padding(2);
             this.txtFilterField.Name = "txtFilterField";
-            this.txtFilterField.Size = new System.Drawing.Size(257, 22);
+            this.txtFilterField.Size = new System.Drawing.Size(194, 20);
             this.txtFilterField.TabIndex = 8;
             this.txtFilterField.Visible = false;
             // 
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Location = new System.Drawing.Point(869, 39);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnStart.Location = new System.Drawing.Point(652, 32);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(125, 36);
+            this.btnStart.Size = new System.Drawing.Size(94, 29);
             this.btnStart.TabIndex = 17;
             this.btnStart.Text = "&Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -415,10 +412,10 @@ namespace SteppingStoneCapture
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(869, 82);
-            this.btnReset.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnReset.Location = new System.Drawing.Point(652, 67);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(2);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(125, 38);
+            this.btnReset.Size = new System.Drawing.Size(94, 31);
             this.btnReset.TabIndex = 18;
             this.btnReset.Text = "&Reset";
             this.btnReset.UseVisualStyleBackColor = true;
@@ -427,10 +424,10 @@ namespace SteppingStoneCapture
             // btnStop
             // 
             this.btnStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStop.Location = new System.Drawing.Point(869, 127);
-            this.btnStop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnStop.Location = new System.Drawing.Point(652, 103);
+            this.btnStop.Margin = new System.Windows.Forms.Padding(2);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(125, 38);
+            this.btnStop.Size = new System.Drawing.Size(94, 31);
             this.btnStop.TabIndex = 19;
             this.btnStop.Text = "S&top";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -439,10 +436,10 @@ namespace SteppingStoneCapture
             // btnExit
             // 
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.Location = new System.Drawing.Point(876, 674);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnExit.Location = new System.Drawing.Point(657, 548);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(2);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(125, 38);
+            this.btnExit.Size = new System.Drawing.Size(94, 31);
             this.btnExit.TabIndex = 21;
             this.btnExit.Text = "E&xit";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -451,10 +448,10 @@ namespace SteppingStoneCapture
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(744, 674);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnSave.Location = new System.Drawing.Point(558, 548);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(125, 38);
+            this.btnSave.Size = new System.Drawing.Size(94, 31);
             this.btnSave.TabIndex = 22;
             this.btnSave.Text = "Sav&e";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -466,9 +463,10 @@ namespace SteppingStoneCapture
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblInterfaceList.AutoSize = true;
-            this.lblInterfaceList.Location = new System.Drawing.Point(16, 43);
+            this.lblInterfaceList.Location = new System.Drawing.Point(12, 35);
+            this.lblInterfaceList.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblInterfaceList.Name = "lblInterfaceList";
-            this.lblInterfaceList.Size = new System.Drawing.Size(93, 17);
+            this.lblInterfaceList.Size = new System.Drawing.Size(71, 13);
             this.lblInterfaceList.TabIndex = 24;
             this.lblInterfaceList.Text = "Interface List:";
             // 
@@ -478,9 +476,10 @@ namespace SteppingStoneCapture
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCaptureInfo.AutoSize = true;
-            this.lblCaptureInfo.Location = new System.Drawing.Point(12, 347);
+            this.lblCaptureInfo.Location = new System.Drawing.Point(9, 282);
+            this.lblCaptureInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCaptureInfo.Name = "lblCaptureInfo";
-            this.lblCaptureInfo.Size = new System.Drawing.Size(89, 17);
+            this.lblCaptureInfo.Size = new System.Drawing.Size(68, 13);
             this.lblCaptureInfo.TabIndex = 25;
             this.lblCaptureInfo.Text = "Capture Info:";
             // 
@@ -488,10 +487,10 @@ namespace SteppingStoneCapture
             // 
             this.chkAutoScroll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkAutoScroll.AutoSize = true;
-            this.chkAutoScroll.Location = new System.Drawing.Point(15, 670);
-            this.chkAutoScroll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkAutoScroll.Location = new System.Drawing.Point(11, 544);
+            this.chkAutoScroll.Margin = new System.Windows.Forms.Padding(2);
             this.chkAutoScroll.Name = "chkAutoScroll";
-            this.chkAutoScroll.Size = new System.Drawing.Size(92, 21);
+            this.chkAutoScroll.Size = new System.Drawing.Size(72, 17);
             this.chkAutoScroll.TabIndex = 27;
             this.chkAutoScroll.Text = "&Autoscroll";
             this.chkAutoScroll.UseVisualStyleBackColor = true;
@@ -515,16 +514,14 @@ namespace SteppingStoneCapture
             this.Flags});
             this.packetView.FullRowSelect = true;
             this.packetView.GridLines = true;
-            this.packetView.Location = new System.Drawing.Point(12, 292);
-            this.packetView.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.packetView.Location = new System.Drawing.Point(9, 237);
+            this.packetView.Margin = new System.Windows.Forms.Padding(4);
             this.packetView.Name = "packetView";
-            this.packetView.Size = new System.Drawing.Size(983, 370);
+            this.packetView.Size = new System.Drawing.Size(738, 301);
             this.packetView.TabIndex = 28;
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
             this.packetView.SelectedIndexChanged += new System.EventHandler(this.PacketView_SelectedIndexChanged);
-            ControlExtender.DoubleBuffered(this.packetView, true);//stops flickering
-
             // 
             // packNum
             // 
@@ -581,10 +578,10 @@ namespace SteppingStoneCapture
             // btnShowData
             // 
             this.btnShowData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowData.Location = new System.Drawing.Point(613, 674);
-            this.btnShowData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnShowData.Location = new System.Drawing.Point(460, 548);
+            this.btnShowData.Margin = new System.Windows.Forms.Padding(2);
             this.btnShowData.Name = "btnShowData";
-            this.btnShowData.Size = new System.Drawing.Size(125, 38);
+            this.btnShowData.Size = new System.Drawing.Size(94, 31);
             this.btnShowData.TabIndex = 29;
             this.btnShowData.Text = "Show &Data";
             this.btnShowData.UseVisualStyleBackColor = true;
@@ -596,9 +593,10 @@ namespace SteppingStoneCapture
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFilterField.AutoSize = true;
-            this.lblFilterField.Location = new System.Drawing.Point(13, 222);
+            this.lblFilterField.Location = new System.Drawing.Point(10, 180);
+            this.lblFilterField.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFilterField.Name = "lblFilterField";
-            this.lblFilterField.Size = new System.Drawing.Size(77, 17);
+            this.lblFilterField.Size = new System.Drawing.Size(57, 13);
             this.lblFilterField.TabIndex = 23;
             this.lblFilterField.Text = "Filter Field:";
             this.lblFilterField.Visible = false;
@@ -609,11 +607,11 @@ namespace SteppingStoneCapture
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpFilterParams.Controls.Add(this.grpPorts);
             this.grpFilterParams.Controls.Add(this.grpIPAddress);
-            this.grpFilterParams.Location = new System.Drawing.Point(293, 39);
-            this.grpFilterParams.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpFilterParams.Location = new System.Drawing.Point(220, 32);
+            this.grpFilterParams.Margin = new System.Windows.Forms.Padding(2);
             this.grpFilterParams.Name = "grpFilterParams";
-            this.grpFilterParams.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpFilterParams.Size = new System.Drawing.Size(556, 245);
+            this.grpFilterParams.Padding = new System.Windows.Forms.Padding(2);
+            this.grpFilterParams.Size = new System.Drawing.Size(417, 199);
             this.grpFilterParams.TabIndex = 30;
             this.grpFilterParams.TabStop = false;
             this.grpFilterParams.Text = "Filter Parameters";
@@ -635,11 +633,11 @@ namespace SteppingStoneCapture
             this.grpPorts.Controls.Add(this.lblPort2);
             this.grpPorts.Controls.Add(this.chkSrcPort1);
             this.grpPorts.Controls.Add(this.lblPort1);
-            this.grpPorts.Location = new System.Drawing.Point(17, 126);
-            this.grpPorts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpPorts.Location = new System.Drawing.Point(13, 102);
+            this.grpPorts.Margin = new System.Windows.Forms.Padding(2);
             this.grpPorts.Name = "grpPorts";
-            this.grpPorts.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpPorts.Size = new System.Drawing.Size(523, 114);
+            this.grpPorts.Padding = new System.Windows.Forms.Padding(2);
+            this.grpPorts.Size = new System.Drawing.Size(392, 93);
             this.grpPorts.TabIndex = 55;
             this.grpPorts.TabStop = false;
             this.grpPorts.Text = "Ports";
@@ -649,20 +647,18 @@ namespace SteppingStoneCapture
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Location = new System.Drawing.Point(101, 62);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(76, 50);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(400, 4);
+            this.label2.Size = new System.Drawing.Size(300, 3);
             this.label2.TabIndex = 65;
             // 
             // chkNotPort2
             // 
             this.chkNotPort2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkNotPort2.AutoSize = true;
-            this.chkNotPort2.Location = new System.Drawing.Point(445, 78);
-            this.chkNotPort2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkNotPort2.Location = new System.Drawing.Point(329, 63);
             this.chkNotPort2.Name = "chkNotPort2";
-            this.chkNotPort2.Size = new System.Drawing.Size(52, 21);
+            this.chkNotPort2.Size = new System.Drawing.Size(43, 17);
             this.chkNotPort2.TabIndex = 64;
             this.chkNotPort2.Text = "Not";
             this.chkNotPort2.UseVisualStyleBackColor = true;
@@ -671,10 +667,10 @@ namespace SteppingStoneCapture
             // 
             this.chkPortNOT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkPortNOT.AutoSize = true;
-            this.chkPortNOT.Location = new System.Drawing.Point(448, 31);
-            this.chkPortNOT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkPortNOT.Location = new System.Drawing.Point(332, 25);
+            this.chkPortNOT.Margin = new System.Windows.Forms.Padding(2);
             this.chkPortNOT.Name = "chkPortNOT";
-            this.chkPortNOT.Size = new System.Drawing.Size(52, 21);
+            this.chkPortNOT.Size = new System.Drawing.Size(43, 17);
             this.chkPortNOT.TabIndex = 63;
             this.chkPortNOT.Text = "Not";
             this.chkPortNOT.UseVisualStyleBackColor = true;
@@ -682,10 +678,10 @@ namespace SteppingStoneCapture
             // chkPortOR
             // 
             this.chkPortOR.AutoSize = true;
-            this.chkPortOR.Location = new System.Drawing.Point(28, 68);
-            this.chkPortOR.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkPortOR.Location = new System.Drawing.Point(21, 55);
+            this.chkPortOR.Margin = new System.Windows.Forms.Padding(2);
             this.chkPortOR.Name = "chkPortOR";
-            this.chkPortOR.Size = new System.Drawing.Size(46, 21);
+            this.chkPortOR.Size = new System.Drawing.Size(37, 17);
             this.chkPortOR.TabIndex = 62;
             this.chkPortOR.Text = "Or";
             this.chkPortOR.UseVisualStyleBackColor = true;
@@ -694,10 +690,10 @@ namespace SteppingStoneCapture
             // chkDstPort2
             // 
             this.chkDstPort2.AutoSize = true;
-            this.chkDstPort2.Location = new System.Drawing.Point(108, 90);
+            this.chkDstPort2.Location = new System.Drawing.Point(81, 73);
             this.chkDstPort2.Margin = new System.Windows.Forms.Padding(0);
             this.chkDstPort2.Name = "chkDstPort2";
-            this.chkDstPort2.Size = new System.Drawing.Size(51, 21);
+            this.chkDstPort2.Size = new System.Drawing.Size(42, 17);
             this.chkDstPort2.TabIndex = 61;
             this.chkDstPort2.Text = "Dst";
             this.chkDstPort2.UseVisualStyleBackColor = true;
@@ -706,10 +702,10 @@ namespace SteppingStoneCapture
             // chkPortAND
             // 
             this.chkPortAND.AutoSize = true;
-            this.chkPortAND.Location = new System.Drawing.Point(28, 38);
-            this.chkPortAND.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkPortAND.Location = new System.Drawing.Point(21, 31);
+            this.chkPortAND.Margin = new System.Windows.Forms.Padding(2);
             this.chkPortAND.Name = "chkPortAND";
-            this.chkPortAND.Size = new System.Drawing.Size(55, 21);
+            this.chkPortAND.Size = new System.Drawing.Size(45, 17);
             this.chkPortAND.TabIndex = 61;
             this.chkPortAND.Text = "And";
             this.chkPortAND.UseVisualStyleBackColor = true;
@@ -719,19 +715,19 @@ namespace SteppingStoneCapture
             // 
             this.txtPortOne.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPortOne.Location = new System.Drawing.Point(208, 27);
-            this.txtPortOne.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtPortOne.Location = new System.Drawing.Point(156, 22);
+            this.txtPortOne.Margin = new System.Windows.Forms.Padding(2);
             this.txtPortOne.Name = "txtPortOne";
-            this.txtPortOne.Size = new System.Drawing.Size(221, 22);
+            this.txtPortOne.Size = new System.Drawing.Size(167, 20);
             this.txtPortOne.TabIndex = 56;
             // 
             // chkSrcPort2
             // 
             this.chkSrcPort2.AutoSize = true;
-            this.chkSrcPort2.Location = new System.Drawing.Point(108, 68);
+            this.chkSrcPort2.Location = new System.Drawing.Point(81, 55);
             this.chkSrcPort2.Margin = new System.Windows.Forms.Padding(0);
             this.chkSrcPort2.Name = "chkSrcPort2";
-            this.chkSrcPort2.Size = new System.Drawing.Size(51, 21);
+            this.chkSrcPort2.Size = new System.Drawing.Size(42, 17);
             this.chkSrcPort2.TabIndex = 60;
             this.chkSrcPort2.Text = "Src";
             this.chkSrcPort2.UseVisualStyleBackColor = true;
@@ -741,19 +737,19 @@ namespace SteppingStoneCapture
             // 
             this.txtPortTwo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPortTwo.Location = new System.Drawing.Point(209, 75);
-            this.txtPortTwo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtPortTwo.Location = new System.Drawing.Point(157, 61);
+            this.txtPortTwo.Margin = new System.Windows.Forms.Padding(2);
             this.txtPortTwo.Name = "txtPortTwo";
-            this.txtPortTwo.Size = new System.Drawing.Size(220, 22);
+            this.txtPortTwo.Size = new System.Drawing.Size(166, 20);
             this.txtPortTwo.TabIndex = 57;
             // 
             // chkDstPort1
             // 
             this.chkDstPort1.AutoSize = true;
-            this.chkDstPort1.Location = new System.Drawing.Point(108, 38);
+            this.chkDstPort1.Location = new System.Drawing.Point(81, 31);
             this.chkDstPort1.Margin = new System.Windows.Forms.Padding(0);
             this.chkDstPort1.Name = "chkDstPort1";
-            this.chkDstPort1.Size = new System.Drawing.Size(51, 21);
+            this.chkDstPort1.Size = new System.Drawing.Size(42, 17);
             this.chkDstPort1.TabIndex = 59;
             this.chkDstPort1.Text = "Dst";
             this.chkDstPort1.UseVisualStyleBackColor = true;
@@ -762,19 +758,20 @@ namespace SteppingStoneCapture
             // lblPort2
             // 
             this.lblPort2.AutoSize = true;
-            this.lblPort2.Location = new System.Drawing.Point(163, 79);
+            this.lblPort2.Location = new System.Drawing.Point(122, 64);
+            this.lblPort2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPort2.Name = "lblPort2";
-            this.lblPort2.Size = new System.Drawing.Size(51, 17);
+            this.lblPort2.Size = new System.Drawing.Size(38, 13);
             this.lblPort2.TabIndex = 55;
             this.lblPort2.Text = "Port-2:";
             // 
             // chkSrcPort1
             // 
             this.chkSrcPort1.AutoSize = true;
-            this.chkSrcPort1.Location = new System.Drawing.Point(108, 17);
+            this.chkSrcPort1.Location = new System.Drawing.Point(81, 14);
             this.chkSrcPort1.Margin = new System.Windows.Forms.Padding(0);
             this.chkSrcPort1.Name = "chkSrcPort1";
-            this.chkSrcPort1.Size = new System.Drawing.Size(51, 21);
+            this.chkSrcPort1.Size = new System.Drawing.Size(42, 17);
             this.chkSrcPort1.TabIndex = 58;
             this.chkSrcPort1.Text = "Src";
             this.chkSrcPort1.UseVisualStyleBackColor = true;
@@ -783,9 +780,10 @@ namespace SteppingStoneCapture
             // lblPort1
             // 
             this.lblPort1.AutoSize = true;
-            this.lblPort1.Location = new System.Drawing.Point(163, 31);
+            this.lblPort1.Location = new System.Drawing.Point(122, 25);
+            this.lblPort1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPort1.Name = "lblPort1";
-            this.lblPort1.Size = new System.Drawing.Size(51, 17);
+            this.lblPort1.Size = new System.Drawing.Size(38, 13);
             this.lblPort1.TabIndex = 54;
             this.lblPort1.Text = "Port-1:";
             // 
@@ -806,11 +804,11 @@ namespace SteppingStoneCapture
             this.grpIPAddress.Controls.Add(this.txtIpTwo);
             this.grpIPAddress.Controls.Add(this.chkDstIP2);
             this.grpIPAddress.Controls.Add(this.chkSrcIP2);
-            this.grpIPAddress.Location = new System.Drawing.Point(17, 21);
-            this.grpIPAddress.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpIPAddress.Location = new System.Drawing.Point(13, 17);
+            this.grpIPAddress.Margin = new System.Windows.Forms.Padding(2);
             this.grpIPAddress.Name = "grpIPAddress";
-            this.grpIPAddress.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpIPAddress.Size = new System.Drawing.Size(523, 105);
+            this.grpIPAddress.Padding = new System.Windows.Forms.Padding(2);
+            this.grpIPAddress.Size = new System.Drawing.Size(392, 85);
             this.grpIPAddress.TabIndex = 54;
             this.grpIPAddress.TabStop = false;
             this.grpIPAddress.Text = "IP Addresses";
@@ -820,20 +818,18 @@ namespace SteppingStoneCapture
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Location = new System.Drawing.Point(101, 54);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(76, 44);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(400, 4);
+            this.label1.Size = new System.Drawing.Size(300, 3);
             this.label1.TabIndex = 62;
             // 
             // chkIPNOT2
             // 
             this.chkIPNOT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIPNOT2.AutoSize = true;
-            this.chkIPNOT2.Location = new System.Drawing.Point(445, 69);
-            this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkIPNOT2.Location = new System.Drawing.Point(329, 56);
             this.chkIPNOT2.Name = "chkIPNOT2";
-            this.chkIPNOT2.Size = new System.Drawing.Size(52, 21);
+            this.chkIPNOT2.Size = new System.Drawing.Size(43, 17);
             this.chkIPNOT2.TabIndex = 61;
             this.chkIPNOT2.Text = "Not";
             this.chkIPNOT2.UseVisualStyleBackColor = true;
@@ -842,10 +838,10 @@ namespace SteppingStoneCapture
             // 
             this.chkIPNOT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIPNOT.AutoSize = true;
-            this.chkIPNOT.Location = new System.Drawing.Point(445, 25);
-            this.chkIPNOT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkIPNOT.Location = new System.Drawing.Point(329, 20);
+            this.chkIPNOT.Margin = new System.Windows.Forms.Padding(2);
             this.chkIPNOT.Name = "chkIPNOT";
-            this.chkIPNOT.Size = new System.Drawing.Size(52, 21);
+            this.chkIPNOT.Size = new System.Drawing.Size(43, 17);
             this.chkIPNOT.TabIndex = 60;
             this.chkIPNOT.Text = "Not";
             this.chkIPNOT.UseVisualStyleBackColor = true;
@@ -853,10 +849,10 @@ namespace SteppingStoneCapture
             // chkIPOR
             // 
             this.chkIPOR.AutoSize = true;
-            this.chkIPOR.Location = new System.Drawing.Point(28, 59);
-            this.chkIPOR.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkIPOR.Location = new System.Drawing.Point(21, 48);
+            this.chkIPOR.Margin = new System.Windows.Forms.Padding(2);
             this.chkIPOR.Name = "chkIPOR";
-            this.chkIPOR.Size = new System.Drawing.Size(46, 21);
+            this.chkIPOR.Size = new System.Drawing.Size(37, 17);
             this.chkIPOR.TabIndex = 59;
             this.chkIPOR.Text = "Or";
             this.chkIPOR.UseVisualStyleBackColor = true;
@@ -865,10 +861,10 @@ namespace SteppingStoneCapture
             // chkIPAND
             // 
             this.chkIPAND.AutoSize = true;
-            this.chkIPAND.Location = new System.Drawing.Point(28, 32);
-            this.chkIPAND.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkIPAND.Location = new System.Drawing.Point(21, 26);
+            this.chkIPAND.Margin = new System.Windows.Forms.Padding(2);
             this.chkIPAND.Name = "chkIPAND";
-            this.chkIPAND.Size = new System.Drawing.Size(55, 21);
+            this.chkIPAND.Size = new System.Drawing.Size(45, 17);
             this.chkIPAND.TabIndex = 58;
             this.chkIPAND.Text = "And";
             this.chkIPAND.UseVisualStyleBackColor = true;
@@ -878,19 +874,19 @@ namespace SteppingStoneCapture
             // 
             this.txtIpOne.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtIpOne.Location = new System.Drawing.Point(208, 22);
-            this.txtIpOne.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtIpOne.Location = new System.Drawing.Point(156, 18);
+            this.txtIpOne.Margin = new System.Windows.Forms.Padding(2);
             this.txtIpOne.Name = "txtIpOne";
-            this.txtIpOne.Size = new System.Drawing.Size(221, 22);
+            this.txtIpOne.Size = new System.Drawing.Size(167, 20);
             this.txtIpOne.TabIndex = 52;
             // 
             // chkSrcIP1
             // 
             this.chkSrcIP1.AutoSize = true;
-            this.chkSrcIP1.Location = new System.Drawing.Point(108, 11);
+            this.chkSrcIP1.Location = new System.Drawing.Point(81, 9);
             this.chkSrcIP1.Margin = new System.Windows.Forms.Padding(0);
             this.chkSrcIP1.Name = "chkSrcIP1";
-            this.chkSrcIP1.Size = new System.Drawing.Size(51, 21);
+            this.chkSrcIP1.Size = new System.Drawing.Size(42, 17);
             this.chkSrcIP1.TabIndex = 54;
             this.chkSrcIP1.Text = "Src";
             this.chkSrcIP1.UseVisualStyleBackColor = true;
@@ -899,20 +895,21 @@ namespace SteppingStoneCapture
             // lblIP1
             // 
             this.lblIP1.AutoSize = true;
-            this.lblIP1.Location = new System.Drawing.Point(164, 26);
+            this.lblIP1.Location = new System.Drawing.Point(123, 21);
+            this.lblIP1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblIP1.Name = "lblIP1";
             this.lblIP1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.lblIP1.Size = new System.Drawing.Size(37, 17);
+            this.lblIP1.Size = new System.Drawing.Size(29, 13);
             this.lblIP1.TabIndex = 50;
             this.lblIP1.Text = "IP-1:";
             // 
             // chkDstIP1
             // 
             this.chkDstIP1.AutoSize = true;
-            this.chkDstIP1.Location = new System.Drawing.Point(108, 32);
+            this.chkDstIP1.Location = new System.Drawing.Point(81, 26);
             this.chkDstIP1.Margin = new System.Windows.Forms.Padding(0);
             this.chkDstIP1.Name = "chkDstIP1";
-            this.chkDstIP1.Size = new System.Drawing.Size(51, 21);
+            this.chkDstIP1.Size = new System.Drawing.Size(42, 17);
             this.chkDstIP1.TabIndex = 55;
             this.chkDstIP1.Text = "Dst";
             this.chkDstIP1.UseVisualStyleBackColor = true;
@@ -921,9 +918,10 @@ namespace SteppingStoneCapture
             // lblIP2
             // 
             this.lblIP2.AutoSize = true;
-            this.lblIP2.Location = new System.Drawing.Point(167, 70);
+            this.lblIP2.Location = new System.Drawing.Point(125, 57);
+            this.lblIP2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblIP2.Name = "lblIP2";
-            this.lblIP2.Size = new System.Drawing.Size(37, 17);
+            this.lblIP2.Size = new System.Drawing.Size(29, 13);
             this.lblIP2.TabIndex = 51;
             this.lblIP2.Text = "IP-2:";
             // 
@@ -931,19 +929,19 @@ namespace SteppingStoneCapture
             // 
             this.txtIpTwo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtIpTwo.Location = new System.Drawing.Point(209, 66);
-            this.txtIpTwo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtIpTwo.Location = new System.Drawing.Point(157, 54);
+            this.txtIpTwo.Margin = new System.Windows.Forms.Padding(2);
             this.txtIpTwo.Name = "txtIpTwo";
-            this.txtIpTwo.Size = new System.Drawing.Size(221, 22);
+            this.txtIpTwo.Size = new System.Drawing.Size(167, 20);
             this.txtIpTwo.TabIndex = 53;
             // 
             // chkDstIP2
             // 
             this.chkDstIP2.AutoSize = true;
-            this.chkDstIP2.Location = new System.Drawing.Point(108, 80);
+            this.chkDstIP2.Location = new System.Drawing.Point(81, 65);
             this.chkDstIP2.Margin = new System.Windows.Forms.Padding(0);
             this.chkDstIP2.Name = "chkDstIP2";
-            this.chkDstIP2.Size = new System.Drawing.Size(51, 21);
+            this.chkDstIP2.Size = new System.Drawing.Size(42, 17);
             this.chkDstIP2.TabIndex = 57;
             this.chkDstIP2.Text = "Dst";
             this.chkDstIP2.UseVisualStyleBackColor = true;
@@ -952,10 +950,10 @@ namespace SteppingStoneCapture
             // chkSrcIP2
             // 
             this.chkSrcIP2.AutoSize = true;
-            this.chkSrcIP2.Location = new System.Drawing.Point(108, 59);
+            this.chkSrcIP2.Location = new System.Drawing.Point(81, 48);
             this.chkSrcIP2.Margin = new System.Windows.Forms.Padding(0);
             this.chkSrcIP2.Name = "chkSrcIP2";
-            this.chkSrcIP2.Size = new System.Drawing.Size(51, 21);
+            this.chkSrcIP2.Size = new System.Drawing.Size(42, 17);
             this.chkSrcIP2.TabIndex = 56;
             this.chkSrcIP2.Text = "Src";
             this.chkSrcIP2.UseVisualStyleBackColor = true;
@@ -968,11 +966,11 @@ namespace SteppingStoneCapture
             this.grpFilterProtocols.Controls.Add(this.chkARP);
             this.grpFilterProtocols.Controls.Add(this.chkUDP);
             this.grpFilterProtocols.Controls.Add(this.chkICMP);
-            this.grpFilterProtocols.Location = new System.Drawing.Point(16, 102);
-            this.grpFilterProtocols.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpFilterProtocols.Location = new System.Drawing.Point(12, 83);
+            this.grpFilterProtocols.Margin = new System.Windows.Forms.Padding(2);
             this.grpFilterProtocols.Name = "grpFilterProtocols";
-            this.grpFilterProtocols.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpFilterProtocols.Size = new System.Drawing.Size(261, 101);
+            this.grpFilterProtocols.Padding = new System.Windows.Forms.Padding(2);
+            this.grpFilterProtocols.Size = new System.Drawing.Size(196, 82);
             this.grpFilterProtocols.TabIndex = 64;
             this.grpFilterProtocols.TabStop = false;
             this.grpFilterProtocols.Text = "Filter Protocols";
@@ -980,10 +978,10 @@ namespace SteppingStoneCapture
             // chkDNS
             // 
             this.chkDNS.AutoSize = true;
-            this.chkDNS.Location = new System.Drawing.Point(133, 58);
-            this.chkDNS.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkDNS.Location = new System.Drawing.Point(100, 47);
+            this.chkDNS.Margin = new System.Windows.Forms.Padding(2);
             this.chkDNS.Name = "chkDNS";
-            this.chkDNS.Size = new System.Drawing.Size(59, 21);
+            this.chkDNS.Size = new System.Drawing.Size(49, 17);
             this.chkDNS.TabIndex = 69;
             this.chkDNS.Text = "DNS";
             this.chkDNS.UseVisualStyleBackColor = true;
@@ -991,10 +989,10 @@ namespace SteppingStoneCapture
             // chkTCP
             // 
             this.chkTCP.AutoSize = true;
-            this.chkTCP.Location = new System.Drawing.Point(11, 26);
-            this.chkTCP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkTCP.Location = new System.Drawing.Point(8, 21);
+            this.chkTCP.Margin = new System.Windows.Forms.Padding(2);
             this.chkTCP.Name = "chkTCP";
-            this.chkTCP.Size = new System.Drawing.Size(57, 21);
+            this.chkTCP.Size = new System.Drawing.Size(47, 17);
             this.chkTCP.TabIndex = 65;
             this.chkTCP.Text = "TCP";
             this.chkTCP.UseVisualStyleBackColor = true;
@@ -1002,10 +1000,10 @@ namespace SteppingStoneCapture
             // chkARP
             // 
             this.chkARP.AutoSize = true;
-            this.chkARP.Location = new System.Drawing.Point(52, 58);
-            this.chkARP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkARP.Location = new System.Drawing.Point(39, 47);
+            this.chkARP.Margin = new System.Windows.Forms.Padding(2);
             this.chkARP.Name = "chkARP";
-            this.chkARP.Size = new System.Drawing.Size(58, 21);
+            this.chkARP.Size = new System.Drawing.Size(48, 17);
             this.chkARP.TabIndex = 68;
             this.chkARP.Text = "ARP";
             this.chkARP.UseVisualStyleBackColor = true;
@@ -1013,10 +1011,10 @@ namespace SteppingStoneCapture
             // chkUDP
             // 
             this.chkUDP.AutoSize = true;
-            this.chkUDP.Location = new System.Drawing.Point(91, 26);
-            this.chkUDP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkUDP.Location = new System.Drawing.Point(68, 21);
+            this.chkUDP.Margin = new System.Windows.Forms.Padding(2);
             this.chkUDP.Name = "chkUDP";
-            this.chkUDP.Size = new System.Drawing.Size(59, 21);
+            this.chkUDP.Size = new System.Drawing.Size(49, 17);
             this.chkUDP.TabIndex = 66;
             this.chkUDP.Text = "UDP";
             this.chkUDP.UseVisualStyleBackColor = true;
@@ -1024,10 +1022,10 @@ namespace SteppingStoneCapture
             // chkICMP
             // 
             this.chkICMP.AutoSize = true;
-            this.chkICMP.Location = new System.Drawing.Point(173, 26);
-            this.chkICMP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkICMP.Location = new System.Drawing.Point(130, 21);
+            this.chkICMP.Margin = new System.Windows.Forms.Padding(2);
             this.chkICMP.Name = "chkICMP";
-            this.chkICMP.Size = new System.Drawing.Size(62, 21);
+            this.chkICMP.Size = new System.Drawing.Size(52, 17);
             this.chkICMP.TabIndex = 67;
             this.chkICMP.Text = "ICMP";
             this.chkICMP.UseVisualStyleBackColor = true;
@@ -1036,19 +1034,18 @@ namespace SteppingStoneCapture
             // 
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(856, 172);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Location = new System.Drawing.Point(642, 140);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(140, 111);
+            this.pictureBox1.Size = new System.Drawing.Size(105, 90);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 65;
             this.pictureBox1.TabStop = false;
             // 
             // CaptureForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1012, 722);
+            this.ClientSize = new System.Drawing.Size(759, 587);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.grpFilterProtocols);
             this.Controls.Add(this.grpFilterParams);
@@ -1069,8 +1066,8 @@ namespace SteppingStoneCapture
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MinimumSize = new System.Drawing.Size(861, 596);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MinimumSize = new System.Drawing.Size(650, 491);
             this.Name = "CaptureForm";
             this.Text = "Stepping-Stone Intrusion Detection Suite";
             this.Load += new System.EventHandler(this.CaptureForm_Load);

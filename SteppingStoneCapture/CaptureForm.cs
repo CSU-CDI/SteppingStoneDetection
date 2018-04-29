@@ -32,7 +32,7 @@ namespace SteppingStoneCapture
         private int numThreads;
         private Boolean protocolRequested, attributeRequested;
         private volatile Boolean captureAndDumpRequested, multiWindowDisplay, rawPacketViewDesired;
-        private CougarFilterBuilder cfb;
+        private Tools.CougarFilterBuilder cfb;
         private int lastSelectedIndex = 0;
         private Boolean adjusted = false;
         private int maxFilePackets;
@@ -59,7 +59,7 @@ namespace SteppingStoneCapture
             captureAndDumpRequested = captureAndDumpMenuItem.Checked;
             multiWindowDisplay = multiWindowDisplayMenuItem.Checked;
             rawPacketViewDesired = rawPacketViewItem.Checked;
-            cfb = new CougarFilterBuilder("or", "or");
+            cfb = new Tools.CougarFilterBuilder("or", "or");
             bvf = new ByteViewerForm();
 
             System.IO.StreamReader readingFile = new System.IO.StreamReader(Directory.GetCurrentDirectory() + "\\default.txt");
@@ -89,35 +89,7 @@ namespace SteppingStoneCapture
 
             MessageBox.Show("Checking for dependencies");
         }
-
-        private void DescribeInterfaceDevice(int offsetForWindowsMachines, LivePacketDevice device)
-        {
-            string ipAddress = "";
-            string prefix = "";
-            foreach (DeviceAddress address in device.Addresses)
-            {
-                if (!address.Address.ToString().Contains("Internet6"))
-                {
-                    string temp = address.Address.ToString();
-                    string[] ipv4addy = temp.Split();
-                    ipAddress = ipv4addy[1];
-                }
-            }
-
-            if (ipAddress != "") prefix = ipAddress + " - ";
-            cmbInterfaces.Items.Add(prefix + device.Name);
-
-            /*if (device.Description != null)
-                if (device.Description.ToLower().Contains("\'microsoft\'"))
-                    cmbInterfaces.Items.Add(prefix + "Wireless Connector");
-                else if (device.Description.ToLower().Contains("ethernet"))
-                    cmbInterfaces.Items.Add(prefix + "Ethernet Connector");
-                else
-                    cmbInterfaces.Items.Add(prefix + device.Description.Substring(offsetForWindowsMachines));
-            else
-                cmbInterfaces.Items.Add(prefix + "*** Description Unavailable");*/
-        }
-
+        
         private void SearchFormProperties()
         {
             foreach (Control c in Controls)
@@ -261,37 +233,7 @@ namespace SteppingStoneCapture
 
         private void DumpCapturedPacketsToMotherTextFiles(string fileName) // dumps to text file
         {
-            int indexF = 0;
-            int countP = 0;
-            string[] file = fileName.Split('.');
-            //fileName.
-            if (packetBytes.Count > 0)
-            {
-                //open file stream for mother file and raw mother file
-                FileStream fs = File.OpenWrite(file[0] + "_" + (indexF + 1).ToString() + '.' + file[1]);
-                StreamWriter fsRaw = new StreamWriter(file[0] + "_" + (indexF + 1).ToString() + "_raw" + '.' + file[1]);
-
-                int i = 0;
-                foreach (byte[] barr in packetBytes)
-                {
-                    if (countP % maxFilePackets == 0 && countP != 0)
-                    {
-                        indexF++;
-                        fs.Close();
-                        fsRaw.Close();
-                        fs = File.OpenWrite(file[0] + "_" + (indexF + 1).ToString() + '.' + file[1]);
-                        fsRaw = new StreamWriter(file[0] + "_" + (indexF + 1).ToString() + "_raw" + '.' + file[1]);
-                    }
-                    countP++;
-                    fs.Write(barr, 0, barr.Length);
-                    fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(packets[i].Buffer).Replace("-", ""), packets[i].Timestamp.ToString("hh:mm:ss.fff"), packets[i].DataLink, packets[i].OriginalLength));
-                    ++i;
-                }
-
-                fs.Close();
-                fsRaw.Close();
-            }
-
+            Tools.FileHandler.SavePacketsToTextFile(fileName,packets,packetBytes,maxFilePackets,sensorAddress);
         }
 
         private void FlipFilterFieldVisibility() // show or hide filter textbox
@@ -300,75 +242,14 @@ namespace SteppingStoneCapture
             lblFilterField.Visible = !lblFilterField.Visible;
         }
 
-        private CougarPacket DetermineCorrectPacketFormat(Packet packet) // looks at the most recent packet and determines what protocol it carries
-        {
-            CougarPacket cp = new CougarPacket
-            {
-                TimeStamp = packet.Timestamp.ToString("hh:mm:ss.fff"),
-                PacketNumber = packetNumber,
-                Length = packet.Length,
-                SensorIP = new IpV4Address(sensorAddress),
-
-            };
-
-            if (packet.Ethernet.IpV4.IsValid)
-            {
-                IpV4Datagram ipv4 = packet.Ethernet.IpV4;
-                cp.SourceAddress = ipv4.Source;
-                cp.DestAddress = ipv4.Destination;
-
-                switch (ipv4.Protocol.ToString().ToLower())
-                {
-                    case "tcp":  // tcp packet received
-                        TcpDatagram tcp = ipv4.Tcp;
-                        cp.SrcPort = tcp.SourcePort;
-                        cp.DstPort = tcp.DestinationPort;
-                        cp.ChkSum = tcp.Checksum;
-                        cp.AckNum = tcp.AcknowledgmentNumber;
-                        cp.SeqNum = tcp.SequenceNumber;
-                        cp.Payload = tcp.Payload;
-                        cp.TCPFlags = tcp.ControlBits.ToString();
-                        cp.getPayload();
-                        break;
-
-                    case "udp":  // udp packet received
-                        UdpDatagram udp = ipv4.Udp;
-                        cp.SrcPort = udp.SourcePort;
-                        cp.DstPort = udp.DestinationPort;
-                        cp.Payload = udp.Payload;
-                        cp.getPayload();
-                        break;
-
-                    case "internetcontrolmessageprotocol":  // icmp packet received
-                        IcmpDatagram icmp = ipv4.Icmp;
-                        cp.Payload = icmp.Payload;
-                        cp.getPayload();
-                        break;
-                    default:
-                        //throw new Exception("not udp, tcp, or icmp packet; protocol: " + ipv4.Protocol);
-                        break;
-                }
-            }
-
-            else if (packet.Ethernet.Arp.IsValid) // arp packet received
-            {
-                ArpDatagram arp = packet.Ethernet.Arp;
-                cp.SourceAddress = arp.SenderProtocolIpV4Address;
-                cp.DestAddress = arp.TargetProtocolIpV4Address;
-            }
-
-            cougarpackets.Add(cp);
-
-            return cp;
-        }
-
         private void PrintPacket(Packet packet) // main packet handler method (should probably be renamed to the original HandleLoadedPacket name to make more sense)
         {
             if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
-                CougarPacket cp = DetermineCorrectPacketFormat(packet);  // create new cougarpacket wtih proper protocol information related to this particular packet
+                CougarPacket cp = CougarPacket.DetermineCorrectPacketFormat(packet, sensorAddress, packetNumber);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);
+                cougarpackets.Add(cp);
                 if (cp.SourceAddress.ToString() != "0.0.0.0")
                     this.Invoke((MethodInvoker)(() => // this is used to access the main form from within a separate thread (i.e. this capture thread)
                 {
@@ -394,9 +275,10 @@ namespace SteppingStoneCapture
             if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
-                CougarPacket cp = DetermineCorrectPacketFormat(packet);
+                CougarPacket cp = CougarPacket.DetermineCorrectPacketFormat(packet, sensorAddress, packetNumber);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 cp.SensorIP = new IpV4Address(sensorIP);// create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);
+                cougarpackets.Add(cp);
                 if (cp.SourceAddress.ToString() != "0.0.0.0")
                     this.Invoke((MethodInvoker)(() => // this is used to access the , main form from within a separate thread (i.e. this capture thread)
                     {
@@ -521,62 +403,11 @@ namespace SteppingStoneCapture
                 {
                     this.Invoke((MethodInvoker)(() =>
                     {
-                        string dumpFileName = DetermineFilePath(communicator);
+                        Tools.FileHandler.SavePackets(packets,packetBytes,maxFilePackets,sensorAddress);
                     }));
                 }
 
             }
-        }
-
-        private void DumpPackets(PacketCommunicator communicator, string dumpFileName) // write pakets to dump file
-        {
-            using (PacketDumpFile pdf = communicator.OpenDump(dumpFileName))
-                foreach (Packet p in packets)
-                    pdf.Dump(p);
-        }
-
-        private string DetermineFilePath(PacketCommunicator pc = null)
-        {
-            SaveFileDialog sfd = new SaveFileDialog()
-            {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                Filter = "Dump Files (*.pcap)| *.pcap| Text File (*.txt)| *.txt |All files (*.*)|*.*",
-                FilterIndex = 0
-            };
-
-            string dumpFileName = sfd.FileName;
-
-            switch (sfd.ShowDialog())
-            {
-                case DialogResult.OK:
-                    if (sfd.FileName != "")
-                    {
-                        dumpFileName = sfd.FileName;
-                        if (sfd.FilterIndex == 1)
-                        {
-
-                            using (PacketCommunicator communicator =
-                                    allLivePacketDevices[1].Open(65536,               // portion of the packet to capture
-                                                                                      // 65536 guarantees that the whole packet will be captured on all the link layers
-                                       PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
-                                       1000))
-                                DumpPackets(communicator, dumpFileName);
-                        }
-                        else if (sfd.FilterIndex == 2)
-                        {
-                            DumpCapturedPacketsToMotherTextFiles(dumpFileName);
-                        }
-                    }
-
-                    break;
-                default:
-                    DialogResult res = MessageBox.Show("No File Path Found...Try Again?", "Error!", MessageBoxButtons.YesNo);
-                    if (res == DialogResult.Yes)
-                        dumpFileName = DetermineFilePath();
-                    break;
-            }
-
-            return dumpFileName;
         }
 
         private void BtnStart_Click(object sender, EventArgs e)
@@ -645,12 +476,12 @@ namespace SteppingStoneCapture
         {
             if (cmbInterfaces.Items != null)
             {
-                Console.WriteLine(cmbInterfaces.SelectedIndex);
+               // Console.WriteLine(cmbInterfaces.SelectedIndex);
                 deviceIndex = cmbInterfaces.SelectedIndex;
             }
         }
 
-        private void BtnSave_Click(object sender, EventArgs e) => DetermineFilePath();
+        private void BtnSave_Click(object sender, EventArgs e) => Tools.FileHandler.SavePackets(packets, packetBytes, maxFilePackets, sensorAddress);
 
         private void BtnExit_Click(object sender, EventArgs e)
         {
@@ -660,7 +491,7 @@ namespace SteppingStoneCapture
             }
         }
 
-        private void SaveMenuItem_Click(object sender, EventArgs e) => DetermineFilePath();
+        private void SaveMenuItem_Click(object sender, EventArgs e) => Tools.FileHandler.SavePackets(packets, packetBytes, maxFilePackets, sensorAddress);
 
         private void ExitMenuItem_Click(object sender, EventArgs e)
         {
@@ -829,69 +660,12 @@ namespace SteppingStoneCapture
 
         private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var clf = new CustomLoadForm();
-            clf.ShowDialog();
-
-            string loadPath = clf.DumpFileNameRequested;
-            if (loadPath != "" && File.Exists(loadPath))
+            Tools.FileHandler fileHandler = new Tools.FileHandler();
+            fileHandler.LoadPacketsFromFiles();
+            for (int i = 0; i < fileHandler.PacketsReadFromFile.Count; i++)
             {
-                ResetNecessaryProperties();
-
-                switch (Path.GetExtension(loadPath))
-                {
-                    case (".pcap"):
-                        // Create the offline device
-                        OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
-
-                        // Open the capture file
-                        using (PacketCommunicator communicator =
-                            selectedDevice.Open(65536,                                  // portion of the packet to capture
-                                                                                        // 65536 guarantees that the whole packet will be captured on all the link layers
-                                                PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
-                                                1000))                                  // read timeout
-                        {
-                            // Read and dispatch packets until EOF is reached
-                            communicator.ReceivePackets(0, PrintPacket);
-                        }
-                        break;
-
-                    case (".txt"):
-                        string currentPacket;
-                        string rawLoadPath = "";
-                        string[] path = loadPath.Split('.');
-                        if (!loadPath.Contains("_raw"))
-                            rawLoadPath = path[0] + "_raw." + path[1];
-                        else
-                        {
-                            rawLoadPath = loadPath;
-                            loadPath = loadPath.Replace("_raw", "");
-                        }
-
-                        using (StreamReader raw_reader = new StreamReader(rawLoadPath))
-                        using (StreamReader fs = new StreamReader(File.OpenRead(loadPath)))
-                        {
-                            //int currentIndex = 0;
-
-                            while ((currentPacket = raw_reader.ReadLine()) != null)
-                            {
-                                string[] packetInformation = currentPacket.Split(',');
-                                DateTime dt;
-                                dt = DateTime.Parse(packetInformation[1]);
-                                DataLink dl = new DataLink(DataLinkKind.Ethernet);
-                                UInt32.TryParse(packetInformation[3], out uint x);
-                                byte[] packetData = ConvertHexStringToByteArray(packetInformation[0].Replace("-", ""));
-                                if ((currentPacket = fs.ReadLine()) != null)
-                                {
-                                    Packet p = new Packet(packetData, dt, dl, x);
-
-                                    string[] packetInfo = currentPacket.Split(',');
-                                    PrintPacket(p, packetInfo[packetInfo.Length - 1]);
-                                    // ++currentIndex;
-                                }
-                            }
-                        };
-                        break;
-                }
+                Packet p = fileHandler.PacketsReadFromFile[i];
+                PrintPacket(p, fileHandler.SensorIP);
             }
         }
 
@@ -918,15 +692,9 @@ namespace SteppingStoneCapture
             senderComboBox.DropDownWidth = width;
         }
 
-        public byte[] ConvertHexStringToByteArray(string hexString)
+        private void stepFunctionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            byte[] HexAsBytes = new byte[hexString.Length / 2];
-            for (int index = 0; index < HexAsBytes.Length; index++)
-            {
-                string byteValue = hexString.Substring(index * 2, 2);
-                HexAsBytes[index] = byte.Parse(byteValue, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
-            }
-            return HexAsBytes;
+            var stepFunct = new Analysis.StepFunctionForm();
         }
 
         private void CaptureForm_Load(object sender, EventArgs e)
@@ -996,23 +764,15 @@ namespace SteppingStoneCapture
                                 {
                                     Format = activeFormat;
                                     //  ++activeIndex;
-                                }
-                                
+                                }                                
                             }
-
                         }
-                    }
-                    
+                    }                    
                 }
-                Console.WriteLine("Before format " + descript);
+
                 descript = String.Format(Format, address, descript);
-                Console.WriteLine("After format " + descript);
-                // Console.WriteLine(i + "\n" + descript);
                 cmbInterfaces.Items.Add(descript);
-
             }
-
-
         }
     }
 }
