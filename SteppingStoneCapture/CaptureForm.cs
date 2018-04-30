@@ -316,7 +316,7 @@ namespace SteppingStoneCapture
                     bvf.TopMost = true;
                 }
             }
-            catch (Exception e) { }
+            catch (Exception) { }
         }
 
         private void ResetNecessaryProperties()
