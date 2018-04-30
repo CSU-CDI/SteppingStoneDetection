@@ -61,7 +61,8 @@ namespace SteppingStoneCapture
                 {
                     for (int j=0; j<cougarpackets.Count; ++j) // begin loop to filter each packet
                     {
-                        if (cougarpackets[j].DstPort == port && cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text)) // is it an incoming packet?
+                        if (cougarpackets[j].DstPort == port && cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text) ||
+                            cougarpackets[j].SrcPort == port && cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text)) // is it an incoming packet?
                         {                            
                             filteredCougarPackets.Add(cougarpackets[j]);
                             filteredRawPackets.Add(packets[j]);
@@ -82,7 +83,8 @@ namespace SteppingStoneCapture
                 {
                     for (int j = 0; j < cougarpackets.Count; ++j) // begin loop to filter each packet
                     {                        
-                        if (cougarpackets[j].DstPort == port && cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text)) // is it an outgoing packet?
+                        if (cougarpackets[j].DstPort == port && cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text) ||
+                            cougarpackets[j].SrcPort == port && cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text)) // is it an outgoing packet?
                         {                            
                             filteredCougarPackets.Add(cougarpackets[j]);
                             filteredRawPackets.Add(packets[j]);
@@ -119,8 +121,8 @@ namespace SteppingStoneCapture
                     return true;
                 }
             }
-            else if (sendChk.Checked) // only check if P==1 and chk sensor ip and port...will be different for incoming and outgoing
-            {                            // send and echo are concerned with direction
+            else if (sendChk.Checked) 
+            {
                 if (!cougarpackets[j].TCPFlags.Contains("Push") || cougarpackets[j].TCPFlags.Contains("Acknowledgment"))
                 {
                     filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
