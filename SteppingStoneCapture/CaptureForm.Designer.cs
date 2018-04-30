@@ -521,6 +521,7 @@ namespace SteppingStoneCapture
             this.packetView.TabIndex = 28;
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
+            ControlExtender.DoubleBuffered(this.packetView, true);
             this.packetView.SelectedIndexChanged += new System.EventHandler(this.PacketView_SelectedIndexChanged);
             // 
             // packNum

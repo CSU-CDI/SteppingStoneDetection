@@ -33,58 +33,58 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StepFunctionForm));
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.EchoStreamBox = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.sendStreamBox = new System.Windows.Forms.TextBox();
+            this.echoStreamBox = new System.Windows.Forms.TextBox();
+            this.fileGrpBox = new System.Windows.Forms.GroupBox();
             this.echoStreamLabel = new System.Windows.Forms.Label();
             this.sendStreamLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadStreamFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadStreamFIlesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.GraphButton = new System.Windows.Forms.Button();
-            this.ClearButton = new System.Windows.Forms.Button();
-            this.graphingChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.firstMatchPacketMatchingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepFunctionInALANToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox1.SuspendLayout();
+            this.GraphButton = new System.Windows.Forms.Button();
+            this.ClearButton = new System.Windows.Forms.Button();
+            this.graphingChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.fileGrpBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.graphingChart)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox1
+            // sendStreamBox
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.sendStreamBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(6, 31);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(247, 20);
-            this.textBox1.TabIndex = 0;
+            this.sendStreamBox.Location = new System.Drawing.Point(6, 31);
+            this.sendStreamBox.Name = "sendStreamBox";
+            this.sendStreamBox.ReadOnly = true;
+            this.sendStreamBox.Size = new System.Drawing.Size(247, 20);
+            this.sendStreamBox.TabIndex = 0;
             // 
-            // EchoStreamBox
+            // echoStreamBox
             // 
-            this.EchoStreamBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.echoStreamBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.EchoStreamBox.Location = new System.Drawing.Point(281, 31);
-            this.EchoStreamBox.Name = "EchoStreamBox";
-            this.EchoStreamBox.ReadOnly = true;
-            this.EchoStreamBox.Size = new System.Drawing.Size(260, 20);
-            this.EchoStreamBox.TabIndex = 1;
+            this.echoStreamBox.Location = new System.Drawing.Point(281, 31);
+            this.echoStreamBox.Name = "echoStreamBox";
+            this.echoStreamBox.ReadOnly = true;
+            this.echoStreamBox.Size = new System.Drawing.Size(260, 20);
+            this.echoStreamBox.TabIndex = 1;
             // 
-            // groupBox1
+            // fileGrpBox
             // 
-            this.groupBox1.Controls.Add(this.echoStreamLabel);
-            this.groupBox1.Controls.Add(this.sendStreamLabel);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.EchoStreamBox);
-            this.groupBox1.Location = new System.Drawing.Point(12, 34);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(547, 57);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
+            this.fileGrpBox.Controls.Add(this.echoStreamLabel);
+            this.fileGrpBox.Controls.Add(this.sendStreamLabel);
+            this.fileGrpBox.Controls.Add(this.label1);
+            this.fileGrpBox.Controls.Add(this.sendStreamBox);
+            this.fileGrpBox.Controls.Add(this.echoStreamBox);
+            this.fileGrpBox.Location = new System.Drawing.Point(12, 34);
+            this.fileGrpBox.Name = "fileGrpBox";
+            this.fileGrpBox.Size = new System.Drawing.Size(547, 57);
+            this.fileGrpBox.TabIndex = 3;
+            this.fileGrpBox.TabStop = false;
             // 
             // echoStreamLabel
             // 
@@ -136,54 +136,8 @@
             // loadStreamFIlesToolStripMenuItem1
             // 
             this.loadStreamFIlesToolStripMenuItem1.Name = "loadStreamFIlesToolStripMenuItem1";
-            this.loadStreamFIlesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.loadStreamFIlesToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
             this.loadStreamFIlesToolStripMenuItem1.Text = "Load &Stream Files";
-            // 
-            // GraphButton
-            // 
-            this.GraphButton.Location = new System.Drawing.Point(587, 47);
-            this.GraphButton.Name = "GraphButton";
-            this.GraphButton.Size = new System.Drawing.Size(85, 30);
-            this.GraphButton.TabIndex = 5;
-            this.GraphButton.Text = "Graph";
-            this.GraphButton.UseVisualStyleBackColor = true;
-            // 
-            // ClearButton
-            // 
-            this.ClearButton.Location = new System.Drawing.Point(687, 47);
-            this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(85, 30);
-            this.ClearButton.TabIndex = 6;
-            this.ClearButton.Text = "Reset";
-            this.ClearButton.UseVisualStyleBackColor = true;
-            // 
-            // graphingChart
-            // 
-            chartArea1.AxisX.Title = "Number of Matched Packets";
-            chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Stacked;
-            chartArea1.AxisY.Title = "RTT";
-            chartArea1.Name = "ChartArea1";
-            this.graphingChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.graphingChart.Legends.Add(legend1);
-            this.graphingChart.Location = new System.Drawing.Point(12, 97);
-            this.graphingChart.Name = "graphingChart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.IsValueShownAsLabel = true;
-            series1.IsXValueIndexed = true;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.graphingChart.Series.Add(series1);
-            this.graphingChart.Size = new System.Drawing.Size(776, 262);
-            this.graphingChart.TabIndex = 7;
-            this.graphingChart.Text = "chart1";
-            title1.BackColor = System.Drawing.Color.White;
-            title1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            title1.IsDockedInsideChartArea = false;
-            title1.Name = "Title1";
-            title1.Text = "RTT (ms) v. Number of matched Packets";
-            this.graphingChart.Titles.Add(title1);
             // 
             // aboutToolStripMenuItem
             // 
@@ -206,6 +160,55 @@
             this.stepFunctionInALANToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.stepFunctionInALANToolStripMenuItem.Text = "&Step-Function in a LAN";
             // 
+            // GraphButton
+            // 
+            this.GraphButton.Enabled = false;
+            this.GraphButton.Location = new System.Drawing.Point(587, 47);
+            this.GraphButton.Name = "GraphButton";
+            this.GraphButton.Size = new System.Drawing.Size(85, 30);
+            this.GraphButton.TabIndex = 5;
+            this.GraphButton.Text = "&Graph";
+            this.GraphButton.UseVisualStyleBackColor = true;
+            this.GraphButton.Click += new System.EventHandler(this.GraphButton_Click);
+            // 
+            // ClearButton
+            // 
+            this.ClearButton.Enabled = false;
+            this.ClearButton.Location = new System.Drawing.Point(687, 47);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(85, 30);
+            this.ClearButton.TabIndex = 6;
+            this.ClearButton.Text = "&Reset";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
+            // 
+            // graphingChart
+            // 
+            chartArea1.AxisX.Title = "Number of Matched Packets";
+            chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Stacked;
+            chartArea1.AxisY.Title = "RTT";
+            chartArea1.Name = "ChartArea1";
+            this.graphingChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.graphingChart.Legends.Add(legend1);
+            this.graphingChart.Location = new System.Drawing.Point(12, 97);
+            this.graphingChart.Name = "graphingChart";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "GraphingSeries";
+            this.graphingChart.Series.Add(series1);
+            this.graphingChart.Size = new System.Drawing.Size(776, 262);
+            this.graphingChart.TabIndex = 7;
+            this.graphingChart.Text = "chart1";
+            title1.BackColor = System.Drawing.Color.White;
+            title1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            title1.IsDockedInsideChartArea = false;
+            title1.Name = "Title1";
+            title1.Text = "RTT (ms) v. Number of matched Packets";
+            this.graphingChart.Titles.Add(title1);
+            this.graphingChart.Visible = false;
+            // 
             // StepFunctionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -214,7 +217,7 @@
             this.Controls.Add(this.graphingChart);
             this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.GraphButton);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.fileGrpBox);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -222,8 +225,8 @@
             this.Name = "StepFunctionForm";
             this.Text = "StepFunctionForm";
             this.Load += new System.EventHandler(this.StepFunctionForm_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.fileGrpBox.ResumeLayout(false);
+            this.fileGrpBox.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.graphingChart)).EndInit();
@@ -234,9 +237,9 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox EchoStreamBox;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox sendStreamBox;
+        private System.Windows.Forms.TextBox echoStreamBox;
+        private System.Windows.Forms.GroupBox fileGrpBox;
         private System.Windows.Forms.Label echoStreamLabel;
         private System.Windows.Forms.Label sendStreamLabel;
         private System.Windows.Forms.Label label1;

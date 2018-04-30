@@ -101,6 +101,7 @@ namespace SteppingStoneCapture
             }
             else this.payloadData = null;
         }
+
         public void getPayload()
         {
             if (payload != null)
@@ -111,6 +112,17 @@ namespace SteppingStoneCapture
                     ms.Read(payloadData, 0, payload.Length);
                 }
             }
+        }
+
+        public static List<CougarPacket> ConvertRawPacketsToCougarPackets(IList<Packet> packets, string sensor)
+        {
+            List<CougarPacket> cougarPackets = new List<CougarPacket>();
+            for (int i = 0; i < packets.Count; i++)
+            {
+                var p = packets[i];
+                cougarPackets.Add(CougarPacket.DetermineCorrectPacketFormat(p, sensor, i));
+            }
+            return cougarPackets;
         }
 
         public static CougarPacket DetermineCorrectPacketFormat(Packet packet, string sensorAddress, int packetNumber) // looks at the most recent packet and determines what protocol it carries

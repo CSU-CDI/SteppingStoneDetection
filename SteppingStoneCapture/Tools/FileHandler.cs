@@ -3,13 +3,18 @@ using PcapDotNet.Packets;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SteppingStoneCapture.Tools
 {
+    /*
+     *  This is the main class for loading/saving packets to/from files.
+     *  The class could be a collection of static functions, but instance variables are provided for ease of use with externals.
+     *  This mainly pertains to the Sensor IP, however, extends to the list of raw packets (packets using the PCAP.NET defined Packet class).   
+     *  
+     *  *** For Brian and Kendrick ***
+     *     This pretty much has the functionale that use to be in the CaptureForm.cs.
+     */
     class FileHandler
     {
         private List<Packet> packetsReadFromFile;
@@ -20,15 +25,89 @@ namespace SteppingStoneCapture.Tools
             PacketsReadFromFile = new List<Packet>();
             SensorIP = "";
         }
+
         public List<Packet> PacketsReadFromFile { get => packetsReadFromFile; set => packetsReadFromFile = value; }
         public string SensorIP { get => sensorIP; set => sensorIP = value; }
 
         public void LoadPacketsFromFiles()
         {
+            // call up the custom loading form
             var clf = new CustomLoadForm();
             clf.ShowDialog();
 
+            // gather requested file name and extension
             string loadPath = clf.FileNameRequested;
+            if (loadPath != "" && File.Exists(loadPath))
+            {
+                //Determine the correct file format
+                switch (Path.GetExtension(loadPath))
+                {
+                    // If .pcap, use the PCAP.NET defined functions to dump packets
+                    case (".pcap"):
+                        // Create the offline device
+                        OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
+
+                        // Open the capture file
+                        using (PacketCommunicator communicator =
+                            selectedDevice.Open(65536,                                  // portion of the packet to capture
+                                                                                        // 65536 guarantees that the whole packet will be captured on all the link layers
+                                                PacketDeviceOpenAttributes.Promiscuous, // promiscuous mode
+                                                1000))                                  // read timeout
+                        {
+                            // Read and dispatch packets until EOF is reached
+                            communicator.ReceivePackets(0, (Packet p) => PacketsReadFromFile.Add(p));
+                            // (Packet p) => PacketsReadFromFile.Add(p) is a Lambda Expression with parameter Packet p and a body to add the packet to a list.
+                        }
+                        break;
+
+                    case (".txt"):
+                        string currentPacket;
+                        string rawLoadPath = "";
+                        string[] path = loadPath.Split('.');
+                        if (!loadPath.Contains("_raw"))
+                        {
+                            rawLoadPath = path[0] + "_raw." + path[1];
+                            System.Windows.Forms.MessageBox.Show(String.Format("{0}\n{1}\n{2}",
+                                                                  "Clear Text file name detected.", "Error will occur if _raw file not found.",
+                                                                  "Please load from the equivalent _raw file."));
+                        }
+                        else rawLoadPath = loadPath;
+
+                        try
+                        {
+                            using (StreamReader raw_reader = new StreamReader(rawLoadPath))
+                            {
+                                //int currentIndex = 0;
+                                string sens = raw_reader.ReadLine();
+                                if (sens != null) SensorIP = sens;
+
+                                while ((currentPacket = raw_reader.ReadLine()) != null)
+                                {
+                                    string[] packetInformation = currentPacket.Split(',');
+                                    DateTime dt;
+                                    dt = DateTime.Parse(packetInformation[1]);
+                                    PcapDotNet.Packets.DataLink dl = new PcapDotNet.Packets.DataLink(PcapDotNet.Packets.DataLinkKind.Ethernet);
+                                    UInt32.TryParse(packetInformation[3], out uint x);
+                                    byte[] packetData = ConvertHexStringToByteArray(packetInformation[0].Replace("-", ""));
+                                    PcapDotNet.Packets.Packet p = new PcapDotNet.Packets.Packet(packetData, dt, dl, x);
+
+                                    PacketsReadFromFile.Add(p);
+                                }
+
+                            };
+                        }
+
+                        catch (FileNotFoundException fnfe)
+                        {
+                            System.Windows.Forms.MessageBox.Show(String.Format("One of the files needed to reconstruct the packets is missing:\n{0}", fnfe.FileName));
+                        };
+                        break;
+                }
+            }
+        }
+
+        public void LoadPacketsFromFiles(string loadPath)
+        {
             if (loadPath != "" && File.Exists(loadPath))
             {
                 switch (Path.GetExtension(loadPath))
@@ -224,6 +303,11 @@ namespace SteppingStoneCapture.Tools
                 HexAsBytes[index] = byte.Parse(byteValue, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture);
             }
             return HexAsBytes;
+        }
+
+        public void ResetList()
+        {
+            PacketsReadFromFile.Clear();
         }
 
     }

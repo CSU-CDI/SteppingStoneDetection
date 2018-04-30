@@ -724,7 +724,6 @@ namespace SteppingStoneCapture
                 if (numTries > 0)
                     DetermineNetworkInterface(--numTries);
             }
-            Dictionary<int, string> devices = new Dictionary<int, string>();
 
             // possibleCaptureDevices = possibleCaptureDevices.Reverse();
             for (int i = 0; i < allLivePacketDevices.Count; ++i)
