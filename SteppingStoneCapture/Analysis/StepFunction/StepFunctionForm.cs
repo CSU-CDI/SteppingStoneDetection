@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace SteppingStoneCapture.Analysis
 {
     public partial class StepFunctionForm : Form
     {
-        private StepFunctionDetector detector;
+        private Tools.PacketMatcher matcher;
+        private Tools.FileHandler fileHandler;
 
         public StepFunctionForm()
         {
             InitializeComponent();
             Visible = true;
-            detector = new StepFunctionDetector();
+            matcher = new Tools.FirstPairMatcher();
+            fileHandler = new Tools.FileHandler();
         }
 
-        private void loadStreamFilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Tools.FileHandler fileHandler = new Tools.FileHandler();
+        private void LoadStreamFilesItem_Click(object sender, EventArgs e)
+        {           
+
+            if (firstMatchRadio.Checked)
+                matcher = new Tools.FirstPairMatcher();
+
             try
             {
                 var clf = new Tools.CustomLoadForm();
@@ -35,7 +32,7 @@ namespace SteppingStoneCapture.Analysis
                 sendStreamBox.Text = clf.FileNameRequested;
                 fileHandler.LoadPacketsFromFiles(clf.FileNameRequested);
                 var SendPackets = new List<PcapDotNet.Packets.Packet>(fileHandler.PacketsReadFromFile);
-                detector.SendPackets = new Queue<CougarPacket>(CougarPacket.ConvertRawPacketsToCougarPackets(SendPackets, fileHandler.SensorIP));
+                matcher.SendPackets = new Queue<CougarPacket>(CougarPacket.ConvertRawPacketsToCougarPackets(SendPackets, fileHandler.SensorIP));
                                                                                               
                 if (sendStreamBox.Text != "")
                 {
@@ -46,7 +43,7 @@ namespace SteppingStoneCapture.Analysis
                     echoStreamBox.Text = clf.FileNameRequested;
                     fileHandler.LoadPacketsFromFiles(clf.FileNameRequested);
                     var EchoPackets = fileHandler.PacketsReadFromFile;
-                    detector.EchoPackets = CougarPacket.ConvertRawPacketsToCougarPackets(EchoPackets, fileHandler.SensorIP);
+                    matcher.EchoPackets = CougarPacket.ConvertRawPacketsToCougarPackets(EchoPackets, fileHandler.SensorIP);
 
                     if (sendStreamBox.Text != "" && echoStreamBox.Text != "")
                     {
@@ -69,16 +66,16 @@ namespace SteppingStoneCapture.Analysis
 
         private void GraphButton_Click(object sender, EventArgs e)
         {
-            if (detector.RoundTripTimes.Count > 0)
+            if (matcher.RoundTripTimes.Count > 0)
             {
-                detector.CalculateRoundTripTimes();
+                matcher.MatchPackets();
 
                 var dataSeriesCollection = this.graphingChart.Series;
                 var dataSeries = dataSeriesCollection["graphingSeries"];
                 
-                for (int i = 0; i < detector.RoundTripTimes.Count; i++)
+                for (int i = 0; i < matcher.RoundTripTimes.Count; i++)
                 {
-                    dataSeries.Points.AddXY((double)(i + 1), detector.RoundTripTimes[i]); 
+                    dataSeries.Points.AddXY((double)(i + 1), matcher.RoundTripTimes[i]); 
                 }
 
                 this.graphingChart.Series["graphingSeries"] = dataSeries;
@@ -97,7 +94,12 @@ namespace SteppingStoneCapture.Analysis
                     tb.Text = "";
                 }
             }
-            detector.ResetDetector();
+            matcher.ResetMatcher();
+        }
+
+        private void loadStreamFIlesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

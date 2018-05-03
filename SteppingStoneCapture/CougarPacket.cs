@@ -180,9 +180,7 @@ namespace SteppingStoneCapture
                 ArpDatagram arp = packet.Ethernet.Arp;
                 cp.SourceAddress = arp.SenderProtocolIpV4Address;
                 cp.DestAddress = arp.TargetProtocolIpV4Address;
-            }
-
-            
+            }           
 
             return cp;
         }

@@ -11,9 +11,6 @@ using PcapDotNet.Core;
 using PcapDotNet.Core.Extensions;
 using PcapDotNet.Packets;
 using PcapDotNet.Packets.IpV4;
-using PcapDotNet.Packets.Transport;
-using PcapDotNet.Packets.Icmp;
-using PcapDotNet.Packets.Arp;
 
 namespace SteppingStoneCapture
 {
@@ -67,6 +64,9 @@ namespace SteppingStoneCapture
             string[] values = readingLine.Split('=');
             maxFilePackets = Int32.Parse(values[1].Replace("\n", ""));
 
+            readingLine = readingFile.ReadLine();
+            values = readingLine.Split('=');
+            sensorAddress = values[1].Replace("\n", "");
         }
 
         private void checkFirst()
@@ -600,10 +600,10 @@ namespace SteppingStoneCapture
 
         private void numberOfPactketsPerFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NumberPacketsForm nf = new NumberPacketsForm(maxFilePackets);
+            Tools.TextInput nf = new Tools.TextInput(maxFilePackets.ToString());
             // nf.Show();
             nf.ShowDialog();
-            maxFilePackets = nf.NumPackets;
+            Int32.TryParse(nf.InputtedText, out maxFilePackets);
         }
 
         private void MultiWindowDisplayMenuItem_Click(object sender, EventArgs e)
@@ -643,9 +643,7 @@ namespace SteppingStoneCapture
             string sensor = "";
             if (cougarpackets.Count > 0)
                 sensor = cougarpackets[0].SensorIP.ToString();
-            //  else
-            //    sensor = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
-            // Console.WriteLine("This is the supposed sensor ip: " + cougarpackets[0].SensorIP.ToString());
+
             IOConnection ioc = new IOConnection(sensor, cougarpackets, packets);
             ioc.Text = "Save Outgoing Connection....";
             foreach (Control c in ioc.Controls)
@@ -658,9 +656,15 @@ namespace SteppingStoneCapture
             ioc.Show();
         }
 
-        private void LoadDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
+        /*
+         * Signals for program to load packets from user-selected file 
+         */
+        private void LoadPacketsFromFile_Click(object sender, EventArgs e)
         {
-            Tools.FileHandler fileHandler = new Tools.FileHandler();
+            Tools.FileHandler fileHandler = new Tools.FileHandler()
+            {
+                SensorIP = sensorAddress
+            };
             fileHandler.LoadPacketsFromFiles();
             for (int i = 0; i < fileHandler.PacketsReadFromFile.Count; i++)
             {
@@ -669,12 +673,18 @@ namespace SteppingStoneCapture
             }
         }
 
-        private void cmbInterfaces_DropDown(object sender, EventArgs e)
+        /*
+         *  Resizes the ComboBox Dropdown Menu To Fit Longest Interface Description
+         * 
+         */
+        private void DynamicResizeInterfaceDropDown(object sender, EventArgs e)
         {
             ComboBox senderComboBox = (ComboBox)sender;
             int width = senderComboBox.DropDownWidth;
+
             Graphics g = senderComboBox.CreateGraphics();
             Font font = senderComboBox.Font;
+
             int vertScrollBarWidth =
                 (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
                 ? SystemInformation.VerticalScrollBarWidth : 0;
@@ -692,57 +702,69 @@ namespace SteppingStoneCapture
             senderComboBox.DropDownWidth = width;
         }
 
-        private void stepFunctionToolStripMenuItem_Click(object sender, EventArgs e)
+        private void sensorAddressToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var stepFunct = new Analysis.StepFunctionForm();
+            Tools.TextInput nf = new Tools.TextInput(sensorAddress);
+            // nf.Show();
+            nf.ShowDialog();
+            sensorAddress = nf.InputtedText;
         }
+
+        /*
+         * Loads the Step Function in a LAN program 
+         */
+        private void StepFunction_Click(object sender, EventArgs e) => new Analysis.StepFunctionForm();        
 
         private void CaptureForm_Load(object sender, EventArgs e)
         {
-            DetermineNetworkInterface();
+            ListNetworkInterfaces();
             packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
-        private void DetermineNetworkInterface(int numTries = 5)
+        /*
+         * Function that will list network interface descriptions in the combo box drop down
+         * 
+         */
+        private void ListNetworkInterfaces(int numTries = 5)
         {
-            var allLocalNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
-            var possibleCaptureDevices = from nic in allLocalNetworkInterfaces
-                                         where (nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
-                                                    && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback
-                                         select nic;
             //Detect all interfaces
             allLivePacketDevices = LivePacketDevice.AllLocalMachine;
             string descript = "";
             
-            string inactiveFormat = "{0,27} | {1}";
-            string activeFormat = "* {0,17} | {1}";
+            string inactiveFormat = "{0,27} | {1}"; // format for interfaces that are not currently active
+            string activeFormat = "* {0,17} | {1}"; // format for interfaces that are actively transmitting packets
             string Format = inactiveFormat;
 
             //Try the allotted number of times if no interfaces detected
-            if (allLivePacketDevices.Count == 0 || allLocalNetworkInterfaces.Length == 0)
+            if (allLivePacketDevices.Count == 0)
             {
                 if (numTries > 0)
-                    DetermineNetworkInterface(--numTries);
+                    ListNetworkInterfaces(--numTries);
             }
 
-            // possibleCaptureDevices = possibleCaptureDevices.Reverse();
+            // Describe each network interface
             for (int i = 0; i < allLivePacketDevices.Count; ++i)
             {
+                // Determine the network interface for this interface
                 LivePacketDevice livePacketDevice = allLivePacketDevices[i];
                 NetworkInterface nic = LivePacketDeviceExtensions.GetNetworkInterface(livePacketDevice);
+
                 string address = "";
+                // Query system for description
                 descript = nic.Description;
                
                 if (nic != null)
                 {
+                    // Gather the unique ip properties of this interface
                     IPInterfaceProperties ipprops = nic.GetIPProperties();
                     UnicastIPAddressInformationCollection unicast = ipprops.UnicastAddresses;
                     
                     string lpdAddr = "";
                     string nicAddr = "";
+
+                    // search the interfaces IP addresses for it's IPv4 address
                     foreach (UnicastIPAddressInformation uni in unicast)
-                    {
-                        
+                    {                        
                         nicAddr = uni.Address.ToString();
 
                         foreach (DeviceAddress addr in livePacketDevice.Addresses)
@@ -757,8 +779,10 @@ namespace SteppingStoneCapture
                             {
                                 address = nicAddr;
                                 //needs tuning so active device will be default shown
-                                                                
-                                Format = inactiveFormat;
+                                                        
+                                
+                                // Format the description according to activity level
+                                Format = inactiveFormat;                               
                                 if (nic.OperationalStatus == OperationalStatus.Up)
                                 {
                                     Format = activeFormat;

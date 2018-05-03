@@ -1,1 +1,2 @@
 PacketsPerFile=1000
+SensorAddress=192.168.1.6

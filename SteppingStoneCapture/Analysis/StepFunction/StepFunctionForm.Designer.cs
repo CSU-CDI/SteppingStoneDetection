@@ -42,12 +42,14 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadStreamFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadStreamFIlesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.firstMatchPacketMatchingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.firstMatchPacketMatchingItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepFunctionInALANToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
             this.graphingChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.firstMatchRadio = new System.Windows.Forms.RadioButton();
+            this.conservativeRadio = new System.Windows.Forms.RadioButton();
             this.fileGrpBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.graphingChart)).BeginInit();
@@ -117,7 +119,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadStreamFilesToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.aboutItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -131,28 +133,29 @@
             this.loadStreamFilesToolStripMenuItem.Name = "loadStreamFilesToolStripMenuItem";
             this.loadStreamFilesToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.loadStreamFilesToolStripMenuItem.Text = "&Menu";
-            this.loadStreamFilesToolStripMenuItem.Click += new System.EventHandler(this.loadStreamFilesToolStripMenuItem_Click);
+            this.loadStreamFilesToolStripMenuItem.Click += new System.EventHandler(this.LoadStreamFilesItem_Click);
             // 
             // loadStreamFIlesToolStripMenuItem1
             // 
             this.loadStreamFIlesToolStripMenuItem1.Name = "loadStreamFIlesToolStripMenuItem1";
-            this.loadStreamFIlesToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
+            this.loadStreamFIlesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.loadStreamFIlesToolStripMenuItem1.Text = "Load &Stream Files";
+            this.loadStreamFIlesToolStripMenuItem1.Click += new System.EventHandler(this.loadStreamFIlesToolStripMenuItem1_Click);
             // 
             // aboutToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.firstMatchPacketMatchingToolStripMenuItem,
+            this.aboutItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.firstMatchPacketMatchingItem,
             this.stepFunctionInALANToolStripMenuItem});
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.aboutToolStripMenuItem.Text = "&Help";
+            this.aboutItem.Name = "aboutItem";
+            this.aboutItem.Size = new System.Drawing.Size(44, 20);
+            this.aboutItem.Text = "&Help";
             // 
-            // firstMatchPacketMatchingToolStripMenuItem
+            // firstMatchPacketMatchingItem
             // 
-            this.firstMatchPacketMatchingToolStripMenuItem.Name = "firstMatchPacketMatchingToolStripMenuItem";
-            this.firstMatchPacketMatchingToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
-            this.firstMatchPacketMatchingToolStripMenuItem.Text = "&First-Match Packet Matching";
+            this.firstMatchPacketMatchingItem.Name = "firstMatchPacketMatchingItem";
+            this.firstMatchPacketMatchingItem.Size = new System.Drawing.Size(227, 22);
+            this.firstMatchPacketMatchingItem.Text = "&First-Match Packet Matching";
             // 
             // stepFunctionInALANToolStripMenuItem
             // 
@@ -163,7 +166,7 @@
             // GraphButton
             // 
             this.GraphButton.Enabled = false;
-            this.GraphButton.Location = new System.Drawing.Point(587, 47);
+            this.GraphButton.Location = new System.Drawing.Point(612, 59);
             this.GraphButton.Name = "GraphButton";
             this.GraphButton.Size = new System.Drawing.Size(85, 30);
             this.GraphButton.TabIndex = 5;
@@ -174,7 +177,7 @@
             // ClearButton
             // 
             this.ClearButton.Enabled = false;
-            this.ClearButton.Location = new System.Drawing.Point(687, 47);
+            this.ClearButton.Location = new System.Drawing.Point(703, 61);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(85, 30);
             this.ClearButton.TabIndex = 6;
@@ -209,11 +212,35 @@
             this.graphingChart.Titles.Add(title1);
             this.graphingChart.Visible = false;
             // 
+            // firstMatchRadio
+            // 
+            this.firstMatchRadio.AutoSize = true;
+            this.firstMatchRadio.Checked = true;
+            this.firstMatchRadio.Location = new System.Drawing.Point(620, 34);
+            this.firstMatchRadio.Name = "firstMatchRadio";
+            this.firstMatchRadio.Size = new System.Drawing.Size(77, 17);
+            this.firstMatchRadio.TabIndex = 8;
+            this.firstMatchRadio.TabStop = true;
+            this.firstMatchRadio.Text = "First-Match";
+            this.firstMatchRadio.UseVisualStyleBackColor = true;
+            // 
+            // conservativeRadio
+            // 
+            this.conservativeRadio.AutoSize = true;
+            this.conservativeRadio.Location = new System.Drawing.Point(703, 34);
+            this.conservativeRadio.Name = "conservativeRadio";
+            this.conservativeRadio.Size = new System.Drawing.Size(87, 17);
+            this.conservativeRadio.TabIndex = 9;
+            this.conservativeRadio.Text = "Conservative";
+            this.conservativeRadio.UseVisualStyleBackColor = true;
+            // 
             // StepFunctionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 368);
+            this.Controls.Add(this.conservativeRadio);
+            this.Controls.Add(this.firstMatchRadio);
             this.Controls.Add(this.graphingChart);
             this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.GraphButton);
@@ -249,8 +276,10 @@
         private System.Windows.Forms.Button GraphButton;
         private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.DataVisualization.Charting.Chart graphingChart;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem firstMatchPacketMatchingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutItem;
+        private System.Windows.Forms.ToolStripMenuItem firstMatchPacketMatchingItem;
         private System.Windows.Forms.ToolStripMenuItem stepFunctionInALANToolStripMenuItem;
+        private System.Windows.Forms.RadioButton firstMatchRadio;
+        private System.Windows.Forms.RadioButton conservativeRadio;
     }
 }

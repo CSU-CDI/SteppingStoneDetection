@@ -115,15 +115,14 @@
     <Compile Include="IOStream.Designer.cs">
       <DependentUpon>IOStream.cs</DependentUpon>
     </Compile>
-    <Compile Include="NumberPacketsForm.cs">
+    <Compile Include="Tools\TextInput.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NumberPacketsForm.Designer.cs">
-      <DependentUpon>NumberPacketsForm.cs</DependentUpon>
+    <Compile Include="Tools\TextInput.Designer.cs">
+      <DependentUpon>TextInput.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Analysis\StepFunction\StepFunctionDetector.cs" />
     <Compile Include="Analysis\StepFunction\StepFunctionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +130,8 @@
       <DependentUpon>StepFunctionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\FileHandler.cs" />
+    <Compile Include="Tools\FirstPairMatcher.cs" />
+    <Compile Include="Tools\PacketMatcher.cs" />
     <EmbeddedResource Include="ByteViewer.resx">
       <DependentUpon>ByteViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,8 +148,8 @@
     <EmbeddedResource Include="IOStream.resx">
       <DependentUpon>IOStream.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NumberPacketsForm.resx">
-      <DependentUpon>NumberPacketsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Tools\TextInput.resx">
+      <DependentUpon>TextInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

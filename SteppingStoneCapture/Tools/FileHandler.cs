@@ -1,6 +1,7 @@
 ﻿using PcapDotNet.Core;
 using PcapDotNet.Packets;
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -283,6 +284,56 @@ namespace SteppingStoneCapture.Tools
                     if (res == DialogResult.Yes)
                         SavePackets(packets, packetBytes, maxFilePackets, sensorIP);
                     break;
+            }
+        }
+
+        public static void SavePacketsFromConnection(string[] file, string[] selectedConnection, bool incomingConnection, List<Packet> filteredRawPackets, List<CougarPacket> filteredCougarPackets, string sensorIP)
+        {
+            int indexF = 0;
+
+            if (filteredRawPackets.Count > 0)
+            {
+                //open file stream for mother file and raw mother file
+                FileStream fs = File.OpenWrite(file[0] + "_" + (indexF + 1).ToString() + '.' + file[1]);
+                StreamWriter fsRaw = new StreamWriter(file[0] + "_" + (indexF + 1).ToString() + "_raw" + '.' + file[1]);
+
+                selectedConnection[0] = selectedConnection[0].Trim();
+                selectedConnection[1] = selectedConnection[1].Trim();
+
+                fsRaw.WriteLine(sensorIP);
+
+                if (incomingConnection)
+                {
+                    int i = 0;
+                    byte[] barr;
+                    foreach (CougarPacket cp in filteredCougarPackets)
+                    {
+                        if (cp.SourceAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
+                        {
+                            barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
+                            fs.Write(barr, 0, barr.Length);
+                            fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(filteredRawPackets[i].Buffer).Replace("-", ""), filteredRawPackets[i].Timestamp.ToString("hh:mm:ss.fff"), filteredRawPackets[i].DataLink, filteredRawPackets[i].OriginalLength));
+                        }
+                        ++i;
+                    }
+                }
+                else
+                {
+                    int i = 0;
+                    byte[] barr;
+                    foreach (CougarPacket cp in filteredCougarPackets)
+                    {
+                        if (cp.DestAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
+                        {
+                            barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
+                            fs.Write(barr, 0, barr.Length);
+                            fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(filteredRawPackets[i].Buffer).Replace("-", ""), filteredRawPackets[i].Timestamp.ToString("hh:mm:ss.fff"), filteredRawPackets[i].DataLink, filteredRawPackets[i].OriginalLength));
+                        }
+                        ++i;
+                    }
+                }
+                fs.Close();
+                fsRaw.Close();
             }
         }
 

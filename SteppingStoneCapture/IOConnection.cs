@@ -161,54 +161,11 @@ namespace SteppingStoneCapture
         }
 
         private void DumpCapturedPacketsToMotherTextFiles(string fileName) // dumps to text file
-        {            
-            int indexF = 0;            
+        {
+            string[] selectedConnection = ConnectionCombo.SelectedItem.ToString().Split('-');
             string[] file = fileName.Split('.');
-            
-            if (filteredRawPackets.Count > 0)
-            {
-                //open file stream for mother file and raw mother file
-                FileStream fs = File.OpenWrite(file[0] + "_" + (indexF + 1).ToString() + '.' + file[1]);
-                StreamWriter fsRaw = new StreamWriter(file[0] + "_" + (indexF + 1).ToString() + "_raw" + '.' + file[1]);
 
-                string[] selectedConnection = ConnectionCombo.SelectedItem.ToString().Split('-');
-                selectedConnection[0] = selectedConnection[0].Trim();
-                selectedConnection[1] = selectedConnection[1].Trim();                
-                
-                if (incomingConnection)
-                {
-                    int i = 0;
-                    byte[] barr;
-                    foreach (CougarPacket cp in filteredCougarPackets)
-                    {
-                        if (cp.SourceAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
-                        {
-                            barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
-                            fs.Write(barr, 0, barr.Length);
-                            fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(filteredRawPackets[i].Buffer).Replace("-", ""), filteredRawPackets[i].Timestamp.ToString("hh:mm:ss.fff"), filteredRawPackets[i].DataLink, filteredRawPackets[i].OriginalLength));
-                        }
-                        ++i;
-                    }
-                }
-                else
-                {
-                    int i = 0;
-                    byte[] barr;
-                    foreach (CougarPacket cp in filteredCougarPackets)
-                    {
-                        if (cp.DestAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
-                        {
-                            barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
-                            fs.Write(barr, 0, barr.Length);
-                            fsRaw.WriteLine(String.Format("{0},{1},{2},{3}", BitConverter.ToString(filteredRawPackets[i].Buffer).Replace("-", ""), filteredRawPackets[i].Timestamp.ToString("hh:mm:ss.fff"), filteredRawPackets[i].DataLink, filteredRawPackets[i].OriginalLength));
-                        }
-                        ++i;
-                    }
-                }
-                fs.Close();
-                fsRaw.Close();
-            }
-
+            Tools.FileHandler.SavePacketsFromConnection(file, selectedConnection, IncomingConnection, filteredRawPackets, filteredCougarPackets, txtIpOne.Text);            
         }
 
         private string DetermineFilePath()

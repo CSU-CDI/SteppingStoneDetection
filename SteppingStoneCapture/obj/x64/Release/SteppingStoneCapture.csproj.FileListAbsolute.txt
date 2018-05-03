@@ -77,7 +77,6 @@ C:\Users\andrew\Downloads\SteppingStoneDetection - Copy (2)\SteppingStoneCapture
 C:\Users\andrew\Downloads\SteppingStoneDetection - Copy (2)\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.exe
 C:\Users\andrew\Downloads\SteppingStoneDetection - Copy (2)\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.pdb
 C:\Users\andrew\Desktop\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.NumberPacketsForm.resources
-C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.NumberPacketsForm.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOConnection.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOStream.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.NumberPacketsForm.resources
@@ -89,3 +88,4 @@ C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStone
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\PcapDotNet.Core.Extensions.dll
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.StepFunctionForm.resources
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.CustomLoadForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.TextInput.resources

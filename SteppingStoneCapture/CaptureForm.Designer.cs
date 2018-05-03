@@ -41,10 +41,9 @@ namespace SteppingStoneCapture
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CaptureForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadDumpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadPacketsFromFileItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterVisibilityItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFilterFieldItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -129,6 +128,7 @@ namespace SteppingStoneCapture
             this.chkUDP = new System.Windows.Forms.CheckBox();
             this.chkICMP = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.sensorAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.grpFilterParams.SuspendLayout();
             this.grpPorts.SuspendLayout();
@@ -158,39 +158,33 @@ namespace SteppingStoneCapture
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadDumpFileToolStripMenuItem,
+            this.loadPacketsFromFileItem,
             this.SaveMenuItem,
-            this.ExitMenuItem,
-            this.toolStripSeparator1});
+            this.ExitMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "&Menu";
             // 
-            // loadDumpFileToolStripMenuItem
+            // loadPacketsFromFileItem
             // 
-            this.loadDumpFileToolStripMenuItem.Name = "loadDumpFileToolStripMenuItem";
-            this.loadDumpFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loadDumpFileToolStripMenuItem.Text = "&Load Dump File";
-            this.loadDumpFileToolStripMenuItem.Click += new System.EventHandler(this.LoadDumpFileToolStripMenuItem_Click);
+            this.loadPacketsFromFileItem.Name = "loadPacketsFromFileItem";
+            this.loadPacketsFromFileItem.Size = new System.Drawing.Size(100, 22);
+            this.loadPacketsFromFileItem.Text = "&Load";
+            this.loadPacketsFromFileItem.Click += new System.EventHandler(this.LoadPacketsFromFile_Click);
             // 
             // SaveMenuItem
             // 
             this.SaveMenuItem.Name = "SaveMenuItem";
-            this.SaveMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveMenuItem.Size = new System.Drawing.Size(100, 22);
             this.SaveMenuItem.Text = "Sa&ve";
             this.SaveMenuItem.Click += new System.EventHandler(this.SaveMenuItem_Click);
             // 
             // ExitMenuItem
             // 
             this.ExitMenuItem.Name = "ExitMenuItem";
-            this.ExitMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExitMenuItem.Size = new System.Drawing.Size(100, 22);
             this.ExitMenuItem.Text = "Exi&t";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // optionsToolStripMenuItem
             // 
@@ -284,7 +278,8 @@ namespace SteppingStoneCapture
             // configurationToolStripMenuItem
             // 
             this.configurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.numberOfPactketsPerFileToolStripMenuItem});
+            this.numberOfPactketsPerFileToolStripMenuItem,
+            this.sensorAddressToolStripMenuItem});
             this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
             this.configurationToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
             this.configurationToolStripMenuItem.Text = "&Configuration";
@@ -327,7 +322,7 @@ namespace SteppingStoneCapture
             this.stepFunctionToolStripMenuItem.Name = "stepFunctionToolStripMenuItem";
             this.stepFunctionToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.stepFunctionToolStripMenuItem.Text = "&Step Function";
-            this.stepFunctionToolStripMenuItem.Click += new System.EventHandler(this.stepFunctionToolStripMenuItem_Click);
+            this.stepFunctionToolStripMenuItem.Click += new System.EventHandler(this.StepFunction_Click);
             // 
             // packetMAtchingToolStripMenuItem
             // 
@@ -383,7 +378,7 @@ namespace SteppingStoneCapture
             this.cmbInterfaces.Name = "cmbInterfaces";
             this.cmbInterfaces.Size = new System.Drawing.Size(200, 21);
             this.cmbInterfaces.TabIndex = 2;
-            this.cmbInterfaces.DropDown += new System.EventHandler(this.cmbInterfaces_DropDown);
+            this.cmbInterfaces.DropDown += new System.EventHandler(this.DynamicResizeInterfaceDropDown);
             this.cmbInterfaces.SelectedIndexChanged += new System.EventHandler(this.CmbInterfaces_SelectedIndexChanged);
             // 
             // txtFilterField
@@ -521,7 +516,6 @@ namespace SteppingStoneCapture
             this.packetView.TabIndex = 28;
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
-            ControlExtender.DoubleBuffered(this.packetView, true);
             this.packetView.SelectedIndexChanged += new System.EventHandler(this.PacketView_SelectedIndexChanged);
             // 
             // packNum
@@ -1042,6 +1036,13 @@ namespace SteppingStoneCapture
             this.pictureBox1.TabIndex = 65;
             this.pictureBox1.TabStop = false;
             // 
+            // sensorAddressToolStripMenuItem
+            // 
+            this.sensorAddressToolStripMenuItem.Name = "sensorAddressToolStripMenuItem";
+            this.sensorAddressToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.sensorAddressToolStripMenuItem.Text = "&Sensor Address";
+            this.sensorAddressToolStripMenuItem.Click += new System.EventHandler(this.sensorAddressToolStripMenuItem_Click);
+            // 
             // CaptureForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1110,12 +1111,11 @@ namespace SteppingStoneCapture
         private System.Windows.Forms.ColumnHeader Length;
         private System.Windows.Forms.ToolStripMenuItem SaveMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadDumpFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadPacketsFromFileItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterVisibilityItem;
         private System.Windows.Forms.ToolStripMenuItem dumpPacketsDuringCaptureToolStripMenuItem;
         private System.Windows.Forms.Button btnShowData;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem showFilterFieldItem;
         private System.Windows.Forms.ToolStripMenuItem captureAndDumpMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hexEditorToolStripMenuItem;
@@ -1179,6 +1179,7 @@ namespace SteppingStoneCapture
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripMenuItem sensorAddressToolStripMenuItem;
     }
 }
 
