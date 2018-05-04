@@ -367,7 +367,6 @@ namespace SteppingStoneCapture
                 }
                 catch (Exception e)
                 {
-
                     MessageBox.Show("Improper filter syntax!\nError info:\n" + e.Message, "Error!");
                     this.Invoke((MethodInvoker)(() =>
                     {

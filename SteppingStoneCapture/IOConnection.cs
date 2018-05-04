@@ -14,11 +14,11 @@ using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Transport;
 using System.IO;
 
-namespace SteppingStoneCapture
+namespace SteppingStoneCapture // !!!!!!!!!!!!!!!!! need to make sure that we check for the source port to identify a specific connection !!!!!!!!!!!!!!!!!!!!!!!!!!!
 {
     public partial class IOConnection : Form
     {
-        private bool applyPort = false;
+        //private bool applyPort = false;
         private List<CougarPacket> cougarpackets;
         private List<Packet> packets;
         private List<CougarPacket> filteredCougarPackets; // needs to be dictionary; use ContainsKey() to eliminate duplicates
@@ -31,7 +31,7 @@ namespace SteppingStoneCapture
         public IOConnection()
         {
             InitializeComponent();
-            txtIpOne.Text = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
+            txtIpOne.Text = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString(); // need to get rid of this and use selected device ip address
         }
         public IOConnection(string sensorip)
         {
