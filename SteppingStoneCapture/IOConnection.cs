@@ -14,15 +14,15 @@ using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Transport;
 using System.IO;
 
-namespace SteppingStoneCapture // !!!!!!!!!!!!!!!!! need to make sure that we check for the source port to identify a specific connection !!!!!!!!!!!!!!!!!!!!!!!!!!!
+namespace SteppingStoneCapture 
 {
     public partial class IOConnection : Form
     {
         //private bool applyPort = false;
         private List<CougarPacket> cougarpackets;
         private List<Packet> packets;
-        private List<CougarPacket> filteredCougarPackets; // needs to be dictionary; use ContainsKey() to eliminate duplicates
-        private List<Packet> filteredRawPackets; // needs to be dictionary  ^^^
+        private List<CougarPacket> filteredCougarPackets;
+        private List<Packet> filteredRawPackets;
         private bool incomingConnection; 
         private Dictionary<String, Packet> dropdownListItems;
 
@@ -53,7 +53,7 @@ namespace SteppingStoneCapture // !!!!!!!!!!!!!!!!! need to make sure that we ch
 
         private void applyBtn_Click(object sender, EventArgs e) // this button filters connections on port# as well as filters on tcp flags
         {            
-            bool result = int.TryParse(txtPort.Text, out int port);            
+            bool result = int.TryParse(txtPort.Text, out int port); // validate port # input            
             if (result && port < 65535 && port > 0)
             {
                 string key = "";
@@ -67,10 +67,10 @@ namespace SteppingStoneCapture // !!!!!!!!!!!!!!!!! need to make sure that we ch
                             filteredCougarPackets.Add(cougarpackets[j]);
                             filteredRawPackets.Add(packets[j]);
 
-                            if (filterStream(j, incomingConnection, port))
+                            if (filterStream(j, incomingConnection, port)) // check for additional filter criteron
                                 continue;
 
-                            key = cougarpackets[j].SourceAddress + " - " + cougarpackets[j].SrcPort;
+                            key = cougarpackets[j].SourceAddress + " - " + cougarpackets[j].SrcPort; // add ip and source port to combobox
                             if (!dropdownListItems.ContainsKey(key))
                             {
                                 dropdownListItems.Add(key, packets[j]);
@@ -104,15 +104,16 @@ namespace SteppingStoneCapture // !!!!!!!!!!!!!!!!! need to make sure that we ch
                 btnOk.Enabled = true;
                 ConnectionCombo.Enabled = true;                
             }
-            else
+            else // error message for entering wrong number
             {
                 MessageBox.Show("Must enter a valid port number!", "Port Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }           
         }
 
-        private Boolean filterStream(int j, Boolean incoming, int port)
-        {
-            if (AckChk.Checked)
+        private Boolean filterStream(int j, Boolean incoming, int port) // if user selects send, ack or echo, this will remove unwanted packets from the list
+        {                                                               // packets are added to the list before this is called, so if the packet matches the filter
+                                                                        // it will be removed as the last item on the list
+            if (AckChk.Checked) // remove anything that isn't strictly an ack packet
             {
                 if (!cougarpackets[j].TCPFlags.Contains("Acknowledgment") || cougarpackets[j].TCPFlags.Contains("Push"))
                 {
@@ -121,7 +122,7 @@ namespace SteppingStoneCapture // !!!!!!!!!!!!!!!!! need to make sure that we ch
                     return true;
                 }
             }
-            else if (sendChk.Checked) 
+            else if (sendChk.Checked)  // remove anything that isn't strictly a send packet
             {
                 if (!cougarpackets[j].TCPFlags.Contains("Push") || cougarpackets[j].TCPFlags.Contains("Acknowledgment"))
                 {
@@ -130,7 +131,7 @@ namespace SteppingStoneCapture // !!!!!!!!!!!!!!!!! need to make sure that we ch
                     return true;
                 }                
             }
-            else if (EchoChk.Checked)
+            else if (EchoChk.Checked) // check to make sure this is a response packet dependent on incoming/outgoing connection
             {
                 if (!cougarpackets[j].TCPFlags.Contains("Push"))
                 {
