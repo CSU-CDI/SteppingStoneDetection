@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace SteppingStoneCapture.Tools
 {
-    /*
-     * Class that encapsulates necessary data for further classes to implement specific packet matching algorithm, namely:
-     *  - First Match
-     *  - Conservative
-     *  - Heuristic 
-     * 
-     *  All extending classees must override MatchPackets method
-     */
+    /// <summary>
+    /// Class that encapsulates necessary data for further classes to implement specific packet matching algorithm, namely:
+    ///    First Match, Conservative, Greedy
+    ///
+    /// All extending classes must override MatchPackets method
+    /// </summary>
     abstract class PacketMatcher
     {
         // data structures
@@ -34,19 +32,20 @@ namespace SteppingStoneCapture.Tools
         public Queue<CougarPacket> SendPackets { get => sendPackets; set => sendPackets = value; }
         public List<double> RoundTripTimes { get => (List<double>)roundTripTimes; set => roundTripTimes = value; }
 
-        /*
-         * Calculates Round Trip Time for the connection chain by comparing echoes' to their corresponding sends' timestamps
-         * 
-         * <param name="echoT"/>
-         * <param name="sendT"/>
-         *  
-         *  <return>Difference of the send's (start) to the echo's timestamp. Result = echoT - sendT</return>
-         */
+        /// <summary>
+        /// Calculates Round Trip Time for the connection chain by comparing echoes' to their corresponding sends' timestamps
+        /// </summary>
+        /// <param name="echoT"></param>
+        /// <param name="sendT"></param>
+        /// <returns>  </returns>
         public static double CalculateRoundTripTime(DateTime echoT, DateTime sendT)
         {
             return Math.Abs(echoT.Subtract(sendT).TotalMilliseconds);
         }
 
+        /// <summary>
+        ///  Resets the fields of the Packet Matcher Instance
+        /// </summary>
         public void ResetMatcher()
         {
             SendPackets.Clear();

@@ -211,19 +211,26 @@ namespace SteppingStoneCapture
             }
         }
 
+        /*<summary>
+         * Taps the correct source to create desired live capture filter 
+         * </summary>
+         */
         private string TapFilterStringSource()
         {
             string tapped;
 
+            // if a protocol (TCP, UDP, IP...) or attribute (Ip Address/Port Number) was specified
             if (protocolRequested || attributeRequested)
             {
                 tapped = cfb.FilterString;
 
             }
+            // if a filter was supplied in the text area
             else if (txtFilterField.Text != "")
             {
                 tapped = txtFilterField.Text;
             }
+            // default to ip
             else
             {
                 tapped = "ip";
@@ -231,10 +238,10 @@ namespace SteppingStoneCapture
             return tapped;
         }
 
-        private void DumpCapturedPacketsToMotherTextFiles(string fileName) // dumps to text file
-        {
-            Tools.FileHandler.SavePacketsToTextFile(fileName,packets,packetBytes,maxFilePackets,sensorAddress);
-        }
+        //private void DumpCapturedPacketsToMotherTextFiles(string fileName) // dumps to text file
+        //{
+        //    Tools.FileHandler.SavePacketsToTextFile(fileName,packets,packetBytes,maxFilePackets,sensorAddress);
+        //}
 
         private void FlipFilterFieldVisibility() // show or hide filter textbox
         {
@@ -339,6 +346,7 @@ namespace SteppingStoneCapture
             // Take the selected adapter
             selectedDevice = allLivePacketDevices[this.deviceIndex];
 
+            // Detect the correct sensor address
             foreach (DeviceAddress address in selectedDevice.Addresses)
             {
                 if (!address.Address.ToString().Contains("Internet6"))
@@ -362,7 +370,7 @@ namespace SteppingStoneCapture
                 }
                 try
                 {
-                    //Console.WriteLine("Filter: " + filter);
+                    // Try to set the capture filter
                     communicator.SetFilter(filter);
                 }
                 catch (Exception e)
@@ -380,11 +388,13 @@ namespace SteppingStoneCapture
                     captFlag = false;
                 }
 
-
+                // Capture Loop
                 while (captFlag)
                 {
+                    // Try to get the next packet
                     PacketCommunicatorReceiveResult result = communicator.ReceivePacket(out Packet packet);
 
+                    // Determine the result
                     switch (result)
                     {
                         case PacketCommunicatorReceiveResult.Timeout:
@@ -398,6 +408,7 @@ namespace SteppingStoneCapture
                     }
                 }
 
+                // save packets after capture if requested
                 if (captureAndDumpRequested)
                 {
                     this.Invoke((MethodInvoker)(() =>
@@ -409,6 +420,11 @@ namespace SteppingStoneCapture
             }
         }
 
+        /// <summary>
+        /// Click handler for start button. Initializes fields for capture.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnStart_Click(object sender, EventArgs e)
         {
             if (!captFlag) captFlag = true;
@@ -429,8 +445,12 @@ namespace SteppingStoneCapture
             }
         }
 
-        //Signals for cease of capture function        
-        /// Additionally, decreases number of running threads by one        
+        /// <summary>
+        /// Signals for cease of capture function.        
+        /// Additionally, decreases number of running threads by one
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnStop_Click(object sender, EventArgs e)
         {
             captFlag = false;
@@ -439,6 +459,11 @@ namespace SteppingStoneCapture
             cfb.ClearFilterLists();
         }
 
+        /// <summary>
+        /// Signals reset of Capture Window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnReset_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to reset this capture?", "Reset?", MessageBoxButtons.YesNo) == DialogResult.Yes)

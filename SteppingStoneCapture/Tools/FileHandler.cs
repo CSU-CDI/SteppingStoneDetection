@@ -208,6 +208,7 @@ namespace SteppingStoneCapture.Tools
                 fsRaw.Close();
             }
         }
+
         public static void SavePacketsToTextFile(string fileName, List<Packet> packets, IList<byte[]> packetBytes, int maxFilePackets, string sensorIP)
         {
             int indexF = 0;

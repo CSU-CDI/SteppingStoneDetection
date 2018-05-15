@@ -57,6 +57,7 @@ namespace SteppingStoneCapture
             this.rawPacketViewItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.numberOfPactketsPerFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sensorAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.analysisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contentTHumbrprintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timeThumbprintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -128,7 +129,6 @@ namespace SteppingStoneCapture
             this.chkUDP = new System.Windows.Forms.CheckBox();
             this.chkICMP = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.sensorAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.grpFilterParams.SuspendLayout();
             this.grpPorts.SuspendLayout();
@@ -290,6 +290,13 @@ namespace SteppingStoneCapture
             this.numberOfPactketsPerFileToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.numberOfPactketsPerFileToolStripMenuItem.Text = "Number of &Packets per file";
             this.numberOfPactketsPerFileToolStripMenuItem.Click += new System.EventHandler(this.numberOfPactketsPerFileToolStripMenuItem_Click);
+            // 
+            // sensorAddressToolStripMenuItem
+            // 
+            this.sensorAddressToolStripMenuItem.Name = "sensorAddressToolStripMenuItem";
+            this.sensorAddressToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.sensorAddressToolStripMenuItem.Text = "&Sensor Address";
+            this.sensorAddressToolStripMenuItem.Click += new System.EventHandler(this.sensorAddressToolStripMenuItem_Click);
             // 
             // analysisToolStripMenuItem
             // 
@@ -1035,13 +1042,6 @@ namespace SteppingStoneCapture
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 65;
             this.pictureBox1.TabStop = false;
-            // 
-            // sensorAddressToolStripMenuItem
-            // 
-            this.sensorAddressToolStripMenuItem.Name = "sensorAddressToolStripMenuItem";
-            this.sensorAddressToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.sensorAddressToolStripMenuItem.Text = "&Sensor Address";
-            this.sensorAddressToolStripMenuItem.Click += new System.EventHandler(this.sensorAddressToolStripMenuItem_Click);
             // 
             // CaptureForm
             // 

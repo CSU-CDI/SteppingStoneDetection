@@ -1,24 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Windows.Forms;
-using PcapDotNet.Core;
 using PcapDotNet.Packets;
-using PcapDotNet.Packets.IpV4;
-using PcapDotNet.Packets.Transport;
-using System.IO;
 
 namespace SteppingStoneCapture 
 {
     public partial class IOConnection : Form
-    {
-        //private bool applyPort = false;
+    { 
         private List<CougarPacket> cougarpackets;
         private List<Packet> packets;
         private List<CougarPacket> filteredCougarPackets;

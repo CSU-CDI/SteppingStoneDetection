@@ -57,7 +57,6 @@ namespace SteppingStoneCapture
         public string TCPFlags { get => tcpFlags; set => tcpFlags = value; }
         public IpV4Address SensorIP { get => sensorIP; set => sensorIP = value; }
 
-
         public CougarPacket(string timeStamp = "-",
                             int packetNumber = 0,
                             int length = 0,
@@ -84,7 +83,6 @@ namespace SteppingStoneCapture
             SeqNum = seqNum;
             AckNum = ackNum;
             TCPFlags = tcpFlags;
-//            if (sensorIP == "0.0.0.0") SensorIP = new IpV4Address(getLocalIP());
             Payload = payload;
             setPayloadData(payloadData);
         }
