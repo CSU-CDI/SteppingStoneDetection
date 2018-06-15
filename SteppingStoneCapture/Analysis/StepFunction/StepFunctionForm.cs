@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SteppingStoneCapture.Analysis.PacketMatching;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -6,22 +7,24 @@ namespace SteppingStoneCapture.Analysis
 {
     public partial class StepFunctionForm : Form
     {
-        private Tools.PacketMatcher matcher;
+        private PacketMatcher matcher;
         private Tools.FileHandler fileHandler;
+        private WebBrowser wbr;
 
         public StepFunctionForm()
         {
             InitializeComponent();
             Visible = true;
-            matcher = new Tools.FirstPairMatcher();
+            matcher = new FirstPairMatcher();
             fileHandler = new Tools.FileHandler();
+            wbr = new WebBrowser();
         }
 
         private void LoadStreamFilesItem_Click(object sender, EventArgs e)
-        {           
+        {
 
-            if (firstMatchRadio.Checked)
-                matcher = new Tools.FirstPairMatcher();
+            if (!firstMatchRadio.Checked)
+                matcher = new ConservativeMatcher();
 
             try
             {
@@ -61,7 +64,7 @@ namespace SteppingStoneCapture.Analysis
 
         private void StepFunctionForm_Load(object sender, EventArgs e)
         {
-
+           
         }
 
         private void GraphButton_Click(object sender, EventArgs e)
@@ -70,12 +73,12 @@ namespace SteppingStoneCapture.Analysis
             {
                 matcher.MatchPackets();
 
-                var dataSeriesCollection = this.graphingChart.Series;
+                var dataSeriesCollection = graphingChart.Series;
                 var dataSeries = dataSeriesCollection["graphingSeries"];
                 
                 for (int i = 0; i < matcher.RoundTripTimes.Count; i++)
                 {
-                    dataSeries.Points.AddXY((double)(i + 1), matcher.RoundTripTimes[i]); 
+                    dataSeries.Points.AddXY(i + 1, matcher.RoundTripTimes[i]); 
                 }
 
                 this.graphingChart.Series["graphingSeries"] = dataSeries;
@@ -101,5 +104,8 @@ namespace SteppingStoneCapture.Analysis
         {
 
         }
+
+        private void NetworkConfigurationItem_Click(object sender, EventArgs e) => 
+            Tools.HtmlHelpForm.ShowHelp("stepFunction_NetworkConfiguration.html", "Step-Function in a LAN Network Configuration");        
     }
 }

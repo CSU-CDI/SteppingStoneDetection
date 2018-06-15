@@ -88,3 +88,8 @@ C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStone
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.CustomLoadForm.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.CustomLoadForm.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.StepFunctionForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.TextInput.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\Resources\stepFunction_NetworkConfiguration.html
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.HtmlHelpForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.RtfHelpForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\Resources\packetMatching_networkConfig.png

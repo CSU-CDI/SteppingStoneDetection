@@ -50,6 +50,7 @@
             this.graphingChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.firstMatchRadio = new System.Windows.Forms.RadioButton();
             this.conservativeRadio = new System.Windows.Forms.RadioButton();
+            this.networkConfigurationItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileGrpBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.graphingChart)).BeginInit();
@@ -146,7 +147,8 @@
             // 
             this.aboutItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.firstMatchPacketMatchingItem,
-            this.stepFunctionInALANToolStripMenuItem});
+            this.stepFunctionInALANToolStripMenuItem,
+            this.networkConfigurationItem});
             this.aboutItem.Name = "aboutItem";
             this.aboutItem.Size = new System.Drawing.Size(44, 20);
             this.aboutItem.Text = "&Help";
@@ -234,6 +236,13 @@
             this.conservativeRadio.Text = "Conservative";
             this.conservativeRadio.UseVisualStyleBackColor = true;
             // 
+            // networkConfigurationItem
+            // 
+            this.networkConfigurationItem.Name = "networkConfigurationItem";
+            this.networkConfigurationItem.Size = new System.Drawing.Size(227, 22);
+            this.networkConfigurationItem.Text = "Network Configuration";
+            this.networkConfigurationItem.Click += new System.EventHandler(this.NetworkConfigurationItem_Click);
+            // 
             // StepFunctionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -281,5 +290,6 @@
         private System.Windows.Forms.ToolStripMenuItem stepFunctionInALANToolStripMenuItem;
         private System.Windows.Forms.RadioButton firstMatchRadio;
         private System.Windows.Forms.RadioButton conservativeRadio;
+        private System.Windows.Forms.ToolStripMenuItem networkConfigurationItem;
     }
 }

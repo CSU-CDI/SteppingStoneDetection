@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SteppingStoneCapture.Tools
+namespace SteppingStoneCapture.Analysis.PacketMatching
 {
     /// <summary>
     /// Class that encapsulates necessary data for further classes to implement specific packet matching algorithm, namely:

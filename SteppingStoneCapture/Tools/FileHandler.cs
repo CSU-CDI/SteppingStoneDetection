@@ -8,14 +8,11 @@ using System.Windows.Forms;
 
 namespace SteppingStoneCapture.Tools
 {
-    /*
-     *  This is the main class for loading/saving packets to/from files.
-     *  The class could be a collection of static functions, but instance variables are provided for ease of use with externals.
-     *  This mainly pertains to the Sensor IP, however, extends to the list of raw packets (packets using the PCAP.NET defined Packet class).   
-     *  
-     *  *** For Brian and Kendrick ***
-     *     This pretty much has the functionale that use to be in the CaptureForm.cs.
-     */
+    ///
+    /// <summary>This is the main class for loading/saving packets to/from files.</summary>
+    ///  <remarks>The class could be a collection of static functions, but instance variables are provided for ease of use with externals.
+    /// This mainly pertains to the Sensor IP, however, extends to the list of raw packets (packets using the PCAP.NET defined Packet class).   </remarks>
+    ///
     class FileHandler
     {
         private List<Packet> packetsReadFromFile;
