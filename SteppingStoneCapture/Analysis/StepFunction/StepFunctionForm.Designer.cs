@@ -141,7 +141,6 @@
             this.loadStreamFIlesToolStripMenuItem1.Name = "loadStreamFIlesToolStripMenuItem1";
             this.loadStreamFIlesToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
             this.loadStreamFIlesToolStripMenuItem1.Text = "Load &Stream Files";
-            this.loadStreamFIlesToolStripMenuItem1.Click += new System.EventHandler(this.loadStreamFIlesToolStripMenuItem1_Click);
             // 
             // aboutItem
             // 

@@ -3,3 +3,16 @@ C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\Debug
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.Properties.Resources.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.csproj.GenerateResource.Cache
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.csproj.CoreCompileInputs.cache
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.csprojResolveAssemblyReference.cache
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.ByteViewerForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.CaptureForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.Tools.CustomLoadForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.IOConnection.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.IOStream.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.Tools.HtmlHelpForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.Tools.RtfHelpForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.Tools.TextInput.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.Properties.Resources.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.Analysis.StepFunctionForm.resources
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.csproj.GenerateResource.cache
+C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\Debug\SteppingStoneCapture.csproj.CoreCompileInputs.cache

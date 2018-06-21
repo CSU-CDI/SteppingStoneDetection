@@ -9,7 +9,6 @@ namespace SteppingStoneCapture.Analysis
     {
         private PacketMatcher matcher;
         private Tools.FileHandler fileHandler;
-        private WebBrowser wbr;
 
         public StepFunctionForm()
         {
@@ -17,7 +16,6 @@ namespace SteppingStoneCapture.Analysis
             Visible = true;
             matcher = new FirstPairMatcher();
             fileHandler = new Tools.FileHandler();
-            wbr = new WebBrowser();
         }
 
         private void LoadStreamFilesItem_Click(object sender, EventArgs e)
@@ -36,7 +34,7 @@ namespace SteppingStoneCapture.Analysis
                 fileHandler.LoadPacketsFromFiles(clf.FileNameRequested);
                 var SendPackets = new List<PcapDotNet.Packets.Packet>(fileHandler.PacketsReadFromFile);
                 matcher.SendPackets = new Queue<CougarPacket>(CougarPacket.ConvertRawPacketsToCougarPackets(SendPackets, fileHandler.SensorIP));
-                                                                                              
+
                 if (sendStreamBox.Text != "")
                 {
                     clf.Text = "Please select file containing echo stream packets...";
@@ -55,35 +53,51 @@ namespace SteppingStoneCapture.Analysis
                     }
                 }
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-            
-                MessageBox.Show(String.Format("Error!\nThere appears to have been an issue while processing files.\n{0}",ex.InnerException.Message));
+
+                MessageBox.Show(String.Format("Error!\nThere appears to have been an issue while processing files.\n{0}", ex.InnerException.Message));
             };
         }
 
         private void StepFunctionForm_Load(object sender, EventArgs e)
         {
-           
+
         }
 
         private void GraphButton_Click(object sender, EventArgs e)
         {
+            matcher.MatchPackets();
+
+            var dataSeriesCollection = graphingChart.Series;
+            var dataSeries = dataSeriesCollection["graphingSeries"];
+
             if (matcher.RoundTripTimes.Count > 0)
             {
-                matcher.MatchPackets();
-
-                var dataSeriesCollection = graphingChart.Series;
-                var dataSeries = dataSeriesCollection["graphingSeries"];
-                
                 for (int i = 0; i < matcher.RoundTripTimes.Count; i++)
                 {
-                    dataSeries.Points.AddXY(i + 1, matcher.RoundTripTimes[i]); 
+                    dataSeries.Points.AddXY(i + 1, matcher.RoundTripTimes[i]);
                 }
 
                 this.graphingChart.Series["graphingSeries"] = dataSeries;
                 this.graphingChart.Enabled = true;
+
+                String legible = "";
+
+                foreach (String s in matcher.PairedMatches.Values)
+                {
+                    legible = $"{legible}\n{s}";
+                }
+
+                MessageBox.Show(legible);
             }
+
+            else
+            {
+                MessageBox.Show(String.Format("Error! No matches were detected from files:\n{0}\n{1}", sendStreamBox.Text, echoStreamBox.Text));
+            }
+        
         }
 
         private void ClearButton_Click(object sender, EventArgs e)
@@ -100,12 +114,7 @@ namespace SteppingStoneCapture.Analysis
             matcher.ResetMatcher();
         }
 
-        private void loadStreamFIlesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void NetworkConfigurationItem_Click(object sender, EventArgs e) => 
-            Tools.HtmlHelpForm.ShowHelp("stepFunction_NetworkConfiguration.html", "Step-Function in a LAN Network Configuration");        
+        private void NetworkConfigurationItem_Click(object sender, EventArgs e) =>
+            Tools.HtmlHelpForm.ShowHelp("stepFunction_NetworkConfiguration.html", "Step-Function in a LAN Network Configuration");
     }
 }

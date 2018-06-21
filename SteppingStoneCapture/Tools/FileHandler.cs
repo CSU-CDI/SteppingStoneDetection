@@ -27,6 +27,9 @@ namespace SteppingStoneCapture.Tools
         public List<Packet> PacketsReadFromFile { get => packetsReadFromFile; set => packetsReadFromFile = value; }
         public string SensorIP { get => sensorIP; set => sensorIP = value; }
 
+        /// <summary>
+        /// Calls the Custom Load Form to gather packet file location to load packets from
+        /// </summary>
         public void LoadPacketsFromFiles()
         {
             // call up the custom loading form
@@ -104,6 +107,10 @@ namespace SteppingStoneCapture.Tools
             }
         }
 
+        /// <summary>
+        /// Loads packets from the desired file at the inputted path
+        /// </summary>
+        /// <param name="loadPath"></param>
         public void LoadPacketsFromFiles(string loadPath)
         {
             if (loadPath != "" && File.Exists(loadPath))
@@ -172,6 +179,13 @@ namespace SteppingStoneCapture.Tools
             }
         }
 
+        /// <summary>
+        /// Statically save all necessary data from the raw packets to a .txt file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="packets"></param>
+        /// <param name="packetBytes"></param>
+        /// <param name="maxFilePackets"></param>
         public static void SavePacketsToTextFile(string fileName, List<Packet> packets, IList<byte[]> packetBytes, int maxFilePackets)
         {
             int indexF = 0;
@@ -206,6 +220,14 @@ namespace SteppingStoneCapture.Tools
             }
         }
 
+        /// <summary>
+        /// Statically save all necessary data from the raw packet to a txt file with the inputted sensor ip
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="packets"></param>
+        /// <param name="packetBytes"></param>
+        /// <param name="maxFilePackets"></param>
+        /// <param name="sensorIP"></param>
         public static void SavePacketsToTextFile(string fileName, List<Packet> packets, IList<byte[]> packetBytes, int maxFilePackets, string sensorIP)
         {
             int indexF = 0;
@@ -243,6 +265,14 @@ namespace SteppingStoneCapture.Tools
 
         }
 
+
+        /// <summary>
+        /// Statically save packets to txt or pcap format with a necessary data from the raw packets
+        /// </summary>
+        /// <param name="packets"></param>
+        /// <param name="packetBytes"></param>
+        /// <param name="maxFilePackets"></param>
+        /// <param name="sensorIP"></param>
         public static void SavePackets(List<Packet> packets, IList<byte[]> packetBytes, int maxFilePackets, string sensorIP)
         {
             SaveFileDialog sfd = new SaveFileDialog()

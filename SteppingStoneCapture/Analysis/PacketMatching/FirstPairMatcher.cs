@@ -38,8 +38,12 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         matched = true;
                         // add the round trip time to the resultant list
                         RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
+
+                        PairedMatches.Add(nbrMatches++, String.Format("Send {0} <=> Echo {1}", base.currentSendNbr++, base.currentEchoNbr++));
                     }
                 }
+
+
 
                 // Report error if all send packets have been processed and no match was found
                 if (SendPackets.Count == 0 && !matched)

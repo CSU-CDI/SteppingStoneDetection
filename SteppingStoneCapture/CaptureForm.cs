@@ -724,6 +724,7 @@ namespace SteppingStoneCapture
                 }
             }
             senderComboBox.DropDownWidth = width;
+            senderComboBox.MaximumSize = new Size(width + 20, senderComboBox.Height);
         }
 
         private void sensorAddressToolStripMenuItem_Click(object sender, EventArgs e)
@@ -743,6 +744,7 @@ namespace SteppingStoneCapture
         {
             ListNetworkInterfaces();
             packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
         }
 
         /*

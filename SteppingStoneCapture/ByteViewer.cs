@@ -103,6 +103,7 @@ namespace SteppingStoneCapture
             // 
             // ByteViewerForm
             // 
+            
             this.Name = "Packet Detail";
             this.Load += new System.EventHandler(this.ByteViewerForm_Load);
             this.ResumeLayout(false);

@@ -86,6 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\PacketMatching\ConservativeMatcher.cs" />
+    <Compile Include="Analysis\PacketMatching\PacketMatchingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analysis\PacketMatching\PacketMatchingForm.Designer.cs">
+      <DependentUpon>PacketMatchingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ByteViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,9 @@
     <Compile Include="Tools\FileHandler.cs" />
     <Compile Include="Analysis\PacketMatching\FirstPairMatcher.cs" />
     <Compile Include="Analysis\PacketMatching\PacketMatcher.cs" />
+    <EmbeddedResource Include="Analysis\PacketMatching\PacketMatchingForm.resx">
+      <DependentUpon>PacketMatchingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ByteViewer.resx">
       <DependentUpon>ByteViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -198,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="csu_logo_tower_Bhj_icon.ico" />
+    <Content Include="Resources\HTMLPage1.html" />
     <Content Include="Resources\packetMatching_networkConfig.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

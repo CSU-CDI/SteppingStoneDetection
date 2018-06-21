@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SteppingStoneCapture.Analysis.PacketMatching
 {
     class ConservativeMatcher : PacketMatcher
     {
-
-
-
         /// <summary>
         /// Attempts to match each echo packet with the oldest, available send packet
         /// </summary>
@@ -40,6 +34,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         matched = true;
                         // add the round trip time to the resultant list
                         RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
+
+                        PairedMatches.Add(nbrMatches++, String.Format("Send {0} <=> Echo {1}", base.currentSendNbr++, base.currentEchoNbr++));
                     }
                 }
 

@@ -366,7 +366,7 @@ namespace SteppingStoneCapture
             // aboutUsToolStripMenuItem
             // 
             this.aboutUsToolStripMenuItem.Name = "aboutUsToolStripMenuItem";
-            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutUsToolStripMenuItem.Text = "&About Us";
             // 
             // contextMenuStrip1
@@ -377,6 +377,8 @@ namespace SteppingStoneCapture
             // 
             // cmbInterfaces
             // 
+            this.cmbInterfaces.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbInterfaces.ContextMenuStrip = this.contextMenuStrip1;
             this.cmbInterfaces.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbInterfaces.FormattingEnabled = true;
@@ -524,7 +526,6 @@ namespace SteppingStoneCapture
             this.packetView.UseCompatibleStateImageBehavior = false;
             this.packetView.View = System.Windows.Forms.View.Details;
             this.packetView.SelectedIndexChanged += new System.EventHandler(this.PacketView_SelectedIndexChanged);
-            ControlExtender.DoubleBuffered(this.packetView, true);
             // 
             // packNum
             // 
@@ -606,12 +607,12 @@ namespace SteppingStoneCapture
             // 
             // grpFilterParams
             // 
-            this.grpFilterParams.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpFilterParams.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.grpFilterParams.Controls.Add(this.grpPorts);
             this.grpFilterParams.Controls.Add(this.grpIPAddress);
             this.grpFilterParams.Location = new System.Drawing.Point(220, 32);
             this.grpFilterParams.Margin = new System.Windows.Forms.Padding(2);
+            this.grpFilterParams.MaximumSize = new System.Drawing.Size(520, 200);
             this.grpFilterParams.Name = "grpFilterParams";
             this.grpFilterParams.Padding = new System.Windows.Forms.Padding(2);
             this.grpFilterParams.Size = new System.Drawing.Size(417, 199);

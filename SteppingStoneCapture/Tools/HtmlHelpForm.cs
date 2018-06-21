@@ -31,11 +31,10 @@ namespace SteppingStoneCapture.Tools
             if (File.Exists(helpFilePath) &&
                 ((Path.GetExtension(helpFilePath) == ".html") || Path.GetExtension(helpFilePath) == ".htm"))
             {
-                // Open the html file in a stream
-                FileStream htmlFile = File.OpenRead(helpFilePath);
-
-                // Set the Web Browser's DocumentStream to read from the desired file's stream
-                this.htmlWebBrowser.DocumentStream = htmlFile;
+                // Create a url based off the specified help file's location
+                var url = new Uri(helpFilePath);
+                // Direct the WebBrowser to path
+                this.htmlWebBrowser.Navigate(url);
             }
 
             else
@@ -53,7 +52,7 @@ namespace SteppingStoneCapture.Tools
         /// </summary>
         /// <param name="helpFileName">
         /// String containing the desired help html file name and extension: i.e. "example.html"
-        /// </param>
+        /// </param>     
         public static void ShowHelp(string helpFileName)
         {
             // get the current directory the application is running in

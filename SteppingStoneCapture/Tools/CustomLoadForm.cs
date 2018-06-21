@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace SteppingStoneCapture.Tools
@@ -20,8 +19,7 @@ namespace SteppingStoneCapture.Tools
 
         public CustomLoadForm(string title, string description)
         {
-            this.Text = title;          
-
+            this.Text = title;
         }
         
         public string FileNameRequested { get => fileNameRequested; set => fileNameRequested = value; }
