@@ -91,6 +91,12 @@
     <Compile Include="Analysis\ContentThumbprint\ContentThumbprint.Designer.cs">
       <DependentUpon>ContentThumbprint.cs</DependentUpon>
     </Compile>
+    <Compile Include="Analysis\CrossOverPacket\CrossOverPacket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analysis\CrossOverPacket\CrossOverPacket.Designer.cs">
+      <DependentUpon>CrossOverPacket.cs</DependentUpon>
+    </Compile>
     <Compile Include="Analysis\PacketMatching\ConservativeMatcher.cs" />
     <Compile Include="Analysis\PacketMatching\PacketMatchingForm.cs">
       <SubType>Form</SubType>
@@ -159,6 +165,9 @@
     <Compile Include="Analysis\PacketMatching\PacketMatcher.cs" />
     <EmbeddedResource Include="Analysis\ContentThumbprint\ContentThumbprint.resx">
       <DependentUpon>ContentThumbprint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Analysis\CrossOverPacket\CrossOverPacket.resx">
+      <DependentUpon>CrossOverPacket.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Analysis\PacketMatching\PacketMatchingForm.resx">
       <DependentUpon>PacketMatchingForm.cs</DependentUpon>
