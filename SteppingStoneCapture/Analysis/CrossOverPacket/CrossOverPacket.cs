@@ -15,6 +15,7 @@ namespace SteppingStoneCapture.Analysis
         public CrossOverPacket()
         {
             InitializeComponent();
+            Visible = true;
             btnOk.Enabled = false;
         }
     }

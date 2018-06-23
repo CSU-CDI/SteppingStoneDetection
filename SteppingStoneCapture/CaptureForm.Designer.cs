@@ -355,6 +355,7 @@ namespace SteppingStoneCapture
             this.crossoverToolStripMenuItem.Name = "crossoverToolStripMenuItem";
             this.crossoverToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
             this.crossoverToolStripMenuItem.Text = "Cross&over-Packet";
+            this.crossoverToolStripMenuItem.Click += new System.EventHandler(this.crossoverToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -518,7 +519,7 @@ namespace SteppingStoneCapture
             this.packetView.FullRowSelect = true;
             this.packetView.GridLines = true;
             this.packetView.Location = new System.Drawing.Point(12, 292);
-            this.packetView.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.packetView.Margin = new System.Windows.Forms.Padding(5);
             this.packetView.Name = "packetView";
             this.packetView.Size = new System.Drawing.Size(983, 370);
             this.packetView.TabIndex = 28;
@@ -660,7 +661,7 @@ namespace SteppingStoneCapture
             this.chkNotPort2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkNotPort2.AutoSize = true;
             this.chkNotPort2.Location = new System.Drawing.Point(444, 78);
-            this.chkNotPort2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkNotPort2.Margin = new System.Windows.Forms.Padding(4);
             this.chkNotPort2.Name = "chkNotPort2";
             this.chkNotPort2.Size = new System.Drawing.Size(52, 21);
             this.chkNotPort2.TabIndex = 64;
@@ -831,7 +832,7 @@ namespace SteppingStoneCapture
             this.chkIPNOT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIPNOT2.AutoSize = true;
             this.chkIPNOT2.Location = new System.Drawing.Point(444, 69);
-            this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4);
             this.chkIPNOT2.Name = "chkIPNOT2";
             this.chkIPNOT2.Size = new System.Drawing.Size(52, 21);
             this.chkIPNOT2.TabIndex = 61;
@@ -1037,7 +1038,7 @@ namespace SteppingStoneCapture
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(856, 172);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(140, 111);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
