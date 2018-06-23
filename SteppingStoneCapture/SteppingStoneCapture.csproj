@@ -59,16 +59,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PcapDotNet.Base">
-      <HintPath>..\..\..\..\PCAP\PcapDotNet.DevelopersPack.1.0.4\PcapDotNet.DevelopersPack.1.0.4.x64\PcapDotNet.DevelopersPack\3rdParty\PcapDotNet\PcapDotNet.Base.dll</HintPath>
+      <HintPath>bin\x64\Release\PcapDotNet.Base.dll</HintPath>
     </Reference>
     <Reference Include="PcapDotNet.Core">
-      <HintPath>..\..\..\..\PCAP\PcapDotNet.DevelopersPack.1.0.4\PcapDotNet.DevelopersPack.1.0.4.x64\PcapDotNet.DevelopersPack\3rdParty\PcapDotNet\PcapDotNet.Core.dll</HintPath>
+      <HintPath>bin\x64\Release\PcapDotNet.Core.dll</HintPath>
     </Reference>
     <Reference Include="PcapDotNet.Core.Extensions">
-      <HintPath>..\..\..\..\..\Documents\Pcap.Net\Binaries\PcapDotNet.Core.Extensions.dll</HintPath>
+      <HintPath>bin\x64\Release\PcapDotNet.Core.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="PcapDotNet.Packets">
-      <HintPath>..\..\..\..\PCAP\PcapDotNet.DevelopersPack.1.0.4\PcapDotNet.DevelopersPack.1.0.4.x64\PcapDotNet.DevelopersPack\3rdParty\PcapDotNet\PcapDotNet.Packets.dll</HintPath>
+      <HintPath>bin\x64\Release\PcapDotNet.Packets.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,6 +85,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\ContentThumbprint\ContentThumbprint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analysis\ContentThumbprint\ContentThumbprint.Designer.cs">
+      <DependentUpon>ContentThumbprint.cs</DependentUpon>
+    </Compile>
     <Compile Include="Analysis\PacketMatching\ConservativeMatcher.cs" />
     <Compile Include="Analysis\PacketMatching\PacketMatchingForm.cs">
       <SubType>Form</SubType>
@@ -151,6 +157,9 @@
     <Compile Include="Tools\FileHandler.cs" />
     <Compile Include="Analysis\PacketMatching\FirstPairMatcher.cs" />
     <Compile Include="Analysis\PacketMatching\PacketMatcher.cs" />
+    <EmbeddedResource Include="Analysis\ContentThumbprint\ContentThumbprint.resx">
+      <DependentUpon>ContentThumbprint.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Analysis\PacketMatching\PacketMatchingForm.resx">
       <DependentUpon>PacketMatchingForm.cs</DependentUpon>
     </EmbeddedResource>

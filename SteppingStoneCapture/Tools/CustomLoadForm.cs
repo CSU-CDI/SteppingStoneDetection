@@ -14,7 +14,7 @@ namespace SteppingStoneCapture.Tools
             InitializeComponent();
             this.Text = "Load from Dump File...";
             FileNameRequested = "";
-            
+            OKButton.Enabled = false;
         }
 
         public CustomLoadForm(string title, string description)
@@ -46,16 +46,20 @@ namespace SteppingStoneCapture.Tools
                     {
                         FilePathTextBox.Text += ofd.FileName;
                         FileNameRequested = ofd.FileName;
+                        OKButton.Enabled = true;
                     }
 
                     break;
                 default:
-                    DialogResult res = MessageBox.Show("No File Path Found...","Try Again?", MessageBoxButtons.YesNoCancel);
-                    if (res == DialogResult.Yes) DetermineDumpFilePath();
+                    //DialogResult res = MessageBox.Show("No File Path Found...","Try Again?", MessageBoxButtons.YesNoCancel);
+                    //if (res == DialogResult.Yes) DetermineDumpFilePath();
                     break;
             }
         }
 
-       
+        private void CustomLoadForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

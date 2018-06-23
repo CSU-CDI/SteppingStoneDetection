@@ -78,7 +78,6 @@ C:\Users\andrew\Downloads\SteppingStoneDetection - Copy (2)\SteppingStoneCapture
 C:\Users\andrew\Desktop\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.NumberPacketsForm.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOConnection.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOStream.resources
-C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.NumberPacketsForm.resources
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOConnection.resources
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOStream.resources
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.csproj.CopyComplete
@@ -94,3 +93,10 @@ C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStone
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.RtfHelpForm.resources
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\Resources\packetMatching_networkConfig.png
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.PacketMatching.PacketMatchingForm.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\Resources\packetMatching_networkConfig.png
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\bin\x64\Release\Resources\stepFunction_NetworkConfiguration.html
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.ContentThumbprint.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.PacketMatching.PacketMatchingForm.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.HtmlHelpForm.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.RtfHelpForm.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.TextInput.resources

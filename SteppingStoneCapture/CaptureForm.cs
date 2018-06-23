@@ -735,6 +735,9 @@ namespace SteppingStoneCapture
             sensorAddress = nf.InputtedText;
         }
 
+        private void contentThumbrprintToolStripMenuItem_Click(object sender, EventArgs e) => new Analysis.ContentThumbprint();
+        
+
         /*
          * Loads the Step Function in a LAN program 
          */
