@@ -18,5 +18,26 @@ namespace SteppingStoneCapture.Analysis
             Visible = true;
             btnOk.Enabled = false;
         }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to cancel?", "Cancel?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                Close();
+        }
+
+        private void btnBrowseInput_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBrowseOutput_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
