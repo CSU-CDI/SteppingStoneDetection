@@ -251,7 +251,8 @@ namespace SteppingStoneCapture
 
         private void PrintPacket(Packet packet) // main packet handler method (should probably be renamed to the original HandleLoadedPacket name to make more sense)
         {
-            if (packet.Ethernet.IsValid)
+            Console.WriteLine(packet.Ethernet.IsValid);
+            // if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
                 CougarPacket cp = CougarPacket.DetermineCorrectPacketFormat(packet, sensorAddress, packetNumber);  // create new cougarpacket wtih proper protocol information related to this particular packet
@@ -279,9 +280,13 @@ namespace SteppingStoneCapture
 
         private void PrintPacket(Packet packet, string sensorIP) // main packet handler method (should probably be renamed to the original HandleLoadedPacket name to make more sense)
         {
-            if (packet.Ethernet.IsValid)
+           // if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
+
+                Console.WriteLine("packet " + packetNumber);
+                Console.WriteLine("time " + packet.Timestamp.ToShortTimeString());
+                Console.WriteLine(packet.Ethernet.IsValid);
                 CougarPacket cp = CougarPacket.DetermineCorrectPacketFormat(packet, sensorAddress, packetNumber);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 cp.SensorIP = new IpV4Address(sensorIP);// create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);

@@ -17,7 +17,8 @@ namespace SteppingStoneCapture
             // Initialize the ByteViewer.
             byteviewer = new ByteViewer();
             byteviewer.Location = new Point(8, 46);
-            byteviewer.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top ;
+            byteviewer.Size = new Size(600, 338);
+            byteviewer.Anchor = AnchorStyles.Left | AnchorStyles.Bottom | AnchorStyles.Top;
             byteviewer.SetBytes(new byte[] { });
             this.Controls.Add(byteviewer);
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
@@ -70,9 +71,28 @@ namespace SteppingStoneCapture
         private void InitializeForm()
         {
             this.SuspendLayout();
+            this.ClientSize = new System.Drawing.Size(680, 440);
             this.MinimumSize = new System.Drawing.Size(660, 400);
+            this.Size = new System.Drawing.Size(680, 440);
             this.Name = "Packet Detail";
             this.Text = "Packet Detail";
+
+            /*this.button1 = new System.Windows.Forms.Button();
+            this.button1.Location = new System.Drawing.Point(8, 8);
+            this.button1.Size = new System.Drawing.Size(190, 23);
+            this.button1.Name = "button1";
+            this.button1.Text = "Set Bytes From File...";
+            this.button1.TabIndex = 0;
+            this.button1.Click += new EventHandler(this.loadBytesFromFile);
+            this.Controls.Add(this.button1);
+            this.button2 = new System.Windows.Forms.Button();
+            this.button2.Location = new System.Drawing.Point(198, 8);
+            this.button2.Size = new System.Drawing.Size(190, 23);
+            this.button2.Name = "button2";
+            this.button2.Text = "Clear Bytes";
+            this.button2.Click += new EventHandler(this.clearBytes);
+            this.button2.TabIndex = 1;
+            this.Controls.Add(this.button2);*/
 
             System.Windows.Forms.GroupBox group = new System.Windows.Forms.GroupBox();
             group.Location = new Point(418, 3);
@@ -98,12 +118,13 @@ namespace SteppingStoneCapture
 
         private void InitializeComponent()
         {
-          //  System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ByteViewerForm));
-            //this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ByteViewerForm));
+            this.SuspendLayout();
             // 
             // ByteViewerForm
             // 
-            
+            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Packet Detail";
             this.Load += new System.EventHandler(this.ByteViewerForm_Load);
             this.ResumeLayout(false);
@@ -112,7 +133,7 @@ namespace SteppingStoneCapture
 
         private void ByteViewerForm_Load(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

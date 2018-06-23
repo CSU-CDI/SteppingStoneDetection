@@ -140,9 +140,8 @@ namespace SteppingStoneCapture.Tools
                         if (!loadPath.Contains("_raw"))
                         {
                             rawLoadPath = path[0] + "_raw." + path[1];
-                            System.Windows.Forms.MessageBox.Show(String.Format("{0}\n{1}\n{2}",
-                                                                  "Clear Text file name detected.", "Error will occur if _raw file not found.",
-                                                                  "Please load from the equivalent _raw file."));
+                            System.Windows.Forms.MessageBox.Show(String.Format("{0}\n{1}\n",
+                                                                  "Clear Text file name detected.", "Error will occur if _raw file not found."));
                         }
                         else rawLoadPath = loadPath;
 

@@ -57,7 +57,7 @@ namespace SteppingStoneCapture.Analysis
             catch (Exception ex)
             {
 
-                MessageBox.Show(String.Format("Error!\nThere appears to have been an issue while processing files.\n{0}", ex.InnerException.Message));
+                MessageBox.Show("Error!\nThere appears to have been an issue while processing files.\n");
             };
         }
 

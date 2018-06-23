@@ -134,7 +134,8 @@ namespace SteppingStoneCapture
 
             };
 
-            if (packet.Ethernet.IpV4.IsValid)
+            Console.WriteLine(packet.Ethernet.IpV4.IsValid);
+            //if (packet.Ethernet.IpV4.IsValid)
             {
                 IpV4Datagram ipv4 = packet.Ethernet.IpV4;
                 cp.SourceAddress = ipv4.Source;
@@ -173,12 +174,12 @@ namespace SteppingStoneCapture
                 }
             }
 
-            else if (packet.Ethernet.Arp.IsValid) // arp packet received
+            /*else if (packet.Ethernet.Arp.IsValid) // arp packet received
             {
                 ArpDatagram arp = packet.Ethernet.Arp;
                 cp.SourceAddress = arp.SenderProtocolIpV4Address;
                 cp.DestAddress = arp.TargetProtocolIpV4Address;
-            }           
+            }  */
 
             return cp;
         }

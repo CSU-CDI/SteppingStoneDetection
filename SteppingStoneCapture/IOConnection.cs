@@ -113,7 +113,7 @@ namespace SteppingStoneCapture
             }
             else if (sendChk.Checked)  // remove anything that isn't strictly a send packet
             {
-                if (!cougarpackets[j].TCPFlags.Contains("Push") || cougarpackets[j].TCPFlags.Contains("Acknowledgment"))
+                if (!cougarpackets[j].TCPFlags.Contains("Push") /*|| cougarpackets[j].TCPFlags.Contains("Acknowledgment")*/)
                 {
                     filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
                     filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);

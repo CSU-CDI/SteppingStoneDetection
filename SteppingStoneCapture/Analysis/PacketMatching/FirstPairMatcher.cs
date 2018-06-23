@@ -22,7 +22,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                 DateTime.TryParse(echo.TimeStamp, out DateTime echoT);
 
                 // reset the match flag, since this is a new packet
-                bool matched = false;
+                Boolean matched = false;
 
                 //for every captured send packet,
                 while (SendPackets.Count > 0 && !matched)
