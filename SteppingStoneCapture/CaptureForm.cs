@@ -40,6 +40,7 @@ namespace SteppingStoneCapture
         {
             //checkFirst();
             InitializeComponent();
+            this.packetView.DoubleBuffered(true);
             rawPacketViewItem.Checked = true;
             deviceIndex = 0;
             defaultFilterField = "";
