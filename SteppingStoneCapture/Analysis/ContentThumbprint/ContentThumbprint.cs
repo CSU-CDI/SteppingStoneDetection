@@ -18,6 +18,9 @@ namespace SteppingStoneCapture.Analysis
         int incount, outcount;
         private Dictionary<Char, int> InChar;
         private Dictionary<Char, int> OutChar;
+        private Dictionary<Char, Tuple<int, int>> totalCount;
+        private List<double> charRatios;
+        
 
         public int Incount { get => incount; set => incount = value; }
         public int Outcount { get => outcount; set => outcount = value; }
@@ -33,6 +36,8 @@ namespace SteppingStoneCapture.Analysis
             Incount = Outcount = 0;
             InChar = new Dictionary<char, int>();
             OutChar = new Dictionary<char, int>();
+            totalCount = null;
+            charRatios = null;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -112,6 +117,7 @@ namespace SteppingStoneCapture.Analysis
             string line;
             if (chkPacketCount.Checked)
             {
+                this.Cursor = Cursors.WaitCursor;
                 InFile = new StreamReader(InputStreamFile);
                 OutFile = new StreamReader(OutputStreamFile);                
                 
@@ -127,9 +133,20 @@ namespace SteppingStoneCapture.Analysis
                     ++Outcount;
                 }
                 OutFile.Close();
+
+                double ratio = 1 - ((Math.Abs(Incount - Outcount))/Math.Max(Incount, Outcount));
+
+                this.Cursor = Cursors.Default;
+
+                if (ratio >= (double)numericUpDown1.Value)
+                    MessageBox.Show("Stepping-Stone Detected! Ratio: " + ratio);
+                else
+                    MessageBox.Show("Not a Stepping-Stone! Ratio: " + ratio);
+                Incount = Outcount = 0;
             }
             else if (chkCharFreq.Checked)
             {
+                this.Cursor = Cursors.WaitCursor;
                 InFile = new StreamReader(InputStreamFile);
                 OutFile = new StreamReader(OutputStreamFile);
                 string[] lineItems;
@@ -165,6 +182,33 @@ namespace SteppingStoneCapture.Analysis
                     }
                 }
                 OutFile.Close();
+
+                // begin iterating through char count and adding values to total count
+                foreach (char c in InChar.Keys)
+                {
+                    if (OutChar.ContainsKey(c))
+                    {
+                        //Incount = InChar[c];
+                        //Outcount = OutChar[c];
+                        totalCount.Add(c, Tuple.Create(InChar[c], OutChar[c]));
+
+                        
+                        // needs more work so we can store the accumulative values.  Needs a Dictionary with Char val as key
+                        // and a tuple that stores in count and out count...it may be better to use an array here instead of a tuple
+                    }
+                }
+
+                foreach (char c in totalCount.Keys)
+                {                    
+                    charRatios.Add(1 - ((Math.Abs(totalCount[c].Item1 - totalCount[c].Item2)) / Math.Max(totalCount[c].Item1, totalCount[c].Item2)));
+                }
+
+                 // here is where we need to determine how to approach the ratios for each individual hex char
+
+                this.Cursor = Cursors.Default;
+
+                InChar.Clear();
+                OutChar.Clear();
 
             }
             else if (chkCharFreqTime.Checked)
