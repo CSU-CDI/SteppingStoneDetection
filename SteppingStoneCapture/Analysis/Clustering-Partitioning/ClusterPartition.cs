@@ -15,6 +15,7 @@ namespace SteppingStoneCapture.Analysis
         public ClusterPartition()
         {
             InitializeComponent();
+            Visible = true;
             btnOk.Enabled = false;
         }
 

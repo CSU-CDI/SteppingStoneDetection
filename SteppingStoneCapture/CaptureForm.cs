@@ -737,9 +737,9 @@ namespace SteppingStoneCapture
 
         private void contentThumbrprintToolStripMenuItem_Click(object sender, EventArgs e) => new Analysis.ContentThumbprint();
 
-        private void crossoverToolStripMenuItem_Click(object sender, EventArgs e) => new Analysis.CrossOverPacket();
-        
+        private void crossoverToolStripMenuItem_Click(object sender, EventArgs e) => new Analysis.CrossOverPacket();       
 
+        private void lengthEstimationToolStripMenuItem_Click(object sender, EventArgs e) => new Analysis.ClusterPartition();
 
         /*
          * Loads the Step Function in a LAN program 

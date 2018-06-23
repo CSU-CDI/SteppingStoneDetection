@@ -310,7 +310,7 @@ namespace SteppingStoneCapture
             this.crossoverToolStripMenuItem});
             this.analysisToolStripMenuItem.Name = "analysisToolStripMenuItem";
             this.analysisToolStripMenuItem.Size = new System.Drawing.Size(86, 24);
-            this.analysisToolStripMenuItem.Text = "&Detection";
+            this.analysisToolStripMenuItem.Text = "&Detection";            
             // 
             // contentThumbrprintToolStripMenuItem
             // 
@@ -349,6 +349,7 @@ namespace SteppingStoneCapture
             this.lengthEstimationToolStripMenuItem.Name = "lengthEstimationToolStripMenuItem";
             this.lengthEstimationToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
             this.lengthEstimationToolStripMenuItem.Text = "Clustering-Partitionin&g";
+            this.lengthEstimationToolStripMenuItem.Click += new System.EventHandler(this.lengthEstimationToolStripMenuItem_Click);
             // 
             // crossoverToolStripMenuItem
             // 
