@@ -20,7 +20,7 @@ namespace SteppingStoneCapture
         public IOConnection()
         {
             InitializeComponent();
-            txtIpOne.Text = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString(); // need to get rid of this and use selected device ip address
+            //txtIpOne.Text = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString(); // need to get rid of this and use selected device ip address
         }
         public IOConnection(string sensorip)
         {
@@ -41,7 +41,9 @@ namespace SteppingStoneCapture
         }
 
         private void applyBtn_Click(object sender, EventArgs e) // this button filters connections on port# as well as filters on tcp flags
-        {            
+        {
+            dropdownListItems.Clear();
+            ConnectionCombo.Items.Clear();
             bool result = int.TryParse(txtPort.Text, out int port); // validate port # input            
             if (result && port < 65535 && port > 0)
             {
@@ -81,7 +83,7 @@ namespace SteppingStoneCapture
                             if (filterStream(j, incomingConnection, port))
                                 continue;
 
-                            key = cougarpackets[j].DestAddress + " - " + cougarpackets[j].SrcPort;
+                            key = (cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text)) ? cougarpackets[j].DestAddress + " - " + cougarpackets[j].DstPort : cougarpackets[j].DestAddress + " - " + cougarpackets[j].SrcPort;
                             if (!dropdownListItems.ContainsKey(key))
                             {
                                 dropdownListItems.Add(key, packets[j]);
