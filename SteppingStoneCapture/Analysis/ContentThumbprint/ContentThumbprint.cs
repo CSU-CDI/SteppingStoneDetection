@@ -18,8 +18,9 @@ namespace SteppingStoneCapture.Analysis
         int incount, outcount;
         private Dictionary<Char, int> InChar;
         private Dictionary<Char, int> OutChar;
-        private Dictionary<Char, Tuple<int, int>> totalCount;
-        private List<double> charRatios;
+        private Dictionary<Char, Tuple<int, int>> totalCount;        
+        private Dictionary<Char, double> charRatios;
+        private Dictionary<Char, double> resultsOverThreshold;
         
 
         public int Incount { get => incount; set => incount = value; }
@@ -38,6 +39,7 @@ namespace SteppingStoneCapture.Analysis
             OutChar = new Dictionary<char, int>();
             totalCount = null;
             charRatios = null;
+            resultsOverThreshold = null;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -200,12 +202,23 @@ namespace SteppingStoneCapture.Analysis
 
                 foreach (char c in totalCount.Keys)
                 {                    
-                    charRatios.Add(1 - ((Math.Abs(totalCount[c].Item1 - totalCount[c].Item2)) / Math.Max(totalCount[c].Item1, totalCount[c].Item2)));
+                    charRatios.Add(c, (1 - ((Math.Abs(totalCount[c].Item1 - totalCount[c].Item2)) / Math.Max(totalCount[c].Item1, totalCount[c].Item2))));
                 }
 
-                 // here is where we need to determine how to approach the ratios for each individual hex char
+                foreach (Char c in charRatios.Keys)
+                {
+                    if (charRatios[c] >= (double)numericUpDown1.Value)
+                    {
+                        resultsOverThreshold.Add(c, charRatios[c]);
+                    }
+                }
+
+                string formattedResults = "Chars Greather than threshold:\n";
+                foreach (Char c in resultsOverThreshold.Keys)
+                    formattedResults += c + " : " + resultsOverThreshold[c] + "\n";
 
                 this.Cursor = Cursors.Default;
+                MessageBox.Show(formattedResults);               
 
                 InChar.Clear();
                 OutChar.Clear();
