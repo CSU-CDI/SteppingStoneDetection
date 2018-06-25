@@ -68,7 +68,11 @@ namespace SteppingStoneCapture
                                 ConnectionCombo.Items.Add(key);
                             }
                         } // end incoming filter if statement
-                    } // end for loop                   
+                    } // end for loop       
+                    if (ConnectionCombo.Items.Count < 1)
+                        ConnectionCombo.Text = "<EMPTY>";
+                    else
+                        ConnectionCombo.Text = "";
                 }
                 else // if the user selected to filter on outgoing connection
                 {
@@ -91,6 +95,10 @@ namespace SteppingStoneCapture
                             }
                         } // end outgoing filter if statement
                     } // end for loop
+                    if (ConnectionCombo.Items.Count < 1)
+                        ConnectionCombo.Text = "<EMPTY>";
+                    else
+                        ConnectionCombo.Text = "";
                 }
                 btnOk.Enabled = true;
                 ConnectionCombo.Enabled = true;                
@@ -108,34 +116,46 @@ namespace SteppingStoneCapture
             {
                 if (!cougarpackets[j].TCPFlags.Contains("Acknowledgment") || cougarpackets[j].TCPFlags.Contains("Push"))
                 {
-                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                    removeLastPacket();
                     return true;
                 }
             }
             else if (sendChk.Checked)  // remove anything that isn't strictly a send packet
             {
-                if (!cougarpackets[j].TCPFlags.Contains("Push") /*|| cougarpackets[j].TCPFlags.Contains("Acknowledgment")*/)
+                if (!cougarpackets[j].TCPFlags.Contains("Push")/* || cougarpackets[j].TCPFlags.Contains("Acknowledgment")*/)
                 {
-                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                    removeLastPacket();
                     return true;
-                }                
+                }   
+                else if (incoming)
+                {
+                    if (cougarpackets[j].DstPort != port || !cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text))
+                    {
+                        removeLastPacket();
+                        return true;
+                    }
+                }
+                else if (!incoming)
+                {
+                    if (cougarpackets[j].DstPort != port || !cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text))
+                    {
+                        removeLastPacket();
+                        return true;
+                    }
+                }
             }
             else if (EchoChk.Checked) // check to make sure this is a response packet dependent on incoming/outgoing connection
             {
                 if (!cougarpackets[j].TCPFlags.Contains("Push"))
                 {
-                    filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                    filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                    removeLastPacket();
                     return true;
                 }
                 else if (incoming)
                 {
                     if (cougarpackets[j].SrcPort != port || !cougarpackets[j].SourceAddress.ToString().Equals(txtIpOne.Text))
                     {
-                        filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                        filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                        removeLastPacket();
                         return true;
                     }
                 }
@@ -143,13 +163,18 @@ namespace SteppingStoneCapture
                 {
                     if (cougarpackets[j].SrcPort != port || !cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text))
                     {
-                        filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
-                        filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);
+                        removeLastPacket();
                         return true;
                     }
                 }
             }
             return false;
+        }
+
+        private void removeLastPacket()
+        {
+            filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
+            filteredRawPackets.RemoveAt(filteredRawPackets.Count - 1);            
         }
 
         private void DumpCapturedPacketsToMotherTextFiles(string fileName) // dumps to text file
@@ -194,6 +219,15 @@ namespace SteppingStoneCapture
         {
             DetermineFilePath();
             this.Close();
+            /*foreach (Packet p in filteredRawPackets)
+            {
+                Console.WriteLine(p);
+            }*/
+        
+            /*for (int i=0; i<filteredRawPackets.Count; i++)
+            {
+                Console.WriteLine(i + " " + filteredCougarPackets[i].ToString());
+            }*/
         }
 
         private void IOConnection_Load(object sender, EventArgs e)

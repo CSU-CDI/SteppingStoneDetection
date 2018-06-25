@@ -335,7 +335,7 @@ namespace SteppingStoneCapture.Tools
                     byte[] barr;
                     foreach (CougarPacket cp in filteredCougarPackets)
                     {
-                        if (cp.SourceAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
+                        //if (cp.SourceAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
                         {
                             barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
                             fs.Write(barr, 0, barr.Length);
@@ -350,7 +350,7 @@ namespace SteppingStoneCapture.Tools
                     byte[] barr;
                     foreach (CougarPacket cp in filteredCougarPackets)
                     {
-                        if (cp.DestAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
+                        //if (cp.DestAddress.ToString().Equals(selectedConnection[0]) && cp.SrcPort == Int32.Parse(selectedConnection[1]))
                         {
                             barr = Encoding.ASCII.GetBytes(cp.ToString() + "\n");
                             fs.Write(barr, 0, barr.Length);
