@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace SteppingStoneCapture.Analysis.PacketMatching
 {
-    public enum MathcingAlgorithm
+    public enum MatchingAlgorithm
     {
         FIRST_PAIR,
         CONSERVATIVE,
@@ -23,18 +23,19 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             pm = new FirstPairMatcher();
         }
 
-        public PacketMatchingForm(MathcingAlgorithm algo)
+        public PacketMatchingForm(MatchingAlgorithm algo)
         {
             InitializeComponent();
             switch (algo)
             {
-                case MathcingAlgorithm.FIRST_PAIR:
+                case MatchingAlgorithm.FIRST_PAIR:
                     pm = new FirstPairMatcher();
                     break;
-                case MathcingAlgorithm.CONSERVATIVE:
+                case MatchingAlgorithm.CONSERVATIVE:
                     pm = new ConservativeMatcher();
                     break;
             }
+            this.Visible = true;
         }        
 
         private void runBtn_Click(object sender, EventArgs e)
@@ -57,9 +58,11 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         private void LoadSendPackets(object sender, EventArgs e)
         {
             Tools.CustomLoadForm clf = new Tools.CustomLoadForm();
+            clf.ShowDialog();
             if (clf.FileNameRequested != "")
             {
                 var fh = new Tools.FileHandler();
+                sendTextBox.Text = clf.FileNameRequested;
                 fh.LoadPacketsFromFiles(clf.FileNameRequested);
                 pm.SendPackets = new Queue<CougarPacket>(CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP));
             }
@@ -68,10 +71,12 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         private void LoadEchoPackets(object sender, EventArgs e)
         {
             var clf = new Tools.CustomLoadForm();
+            clf.ShowDialog();
             if (clf.FileNameRequested != "")
             {
                 var fh = new Tools.FileHandler();
                 fh.LoadPacketsFromFiles(clf.FileNameRequested);
+                echoTextBox.Text = clf.FileNameRequested;
                 pm.EchoPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
             }
         }

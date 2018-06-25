@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PacketMatchingForm));
             this.inputGrpBox = new System.Windows.Forms.GroupBox();
             this.ResetBtn = new System.Windows.Forms.Button();
             this.runBtn = new System.Windows.Forms.Button();
@@ -42,11 +43,11 @@
             this.echoFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resultGrpBox = new System.Windows.Forms.GroupBox();
-            this.resTextBox = new System.Windows.Forms.RichTextBox();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.algorithmsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.networkConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resultGrpBox = new System.Windows.Forms.GroupBox();
+            this.resTextBox = new System.Windows.Forms.RichTextBox();
             this.inputGrpBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.resultGrpBox.SuspendLayout();
@@ -69,6 +70,7 @@
             // 
             // ResetBtn
             // 
+            this.ResetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ResetBtn.Location = new System.Drawing.Point(636, 48);
             this.ResetBtn.Name = "ResetBtn";
             this.ResetBtn.Size = new System.Drawing.Size(134, 23);
@@ -79,6 +81,7 @@
             // 
             // runBtn
             // 
+            this.runBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.runBtn.Location = new System.Drawing.Point(636, 13);
             this.runBtn.Name = "runBtn";
             this.runBtn.Size = new System.Drawing.Size(134, 23);
@@ -89,6 +92,8 @@
             // 
             // echoLabel
             // 
+            this.echoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.echoLabel.AutoSize = true;
             this.echoLabel.Location = new System.Drawing.Point(332, 22);
             this.echoLabel.Name = "echoLabel";
@@ -98,6 +103,8 @@
             // 
             // sendLabel
             // 
+            this.sendLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.sendLabel.AutoSize = true;
             this.sendLabel.Location = new System.Drawing.Point(28, 22);
             this.sendLabel.Name = "sendLabel";
@@ -107,19 +114,22 @@
             // 
             // echoTextBox
             // 
+            this.echoTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.echoTextBox.Location = new System.Drawing.Point(332, 41);
+            this.echoTextBox.MaximumSize = new System.Drawing.Size(350, 50);
             this.echoTextBox.Name = "echoTextBox";
             this.echoTextBox.Size = new System.Drawing.Size(275, 20);
             this.echoTextBox.TabIndex = 1;
-            this.echoTextBox.TextChanged += new System.EventHandler(this.LoadEchoPackets);
             // 
             // sendTextBox
             // 
+            this.sendTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.sendTextBox.Location = new System.Drawing.Point(28, 41);
+            this.sendTextBox.MaximumSize = new System.Drawing.Size(350, 50);
             this.sendTextBox.Name = "sendTextBox";
             this.sendTextBox.Size = new System.Drawing.Size(275, 20);
             this.sendTextBox.TabIndex = 0;
-            this.sendTextBox.TextChanged += new System.EventHandler(this.LoadSendPackets);
             // 
             // menuStrip1
             // 
@@ -148,54 +158,34 @@
             this.sendFileToolStripMenuItem,
             this.echoFileToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "&Load";
             // 
             // sendFileToolStripMenuItem
             // 
             this.sendFileToolStripMenuItem.Name = "sendFileToolStripMenuItem";
-            this.sendFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sendFileToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.sendFileToolStripMenuItem.Text = "&Send File";
             this.sendFileToolStripMenuItem.Click += new System.EventHandler(this.LoadSendPackets);
             // 
             // echoFileToolStripMenuItem
             // 
             this.echoFileToolStripMenuItem.Name = "echoFileToolStripMenuItem";
-            this.echoFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.echoFileToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.echoFileToolStripMenuItem.Text = "&Echo File";
             this.echoFileToolStripMenuItem.Click += new System.EventHandler(this.LoadEchoPackets);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
-            // 
-            // resultGrpBox
-            // 
-            this.resultGrpBox.Controls.Add(this.resTextBox);
-            this.resultGrpBox.Location = new System.Drawing.Point(12, 110);
-            this.resultGrpBox.Name = "resultGrpBox";
-            this.resultGrpBox.Size = new System.Drawing.Size(776, 328);
-            this.resultGrpBox.TabIndex = 2;
-            this.resultGrpBox.TabStop = false;
-            this.resultGrpBox.Text = "Resulting Matches";
-            // 
-            // resTextBox
-            // 
-            this.resTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.resTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.resTextBox.Location = new System.Drawing.Point(3, 16);
-            this.resTextBox.Name = "resTextBox";
-            this.resTextBox.Size = new System.Drawing.Size(770, 309);
-            this.resTextBox.TabIndex = 0;
-            this.resTextBox.Text = "";
             // 
             // helpToolStripMenuItem
             // 
@@ -218,6 +208,31 @@
             this.networkConfigurationToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.networkConfigurationToolStripMenuItem.Text = "&Network Configuration";
             // 
+            // resultGrpBox
+            // 
+            this.resultGrpBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.resultGrpBox.Controls.Add(this.resTextBox);
+            this.resultGrpBox.Location = new System.Drawing.Point(12, 110);
+            this.resultGrpBox.Name = "resultGrpBox";
+            this.resultGrpBox.Size = new System.Drawing.Size(776, 328);
+            this.resultGrpBox.TabIndex = 2;
+            this.resultGrpBox.TabStop = false;
+            this.resultGrpBox.Text = "Resulting Matches";
+            // 
+            // resTextBox
+            // 
+            this.resTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.resTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.resTextBox.Location = new System.Drawing.Point(3, 16);
+            this.resTextBox.Name = "resTextBox";
+            this.resTextBox.Size = new System.Drawing.Size(770, 309);
+            this.resTextBox.TabIndex = 0;
+            this.resTextBox.Text = "";
+            // 
             // PacketMatchingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -226,6 +241,7 @@
             this.Controls.Add(this.resultGrpBox);
             this.Controls.Add(this.inputGrpBox);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PacketMatchingForm";
             this.Text = "PacketMatchingForm";

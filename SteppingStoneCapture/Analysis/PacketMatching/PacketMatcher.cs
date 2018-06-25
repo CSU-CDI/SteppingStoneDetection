@@ -16,7 +16,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         private List<CougarPacket> echoPackets;
         private List<double> roundTripTimes;
         private Dictionary<double, string> pairedMatches;
-        protected int currentSendNbr = 0, currentEchoNbr = 0, nbrMatches = 0;
+        protected int nbrMatches = 0;
 
 
         // default constructor for PacketMatcher
@@ -25,6 +25,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             SendPackets = new Queue<CougarPacket>();
             EchoPackets = new List<CougarPacket>();
             RoundTripTimes = new List<double>();
+            PairedMatches = new Dictionary<double, string>();
         }
 
         // Properties of Packet Matchers
@@ -53,8 +54,6 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             SendPackets.Clear();
             EchoPackets.Clear();
             RoundTripTimes.Clear();
-            currentEchoNbr = 0;
-            currentSendNbr = 0;
             nbrMatches = 0;
             PairedMatches.Clear();
         }
