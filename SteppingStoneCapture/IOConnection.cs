@@ -38,12 +38,15 @@ namespace SteppingStoneCapture
             this.cougarpackets = cougarpackets;
             this.packets = packets;
             this.incomingConnection = incomingConnection;
+            btnOk.Enabled = false;
         }
 
         private void applyBtn_Click(object sender, EventArgs e) // this button filters connections on port# as well as filters on tcp flags
         {
             dropdownListItems.Clear();
             ConnectionCombo.Items.Clear();
+            filteredCougarPackets.Clear();
+            filteredRawPackets.Clear();
             bool result = int.TryParse(txtPort.Text, out int port); // validate port # input            
             if (result && port < 65535 && port > 0)
             {
@@ -68,11 +71,7 @@ namespace SteppingStoneCapture
                                 ConnectionCombo.Items.Add(key);
                             }
                         } // end incoming filter if statement
-                    } // end for loop       
-                    if (ConnectionCombo.Items.Count < 1)
-                        ConnectionCombo.Text = "<EMPTY>";
-                    else
-                        ConnectionCombo.Text = "";
+                    } // end for loop      
                 }
                 else // if the user selected to filter on outgoing connection
                 {
@@ -94,14 +93,18 @@ namespace SteppingStoneCapture
                                 ConnectionCombo.Items.Add(key);
                             }
                         } // end outgoing filter if statement
-                    } // end for loop
-                    if (ConnectionCombo.Items.Count < 1)
-                        ConnectionCombo.Text = "<EMPTY>";
-                    else
-                        ConnectionCombo.Text = "";
+                    } // end for loop                                            
                 }
-                btnOk.Enabled = true;
-                ConnectionCombo.Enabled = true;                
+                if (ConnectionCombo.Items.Count < 1)
+                {
+                    ConnectionCombo.Text = "<EMPTY>";
+                }
+
+                else
+                {
+                    ConnectionCombo.Text = "Results Below...";                    
+                    ConnectionCombo.Enabled = true;
+                }
             }
             else // error message for entering wrong number
             {
@@ -265,6 +268,9 @@ namespace SteppingStoneCapture
             btnOk.Enabled = false;
         }
 
-
+        private void ConnectionCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnOk.Enabled = true;
+        }
     }
 }

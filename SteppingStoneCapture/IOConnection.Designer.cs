@@ -197,6 +197,7 @@
             this.ConnectionCombo.Name = "ConnectionCombo";
             this.ConnectionCombo.Size = new System.Drawing.Size(463, 24);
             this.ConnectionCombo.TabIndex = 63;
+            this.ConnectionCombo.SelectedIndexChanged += new System.EventHandler(this.ConnectionCombo_SelectedIndexChanged);
             // 
             // connectionLabel
             // 
