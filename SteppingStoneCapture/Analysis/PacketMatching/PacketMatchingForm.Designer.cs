@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PacketMatchingForm));
             this.inputGrpBox = new System.Windows.Forms.GroupBox();
             this.ResetBtn = new System.Windows.Forms.Button();
             this.runBtn = new System.Windows.Forms.Button();
@@ -240,6 +241,7 @@
             this.Controls.Add(this.resultGrpBox);
             this.Controls.Add(this.inputGrpBox);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PacketMatchingForm";
             this.Text = "PacketMatchingForm";
