@@ -35,7 +35,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         // add the round trip time to the resultant list
                         RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
 
-                        PairedMatches.Add(nbrMatches++, String.Format("Send {0} <=> Echo {1}", base.currentSendNbr++, base.currentEchoNbr++));
+                        PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
                     }
                 }
 

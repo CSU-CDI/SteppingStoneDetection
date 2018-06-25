@@ -14,23 +14,25 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// </summary>
         public override void MatchPackets()
         {
+
             // For every captured echo packet,
             for (int i = 0; i < this.EchoPackets.Count; i++)
             {
-                //  Gather the echo's timestamp
+                //Console.WriteLine(i);
                 CougarPacket echo = EchoPackets[i];
                 DateTime.TryParse(echo.TimeStamp, out DateTime echoT);
 
-                // reset the match flag, since this is a new packet
-                Boolean matched = false;
+                // reset match flag
+                bool matched = false;
 
-                //for every captured send packet,
                 while (SendPackets.Count > 0 && !matched)
                 {
-                    // Gather the first, available send packet's time stamp
+                    // gather current send packet's timestamp
                     CougarPacket send = SendPackets.Dequeue();
                     DateTime.TryParse(send.TimeStamp, out DateTime sendT);
 
+                    Console.WriteLine("echo ack "+echo.AckNum.ToString());
+                    Console.WriteLine("send seq " + send.SeqNum.ToString());
                     // if it matches the current echo packet
                     if (echo.AckNum == send.SeqNum)
                     {
@@ -38,18 +40,17 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         matched = true;
                         // add the round trip time to the resultant list
                         RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
-
-                        PairedMatches.Add(nbrMatches++, String.Format("Send {0} <=> Echo {1}", base.currentSendNbr++, base.currentEchoNbr++));
+                        Console.WriteLine(String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
+                        PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
                     }
                 }
-
-
 
                 // Report error if all send packets have been processed and no match was found
                 if (SendPackets.Count == 0 && !matched)
                 {
-                    System.Windows.Forms.MessageBox.Show(String.Format("Error!\nNo match detected for:\nEcho No. {0}", echo.PacketNumber));
+                    //System.Windows.Forms.MessageBox.Show(String.Format("Error!\nNo match detected for:\nEcho No. {0}", echo.PacketNumber));
                 }
+
             }
         }
 
