@@ -134,7 +134,8 @@ namespace SteppingStoneCapture
 
             };
 
-            Console.WriteLine(packet.Ethernet.IpV4.IsValid);
+           
+           // Console.WriteLine(packet.Ethernet.IpV4.IsValid);
             //if (packet.Ethernet.IpV4.IsValid)
             {
                 IpV4Datagram ipv4 = packet.Ethernet.IpV4;

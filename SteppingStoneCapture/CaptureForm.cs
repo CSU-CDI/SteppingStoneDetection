@@ -252,10 +252,10 @@ namespace SteppingStoneCapture
 
         private void PrintPacket(Packet packet) // main packet handler method (should probably be renamed to the original HandleLoadedPacket name to make more sense)
         {
-            Console.WriteLine(packet.Ethernet.IsValid);
             // if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
+            //    Console.WriteLine(packetNumber + " " + packet.IsValid);
                 CougarPacket cp = CougarPacket.DetermineCorrectPacketFormat(packet, sensorAddress, packetNumber);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);
                 cougarpackets.Add(cp);
@@ -281,13 +281,13 @@ namespace SteppingStoneCapture
 
         private void PrintPacket(Packet packet, string sensorIP) // main packet handler method (should probably be renamed to the original HandleLoadedPacket name to make more sense)
         {
+            
            // if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
+                //Console.WriteLine(packetNumber + " " + packet.IsValid);
 
-                Console.WriteLine("packet " + packetNumber);
-                Console.WriteLine("time " + packet.Timestamp.ToShortTimeString());
-                Console.WriteLine(packet.Ethernet.IsValid);
+
                 CougarPacket cp = CougarPacket.DetermineCorrectPacketFormat(packet, sensorAddress, packetNumber);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 cp.SensorIP = new IpV4Address(sensorIP);// create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);
@@ -764,9 +764,15 @@ namespace SteppingStoneCapture
                 new Analysis.PacketMatching.PacketMatchingForm(Analysis.PacketMatching.MatchingAlgorithm.GREEDY_HEURISTIC);
             }
         }
+
+        private void chkARP_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
         /*
-         * Loads the Step Function in a LAN program 
-         */
+* Loads the Step Function in a LAN program 
+*/
         private void StepFunction_Click(object sender, EventArgs e) => new Analysis.StepFunctionForm();        
 
         private void CaptureForm_Load(object sender, EventArgs e)

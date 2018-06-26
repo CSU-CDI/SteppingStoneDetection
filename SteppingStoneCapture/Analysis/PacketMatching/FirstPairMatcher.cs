@@ -14,13 +14,25 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// </summary>
         public override void MatchPackets()
         {
-
+            Console.WriteLine(this.EchoPackets.Count);
+            Console.WriteLine(this.SendPackets.Count
+                );
+            uint lastEchoAck = 0;
+            uint lastSendSeq = 0;
             // For every captured echo packet,
             for (int i = 0; i < this.EchoPackets.Count; i++)
             {
                 //Console.WriteLine(i);
                 CougarPacket echo = EchoPackets[i];
+
+                // verify that the ack number hasn't been used yet
+                if (echo.AckNum == lastEchoAck)
+                    continue;
+                else
+                    lastEchoAck = echo.AckNum;
+
                 DateTime.TryParse(echo.TimeStamp, out DateTime echoT);
+                // Console.WriteLine("echo #" + echo.PacketNumber + " ack " + echo.AckNum.ToString());
 
                 // reset match flag
                 bool matched = false;
@@ -29,10 +41,17 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                 {
                     // gather current send packet's timestamp
                     CougarPacket send = SendPackets.Dequeue();
+
+                    // verify that the seq number hasn't been used yet
+                    if (send.SeqNum == lastSendSeq)
+                        continue;
+                    else
+                        lastSendSeq = send.SeqNum;
+                           
                     DateTime.TryParse(send.TimeStamp, out DateTime sendT);
 
-                    Console.WriteLine("echo ack "+echo.AckNum.ToString());
-                    Console.WriteLine("send seq " + send.SeqNum.ToString());
+                    //Console.WriteLine("echo #"+echo.PacketNumber+" ack "+echo.AckNum.ToString());
+                    //Console.WriteLine("send #"+send.PacketNumber+" seq " + send.SeqNum.ToString());
                     // if it matches the current echo packet
                     if (echo.AckNum == send.SeqNum)
                     {
@@ -40,7 +59,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         matched = true;
                         // add the round trip time to the resultant list
                         RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
-                        Console.WriteLine(String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
+                        // Console.WriteLine(String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
                         PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
                     }
                 }

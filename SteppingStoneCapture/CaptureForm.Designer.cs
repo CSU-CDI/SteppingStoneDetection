@@ -348,21 +348,21 @@ namespace SteppingStoneCapture
             // firstMatchToolStripMenuItem
             // 
             this.firstMatchToolStripMenuItem.Name = "firstMatchToolStripMenuItem";
-            this.firstMatchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.firstMatchToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.firstMatchToolStripMenuItem.Text = "First-Match";
             this.firstMatchToolStripMenuItem.Click += new System.EventHandler(this.MatchingAlgorithm_Click);
             // 
             // conservativeToolStripMenuItem
             // 
             this.conservativeToolStripMenuItem.Name = "conservativeToolStripMenuItem";
-            this.conservativeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.conservativeToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.conservativeToolStripMenuItem.Text = "Conservative";
             this.conservativeToolStripMenuItem.Click += new System.EventHandler(this.MatchingAlgorithm_Click);
             // 
             // greedyHeuristicToolStripMenuItem
             // 
             this.greedyHeuristicToolStripMenuItem.Name = "greedyHeuristicToolStripMenuItem";
-            this.greedyHeuristicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.greedyHeuristicToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.greedyHeuristicToolStripMenuItem.Text = "Greedy-Heuristic";
             this.greedyHeuristicToolStripMenuItem.Click += new System.EventHandler(this.MatchingAlgorithm_Click);
             // 
@@ -415,6 +415,7 @@ namespace SteppingStoneCapture
             this.cmbInterfaces.FormattingEnabled = true;
             this.cmbInterfaces.Location = new System.Drawing.Point(12, 49);
             this.cmbInterfaces.Margin = new System.Windows.Forms.Padding(2);
+            this.cmbInterfaces.MaximumSize = new System.Drawing.Size(350, 0);
             this.cmbInterfaces.Name = "cmbInterfaces";
             this.cmbInterfaces.Size = new System.Drawing.Size(200, 21);
             this.cmbInterfaces.TabIndex = 2;
@@ -641,6 +642,7 @@ namespace SteppingStoneCapture
             this.grpFilterParams.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.grpFilterParams.Controls.Add(this.grpPorts);
             this.grpFilterParams.Controls.Add(this.grpIPAddress);
+            this.grpFilterParams.Controls.Add(this.chkARP);
             this.grpFilterParams.Location = new System.Drawing.Point(220, 32);
             this.grpFilterParams.Margin = new System.Windows.Forms.Padding(2);
             this.grpFilterParams.MaximumSize = new System.Drawing.Size(520, 200);
@@ -998,7 +1000,6 @@ namespace SteppingStoneCapture
             // 
             this.grpFilterProtocols.Controls.Add(this.chkDNS);
             this.grpFilterProtocols.Controls.Add(this.chkTCP);
-            this.grpFilterProtocols.Controls.Add(this.chkARP);
             this.grpFilterProtocols.Controls.Add(this.chkUDP);
             this.grpFilterProtocols.Controls.Add(this.chkICMP);
             this.grpFilterProtocols.Location = new System.Drawing.Point(12, 83);
@@ -1037,20 +1038,22 @@ namespace SteppingStoneCapture
             // 
             this.chkARP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkARP.AutoSize = true;
-            this.chkARP.Location = new System.Drawing.Point(39, 47);
+            this.chkARP.Location = new System.Drawing.Point(337, -6);
             this.chkARP.Margin = new System.Windows.Forms.Padding(2);
             this.chkARP.Name = "chkARP";
             this.chkARP.Size = new System.Drawing.Size(48, 17);
             this.chkARP.TabIndex = 68;
             this.chkARP.Text = "ARP";
             this.chkARP.UseVisualStyleBackColor = true;
+            this.chkARP.Visible = false;
+            this.chkARP.CheckedChanged += new System.EventHandler(this.chkARP_CheckedChanged);
             // 
             // chkUDP
             // 
             this.chkUDP.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chkUDP.AutoSize = true;
-            this.chkUDP.Location = new System.Drawing.Point(68, 21);
+            this.chkUDP.Location = new System.Drawing.Point(6, 47);
             this.chkUDP.Margin = new System.Windows.Forms.Padding(2);
             this.chkUDP.Name = "chkUDP";
             this.chkUDP.Size = new System.Drawing.Size(49, 17);
@@ -1062,7 +1065,7 @@ namespace SteppingStoneCapture
             // 
             this.chkICMP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkICMP.AutoSize = true;
-            this.chkICMP.Location = new System.Drawing.Point(130, 21);
+            this.chkICMP.Location = new System.Drawing.Point(97, 20);
             this.chkICMP.Margin = new System.Windows.Forms.Padding(2);
             this.chkICMP.Name = "chkICMP";
             this.chkICMP.Size = new System.Drawing.Size(52, 17);
@@ -1114,6 +1117,7 @@ namespace SteppingStoneCapture
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.grpFilterParams.ResumeLayout(false);
+            this.grpFilterParams.PerformLayout();
             this.grpPorts.ResumeLayout(false);
             this.grpPorts.PerformLayout();
             this.grpIPAddress.ResumeLayout(false);
