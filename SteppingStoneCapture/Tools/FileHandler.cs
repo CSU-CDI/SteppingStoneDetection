@@ -17,6 +17,7 @@ namespace SteppingStoneCapture.Tools
     {
         private List<Packet> packetsReadFromFile;
         private string sensorIP;
+        private string path;
 
         public FileHandler()
         {
@@ -38,6 +39,7 @@ namespace SteppingStoneCapture.Tools
 
             // gather requested file name and extension
             string loadPath = clf.FileNameRequested;
+            path = loadPath;
             if (loadPath != "" && File.Exists(loadPath))
             {
                 //Determine the correct file format
@@ -386,6 +388,11 @@ namespace SteppingStoneCapture.Tools
         public void ResetList()
         {
             PacketsReadFromFile.Clear();
+        }
+
+        public string getPath()
+        {
+            return path;
         }
 
     }

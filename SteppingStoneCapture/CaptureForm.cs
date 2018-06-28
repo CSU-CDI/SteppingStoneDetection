@@ -764,9 +764,16 @@ namespace SteppingStoneCapture
                 new Analysis.PacketMatching.PacketMatchingForm(Analysis.PacketMatching.MatchingAlgorithm.GREEDY_HEURISTIC);
             }
         }
+
+        private void timeThumbprintToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Analysis.TimeThumbprint.SessionTimeThumbprint tt = new Analysis.TimeThumbprint.SessionTimeThumbprint();
+            tt.Show();
+        }
+
         /*
-         * Loads the Step Function in a LAN program 
-         */
+* Loads the Step Function in a LAN program 
+*/
         private void StepFunction_Click(object sender, EventArgs e) => new Analysis.StepFunctionForm();        
 
         private void CaptureForm_Load(object sender, EventArgs e)

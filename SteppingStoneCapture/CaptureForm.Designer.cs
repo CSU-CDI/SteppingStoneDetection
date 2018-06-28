@@ -327,6 +327,7 @@ namespace SteppingStoneCapture
             this.timeThumbprintToolStripMenuItem.Name = "timeThumbprintToolStripMenuItem";
             this.timeThumbprintToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.timeThumbprintToolStripMenuItem.Text = "&Time Thumbprint";
+            this.timeThumbprintToolStripMenuItem.Click += new System.EventHandler(this.timeThumbprintToolStripMenuItem_Click);
             // 
             // stepFunctionToolStripMenuItem
             // 
@@ -348,21 +349,21 @@ namespace SteppingStoneCapture
             // firstMatchToolStripMenuItem
             // 
             this.firstMatchToolStripMenuItem.Name = "firstMatchToolStripMenuItem";
-            this.firstMatchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.firstMatchToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.firstMatchToolStripMenuItem.Text = "First-Match";
             this.firstMatchToolStripMenuItem.Click += new System.EventHandler(this.MatchingAlgorithm_Click);
             // 
             // conservativeToolStripMenuItem
             // 
             this.conservativeToolStripMenuItem.Name = "conservativeToolStripMenuItem";
-            this.conservativeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.conservativeToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.conservativeToolStripMenuItem.Text = "Conservative";
             this.conservativeToolStripMenuItem.Click += new System.EventHandler(this.MatchingAlgorithm_Click);
             // 
             // greedyHeuristicToolStripMenuItem
             // 
             this.greedyHeuristicToolStripMenuItem.Name = "greedyHeuristicToolStripMenuItem";
-            this.greedyHeuristicToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.greedyHeuristicToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.greedyHeuristicToolStripMenuItem.Text = "Greedy-Heuristic";
             this.greedyHeuristicToolStripMenuItem.Click += new System.EventHandler(this.MatchingAlgorithm_Click);
             // 
