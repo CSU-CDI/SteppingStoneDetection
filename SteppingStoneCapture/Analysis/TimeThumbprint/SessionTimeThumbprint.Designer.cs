@@ -33,14 +33,17 @@
             this.Outgoinglabel = new System.Windows.Forms.Label();
             this.outgoingBox = new System.Windows.Forms.TextBox();
             this.matchLabel = new System.Windows.Forms.Label();
-            this.matchBox = new System.Windows.Forms.TextBox();
             this.similLabel = new System.Windows.Forms.Label();
-            this.similarityBox = new System.Windows.Forms.TextBox();
             this.incButton = new System.Windows.Forms.Button();
             this.outButton = new System.Windows.Forms.Button();
             this.compButton = new System.Windows.Forms.Button();
             this.isLabel = new System.Windows.Forms.Label();
             this.osLabel = new System.Windows.Forms.Label();
+            this.numericMatch = new System.Windows.Forms.NumericUpDown();
+            this.numericSim = new System.Windows.Forms.NumericUpDown();
+            this.resetButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.numericMatch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSim)).BeginInit();
             this.SuspendLayout();
             // 
             // Incominglabel
@@ -56,8 +59,10 @@
             // 
             this.incomingBox.Location = new System.Drawing.Point(109, 98);
             this.incomingBox.Name = "incomingBox";
+            this.incomingBox.ReadOnly = true;
             this.incomingBox.Size = new System.Drawing.Size(286, 20);
             this.incomingBox.TabIndex = 1;
+            this.incomingBox.TextChanged += new System.EventHandler(this.incomingBox_TextChanged);
             // 
             // Outgoinglabel
             // 
@@ -72,8 +77,10 @@
             // 
             this.outgoingBox.Location = new System.Drawing.Point(109, 148);
             this.outgoingBox.Name = "outgoingBox";
+            this.outgoingBox.ReadOnly = true;
             this.outgoingBox.Size = new System.Drawing.Size(286, 20);
             this.outgoingBox.TabIndex = 3;
+            this.outgoingBox.TextChanged += new System.EventHandler(this.outgoingBox_TextChanged);
             // 
             // matchLabel
             // 
@@ -84,13 +91,6 @@
             this.matchLabel.TabIndex = 4;
             this.matchLabel.Text = "Match Threshold:";
             // 
-            // matchBox
-            // 
-            this.matchBox.Location = new System.Drawing.Point(130, 220);
-            this.matchBox.Name = "matchBox";
-            this.matchBox.Size = new System.Drawing.Size(100, 20);
-            this.matchBox.TabIndex = 5;
-            // 
             // similLabel
             // 
             this.similLabel.AutoSize = true;
@@ -99,13 +99,6 @@
             this.similLabel.Size = new System.Drawing.Size(100, 13);
             this.similLabel.TabIndex = 6;
             this.similLabel.Text = "Similarity Threshold:";
-            // 
-            // similarityBox
-            // 
-            this.similarityBox.Location = new System.Drawing.Point(144, 267);
-            this.similarityBox.Name = "similarityBox";
-            this.similarityBox.Size = new System.Drawing.Size(100, 20);
-            this.similarityBox.TabIndex = 7;
             // 
             // incButton
             // 
@@ -119,6 +112,7 @@
             // 
             // outButton
             // 
+            this.outButton.Enabled = false;
             this.outButton.Location = new System.Drawing.Point(401, 146);
             this.outButton.Name = "outButton";
             this.outButton.Size = new System.Drawing.Size(75, 23);
@@ -129,6 +123,7 @@
             // 
             // compButton
             // 
+            this.compButton.Enabled = false;
             this.compButton.Location = new System.Drawing.Point(595, 125);
             this.compButton.Name = "compButton";
             this.compButton.Size = new System.Drawing.Size(75, 23);
@@ -155,19 +150,70 @@
             this.osLabel.TabIndex = 12;
             this.osLabel.Text = "Outgoing Sequence: ";
             // 
+            // numericMatch
+            // 
+            this.numericMatch.DecimalPlaces = 2;
+            this.numericMatch.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericMatch.Location = new System.Drawing.Point(144, 220);
+            this.numericMatch.Margin = new System.Windows.Forms.Padding(2);
+            this.numericMatch.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            this.numericMatch.Name = "numericMatch";
+            this.numericMatch.ReadOnly = true;
+            this.numericMatch.Size = new System.Drawing.Size(90, 20);
+            this.numericMatch.TabIndex = 17;
+            // 
+            // numericSim
+            // 
+            this.numericSim.DecimalPlaces = 2;
+            this.numericSim.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericSim.Location = new System.Drawing.Point(144, 267);
+            this.numericSim.Margin = new System.Windows.Forms.Padding(2);
+            this.numericSim.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            65536});
+            this.numericSim.Name = "numericSim";
+            this.numericSim.ReadOnly = true;
+            this.numericSim.Size = new System.Drawing.Size(90, 20);
+            this.numericSim.TabIndex = 18;
+            // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(595, 171);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(75, 23);
+            this.resetButton.TabIndex = 19;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
             // SessionTimeThumbprint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 414);
+            this.Controls.Add(this.resetButton);
+            this.Controls.Add(this.numericSim);
+            this.Controls.Add(this.numericMatch);
             this.Controls.Add(this.osLabel);
             this.Controls.Add(this.isLabel);
             this.Controls.Add(this.compButton);
             this.Controls.Add(this.outButton);
             this.Controls.Add(this.incButton);
-            this.Controls.Add(this.similarityBox);
             this.Controls.Add(this.similLabel);
-            this.Controls.Add(this.matchBox);
             this.Controls.Add(this.matchLabel);
             this.Controls.Add(this.outgoingBox);
             this.Controls.Add(this.Outgoinglabel);
@@ -175,6 +221,8 @@
             this.Controls.Add(this.Incominglabel);
             this.Name = "SessionTimeThumbprint";
             this.Text = "Session-Time Thumbprint";
+            ((System.ComponentModel.ISupportInitialize)(this.numericMatch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericSim)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -187,13 +235,14 @@
         private System.Windows.Forms.Label Outgoinglabel;
         private System.Windows.Forms.TextBox outgoingBox;
         private System.Windows.Forms.Label matchLabel;
-        private System.Windows.Forms.TextBox matchBox;
         private System.Windows.Forms.Label similLabel;
-        private System.Windows.Forms.TextBox similarityBox;
         private System.Windows.Forms.Button incButton;
         private System.Windows.Forms.Button outButton;
         private System.Windows.Forms.Button compButton;
         private System.Windows.Forms.Label isLabel;
         private System.Windows.Forms.Label osLabel;
+        private System.Windows.Forms.NumericUpDown numericMatch;
+        private System.Windows.Forms.NumericUpDown numericSim;
+        private System.Windows.Forms.Button resetButton;
     }
 }
