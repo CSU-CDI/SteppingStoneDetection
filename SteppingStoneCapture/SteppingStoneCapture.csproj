@@ -110,6 +110,12 @@
     <Compile Include="Analysis\PacketMatching\PacketMatchingForm.Designer.cs">
       <DependentUpon>PacketMatchingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Analysis\RandomWalkDetection\RandomWalk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analysis\RandomWalkDetection\RandomWalk.Designer.cs">
+      <DependentUpon>RandomWalk.cs</DependentUpon>
+    </Compile>
     <Compile Include="Analysis\TimeThumbprint\SessionTimeThumbprint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Analysis\PacketMatching\PacketMatchingForm.resx">
       <DependentUpon>PacketMatchingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Analysis\RandomWalkDetection\RandomWalk.resx">
+      <DependentUpon>RandomWalk.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Analysis\TimeThumbprint\SessionTimeThumbprint.resx">
       <DependentUpon>SessionTimeThumbprint.cs</DependentUpon>

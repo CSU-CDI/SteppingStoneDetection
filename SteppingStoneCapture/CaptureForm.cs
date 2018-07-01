@@ -771,6 +771,12 @@ namespace SteppingStoneCapture
             tt.Show();
         }
 
+        private void rAndomWalkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Analysis.RandomWalkDetection.RandomWalk randomWalk = new Analysis.RandomWalkDetection.RandomWalk();
+            randomWalk.Show();
+        }
+
         /*
 * Loads the Step Function in a LAN program 
 */

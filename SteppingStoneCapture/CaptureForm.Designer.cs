@@ -372,6 +372,7 @@ namespace SteppingStoneCapture
             this.rAndomWalkToolStripMenuItem.Name = "rAndomWalkToolStripMenuItem";
             this.rAndomWalkToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.rAndomWalkToolStripMenuItem.Text = "&Random Walk";
+            this.rAndomWalkToolStripMenuItem.Click += new System.EventHandler(this.rAndomWalkToolStripMenuItem_Click);
             // 
             // lengthEstimationToolStripMenuItem
             // 
