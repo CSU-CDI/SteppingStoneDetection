@@ -327,6 +327,7 @@ namespace SteppingStoneCapture
             this.timeThumbprintToolStripMenuItem.Name = "timeThumbprintToolStripMenuItem";
             this.timeThumbprintToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.timeThumbprintToolStripMenuItem.Text = "&Time Thumbprint";
+            this.timeThumbprintToolStripMenuItem.Click += new System.EventHandler(this.timeThumbprintToolStripMenuItem_Click);
             // 
             // stepFunctionToolStripMenuItem
             // 
@@ -371,6 +372,7 @@ namespace SteppingStoneCapture
             this.rAndomWalkToolStripMenuItem.Name = "rAndomWalkToolStripMenuItem";
             this.rAndomWalkToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.rAndomWalkToolStripMenuItem.Text = "&Random Walk";
+            this.rAndomWalkToolStripMenuItem.Click += new System.EventHandler(this.rAndomWalkToolStripMenuItem_Click);
             // 
             // lengthEstimationToolStripMenuItem
             // 
