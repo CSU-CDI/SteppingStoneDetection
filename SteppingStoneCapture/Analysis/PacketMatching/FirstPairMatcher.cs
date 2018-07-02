@@ -15,8 +15,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         public override void MatchPackets()
         {
             Console.WriteLine(this.EchoPackets.Count);
-            Console.WriteLine(this.SendPackets.Count
-                );
+            Console.WriteLine(this.SendPackets.Count);
             uint lastEchoAck = 0;
             uint lastSendSeq = 0;
             // For every captured echo packet,
@@ -26,46 +25,29 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                 CougarPacket echo = EchoPackets[i];
 
                 // verify that the ack number hasn't been used yet
-                if (echo.AckNum == lastEchoAck)
-                    continue;
-                else
-                    lastEchoAck = echo.AckNum;
+                //if (echo.AckNum == lastEchoAck)
+                //    continue;
+                //else
+                //    lastEchoAck = echo.AckNum;
 
                 DateTime.TryParse(echo.TimeStamp, out DateTime echoT);
-                // Console.WriteLine("echo #" + echo.PacketNumber + " ack " + echo.AckNum.ToString());
 
-                // reset match flag
-                bool matched = false;
-
-                while (SendPackets.Count > 0 && !matched)
+                if (SendPackets.Count > 0)
                 {
                     // gather current send packet's timestamp
                     CougarPacket send = SendPackets.Dequeue();
 
-                    // verify that the seq number hasn't been used yet
-                    if (send.SeqNum == lastSendSeq)
-                        continue;
-                    else
-                        lastSendSeq = send.SeqNum;
-                           
                     DateTime.TryParse(send.TimeStamp, out DateTime sendT);
 
-                    //Console.WriteLine("echo #"+echo.PacketNumber+" ack "+echo.AckNum.ToString());
-                    //Console.WriteLine("send #"+send.PacketNumber+" seq " + send.SeqNum.ToString());
-                    // if it matches the current echo packet
-                    if (echo.AckNum == send.SeqNum)
-                    {
-                        // set the match flag to proceed to the next echo
-                        matched = true;
-                        // add the round trip time to the resultant list
-                        RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
-                        // Console.WriteLine(String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
-                        PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
-                    }
+                    // add the round trip time to the resultant list
+                    RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
+                    // Console.WriteLine(String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
+                    PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, echo.PacketNumber, ' '));
+
                 }
 
                 // Report error if all send packets have been processed and no match was found
-                if (SendPackets.Count == 0 && !matched)
+                //  if (SendPackets.Count == 0 && !matched)
                 {
                     //System.Windows.Forms.MessageBox.Show(String.Format("Error!\nNo match detected for:\nEcho No. {0}", echo.PacketNumber));
                 }

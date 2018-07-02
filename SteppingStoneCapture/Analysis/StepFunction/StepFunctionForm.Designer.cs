@@ -33,8 +33,8 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StepFunctionForm));
-            this.sendStreamBox = new System.Windows.Forms.TextBox();
-            this.echoStreamBox = new System.Windows.Forms.TextBox();
+            this.sendTextBox = new System.Windows.Forms.TextBox();
+            this.echoTextBox = new System.Windows.Forms.TextBox();
             this.fileGrpBox = new System.Windows.Forms.GroupBox();
             this.echoStreamLabel = new System.Windows.Forms.Label();
             this.sendStreamLabel = new System.Windows.Forms.Label();
@@ -42,50 +42,52 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadStreamFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadStreamFIlesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.sendFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.echoFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutItem = new System.Windows.Forms.ToolStripMenuItem();
             this.firstMatchPacketMatchingItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepFunctionInALANToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.networkConfigurationItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GraphButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
             this.graphingChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.firstMatchRadio = new System.Windows.Forms.RadioButton();
             this.conservativeRadio = new System.Windows.Forms.RadioButton();
-            this.networkConfigurationItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileGrpBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.graphingChart)).BeginInit();
             this.SuspendLayout();
             // 
-            // sendStreamBox
+            // sendTextBox
             // 
-            this.sendStreamBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.sendTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendStreamBox.Location = new System.Drawing.Point(6, 31);
-            this.sendStreamBox.Name = "sendStreamBox";
-            this.sendStreamBox.ReadOnly = true;
-            this.sendStreamBox.Size = new System.Drawing.Size(247, 20);
-            this.sendStreamBox.TabIndex = 0;
+            this.sendTextBox.Location = new System.Drawing.Point(6, 31);
+            this.sendTextBox.Name = "sendTextBox";
+            this.sendTextBox.ReadOnly = true;
+            this.sendTextBox.Size = new System.Drawing.Size(251, 20);
+            this.sendTextBox.TabIndex = 0;
             // 
-            // echoStreamBox
+            // echoTextBox
             // 
-            this.echoStreamBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.echoTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.echoStreamBox.Location = new System.Drawing.Point(281, 31);
-            this.echoStreamBox.Name = "echoStreamBox";
-            this.echoStreamBox.ReadOnly = true;
-            this.echoStreamBox.Size = new System.Drawing.Size(260, 20);
-            this.echoStreamBox.TabIndex = 1;
+            this.echoTextBox.Location = new System.Drawing.Point(281, 31);
+            this.echoTextBox.Name = "echoTextBox";
+            this.echoTextBox.ReadOnly = true;
+            this.echoTextBox.Size = new System.Drawing.Size(264, 20);
+            this.echoTextBox.TabIndex = 1;
             // 
             // fileGrpBox
             // 
             this.fileGrpBox.Controls.Add(this.echoStreamLabel);
             this.fileGrpBox.Controls.Add(this.sendStreamLabel);
             this.fileGrpBox.Controls.Add(this.label1);
-            this.fileGrpBox.Controls.Add(this.sendStreamBox);
-            this.fileGrpBox.Controls.Add(this.echoStreamBox);
+            this.fileGrpBox.Controls.Add(this.sendTextBox);
+            this.fileGrpBox.Controls.Add(this.echoTextBox);
             this.fileGrpBox.Location = new System.Drawing.Point(12, 34);
             this.fileGrpBox.Name = "fileGrpBox";
-            this.fileGrpBox.Size = new System.Drawing.Size(547, 57);
+            this.fileGrpBox.Size = new System.Drawing.Size(551, 57);
             this.fileGrpBox.TabIndex = 3;
             this.fileGrpBox.TabStop = false;
             // 
@@ -94,18 +96,18 @@
             this.echoStreamLabel.AutoSize = true;
             this.echoStreamLabel.Location = new System.Drawing.Point(278, 13);
             this.echoStreamLabel.Name = "echoStreamLabel";
-            this.echoStreamLabel.Size = new System.Drawing.Size(90, 13);
+            this.echoStreamLabel.Size = new System.Drawing.Size(54, 13);
             this.echoStreamLabel.TabIndex = 4;
-            this.echoStreamLabel.Text = "Echo Stream File:";
+            this.echoStreamLabel.Text = "Echo File:";
             // 
             // sendStreamLabel
             // 
             this.sendStreamLabel.AutoSize = true;
             this.sendStreamLabel.Location = new System.Drawing.Point(3, 13);
             this.sendStreamLabel.Name = "sendStreamLabel";
-            this.sendStreamLabel.Size = new System.Drawing.Size(90, 13);
+            this.sendStreamLabel.Size = new System.Drawing.Size(54, 13);
             this.sendStreamLabel.TabIndex = 3;
-            this.sendStreamLabel.Text = "Send Stream File:";
+            this.sendStreamLabel.Text = "Send File:";
             // 
             // label1
             // 
@@ -134,13 +136,29 @@
             this.loadStreamFilesToolStripMenuItem.Name = "loadStreamFilesToolStripMenuItem";
             this.loadStreamFilesToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.loadStreamFilesToolStripMenuItem.Text = "&Menu";
-            this.loadStreamFilesToolStripMenuItem.Click += new System.EventHandler(this.LoadStreamFilesItem_Click);
             // 
             // loadStreamFIlesToolStripMenuItem1
             // 
+            this.loadStreamFIlesToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sendFileToolStripMenuItem,
+            this.echoFileToolStripMenuItem});
             this.loadStreamFIlesToolStripMenuItem1.Name = "loadStreamFIlesToolStripMenuItem1";
             this.loadStreamFIlesToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
             this.loadStreamFIlesToolStripMenuItem1.Text = "Load &Stream Files";
+            // 
+            // sendFileToolStripMenuItem
+            // 
+            this.sendFileToolStripMenuItem.Name = "sendFileToolStripMenuItem";
+            this.sendFileToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.sendFileToolStripMenuItem.Text = "Send File";
+            this.sendFileToolStripMenuItem.Click += new System.EventHandler(this.LoadSendPackets);
+            // 
+            // echoFileToolStripMenuItem
+            // 
+            this.echoFileToolStripMenuItem.Name = "echoFileToolStripMenuItem";
+            this.echoFileToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.echoFileToolStripMenuItem.Text = "Echo File";
+            this.echoFileToolStripMenuItem.Click += new System.EventHandler(this.LoadEchoPackets);
             // 
             // aboutItem
             // 
@@ -164,10 +182,16 @@
             this.stepFunctionInALANToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.stepFunctionInALANToolStripMenuItem.Text = "&Step-Function in a LAN";
             // 
+            // networkConfigurationItem
+            // 
+            this.networkConfigurationItem.Name = "networkConfigurationItem";
+            this.networkConfigurationItem.Size = new System.Drawing.Size(227, 22);
+            this.networkConfigurationItem.Text = "Network Configuration";
+            this.networkConfigurationItem.Click += new System.EventHandler(this.NetworkConfigurationItem_Click);
+            // 
             // GraphButton
             // 
-            this.GraphButton.Enabled = false;
-            this.GraphButton.Location = new System.Drawing.Point(612, 59);
+            this.GraphButton.Location = new System.Drawing.Point(588, 61);
             this.GraphButton.Name = "GraphButton";
             this.GraphButton.Size = new System.Drawing.Size(85, 30);
             this.GraphButton.TabIndex = 5;
@@ -177,8 +201,7 @@
             // 
             // ClearButton
             // 
-            this.ClearButton.Enabled = false;
-            this.ClearButton.Location = new System.Drawing.Point(703, 61);
+            this.ClearButton.Location = new System.Drawing.Point(681, 61);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(85, 30);
             this.ClearButton.TabIndex = 6;
@@ -188,6 +211,8 @@
             // 
             // graphingChart
             // 
+            this.graphingChart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             chartArea1.AxisX.Title = "Number of Matched Packets";
             chartArea1.AxisY.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Stacked;
             chartArea1.AxisY.Title = "RTT";
@@ -198,7 +223,7 @@
             this.graphingChart.Location = new System.Drawing.Point(12, 97);
             this.graphingChart.Name = "graphingChart";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
             series1.Legend = "Legend1";
             series1.Name = "GraphingSeries";
             this.graphingChart.Series.Add(series1);
@@ -211,13 +236,12 @@
             title1.Name = "Title1";
             title1.Text = "RTT (ms) v. Number of matched Packets";
             this.graphingChart.Titles.Add(title1);
-            this.graphingChart.Visible = false;
             // 
             // firstMatchRadio
             // 
             this.firstMatchRadio.AutoSize = true;
             this.firstMatchRadio.Checked = true;
-            this.firstMatchRadio.Location = new System.Drawing.Point(620, 34);
+            this.firstMatchRadio.Location = new System.Drawing.Point(596, 34);
             this.firstMatchRadio.Name = "firstMatchRadio";
             this.firstMatchRadio.Size = new System.Drawing.Size(77, 17);
             this.firstMatchRadio.TabIndex = 8;
@@ -228,19 +252,12 @@
             // conservativeRadio
             // 
             this.conservativeRadio.AutoSize = true;
-            this.conservativeRadio.Location = new System.Drawing.Point(703, 34);
+            this.conservativeRadio.Location = new System.Drawing.Point(681, 34);
             this.conservativeRadio.Name = "conservativeRadio";
             this.conservativeRadio.Size = new System.Drawing.Size(87, 17);
             this.conservativeRadio.TabIndex = 9;
             this.conservativeRadio.Text = "Conservative";
             this.conservativeRadio.UseVisualStyleBackColor = true;
-            // 
-            // networkConfigurationItem
-            // 
-            this.networkConfigurationItem.Name = "networkConfigurationItem";
-            this.networkConfigurationItem.Size = new System.Drawing.Size(227, 22);
-            this.networkConfigurationItem.Text = "Network Configuration";
-            this.networkConfigurationItem.Click += new System.EventHandler(this.NetworkConfigurationItem_Click);
             // 
             // StepFunctionForm
             // 
@@ -258,8 +275,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "StepFunctionForm";
-            this.Text = "StepFunctionForm";
-            this.Load += new System.EventHandler(this.StepFunctionForm_Load);
+            this.Text = "Step-Function Graphing Tool";
             this.fileGrpBox.ResumeLayout(false);
             this.fileGrpBox.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -272,8 +288,8 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox sendStreamBox;
-        private System.Windows.Forms.TextBox echoStreamBox;
+        private System.Windows.Forms.TextBox sendTextBox;
+        private System.Windows.Forms.TextBox echoTextBox;
         private System.Windows.Forms.GroupBox fileGrpBox;
         private System.Windows.Forms.Label echoStreamLabel;
         private System.Windows.Forms.Label sendStreamLabel;
@@ -290,5 +306,7 @@
         private System.Windows.Forms.RadioButton firstMatchRadio;
         private System.Windows.Forms.RadioButton conservativeRadio;
         private System.Windows.Forms.ToolStripMenuItem networkConfigurationItem;
+        private System.Windows.Forms.ToolStripMenuItem sendFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem echoFileToolStripMenuItem;
     }
 }

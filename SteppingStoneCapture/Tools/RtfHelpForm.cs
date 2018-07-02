@@ -19,6 +19,7 @@ namespace SteppingStoneCapture.Tools
         public RtfHelpForm()
         {
             InitializeComponent();
+            this.Visible = true;
         }
 
         /// <summary>
@@ -27,7 +28,6 @@ namespace SteppingStoneCapture.Tools
         /// <param name="helpFilePath"></param>
         public RtfHelpForm(string helpFilePath)
         {
-            InitializeComponent();
             // Verify that the file exists
             if (File.Exists(helpFilePath))
             {
@@ -42,6 +42,11 @@ namespace SteppingStoneCapture.Tools
             {
                 MessageBox.Show(String.Format("Error locating:\n {0}", helpFilePath));
             }
+        }
+
+        public void AddText(string text)
+        {
+            this.richTextBox.Text += text;
         }
 
         public static void ShowHelp(string helpFileName)

@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PacketMatchingForm));
             this.inputGrpBox = new System.Windows.Forms.GroupBox();
-            this.ResetBtn = new System.Windows.Forms.Button();
-            this.runBtn = new System.Windows.Forms.Button();
             this.echoLabel = new System.Windows.Forms.Label();
             this.sendLabel = new System.Windows.Forms.Label();
             this.echoTextBox = new System.Windows.Forms.TextBox();
             this.sendTextBox = new System.Windows.Forms.TextBox();
+            this.ResetBtn = new System.Windows.Forms.Button();
+            this.runBtn = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +48,7 @@
             this.networkConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultGrpBox = new System.Windows.Forms.GroupBox();
             this.resTextBox = new System.Windows.Forms.RichTextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.inputGrpBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.resultGrpBox.SuspendLayout();
@@ -55,40 +56,17 @@
             // 
             // inputGrpBox
             // 
-            this.inputGrpBox.Controls.Add(this.ResetBtn);
-            this.inputGrpBox.Controls.Add(this.runBtn);
+            this.inputGrpBox.Controls.Add(this.label1);
             this.inputGrpBox.Controls.Add(this.echoLabel);
             this.inputGrpBox.Controls.Add(this.sendLabel);
             this.inputGrpBox.Controls.Add(this.echoTextBox);
             this.inputGrpBox.Controls.Add(this.sendTextBox);
             this.inputGrpBox.Location = new System.Drawing.Point(12, 27);
             this.inputGrpBox.Name = "inputGrpBox";
-            this.inputGrpBox.Size = new System.Drawing.Size(776, 77);
+            this.inputGrpBox.Size = new System.Drawing.Size(633, 77);
             this.inputGrpBox.TabIndex = 0;
             this.inputGrpBox.TabStop = false;
             this.inputGrpBox.Text = "Input";
-            // 
-            // ResetBtn
-            // 
-            this.ResetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ResetBtn.Location = new System.Drawing.Point(636, 48);
-            this.ResetBtn.Name = "ResetBtn";
-            this.ResetBtn.Size = new System.Drawing.Size(134, 23);
-            this.ResetBtn.TabIndex = 5;
-            this.ResetBtn.Text = "Reset";
-            this.ResetBtn.UseVisualStyleBackColor = true;
-            this.ResetBtn.Click += new System.EventHandler(this.ResetBtn_Click);
-            // 
-            // runBtn
-            // 
-            this.runBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.runBtn.Location = new System.Drawing.Point(636, 13);
-            this.runBtn.Name = "runBtn";
-            this.runBtn.Size = new System.Drawing.Size(134, 23);
-            this.runBtn.TabIndex = 4;
-            this.runBtn.Text = "Run";
-            this.runBtn.UseVisualStyleBackColor = true;
-            this.runBtn.Click += new System.EventHandler(this.runBtn_Click);
             // 
             // echoLabel
             // 
@@ -114,8 +92,8 @@
             // 
             // echoTextBox
             // 
-            this.echoTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.echoTextBox.Location = new System.Drawing.Point(332, 41);
+            this.echoTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.echoTextBox.Location = new System.Drawing.Point(335, 41);
             this.echoTextBox.MaximumSize = new System.Drawing.Size(350, 50);
             this.echoTextBox.Name = "echoTextBox";
             this.echoTextBox.Size = new System.Drawing.Size(275, 20);
@@ -123,13 +101,34 @@
             // 
             // sendTextBox
             // 
-            this.sendTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendTextBox.Location = new System.Drawing.Point(28, 41);
+            this.sendTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.sendTextBox.Location = new System.Drawing.Point(31, 41);
             this.sendTextBox.MaximumSize = new System.Drawing.Size(350, 50);
             this.sendTextBox.Name = "sendTextBox";
             this.sendTextBox.Size = new System.Drawing.Size(275, 20);
             this.sendTextBox.TabIndex = 0;
+            // 
+            // ResetBtn
+            // 
+            this.ResetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ResetBtn.Location = new System.Drawing.Point(651, 68);
+            this.ResetBtn.Name = "ResetBtn";
+            this.ResetBtn.Size = new System.Drawing.Size(134, 23);
+            this.ResetBtn.TabIndex = 5;
+            this.ResetBtn.Text = "Reset";
+            this.ResetBtn.UseVisualStyleBackColor = true;
+            this.ResetBtn.Click += new System.EventHandler(this.ResetBtn_Click);
+            // 
+            // runBtn
+            // 
+            this.runBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.runBtn.Location = new System.Drawing.Point(651, 39);
+            this.runBtn.Name = "runBtn";
+            this.runBtn.Size = new System.Drawing.Size(134, 23);
+            this.runBtn.TabIndex = 4;
+            this.runBtn.Text = "Run";
+            this.runBtn.UseVisualStyleBackColor = true;
+            this.runBtn.Click += new System.EventHandler(this.runBtn_Click);
             // 
             // menuStrip1
             // 
@@ -233,12 +232,23 @@
             this.resTextBox.TabIndex = 0;
             this.resTextBox.Text = "";
             // 
+            // label1
+            // 
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.Location = new System.Drawing.Point(320, 39);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(2, 25);
+            this.label1.TabIndex = 4;
+            this.label1.Text = " ";
+            // 
             // PacketMatchingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ResetBtn);
             this.Controls.Add(this.resultGrpBox);
+            this.Controls.Add(this.runBtn);
             this.Controls.Add(this.inputGrpBox);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -276,5 +286,6 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem algorithmsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem networkConfigurationToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
     }
 }
