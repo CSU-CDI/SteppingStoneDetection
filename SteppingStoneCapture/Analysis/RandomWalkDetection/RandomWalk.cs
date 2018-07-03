@@ -36,75 +36,40 @@ namespace SteppingStoneCapture.Analysis.RandomWalkDetection
 
         }
         
-        private void loadEI() {
+        private void loadESI() {
             var clf = new Tools.CustomLoadForm();
             clf.ShowDialog();
             if (clf.FileNameRequested != "")
             {
                 var fh = new Tools.FileHandler();
                 fh.LoadPacketsFromFiles(clf.FileNameRequested);
-                incEBox.Text = clf.FileNameRequested;
+                incBox.Text = clf.FileNameRequested;
                 pmI.EchoPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
+                pmI.ConnectionPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
+
             }
         }
-        private void loadSI() {
-            Tools.CustomLoadForm clf = new Tools.CustomLoadForm();
-            clf.ShowDialog();
-            if (clf.FileNameRequested != "")
-            {
-                var fh = new Tools.FileHandler();
-                incSBox.Text = clf.FileNameRequested;
-                fh.LoadPacketsFromFiles(clf.FileNameRequested);
-                pmI.SendPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
-            }
-        }
-        private void loadEO() {
+        
+        private void loadESO() {
             var clf = new Tools.CustomLoadForm();
             clf.ShowDialog();
             if (clf.FileNameRequested != "")
             {
                 var fh = new Tools.FileHandler();
                 fh.LoadPacketsFromFiles(clf.FileNameRequested);
-                outEBox.Text = clf.FileNameRequested;
-                pmO.EchoPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
+                outBox.Text = clf.FileNameRequested;
+                pmO.ConnectionPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
             }
         }
-        private void loadSO() {
-            Tools.CustomLoadForm clf = new Tools.CustomLoadForm();
-            clf.ShowDialog();
-            if (clf.FileNameRequested != "")
-            {
-                var fh = new Tools.FileHandler();
-                outSBox.Text = clf.FileNameRequested;
-                fh.LoadPacketsFromFiles(clf.FileNameRequested);
-                pmO.SendPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
-            }
-        }
+        
 
-        private void incEButton_Click(object sender, EventArgs e)
-        {
-            loadEI();
-        }
-
-        private void incSButton_Click(object sender, EventArgs e)
-        {
-            loadSI();
-        }
-
-        private void outEButton_Click(object sender, EventArgs e)
-        {
-            loadEO();
-        }
-
-        private void outSButton_Click(object sender, EventArgs e)
-        {
-            loadSO();
-        }
+        
 
         private void runButton_Click(object sender, EventArgs e)
         {
             pmI.MatchPackets();
             pmO.MatchPackets();
+            Console.WriteLine("hello");
             int numRTTI = pmI.RoundTripTimes.Count();
             int numRTTO = pmO.RoundTripTimes.Count();
             int diffRTT = Math.Abs(numRTTI - numRTTO);
@@ -129,24 +94,24 @@ namespace SteppingStoneCapture.Analysis.RandomWalkDetection
             }
         }
 
-        private void incEBox_TextChanged(object sender, EventArgs e)
+        private void incButton_Click(object sender, EventArgs e)
         {
-            incSButton.Enabled = true;
+            loadESI();
         }
 
-        private void incSBox_TextChanged(object sender, EventArgs e)
+        private void outButton_Click(object sender, EventArgs e)
         {
-            outEButton.Enabled = true;
+            loadESO();
         }
 
-        private void outEBox_TextChanged(object sender, EventArgs e)
-        {
-            outSButton.Enabled = true;
-        }
-
-        private void outSBox_TextChanged(object sender, EventArgs e)
+        private void outBox_TextChanged(object sender, EventArgs e)
         {
             runButton.Enabled = true;
+        }
+
+        private void incBox_TextChanged(object sender, EventArgs e)
+        {
+            outButton.Enabled = true;
         }
     }
 }
