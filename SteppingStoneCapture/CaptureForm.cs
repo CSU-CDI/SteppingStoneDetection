@@ -751,12 +751,14 @@ namespace SteppingStoneCapture
         {
             var culture = new System.Globalization.CultureInfo("en-US");
             var algo = ((ToolStripMenuItem)sender).Name;
+            Console.WriteLine(algo);
             if (culture.CompareInfo.IndexOf(algo,"first", System.Globalization.CompareOptions.IgnoreCase) >= 0)
             {
                 new Analysis.PacketMatching.PacketMatchingForm(Analysis.PacketMatching.MatchingAlgorithm.FIRST_PAIR);
             }
             else if (culture.CompareInfo.IndexOf(algo, "conser", System.Globalization.CompareOptions.IgnoreCase) >= 0)
             {
+                Console.WriteLine("con");
                 new Analysis.PacketMatching.PacketMatchingForm(Analysis.PacketMatching.MatchingAlgorithm.CONSERVATIVE);
             }
             else if (culture.CompareInfo.IndexOf(algo, "greed", System.Globalization.CompareOptions.IgnoreCase) >= 0)

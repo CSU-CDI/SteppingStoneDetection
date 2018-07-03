@@ -12,8 +12,10 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
     abstract class PacketMatcher
     {
         // data structures
-        private Queue<CougarPacket> sendPackets;
+        private List<CougarPacket> sendPackets;
         private List<CougarPacket> echoPackets;
+        private List<CougarPacket> connectionPackets;
+
         private List<double> roundTripTimes;
         private Dictionary<double, string> pairedMatches;
         protected int nbrMatches = 0;
@@ -22,7 +24,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         // default constructor for PacketMatcher
         public PacketMatcher()
         {
-            SendPackets = new Queue<CougarPacket>();
+            SendPackets = new List<CougarPacket>();
             EchoPackets = new List<CougarPacket>();
             RoundTripTimes = new List<double>();
             PairedMatches = new Dictionary<double, string>();
@@ -30,9 +32,10 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
         // Properties of Packet Matchers
         public List<CougarPacket> EchoPackets { get => (List<CougarPacket>)echoPackets; set => echoPackets = value; }
-        public Queue<CougarPacket> SendPackets { get => sendPackets; set => sendPackets = value; }
+        public List<CougarPacket> SendPackets { get => sendPackets; set => sendPackets = value; }
         public List<double> RoundTripTimes { get => (List<double>)roundTripTimes; set => roundTripTimes = value; }
         public Dictionary<double, string> PairedMatches { get => pairedMatches; set => pairedMatches = value; }
+        public List<CougarPacket> ConnectionPackets { get => connectionPackets; set => connectionPackets = value; }
 
 
         /// <summary>

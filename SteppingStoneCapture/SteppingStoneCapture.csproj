@@ -104,6 +104,7 @@
       <DependentUpon>CrossOverPacket.cs</DependentUpon>
     </Compile>
     <Compile Include="Analysis\PacketMatching\ConservativeMatcher.cs" />
+    <Compile Include="Analysis\PacketMatching\GreedyHeuristicPacketMatcher.cs" />
     <Compile Include="Analysis\PacketMatching\PacketMatchingForm.cs">
       <SubType>Form</SubType>
     </Compile>

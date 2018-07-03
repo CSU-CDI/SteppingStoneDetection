@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SteppingStoneCapture.Analysis.PacketMatching
@@ -21,6 +20,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         {
             InitializeComponent();
             pm = new FirstPairMatcher();
+            this.Visible = true;
         }
 
         public PacketMatchingForm(MatchingAlgorithm algo)
@@ -32,18 +32,42 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                     pm = new FirstPairMatcher();
                     break;
                 case MatchingAlgorithm.CONSERVATIVE:
-                    pm = new ConservativeMatcher();
+                    {
+                        Tools.TextInput ti = new Tools.TextInput("Enter acceptable send packet time difference[in milliseconds]: ");
+                        ti.Text = "Set Time Difference Threshold";
+                        ti.ShowDialog();
+
+                        var input = ti.InputtedText;
+
+                        Console.WriteLine(input);
+                        Double.TryParse(input, out double tg);
+                        pm = new ConservativeMatcher(tg);
+                    }
                     break;
+                case MatchingAlgorithm.GREEDY_HEURISTIC:
+                    {
+                        Tools.TextInput ti = new Tools.TextInput("Enter acceptable send packet time difference[in milliseconds]: ");
+                        ti.Text = "Set Time Difference Threshold";
+                        ti.ShowDialog();
+
+                        var input = ti.InputtedText;
+
+                        Console.WriteLine(input);
+                        Double.TryParse(input, out double tg);
+                        pm = new GreedyHeuristicPacketMatcher(tg);
+                        break;
+                    }
             }
             this.Visible = true;
         }
 
         private void runBtn_Click(object sender, EventArgs e)
-        {
+        {            
+            pm.MatchPackets();
 
             var numSend = pm.SendPackets.Count;
             var numEcho = pm.EchoPackets.Count;
-            pm.MatchPackets();
+            var numTot = pm.ConnectionPackets.Count;
 
             foreach (string s in pm.PairedMatches.Values)
             {
@@ -55,31 +79,18 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             resTextBox.Text += " Number Echo Packets: " + numEcho;
             resTextBox.Text += "\n";
             resTextBox.Text += $"Number of Matches: {pm.PairedMatches.Count}\n";
-            resTextBox.Text += String.Format("Percentage matched of all possible pairs: {0:F}%", (100 * pm.PairedMatches.Count / Math.Min(numSend, numEcho)));
+            resTextBox.Text += String.Format("Percentage matched of all possible pairs: {0:F}%", (100 * pm.PairedMatches.Count / numTot));// Math.Min(numSend, numEcho)));
+        
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)
         {
             pm.ResetMatcher();
             resTextBox.Text = "";
-            sendTextBox.Text = "";
-            echoTextBox.Text = "";
+            fileTxtBox.Text = "";
         }
-
-        private void LoadSendPackets(object sender, EventArgs e)
-        {
-            Tools.CustomLoadForm clf = new Tools.CustomLoadForm();
-            clf.ShowDialog();
-            if (clf.FileNameRequested != "")
-            {
-                var fh = new Tools.FileHandler();
-                sendTextBox.Text = clf.FileNameRequested;
-                fh.LoadPacketsFromFiles(clf.FileNameRequested);
-                pm.SendPackets = new Queue<CougarPacket>(CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP));
-            }
-        }
-
-        private void LoadEchoPackets(object sender, EventArgs e)
+        
+        private void connectionFileItem_Click(object sender, EventArgs e)
         {
             var clf = new Tools.CustomLoadForm();
             clf.ShowDialog();
@@ -87,9 +98,11 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             {
                 var fh = new Tools.FileHandler();
                 fh.LoadPacketsFromFiles(clf.FileNameRequested);
-                echoTextBox.Text = clf.FileNameRequested;
-                pm.EchoPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
+                fileTxtBox.Text = clf.FileNameRequested;
+                
+                pm.ConnectionPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
             }
         }
+
     }
 }

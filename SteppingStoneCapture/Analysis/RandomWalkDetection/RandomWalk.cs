@@ -28,6 +28,7 @@ namespace SteppingStoneCapture.Analysis.RandomWalkDetection
             numRTTI = 0;
             numRTTO = 0;
             diffRTT = 0;
+            
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -54,7 +55,7 @@ namespace SteppingStoneCapture.Analysis.RandomWalkDetection
                 var fh = new Tools.FileHandler();
                 incSBox.Text = clf.FileNameRequested;
                 fh.LoadPacketsFromFiles(clf.FileNameRequested);
-                pmI.SendPackets = new Queue<CougarPacket>(CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP));
+                pmI.SendPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
             }
         }
         private void loadEO() {
@@ -76,7 +77,7 @@ namespace SteppingStoneCapture.Analysis.RandomWalkDetection
                 var fh = new Tools.FileHandler();
                 outSBox.Text = clf.FileNameRequested;
                 fh.LoadPacketsFromFiles(clf.FileNameRequested);
-                pmO.SendPackets = new Queue<CougarPacket>(CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP));
+                pmO.SendPackets = CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP);
             }
         }
 

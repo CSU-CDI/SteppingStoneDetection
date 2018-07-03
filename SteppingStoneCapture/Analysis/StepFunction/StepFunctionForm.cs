@@ -84,7 +84,7 @@ namespace SteppingStoneCapture.Analysis
                 var fh = new Tools.FileHandler();
                 sendTextBox.Text = clf.FileNameRequested;
                 fh.LoadPacketsFromFiles(clf.FileNameRequested);
-                matcher.SendPackets = new Queue<CougarPacket>(CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP));
+               // matcher.SendPackets = new Queue<CougarPacket>(CougarPacket.ConvertRawPacketsToCougarPackets(fh.PacketsReadFromFile, fh.SensorIP));
             }
         }
 

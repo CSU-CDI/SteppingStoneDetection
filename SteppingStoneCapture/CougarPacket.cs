@@ -11,6 +11,14 @@ using PcapDotNet.Packets.Arp;
 
 namespace SteppingStoneCapture
 {
+    public enum TCPType
+    {
+        NONE,
+        ACK,
+        ECHO,
+        SEND
+    }
+
     /// <summary>
     /// Describes a packet with basic properties and functionale
     /// </summary>
@@ -41,6 +49,7 @@ namespace SteppingStoneCapture
         private Datagram payload;
         private byte[] payloadData;
         private IpV4Address sensorIP;
+        private TCPType type;
 
         public string TimeStamp { get => timeStamp; set => timeStamp = value; }
         public int PacketNumber { get => packetNumber; set => packetNumber = value; }
@@ -154,6 +163,7 @@ namespace SteppingStoneCapture
                         cp.Payload = tcp.Payload;
                         cp.TCPFlags = tcp.ControlBits.ToString();
                         cp.getPayload();
+                        cp.Type = CougarPacket.DeterminePacketTCPType(cp);
                         break;
 
                     case "udp":  // udp packet received
@@ -184,11 +194,38 @@ namespace SteppingStoneCapture
 
             return cp;
         }
+
+        /// <summary>
+        /// Static method to determine the type of TCP Packet represented: send, echo, ack
+        /// </summary>
+        /// <param name="packet">
+        /// CougarPacket with indetermined tcp type
+        /// </param>
+        /// <returns></returns>
+        public static TCPType DeterminePacketTCPType(CougarPacket packet)
+        {
+            TCPType result = TCPType.NONE;
+            if (packet.SensorIP.Equals(packet.SourceAddress))
+            {
+                if (packet.SrcPort < packet.DstPort)
+                    result = (packet.TCPFlags.Contains("Push")) ? TCPType.ECHO : TCPType.ACK;
+                else
+                    result = TCPType.SEND;
+            }
+            else if (packet.SensorIP.Equals(packet.DestAddress))
+            {
+                if (packet.SrcPort > packet.DstPort)
+                    result = TCPType.SEND;
+                else
+                    result = (packet.TCPFlags.Contains("Push")) ? TCPType.ECHO : TCPType.ACK;
+            }
+            return result;
+        }
         public override string ToString()
         {
             string pay = (payloadData != null) ? BitConverter.ToString(payloadData).Replace("-", "") : "nil";
             string flags = (tcpFlags.Length > 1) ? tcpFlags.Replace(',', ';') : "---";
-            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11},{12}",
+            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11},{12},{13}",
                                                 PacketNumber,
                                                 TimeStamp,
                                                 Length,
@@ -201,7 +238,8 @@ namespace SteppingStoneCapture
                                                 AckNum,
                                                 flags,
                                                 pay,
-                                                SensorIP);
+                                                SensorIP,
+                                                Type);
             return description;
         }
 
@@ -228,6 +266,8 @@ namespace SteppingStoneCapture
                 return propertyArray;
             }
         }
+
+        public TCPType Type { get => type; set => type = value; }
     }
 }
 

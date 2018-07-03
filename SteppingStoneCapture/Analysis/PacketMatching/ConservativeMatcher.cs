@@ -5,66 +5,110 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 {
     class ConservativeMatcher : PacketMatcher
     {
+        private double threshold;
+
+        public double Threshold { get => threshold; set => threshold = value; }
+
+        public ConservativeMatcher():base()
+        {
+            Tools.TextInput ti = new Tools.TextInput("Enter acceptable send packet time difference[in milliseconds]: ");
+            ti.Text = "Set Time Difference Threshold";
+            ti.ShowDialog();
+
+            var input = ti.InputtedText;
+
+            Console.WriteLine(input);
+            Double.TryParse(input, out double tg);
+
+            Threshold = tg;
+        }
+        public ConservativeMatcher(double threshold) : base()
+        {
+            Threshold = threshold;
+        }
+
         /// <summary>
         /// Attempts to match each echo packet with the oldest, available send packet
         /// </summary>
         public override void MatchPackets()
         {
-            uint lastEchoAck = 0;
-            uint lastSendSeq = 0;
-            Console.WriteLine(this.EchoPackets.Count);
-            Console.WriteLine(this.SendPackets.Count);
-            // For every captured echo packet,
-            for (int i = 0; i < this.EchoPackets.Count; i++)
+            bool correctMatch = true;
+            var sendQ = new Queue<CougarPacket>();
+            bool firstPacket = true;
+
+            //for every packet
+            for (int ndx = 0; ndx < ConnectionPackets.Count; ++ndx)
             {
-                //  Gather the echo's timestamp
-                CougarPacket echo = EchoPackets[i];
+                var current = ConnectionPackets[ndx];
 
-                if (echo.AckNum == lastEchoAck)
-                    continue;
-                else
-                    lastEchoAck = echo.AckNum;
-
-
-                DateTime.TryParse(echo.TimeStamp, out DateTime echoT);
-
-                // reset the match flag, since this is a new packet
-                bool matched = false;
-
-                //for every captured send packet,
-                while (SendPackets.Count > 0 && !matched)
+                //determine the type
+                switch (current.Type)
                 {
-                    // Gather the first, available send packet's time stamp
-                    CougarPacket send = SendPackets.Dequeue();
-                    Console.WriteLine("echo #" + echo.PacketNumber + " ack " + echo.AckNum.ToString());
-                    Console.WriteLine("send #"+send.PacketNumber+" seq " + send.SeqNum.ToString());
-                    /*
-                    if (send.SeqNum == lastSendSeq)
-                        continue;
-                    else
-                        lastSendSeq = send.SeqNum;
-                        */
-                    DateTime.TryParse(send.TimeStamp, out DateTime sendT);
+                    // if it is a send packet
+                    case TCPType.SEND:
+                        DateTime lastTime = new DateTime();
+                        SendPackets.Add(current);
+                        // if this will be the first packet in the queue
+                        if (firstPacket)
+                        {
+                            // "initialize" the value for last packet's time to this packet's
+                            DateTime.TryParse(current.TimeStamp, out lastTime);
+                            // clear flag for the next run
+                            firstPacket = false;
+                        }
 
-                    // if it matches the current echo packet
-                    if (echo.AckNum == send.SeqNum && send.SeqNum <= echo.AckNum)
-                    {
-                        // set the match flag to proceed to the next echo
-                        matched = true;
-                        // add the round trip time to the resultant list
-                        RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
+                        // parse the current packet's time stamp
+                        DateTime.TryParse(current.TimeStamp, out DateTime currentTime);
 
-                        PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, echo.PacketNumber, ' '));
-                    }
+                        // calculate time elapsed between send packets
+                        double tg = currentTime.Subtract(lastTime).TotalMilliseconds;
+
+
+                        // reset queue and flags if beyond threshold amount
+                        if (tg > Threshold)
+                        {
+                            sendQ.Clear();
+                            firstPacket = true;
+                            correctMatch = true;
+                        }
+
+                        // add the packet to the queue if within threshold
+                        else sendQ.Enqueue(current);
+                        break;
+                    // if it is an echo packet  
+                    case TCPType.ECHO:
+                        // gather the first potMatch packet from the queue
+                        if (sendQ.Count > 0)
+                        {
+                            var send = sendQ.Dequeue();
+                            EchoPackets.Add(current);
+                            // determine whether they match, or not
+                            if ((current.SeqNum == send.AckNum) && (current.AckNum > send.SeqNum) && correctMatch)
+                            {
+                                // if they match, calculate the Round Trip Time
+
+                                // RTT = TimeOfEcho - TimeOfSend
+                                DateTime.TryParse(current.TimeStamp, out DateTime echoT);
+                                DateTime.TryParse(send.TimeStamp, out DateTime sendT);
+
+                                RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
+
+                                PairedMatches.Add(nbrMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, current.PacketNumber, ' '));
+                            }
+                            else
+                                correctMatch = false;
+                        }
+                        break;
                 }
             }
+
         }
 
         /// <summary>
-        /// Statically Attempts to match each echo packet with the oldest, available send packet
+        /// Statically Attempts to match each echo packet with the oldest, available potMatch packet
         /// </summary>
         /// <param name="SendPackets">
-        ///     Queue of send packets captured
+        ///     Queue of potMatch packets captured
         /// </param>
         /// <param name="EchoPackets">
         ///     List of echo packets captured
@@ -87,7 +131,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
                 while (SendPackets.Count > 0 && !matched)
                 {
-                    // gather current send packet's timestamp
+                    // gather current potMatch packet's timestamp
                     CougarPacket send = SendPackets.Dequeue();
                     DateTime.TryParse(send.TimeStamp, out DateTime sendT);
 
@@ -101,7 +145,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                     }
                 }
 
-                // Report error if all send packets have been processed and no match was found
+                // Report error if all potMatch packets have been processed and no match was found
                 if (SendPackets.Count == 0 && !matched)
                 {
                     System.Windows.Forms.MessageBox.Show(String.Format("Error!\nNo match detected for:\nEcho No. {0}", echo.PacketNumber));

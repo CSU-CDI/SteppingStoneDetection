@@ -11,6 +11,7 @@ namespace SteppingStoneCapture.Tools
             InitializeComponent();
             inputtedText = val;
             NumPacketBox.Text = inputtedText.ToString();
+            
         }
 
         public string InputtedText { get => inputtedText; set => inputtedText = value; }

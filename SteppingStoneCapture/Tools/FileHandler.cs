@@ -253,6 +253,7 @@ namespace SteppingStoneCapture.Tools
                         fsRaw.Close();
                         fs = File.OpenWrite(file[0] + "_" + (indexF + 1).ToString() + '.' + file[1]);
                         fsRaw = new StreamWriter(file[0] + "_" + (indexF + 1).ToString() + "_raw" + '.' + file[1]);
+                        fsRaw.WriteLine(sensorIP);
                     }
                     countP++;
                     fs.Write(barr, 0, barr.Length);

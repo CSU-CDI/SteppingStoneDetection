@@ -29,18 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PacketMatchingForm));
-            this.inputGrpBox = new System.Windows.Forms.GroupBox();
-            this.echoLabel = new System.Windows.Forms.Label();
-            this.sendLabel = new System.Windows.Forms.Label();
-            this.echoTextBox = new System.Windows.Forms.TextBox();
-            this.sendTextBox = new System.Windows.Forms.TextBox();
             this.ResetBtn = new System.Windows.Forms.Button();
             this.runBtn = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sendFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.echoFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,70 +41,18 @@
             this.networkConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resultGrpBox = new System.Windows.Forms.GroupBox();
             this.resTextBox = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.inputGrpBox.SuspendLayout();
+            this.grpBox = new System.Windows.Forms.GroupBox();
+            this.fileLabel = new System.Windows.Forms.Label();
+            this.fileTxtBox = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.resultGrpBox.SuspendLayout();
+            this.grpBox.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // inputGrpBox
-            // 
-            this.inputGrpBox.Controls.Add(this.label1);
-            this.inputGrpBox.Controls.Add(this.echoLabel);
-            this.inputGrpBox.Controls.Add(this.sendLabel);
-            this.inputGrpBox.Controls.Add(this.echoTextBox);
-            this.inputGrpBox.Controls.Add(this.sendTextBox);
-            this.inputGrpBox.Location = new System.Drawing.Point(12, 27);
-            this.inputGrpBox.Name = "inputGrpBox";
-            this.inputGrpBox.Size = new System.Drawing.Size(633, 77);
-            this.inputGrpBox.TabIndex = 0;
-            this.inputGrpBox.TabStop = false;
-            this.inputGrpBox.Text = "Input";
-            // 
-            // echoLabel
-            // 
-            this.echoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.echoLabel.AutoSize = true;
-            this.echoLabel.Location = new System.Drawing.Point(332, 22);
-            this.echoLabel.Name = "echoLabel";
-            this.echoLabel.Size = new System.Drawing.Size(54, 13);
-            this.echoLabel.TabIndex = 3;
-            this.echoLabel.Text = "Echo File:";
-            // 
-            // sendLabel
-            // 
-            this.sendLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendLabel.AutoSize = true;
-            this.sendLabel.Location = new System.Drawing.Point(28, 22);
-            this.sendLabel.Name = "sendLabel";
-            this.sendLabel.Size = new System.Drawing.Size(54, 13);
-            this.sendLabel.TabIndex = 2;
-            this.sendLabel.Text = "Send File:";
-            // 
-            // echoTextBox
-            // 
-            this.echoTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.echoTextBox.Location = new System.Drawing.Point(335, 41);
-            this.echoTextBox.MaximumSize = new System.Drawing.Size(350, 50);
-            this.echoTextBox.Name = "echoTextBox";
-            this.echoTextBox.Size = new System.Drawing.Size(275, 20);
-            this.echoTextBox.TabIndex = 1;
-            // 
-            // sendTextBox
-            // 
-            this.sendTextBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.sendTextBox.Location = new System.Drawing.Point(31, 41);
-            this.sendTextBox.MaximumSize = new System.Drawing.Size(350, 50);
-            this.sendTextBox.Name = "sendTextBox";
-            this.sendTextBox.Size = new System.Drawing.Size(275, 20);
-            this.sendTextBox.TabIndex = 0;
             // 
             // ResetBtn
             // 
             this.ResetBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ResetBtn.Location = new System.Drawing.Point(651, 68);
+            this.ResetBtn.Location = new System.Drawing.Point(614, 48);
             this.ResetBtn.Name = "ResetBtn";
             this.ResetBtn.Size = new System.Drawing.Size(134, 23);
             this.ResetBtn.TabIndex = 5;
@@ -122,7 +63,7 @@
             // runBtn
             // 
             this.runBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.runBtn.Location = new System.Drawing.Point(651, 39);
+            this.runBtn.Location = new System.Drawing.Point(614, 10);
             this.runBtn.Name = "runBtn";
             this.runBtn.Size = new System.Drawing.Size(134, 23);
             this.runBtn.TabIndex = 4;
@@ -153,37 +94,21 @@
             // 
             // loadToolStripMenuItem
             // 
-            this.loadToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sendFileToolStripMenuItem,
-            this.echoFileToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadToolStripMenuItem.Text = "&Load";
-            // 
-            // sendFileToolStripMenuItem
-            // 
-            this.sendFileToolStripMenuItem.Name = "sendFileToolStripMenuItem";
-            this.sendFileToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.sendFileToolStripMenuItem.Text = "&Send File";
-            this.sendFileToolStripMenuItem.Click += new System.EventHandler(this.LoadSendPackets);
-            // 
-            // echoFileToolStripMenuItem
-            // 
-            this.echoFileToolStripMenuItem.Name = "echoFileToolStripMenuItem";
-            this.echoFileToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.echoFileToolStripMenuItem.Text = "&Echo File";
-            this.echoFileToolStripMenuItem.Click += new System.EventHandler(this.LoadEchoPackets);
+            this.loadToolStripMenuItem.Click += new System.EventHandler(this.connectionFileItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             // 
             // helpToolStripMenuItem
@@ -232,60 +157,72 @@
             this.resTextBox.TabIndex = 0;
             this.resTextBox.Text = "";
             // 
-            // label1
+            // grpBox
             // 
-            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label1.Location = new System.Drawing.Point(320, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(2, 25);
-            this.label1.TabIndex = 4;
-            this.label1.Text = " ";
+            this.grpBox.Controls.Add(this.fileLabel);
+            this.grpBox.Controls.Add(this.fileTxtBox);
+            this.grpBox.Controls.Add(this.runBtn);
+            this.grpBox.Controls.Add(this.ResetBtn);
+            this.grpBox.Location = new System.Drawing.Point(12, 27);
+            this.grpBox.Name = "grpBox";
+            this.grpBox.Size = new System.Drawing.Size(776, 77);
+            this.grpBox.TabIndex = 6;
+            this.grpBox.TabStop = false;
+            this.grpBox.Text = "Controls";
+            // 
+            // fileLabel
+            // 
+            this.fileLabel.AutoSize = true;
+            this.fileLabel.Location = new System.Drawing.Point(24, 29);
+            this.fileLabel.Name = "fileLabel";
+            this.fileLabel.Size = new System.Drawing.Size(83, 13);
+            this.fileLabel.TabIndex = 7;
+            this.fileLabel.Text = "Connection File:";
+            // 
+            // fileTxtBox
+            // 
+            this.fileTxtBox.Location = new System.Drawing.Point(27, 48);
+            this.fileTxtBox.Name = "fileTxtBox";
+            this.fileTxtBox.Size = new System.Drawing.Size(517, 20);
+            this.fileTxtBox.TabIndex = 6;
             // 
             // PacketMatchingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.ResetBtn);
+            this.Controls.Add(this.grpBox);
             this.Controls.Add(this.resultGrpBox);
-            this.Controls.Add(this.runBtn);
-            this.Controls.Add(this.inputGrpBox);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PacketMatchingForm";
             this.Text = "PacketMatchingForm";
-            this.inputGrpBox.ResumeLayout(false);
-            this.inputGrpBox.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.resultGrpBox.ResumeLayout(false);
+            this.grpBox.ResumeLayout(false);
+            this.grpBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox inputGrpBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.GroupBox resultGrpBox;
         private System.Windows.Forms.Button ResetBtn;
         private System.Windows.Forms.Button runBtn;
-        private System.Windows.Forms.Label echoLabel;
-        private System.Windows.Forms.Label sendLabel;
-        private System.Windows.Forms.TextBox echoTextBox;
-        private System.Windows.Forms.TextBox sendTextBox;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sendFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem echoFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.RichTextBox resTextBox;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem algorithmsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem networkConfigurationToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox grpBox;
+        private System.Windows.Forms.Label fileLabel;
+        private System.Windows.Forms.TextBox fileTxtBox;
     }
 }
