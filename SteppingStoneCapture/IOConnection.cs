@@ -41,6 +41,11 @@ namespace SteppingStoneCapture
             btnOk.Enabled = false;
         }
 
+        /// <summary>
+        /// filters packets based on incoming or outgoing connection. Also allows user to filter on send, echo, or ack packets
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>        
         private void applyBtn_Click(object sender, EventArgs e) // this button filters connections on port# as well as filters on tcp flags
         {
             dropdownListItems.Clear();
@@ -61,15 +66,24 @@ namespace SteppingStoneCapture
                             filteredCougarPackets.Add(cougarpackets[j]);
                             filteredRawPackets.Add(packets[j]);
 
-                            if (filterStream(j, incomingConnection, port)) // check for additional filter criteron
-                                continue;
+                            /*if (filterStream(j, incomingConnection, port)) // check for additional filter criteron
+                                continue;*/
+                            if (!filterStream(j, incomingConnection, port)) // check for additional filter criteron
+                            {
+                                key = cougarpackets[j].SourceAddress + " - " + cougarpackets[j].SrcPort; // add ip and source port to combobox
+                                if (!dropdownListItems.ContainsKey(key))
+                                {
+                                    dropdownListItems.Add(key, packets[j]);
+                                    ConnectionCombo.Items.Add(key);
+                                }
+                            }
 
-                            key = cougarpackets[j].SourceAddress + " - " + cougarpackets[j].SrcPort; // add ip and source port to combobox
+                            /*key = cougarpackets[j].SourceAddress + " - " + cougarpackets[j].SrcPort; // add ip and source port to combobox
                             if (!dropdownListItems.ContainsKey(key))
                             {
                                 dropdownListItems.Add(key, packets[j]);
                                 ConnectionCombo.Items.Add(key);
-                            }
+                            }*/
                         } // end incoming filter if statement
                     } // end for loop      
                 }
@@ -83,15 +97,15 @@ namespace SteppingStoneCapture
                             filteredCougarPackets.Add(cougarpackets[j]);
                             filteredRawPackets.Add(packets[j]);
 
-                            if (filterStream(j, incomingConnection, port))
-                                continue;
-
-                            key = (cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text)) ? cougarpackets[j].DestAddress + " - " + cougarpackets[j].DstPort : cougarpackets[j].DestAddress + " - " + cougarpackets[j].SrcPort;
-                            if (!dropdownListItems.ContainsKey(key))
+                            if (!filterStream(j, incomingConnection, port))
                             {
-                                dropdownListItems.Add(key, packets[j]);
-                                ConnectionCombo.Items.Add(key);
-                            }
+                                key = (cougarpackets[j].DestAddress.ToString().Equals(txtIpOne.Text)) ? cougarpackets[j].DestAddress + " - " + cougarpackets[j].DstPort : cougarpackets[j].DestAddress + " - " + cougarpackets[j].SrcPort;
+                                if (!dropdownListItems.ContainsKey(key))
+                                {
+                                    dropdownListItems.Add(key, packets[j]);
+                                    ConnectionCombo.Items.Add(key);
+                                }
+                            }                            
                         } // end outgoing filter if statement
                     } // end for loop                                            
                 }
@@ -112,6 +126,13 @@ namespace SteppingStoneCapture
             }           
         }
 
+        /// <summary>
+        /// filters packets into send, echo, or ack packets based on TCP Flags, Src and Dst IP.  
+        /// Returns true if packet matches filter critera.          
+        /// </summary>
+        /// <param name="int"></param>
+        /// <param name="Boolean"></param>
+        /// <param name="int"></param>        
         private Boolean filterStream(int j, Boolean incoming, int port) // if user selects send, ack or echo, this will remove unwanted packets from the list
         {                                                               // packets are added to the list before this is called, so if the packet matches the filter
                                                                         // it will be removed as the last item on the list
@@ -147,7 +168,7 @@ namespace SteppingStoneCapture
                     }
                 }
             }
-            else if (EchoChk.Checked) // check to make sure this is a response packet dependent on incoming/outgoing connection
+            else if (EchoChk.Checked) // check to make sure this is a response/echo packet dependent on incoming/outgoing connection
             {
                 if (!cougarpackets[j].TCPFlags.Contains("Push"))
                 {
@@ -174,6 +195,10 @@ namespace SteppingStoneCapture
             return false;
         }
 
+        /// <summary>
+        /// Removes last packet added to both filtered cougar packets and filtered raw packets
+        /// </summary>
+        
         private void removeLastPacket()
         {
             filteredCougarPackets.RemoveAt(filteredCougarPackets.Count - 1);
@@ -221,16 +246,7 @@ namespace SteppingStoneCapture
         private void btnOk_Click(object sender, EventArgs e)
         {
             DetermineFilePath();
-            this.Close();
-            /*foreach (Packet p in filteredRawPackets)
-            {
-                Console.WriteLine(p);
-            }*/
-        
-            /*for (int i=0; i<filteredRawPackets.Count; i++)
-            {
-                Console.WriteLine(i + " " + filteredCougarPackets[i].ToString());
-            }*/
+            this.Close();            
         }
 
         private void IOConnection_Load(object sender, EventArgs e)

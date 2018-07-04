@@ -90,13 +90,18 @@ namespace SteppingStoneCapture.Analysis
         {
             if (MessageBox.Show("Are you sure you want to cancel?", "Cancel?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 Close();
-        }       
+        }
 
+        /// <summary>
+        /// Begins packet injection with user defined parameters
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOk_Click(object sender, EventArgs e)
         {           
             bool srcPortFlag = Int32.TryParse(txtSrcPort.Text, out int srcPort);
             bool dstPortFlag = Int32.TryParse(txtDestPort.Text, out int dstPort);
-            count = 0;
+            //count = 0;
 
             if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
             {
@@ -148,13 +153,27 @@ namespace SteppingStoneCapture.Analysis
                     PacketBuilder builder = new PacketBuilder(ethernetLayer, ipV4Layer, tcpLayer, payloadLayer);
                     PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
 
-                    Int32.TryParse(txtNumPackets.Text, out int repeat);
+                    bool flag = Int32.TryParse(txtNumPackets.Text, out int repeat);
+                    if (repeat > 1000)
+                        repeat = 1000;
+                    else if (repeat < 1)
+                        repeat = 1;
 
                     btnOk.Enabled = false;
                     btnReset.Enabled = false;
                     Cursor = Cursors.WaitCursor;
                     
-                    for (int i = 0; i<repeat; i++)
+                    if (flag)
+                    {
+                        for (int i = 0; i < repeat; i++)
+                        {
+                            communicator.SendPacket(builder.Build(DateTime.Now));
+                            count++;
+                            lblResult.Text = "SUCCESS!: " + count;
+                        }
+                        count = 0;
+                    }                        
+                    else
                     {
                         communicator.SendPacket(builder.Build(DateTime.Now));
                         count++;
@@ -162,10 +181,7 @@ namespace SteppingStoneCapture.Analysis
                     }
                     Cursor = Cursors.Default;
                     btnOk.Enabled = true;
-                    btnReset.Enabled = true;
-                    /*communicator.SendPacket(builder.Build(DateTime.Now));
-                    count++;
-                    lblResult.Text = "SUCCESS!: " + count;*/
+                    btnReset.Enabled = true;                    
                 }
                 catch (Exception)
                 {
@@ -198,6 +214,7 @@ namespace SteppingStoneCapture.Analysis
         {
             txtSrcIP.Text = txtDestIP.Text = txtSrcPort.Text = txtDestPort.Text = txtNumPackets.Text = txtInput.Text = "";
             radPSH.Checked = true;
+            lblResult.Text = "";
 
         }
     }
