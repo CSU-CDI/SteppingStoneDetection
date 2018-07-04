@@ -129,9 +129,9 @@
             this.grpFlags.Controls.Add(this.radRST);
             this.grpFlags.Controls.Add(this.radACK);
             this.grpFlags.Controls.Add(this.radPSH);
-            this.grpFlags.Location = new System.Drawing.Point(12, 135);
+            this.grpFlags.Location = new System.Drawing.Point(12, 131);
             this.grpFlags.Name = "grpFlags";
-            this.grpFlags.Size = new System.Drawing.Size(94, 132);
+            this.grpFlags.Size = new System.Drawing.Size(94, 136);
             this.grpFlags.TabIndex = 8;
             this.grpFlags.TabStop = false;
             this.grpFlags.Text = "TCP Flags";
@@ -139,7 +139,7 @@
             // radFIN
             // 
             this.radFIN.AutoSize = true;
-            this.radFIN.Location = new System.Drawing.Point(13, 102);
+            this.radFIN.Location = new System.Drawing.Point(13, 106);
             this.radFIN.Name = "radFIN";
             this.radFIN.Size = new System.Drawing.Size(50, 21);
             this.radFIN.TabIndex = 13;
@@ -151,7 +151,7 @@
             // radRST
             // 
             this.radRST.AutoSize = true;
-            this.radRST.Location = new System.Drawing.Point(13, 75);
+            this.radRST.Location = new System.Drawing.Point(13, 79);
             this.radRST.Name = "radRST";
             this.radRST.Size = new System.Drawing.Size(57, 21);
             this.radRST.TabIndex = 12;
@@ -163,7 +163,7 @@
             // radACK
             // 
             this.radACK.AutoSize = true;
-            this.radACK.Location = new System.Drawing.Point(13, 48);
+            this.radACK.Location = new System.Drawing.Point(13, 52);
             this.radACK.Name = "radACK";
             this.radACK.Size = new System.Drawing.Size(56, 21);
             this.radACK.TabIndex = 11;
@@ -175,7 +175,7 @@
             // radPSH
             // 
             this.radPSH.AutoSize = true;
-            this.radPSH.Location = new System.Drawing.Point(13, 21);
+            this.radPSH.Location = new System.Drawing.Point(13, 25);
             this.radPSH.Name = "radPSH";
             this.radPSH.Size = new System.Drawing.Size(57, 21);
             this.radPSH.TabIndex = 10;
@@ -291,7 +291,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "PacketInject";
-            this.Text = "Inject Packet";
+            this.Text = "Inject Packets";
             this.grpFlags.ResumeLayout(false);
             this.grpFlags.PerformLayout();
             this.grpResults.ResumeLayout(false);

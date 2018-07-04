@@ -212,7 +212,8 @@ namespace SteppingStoneCapture.Analysis
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            txtSrcIP.Text = txtDestIP.Text = txtSrcPort.Text = txtDestPort.Text = txtNumPackets.Text = txtInput.Text = "";
+            txtSrcIP.Text = txtDestIP.Text = txtSrcPort.Text = txtDestPort.Text = txtNumPackets.Text = "";
+            txtInput.Text = "Message to Send...";
             radPSH.Checked = true;
             lblResult.Text = "";
 
