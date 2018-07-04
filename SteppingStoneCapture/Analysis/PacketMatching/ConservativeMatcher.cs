@@ -21,6 +21,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             Double.TryParse(input, out double tg);
 
             Threshold = tg;
+            Console.WriteLine(tg);
         }
         public ConservativeMatcher(double threshold) : base()
         {
@@ -35,7 +36,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             bool correctMatch = true;
             var sendQ = new Queue<CougarPacket>();
             bool firstPacket = true;
-
+            
             //for every packet
             for (int ndx = 0; ndx < ConnectionPackets.Count; ++ndx)
             {
