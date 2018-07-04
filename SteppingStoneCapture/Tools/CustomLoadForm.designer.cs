@@ -32,23 +32,20 @@
             this.FilePathTextBox = new System.Windows.Forms.TextBox();
             this.browseButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
-            this.extensionChkBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // FilePathTextBox
             // 
-            this.FilePathTextBox.Location = new System.Drawing.Point(16, 15);
-            this.FilePathTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FilePathTextBox.Location = new System.Drawing.Point(12, 12);
             this.FilePathTextBox.Name = "FilePathTextBox";
-            this.FilePathTextBox.Size = new System.Drawing.Size(424, 22);
+            this.FilePathTextBox.Size = new System.Drawing.Size(319, 20);
             this.FilePathTextBox.TabIndex = 0;
             // 
             // browseButton
             // 
-            this.browseButton.Location = new System.Drawing.Point(233, 47);
-            this.browseButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.browseButton.Location = new System.Drawing.Point(175, 38);
             this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(100, 28);
+            this.browseButton.Size = new System.Drawing.Size(75, 23);
             this.browseButton.TabIndex = 1;
             this.browseButton.Text = "Browse...";
             this.browseButton.UseVisualStyleBackColor = true;
@@ -56,40 +53,26 @@
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(341, 47);
-            this.OKButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.OKButton.Location = new System.Drawing.Point(256, 38);
             this.OKButton.Name = "OKButton";
-            this.OKButton.Size = new System.Drawing.Size(100, 28);
+            this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 2;
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.Accept_Click);
             // 
-            // extensionChkBox
-            // 
-            this.extensionChkBox.AutoSize = true;
-            this.extensionChkBox.Location = new System.Drawing.Point(16, 53);
-            this.extensionChkBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.extensionChkBox.Name = "extensionChkBox";
-            this.extensionChkBox.Size = new System.Drawing.Size(120, 21);
-            this.extensionChkBox.TabIndex = 3;
-            this.extensionChkBox.Text = "Add Extension";
-            this.extensionChkBox.UseVisualStyleBackColor = true;
-            // 
             // CustomLoadForm
             // 
             this.AcceptButton = this.OKButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(457, 84);
-            this.Controls.Add(this.extensionChkBox);
+            this.ClientSize = new System.Drawing.Size(343, 68);
             this.Controls.Add(this.OKButton);
             this.Controls.Add(this.browseButton);
             this.Controls.Add(this.FilePathTextBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(583, 201);
+            this.MaximumSize = new System.Drawing.Size(441, 170);
             this.MinimizeBox = false;
             this.Name = "CustomLoadForm";
             this.Text = "Load from Dump File...";
@@ -104,6 +87,5 @@
         private System.Windows.Forms.TextBox FilePathTextBox;
         private System.Windows.Forms.Button browseButton;
         private System.Windows.Forms.Button OKButton;
-        private System.Windows.Forms.CheckBox extensionChkBox;
     }
 }

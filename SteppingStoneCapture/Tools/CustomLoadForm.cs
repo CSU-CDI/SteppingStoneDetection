@@ -35,8 +35,7 @@ namespace SteppingStoneCapture.Tools
         {
             ofd = new OpenFileDialog
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                AddExtension = extensionChkBox.Checked
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
 
             switch (ofd.ShowDialog())

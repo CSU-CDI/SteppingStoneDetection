@@ -9,7 +9,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         CONSERVATIVE,
         GREEDY_HEURISTIC,
         NBR_ALGORITHMS,
-        DEFAULT = FIRST_PAIR
+        FIRST = FIRST_PAIR,
+        LAST=GREEDY_HEURISTIC
     }
 
     public partial class PacketMatchingForm : Form
