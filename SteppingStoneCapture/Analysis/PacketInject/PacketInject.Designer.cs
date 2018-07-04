@@ -48,6 +48,9 @@
             this.txtInput = new System.Windows.Forms.TextBox();
             this.txtDestPort = new System.Windows.Forms.TextBox();
             this.lblDestPort = new System.Windows.Forms.Label();
+            this.txtNumPackets = new System.Windows.Forms.TextBox();
+            this.lblNumPackets = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.Button();
             this.grpFlags.SuspendLayout();
             this.grpResults.SuspendLayout();
             this.SuspendLayout();
@@ -81,9 +84,9 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(207, 284);
+            this.btnCancel.Location = new System.Drawing.Point(223, 284);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(115, 41);
+            this.btnCancel.Size = new System.Drawing.Size(100, 41);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -93,7 +96,7 @@
             // 
             this.btnOk.Location = new System.Drawing.Point(12, 284);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(115, 41);
+            this.btnOk.Size = new System.Drawing.Size(94, 41);
             this.btnOk.TabIndex = 4;
             this.btnOk.Text = "&Ok";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -216,7 +219,7 @@
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
             this.txtInput.Size = new System.Drawing.Size(208, 57);
-            this.txtInput.TabIndex = 9;
+            this.txtInput.TabIndex = 10;
             this.txtInput.Text = "Message to Send...";
             this.txtInput.Enter += new System.EventHandler(this.txtInput_Enter);
             this.txtInput.Leave += new System.EventHandler(this.txtInput_Leave);
@@ -237,11 +240,40 @@
             this.lblDestPort.TabIndex = 12;
             this.lblDestPort.Text = "Dest Port:";
             // 
+            // txtNumPackets
+            // 
+            this.txtNumPackets.Location = new System.Drawing.Point(249, 105);
+            this.txtNumPackets.Name = "txtNumPackets";
+            this.txtNumPackets.Size = new System.Drawing.Size(71, 22);
+            this.txtNumPackets.TabIndex = 9;
+            // 
+            // lblNumPackets
+            // 
+            this.lblNumPackets.AutoSize = true;
+            this.lblNumPackets.Location = new System.Drawing.Point(249, 82);
+            this.lblNumPackets.Name = "lblNumPackets";
+            this.lblNumPackets.Size = new System.Drawing.Size(74, 17);
+            this.lblNumPackets.TabIndex = 14;
+            this.lblNumPackets.Text = "# Packets:";
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(112, 284);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(105, 41);
+            this.btnReset.TabIndex = 15;
+            this.btnReset.Text = "Rese&t";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
             // PacketInject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(334, 337);
+            this.Controls.Add(this.btnReset);
+            this.Controls.Add(this.lblNumPackets);
+            this.Controls.Add(this.txtNumPackets);
             this.Controls.Add(this.lblDestPort);
             this.Controls.Add(this.txtDestPort);
             this.Controls.Add(this.txtInput);
@@ -290,5 +322,8 @@
         private System.Windows.Forms.TextBox txtInput;
         private System.Windows.Forms.TextBox txtDestPort;
         private System.Windows.Forms.Label lblDestPort;
+        private System.Windows.Forms.TextBox txtNumPackets;
+        private System.Windows.Forms.Label lblNumPackets;
+        private System.Windows.Forms.Button btnReset;
     }
 }

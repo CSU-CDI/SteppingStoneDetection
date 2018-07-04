@@ -42,7 +42,8 @@ namespace SteppingStoneCapture.Analysis
             {
                 MessageBox.Show("Must select a network interface first!");
                 Close();
-            }                
+            }
+            radPSH.Checked = true;
         }
 
         private void radPSH_CheckedChanged(object sender, EventArgs e)
@@ -95,6 +96,7 @@ namespace SteppingStoneCapture.Analysis
         {           
             bool srcPortFlag = Int32.TryParse(txtSrcPort.Text, out int srcPort);
             bool dstPortFlag = Int32.TryParse(txtDestPort.Text, out int dstPort);
+            count = 0;
 
             if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
             {
@@ -145,27 +147,58 @@ namespace SteppingStoneCapture.Analysis
 
                     PacketBuilder builder = new PacketBuilder(ethernetLayer, ipV4Layer, tcpLayer, payloadLayer);
                     PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
-                    communicator.SendPacket(builder.Build(DateTime.Now));
+
+                    Int32.TryParse(txtNumPackets.Text, out int repeat);
+
+                    btnOk.Enabled = false;
+                    btnReset.Enabled = false;
+                    Cursor = Cursors.WaitCursor;
+                    
+                    for (int i = 0; i<repeat; i++)
+                    {
+                        communicator.SendPacket(builder.Build(DateTime.Now));
+                        count++;
+                        lblResult.Text = "SUCCESS!: " + count;
+                    }
+                    Cursor = Cursors.Default;
+                    btnOk.Enabled = true;
+                    btnReset.Enabled = true;
+                    /*communicator.SendPacket(builder.Build(DateTime.Now));
                     count++;
-                    lblResult.Text = "SUCCESS!: " + count;
+                    lblResult.Text = "SUCCESS!: " + count;*/
                 }
                 catch (Exception)
                 {
                     lblResult.Text = "FAIL!";
                     MessageBox.Show("Invalid Input!");                    
                     count = 0;
+                    btnOk.Enabled = true;
+                    btnReset.Enabled = true;
                 }
             }
         }
 
         private void txtInput_Enter(object sender, EventArgs e)
         {
-            txtInput.Text = "";
+            if (txtInput.Text.Equals("Message to Send..."))
+            {
+                txtInput.Text = "";
+            }            
         }
 
         private void txtInput_Leave(object sender, EventArgs e)
         {
-            txtInput.Text = "Message to Send...";
+            if (txtInput.Text.Equals(""))
+            {
+                txtInput.Text = "Message to Send...";
+            }            
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            txtSrcIP.Text = txtDestIP.Text = txtSrcPort.Text = txtDestPort.Text = txtNumPackets.Text = txtInput.Text = "";
+            radPSH.Checked = true;
+
         }
     }
 }
