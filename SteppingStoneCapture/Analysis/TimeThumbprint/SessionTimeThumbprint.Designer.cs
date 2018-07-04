@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SessionTimeThumbprint));
             this.Incominglabel = new System.Windows.Forms.Label();
             this.incomingBox = new System.Windows.Forms.TextBox();
             this.Outgoinglabel = new System.Windows.Forms.Label();
@@ -219,6 +220,7 @@
             this.Controls.Add(this.Outgoinglabel);
             this.Controls.Add(this.incomingBox);
             this.Controls.Add(this.Incominglabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SessionTimeThumbprint";
             this.Text = "Session-Time Thumbprint";
             ((System.ComponentModel.ISupportInitialize)(this.numericMatch)).EndInit();

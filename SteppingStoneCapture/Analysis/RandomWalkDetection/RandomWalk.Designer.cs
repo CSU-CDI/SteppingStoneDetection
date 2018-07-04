@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RandomWalk));
             this.numericThres = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.runButton = new System.Windows.Forms.Button();
@@ -174,6 +175,7 @@
             this.Controls.Add(this.runButton);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.numericThres);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RandomWalk";
             this.Text = "RandomWalk";
             ((System.ComponentModel.ISupportInitialize)(this.numericThres)).EndInit();
