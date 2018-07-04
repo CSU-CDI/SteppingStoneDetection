@@ -50,6 +50,7 @@
             this.label1.Size = new System.Drawing.Size(76, 17);
             this.label1.TabIndex = 17;
             this.label1.Text = "Threshold:";
+            this.label1.Visible = false;
             // 
             // numericUpDown1
             // 
@@ -69,6 +70,7 @@
             this.numericUpDown1.ReadOnly = true;
             this.numericUpDown1.Size = new System.Drawing.Size(120, 22);
             this.numericUpDown1.TabIndex = 16;
+            this.numericUpDown1.Visible = false;
             // 
             // btnBrowseOutput
             // 

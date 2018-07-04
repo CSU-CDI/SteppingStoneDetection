@@ -145,7 +145,7 @@ namespace SteppingStoneCapture
 
            
            // Console.WriteLine(packet.Ethernet.IpV4.IsValid);
-            //if (packet.Ethernet.IpV4.IsValid)
+            if (packet.Ethernet.EtherType.ToString().Equals("IpV4"))
             {
                 IpV4Datagram ipv4 = packet.Ethernet.IpV4;
                 cp.SourceAddress = ipv4.Source;
@@ -185,12 +185,13 @@ namespace SteppingStoneCapture
                 }
             }
 
-            /*else if (packet.Ethernet.Arp.IsValid) // arp packet received
+            //else if (packet.Ethernet.Arp.IsValid) // arp packet received
+            else if (packet.Ethernet.EtherType.ToString().ToLower().Equals("arp"))
             {
                 ArpDatagram arp = packet.Ethernet.Arp;
                 cp.SourceAddress = arp.SenderProtocolIpV4Address;
                 cp.DestAddress = arp.TargetProtocolIpV4Address;
-            }  */
+            }  
 
             return cp;
         }
@@ -225,7 +226,7 @@ namespace SteppingStoneCapture
         {
             string pay = (payloadData != null) ? BitConverter.ToString(payloadData).Replace("-", "") : "nil";
             string flags = (tcpFlags.Length > 1) ? tcpFlags.Replace(',', ';') : "---";
-            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11},{12},{13}",
+            string description = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}",
                                                 PacketNumber,
                                                 TimeStamp,
                                                 Length,

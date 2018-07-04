@@ -103,6 +103,12 @@
     <Compile Include="Analysis\CrossOverPacket\CrossOverPacket.Designer.cs">
       <DependentUpon>CrossOverPacket.cs</DependentUpon>
     </Compile>
+    <Compile Include="Analysis\PacketInject\PacketInject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Analysis\PacketInject\PacketInject.Designer.cs">
+      <DependentUpon>PacketInject.cs</DependentUpon>
+    </Compile>
     <Compile Include="Analysis\PacketMatching\ConservativeMatcher.cs" />
     <Compile Include="Analysis\PacketMatching\GreedyHeuristicPacketMatcher.cs" />
     <Compile Include="Analysis\PacketMatching\PacketMatchingForm.cs">
@@ -190,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Analysis\CrossOverPacket\CrossOverPacket.resx">
       <DependentUpon>CrossOverPacket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Analysis\PacketInject\PacketInject.resx">
+      <DependentUpon>PacketInject.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Analysis\PacketMatching\PacketMatchingForm.resx">
       <DependentUpon>PacketMatchingForm.cs</DependentUpon>

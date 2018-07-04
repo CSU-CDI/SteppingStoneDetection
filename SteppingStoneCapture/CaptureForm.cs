@@ -68,6 +68,7 @@ namespace SteppingStoneCapture
             readingLine = readingFile.ReadLine();
             values = readingLine.Split('=');
             sensorAddress = values[1].Replace("\n", "");
+            selectedDevice = null;
         }
 
         private void checkFirst()
@@ -252,7 +253,16 @@ namespace SteppingStoneCapture
 
         private void PrintPacket(Packet packet) // main packet handler method (should probably be renamed to the original HandleLoadedPacket name to make more sense)
         {
-            Console.WriteLine(packet.Ethernet.IsValid);
+            /*if (packet.DataLink.Kind.ToString().Equals("Ethernet"))
+            {
+                //Console.WriteLine(packet.Ethernet.EtherType);
+                if (packet.Ethernet.EtherType.ToString().Equals("IpV4"))
+                {
+                    Console.WriteLine(packet.Ethernet.IpV4.Protocol);
+                }
+            }*/
+
+            
             // if (packet.Ethernet.IsValid)
             {
                 ++packetNumber;
@@ -509,6 +519,7 @@ namespace SteppingStoneCapture
                // Console.WriteLine(cmbInterfaces.SelectedIndex);
                 deviceIndex = cmbInterfaces.SelectedIndex;
             }
+            selectedDevice = allLivePacketDevices[cmbInterfaces.SelectedIndex];
         }
 
         private void BtnSave_Click(object sender, EventArgs e) => Tools.FileHandler.SavePackets(packets, packetBytes, maxFilePackets, sensorAddress);
@@ -783,6 +794,8 @@ namespace SteppingStoneCapture
             Analysis.RandomWalkDetection.RandomWalk randomWalk = new Analysis.RandomWalkDetection.RandomWalk();
             randomWalk.Show();
         }
+
+        private void injectPacketToolStripMenuItem_Click(object sender, EventArgs e) => new Analysis.PacketInject(selectedDevice);        
 
         /*
 * Loads the Step Function in a LAN program 

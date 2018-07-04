@@ -132,3 +132,6 @@ C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\ob
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.csprojAssemblyReference.cache
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.RandomWalkDetection.RandomWalk.resources
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.TimeThumbprint.SessionTimeThumbprint.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.RandomWalkDetection.RandomWalk.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.TimeThumbprint.SessionTimeThumbprint.resources
+C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.PacketInject.resources

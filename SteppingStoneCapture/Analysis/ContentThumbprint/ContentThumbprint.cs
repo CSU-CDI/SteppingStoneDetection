@@ -16,11 +16,10 @@ namespace SteppingStoneCapture.Analysis
         string InputStreamFile, OutputStreamFile;
         StreamReader InFile, OutFile;
         int incount, outcount;
-        private Dictionary<Char, int> InChar;
-        private Dictionary<Char, int> OutChar;
+        private Dictionary<Char, int> InChar, OutChar;        
         private Dictionary<Char, Tuple<int, int>> totalCount;        
-        private Dictionary<Char, double> charRatios;
-        private Dictionary<Char, double> resultsOverThreshold;
+        private Dictionary<Char, double> charRatios, resultsOverThreshold;
+        
         
 
         public int Incount { get => incount; set => incount = value; }
@@ -51,22 +50,29 @@ namespace SteppingStoneCapture.Analysis
         private void chkPacketCount_CheckedChanged(object sender, EventArgs e)
         {
             if (chkPacketCount.Checked)
+            {
                 chkCharFreq.Checked = false;
                 chkCharFreqTime.Checked = false;
+            }               
         }
 
         private void chkCharFreq_CheckedChanged(object sender, EventArgs e)
         {
             if (chkCharFreq.Checked)
+            {
                 chkPacketCount.Checked = false;
                 chkCharFreqTime.Checked = false;
+            }
+                
         }
 
         private void chkCharFreqTime_CheckedChanged(object sender, EventArgs e)
         {
             if (chkCharFreqTime.Checked)
+            {
                 chkPacketCount.Checked = false;
                 chkCharFreq.Checked = false;
+            }                
         }
 
         private void btnBrowseInput_Click(object sender, EventArgs e)
@@ -79,7 +85,7 @@ namespace SteppingStoneCapture.Analysis
             switch (ofd.ShowDialog())
             {
                 case DialogResult.OK:
-                    if (ofd.FileName != "")
+                    if (ofd.FileName != "" && File.Exists(ofd.FileName))
                     {
                         txtInputStream.Text = ofd.FileName;
                         InputStreamFile = ofd.FileName;
@@ -101,7 +107,7 @@ namespace SteppingStoneCapture.Analysis
             switch (ofd.ShowDialog())
             {
                 case DialogResult.OK:
-                    if (ofd.FileName != "")
+                    if (ofd.FileName != "" && File.Exists(ofd.FileName))
                     {
                         txtOutputStream.Text = ofd.FileName;
                         OutputStreamFile = ofd.FileName;
@@ -119,7 +125,7 @@ namespace SteppingStoneCapture.Analysis
             string line;
             if (chkPacketCount.Checked)
             {
-                this.Cursor = Cursors.WaitCursor;
+                Cursor = Cursors.WaitCursor;
                 InFile = new StreamReader(InputStreamFile);
                 OutFile = new StreamReader(OutputStreamFile);                
                 
@@ -138,7 +144,7 @@ namespace SteppingStoneCapture.Analysis
 
                 double ratio = 1 - ((Math.Abs(Incount - Outcount))/Math.Max(Incount, Outcount));
 
-                this.Cursor = Cursors.Default;
+                Cursor = Cursors.Default;
 
                 if (ratio >= (double)numericUpDown1.Value)
                     MessageBox.Show("Stepping-Stone Detected! Ratio: " + ratio);
@@ -148,7 +154,7 @@ namespace SteppingStoneCapture.Analysis
             }
             else if (chkCharFreq.Checked)
             {
-                this.Cursor = Cursors.WaitCursor;
+                Cursor = Cursors.WaitCursor;
                 InFile = new StreamReader(InputStreamFile);
                 OutFile = new StreamReader(OutputStreamFile);
                 string[] lineItems;
@@ -217,7 +223,7 @@ namespace SteppingStoneCapture.Analysis
                 foreach (Char c in resultsOverThreshold.Keys)
                     formattedResults += c + " : " + resultsOverThreshold[c] + "\n";
 
-                this.Cursor = Cursors.Default;
+                Cursor = Cursors.Default;
                 MessageBox.Show(formattedResults);               
 
                 InChar.Clear();
