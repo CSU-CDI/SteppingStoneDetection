@@ -706,6 +706,7 @@ namespace SteppingStoneCapture
             {
                 SensorIP = sensorAddress
             };
+
             fileHandler.LoadPacketsFromFiles();
             for (int i = 0; i < fileHandler.PacketsReadFromFile.Count; i++)
             {

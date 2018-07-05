@@ -9,7 +9,9 @@ using System.Windows.Forms;
 namespace SteppingStoneCapture.Tools
 {
     ///
-    /// <summary>This is the main class for loading/saving packets to/from files.</summary>
+    /// <summary>
+    ///     This is the main class for loading/saving packets to/from files.
+    /// </summary>
     ///  <remarks>The class could be a collection of static functions, but instance variables are provided for ease of use with externals.
     /// This mainly pertains to the Sensor IP, however, extends to the list of raw packets (packets using the PCAP.NET defined Packet class).   </remarks>
     ///
@@ -47,6 +49,16 @@ namespace SteppingStoneCapture.Tools
                 {
                     // If .pcap, use the PCAP.NET defined functions to dump packets
                     case (".pcap"):
+                        if (SensorIP == "")
+                        {
+                            var nf = new TextInput("Please enter the IP address associated with the sensor host.");
+                            nf.ShowDialog();
+
+                            if (PcapDotNet.Packets.IpV4.IpV4Address.TryParse(nf.InputtedText, out PcapDotNet.Packets.IpV4.IpV4Address ip))
+                            {
+                                SensorIP = nf.InputtedText;
+                            }
+                        }
                         // Create the offline device
                         OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
 
@@ -121,6 +133,16 @@ namespace SteppingStoneCapture.Tools
                 {
                     case (".pcap"):
                         // Create the offline device
+                        if (SensorIP == "")
+                        {
+                            var nf = new TextInput("Please enter the IP address associated with the sensor host.");
+                            nf.ShowDialog();
+
+                            if (PcapDotNet.Packets.IpV4.IpV4Address.TryParse(nf.InputtedText, out PcapDotNet.Packets.IpV4.IpV4Address ip))
+                            {
+                                SensorIP = nf.InputtedText;
+                            }
+                        }
                         OfflinePacketDevice selectedDevice = new OfflinePacketDevice(loadPath);
 
                         // Open the capture file

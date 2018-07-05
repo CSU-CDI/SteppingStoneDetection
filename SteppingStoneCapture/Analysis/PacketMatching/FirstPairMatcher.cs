@@ -39,7 +39,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                             double rtt = CalculateRoundTripTime(echoT, sendT);
                             RoundTripTimes.Add(rtt);
 
-                            PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}: {2, -25}", send.PacketNumber, current.PacketNumber, rtt, ' '));
+                            PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, current.PacketNumber, ' '));
                         }
 
                         break;
