@@ -43,12 +43,15 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadStreamFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutItem = new System.Windows.Forms.ToolStripMenuItem();
             this.firstMatchPacketMatchingItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepFunctionInALANToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.networkConfigurationItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphingChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AlgorithmToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.SaveGraphItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveTextItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AlgorithmUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -64,7 +67,7 @@
             this.fileTxtBox.ReadOnly = true;
             this.fileTxtBox.Size = new System.Drawing.Size(564, 20);
             this.fileTxtBox.TabIndex = 0;
-            this.fileTxtBox.Click += new System.EventHandler(this.loadFileItem_Click);
+            this.fileTxtBox.Click += new System.EventHandler(this.LoadFileItem_Click);
             // 
             // fileGrpBox
             // 
@@ -137,7 +140,8 @@
             // loadStreamFilesToolStripMenuItem
             // 
             this.loadStreamFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadItem});
+            this.loadItem,
+            this.saveToolStripMenuItem});
             this.loadStreamFilesToolStripMenuItem.Name = "loadStreamFilesToolStripMenuItem";
             this.loadStreamFilesToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.loadStreamFilesToolStripMenuItem.Text = "&Menu";
@@ -145,9 +149,18 @@
             // loadItem
             // 
             this.loadItem.Name = "loadItem";
-            this.loadItem.Size = new System.Drawing.Size(100, 22);
+            this.loadItem.Size = new System.Drawing.Size(180, 22);
             this.loadItem.Text = "&Load";
-            this.loadItem.Click += new System.EventHandler(this.loadFileItem_Click);
+            this.loadItem.Click += new System.EventHandler(this.LoadFileItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SaveGraphItem,
+            this.SaveTextItem});
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Text = "&Save";
             // 
             // aboutItem
             // 
@@ -215,6 +228,20 @@
             // 
             this.AlgorithmToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // SaveGraphItem
+            // 
+            this.SaveGraphItem.Name = "SaveGraphItem";
+            this.SaveGraphItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveGraphItem.Text = "&Graph";
+            this.SaveGraphItem.Click += new System.EventHandler(this.SaveGraphItem_Click);
+            // 
+            // SaveTextItem
+            // 
+            this.SaveTextItem.Name = "SaveTextItem";
+            this.SaveTextItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveTextItem.Text = "&Text";
+            this.SaveTextItem.Click += new System.EventHandler(this.SaveTextItem_Click);
+            // 
             // StepFunctionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,5 +283,8 @@
         private System.Windows.Forms.ToolStripMenuItem networkConfigurationItem;
         private System.Windows.Forms.NumericUpDown AlgorithmUpDown;
         private System.Windows.Forms.ToolTip AlgorithmToolTip;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveGraphItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveTextItem;
     }
 }

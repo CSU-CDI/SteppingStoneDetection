@@ -41,7 +41,7 @@ namespace SteppingStoneCapture.Tools
             switch (ofd.ShowDialog())
             {
                 case DialogResult.OK:
-                    if (ofd.FileName != "")
+                    if (ofd.FileName != "" && System.IO.File.Exists(ofd.FileName))
                     {
                         FilePathTextBox.Text += ofd.FileName;
                         FileNameRequested = ofd.FileName;

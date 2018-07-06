@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace SteppingStoneCapture.Analysis
 {
     public partial class StepFunctionForm : Form
     {
         private const string SeriesName = "GraphingSeries";
+        private const string ChartAreaName = "ChartArea1";
         private PacketMatcher matcher;
         private Tools.FileHandler fileHandler;
         private string FileName;
@@ -27,22 +29,22 @@ namespace SteppingStoneCapture.Analysis
 
         private void GraphButton_Click(object sender, EventArgs e)
         {
-            
-
             if (System.IO.File.Exists(fileTxtBox.Text))
             {
-
-                switch (AlgorithmUpDown.Value)
+                if (AlgorithmUpDown.Value != (int)matcher.Algorithm)
                 {
-                    case (int)MatchingAlgorithm.CONSERVATIVE:
-                        matcher = new ConservativeMatcher();
-                        break;
-                    case (int)MatchingAlgorithm.FIRST_PAIR:
-                        matcher = new FirstPairMatcher();
-                        break;
-                    case (int)MatchingAlgorithm.GREEDY_HEURISTIC:
-                        matcher = new GreedyHeuristicPacketMatcher();
-                        break;
+                    switch (AlgorithmUpDown.Value)
+                    {
+                        case (int)MatchingAlgorithm.CONSERVATIVE:
+                            matcher = new ConservativeMatcher();
+                            break;
+                        case (int)MatchingAlgorithm.FIRST_PAIR:
+                            matcher = new FirstPairMatcher();
+                            break;
+                        case (int)MatchingAlgorithm.GREEDY_HEURISTIC:
+                            matcher = new GreedyHeuristicPacketMatcher();
+                            break;
+                    }
                 }
 
                 fileHandler.LoadPacketsFromFiles(FileName);
@@ -63,13 +65,12 @@ namespace SteppingStoneCapture.Analysis
                         int index = i + 1;
                         double rtt = matcher.RoundTripTimes[i];
 
-
                         if (rtt > maxY) maxY = rtt;
 
                         dataSeries.Points.AddXY(i + 1, matcher.RoundTripTimes[i]);
                     }
 
-                    graphingChart.ChartAreas.FindByName("ChartArea1").AxisY.Maximum = maxY + 10;
+                    graphingChart.ChartAreas.FindByName(ChartAreaName).AxisY.Maximum = maxY + 10;
                     this.graphingChart.Series[SeriesName] = dataSeries;
                     this.graphingChart.Enabled = true;
                    
@@ -112,7 +113,7 @@ namespace SteppingStoneCapture.Analysis
         private void NetworkConfigurationItem_Click(object sender, EventArgs e) =>
             Tools.HtmlHelpForm.ShowHelp("stepFunction_NetworkConfiguration.html", "Step-Function in a LAN Network Configuration");
 
-        private void loadFileItem_Click(object sender, EventArgs e)
+        private void LoadFileItem_Click(object sender, EventArgs e)
         {
             var clf = new Tools.CustomLoadForm();
             clf.ShowDialog();
@@ -134,6 +135,65 @@ namespace SteppingStoneCapture.Analysis
             {
                 fileTxtBox.Text = "Error!";
             }
+
+        }
+
+        private void SaveGraphItem_Click(object sender, EventArgs e)
+        {
+            var sfd = new SaveFileDialog()
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Image (.png)|*.png|Tiff Image (.tiff)|*.tiff",
+                FilterIndex = 0
+            };
+
+            do
+            {
+                sfd.ShowDialog();
+            } while (sfd.FileName == "" || System.IO.File.Exists(sfd.FileName));
+
+            ChartImageFormat chartImageFormat = ChartImageFormat.Bmp;
+
+                switch (sfd.FilterIndex)
+                {
+                    case 2:
+                        chartImageFormat = ChartImageFormat.Gif;
+                        break;
+                    case 3:
+                        chartImageFormat = ChartImageFormat.Jpeg;
+                        break;
+                    case 4:
+                        chartImageFormat = ChartImageFormat.Png;
+                        break;
+                    case 5:
+                        chartImageFormat = ChartImageFormat.Tiff;
+                        break;
+                }
+
+                graphingChart.SaveImage(sfd.FileName, chartImageFormat);            
+        }
+
+        private void SaveTextItem_Click(object sender, EventArgs e)
+        {
+            if (matcher.PairedMatches.Values.Count > 0)
+            {
+                var sfd = new SaveFileDialog()
+                {
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    Filter = "Text File (*.txt)|*.txt|All Files (*.*)|*.*"
+                };
+                sfd.ShowDialog();
+
+                var file = new System.IO.StreamWriter(sfd.FileName);
+
+                foreach (String s in matcher.PairedMatches.Values)
+                {
+                    file.WriteLine(s);
+                }
+            }
+            else
+                MessageBox.Show("Error! No Matches detected?");
+
 
         }
     }

@@ -18,8 +18,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
         private List<double> roundTripTimes;
         private Dictionary<double, string> pairedMatches;
-        protected int nbrMatches = 0;
-
+        private int nbrMatches = 0;
+        private MatchingAlgorithm algorithm;
 
         // default constructor for PacketMatcher
         public PacketMatcher()
@@ -28,22 +28,31 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             EchoPackets = new List<CougarPacket>();
             RoundTripTimes = new List<double>();
             PairedMatches = new Dictionary<double, string>();
+            Algorithm = MatchingAlgorithm.FIRST;
         }
 
         // Properties of Packet Matchers
-        public List<CougarPacket> EchoPackets { get => (List<CougarPacket>)echoPackets; set => echoPackets = value; }
+        public List<CougarPacket> EchoPackets { get => echoPackets; set => echoPackets = value; }
         public List<CougarPacket> SendPackets { get => sendPackets; set => sendPackets = value; }
-        public List<double> RoundTripTimes { get => (List<double>)roundTripTimes; set => roundTripTimes = value; }
         public Dictionary<double, string> PairedMatches { get => pairedMatches; set => pairedMatches = value; }
         public List<CougarPacket> ConnectionPackets { get => connectionPackets; set => connectionPackets = value; }
+        public MatchingAlgorithm Algorithm { get => algorithm; set => algorithm = value; }
+        public List<double> RoundTripTimes { get => roundTripTimes; set => roundTripTimes = value; }
+        protected int NumberOfMatches { get => nbrMatches; set => nbrMatches = value; }
 
 
         /// <summary>
         /// Calculates Round Trip Time for the connection chain by comparing echoes' to their corresponding sends' timestamps
         /// </summary>
-        /// <param name="echoT"></param>
-        /// <param name="sendT"></param>
-        /// <returns>  </returns>
+        /// <param name="echoT">
+        /// Time stamp from echo packet
+        /// </param>
+        /// <param name="sendT">
+        /// Time stamp from send packet
+        /// </param>
+        /// <returns>
+        /// Round Trip Time calculated by finding the difference between the packets' times stamps
+        /// </returns>
         public static double CalculateRoundTripTime(DateTime echoT, DateTime sendT)
         {
             return Math.Abs(echoT.Subtract(sendT).TotalMilliseconds);
@@ -57,10 +66,13 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             SendPackets.Clear();
             EchoPackets.Clear();
             RoundTripTimes.Clear();
-            nbrMatches = 0;
+            NumberOfMatches = 0;
             PairedMatches.Clear();
         }
 
+        /// <summary>
+        /// Abstract method that must be implemented by descendent classes
+        /// </summary>
         public abstract void MatchPackets();
     }
 }

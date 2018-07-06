@@ -7,10 +7,11 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
     { 
         public GreedyHeuristicPacketMatcher():base()
         {
-
+            Algorithm = MatchingAlgorithm.GREEDY_HEURISTIC;
         }
         public GreedyHeuristicPacketMatcher(double threshold):base(threshold)
         {
+            Algorithm = MatchingAlgorithm.GREEDY_HEURISTIC;
         }
 
         public override void MatchPackets()
@@ -27,7 +28,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                 //determine the type
                 switch (current.Type)
                 {
-                    // if it is a potMatch packet
+                    // if it is a send packet
                     case TCPType.SEND:
                         DateTime lastTime = new DateTime();
                         SendPackets.Add(current);
@@ -76,7 +77,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
                                 RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
 
-                                PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, current.PacketNumber, ' '));
+                                PairedMatches.Add(base.NumberOfMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, current.PacketNumber, ' '));
                             }
                         }
                       //  else

@@ -5,10 +5,16 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 {
     /// <summary>
     /// PacketMatcher that implements the first-match algorithm
+    /// <para>
+    /// Every Echo packet is matched to the next available Send packet; regardless of ACK/SEQ # relation
+    /// </para>
     /// </summary>
     class FirstPairMatcher : PacketMatcher
     {
-
+        public FirstPairMatcher() : base()
+        {
+            Algorithm = MatchingAlgorithm.FIRST_PAIR;
+        }
         /// <summary>
         /// Attempts to match each echo packet with the oldest, available send packet
         /// </summary>
@@ -39,37 +45,12 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                             double rtt = CalculateRoundTripTime(echoT, sendT);
                             RoundTripTimes.Add(rtt);
 
-                            PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, current.PacketNumber, ' '));
+                            PairedMatches.Add(base.NumberOfMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, current.PacketNumber, ' '));
                         }
 
                         break;
                 }
             }
-
-
-
-            //var sendQ = new Queue<CougarPacket>(SendPackets);
-            //// For every captured echo packet,
-            //for (int i = 0; i < this.EchoPackets.Count; i++)
-            //{
-            //    CougarPacket echo = EchoPackets[i];
-
-            //    DateTime.TryParse(echo.TimeStamp, out DateTime echoT);
-
-            //    if (SendPackets.Count > 0)
-            //    {
-
-            //        // gather current send packet's timestamp
-            //        CougarPacket send = sendQ.Dequeue();
-
-            //        DateTime.TryParse(send.TimeStamp, out DateTime sendT);
-
-            //        // add the round trip time to the resultant list
-            //        RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
-            //        // Console.WriteLine(String.Format("Send #{0} matches Echo #{1}", send.PacketNumber, echo.PacketNumber));
-            //        PairedMatches.Add(base.nbrMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, echo.PacketNumber, ' '));
-            //    }
-            //}
         }
     }
 }
