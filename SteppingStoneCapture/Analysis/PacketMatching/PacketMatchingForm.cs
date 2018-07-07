@@ -110,7 +110,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             resTextBox.Text += " Number Echo Packets: " + numEcho;
             resTextBox.Text += "\n";
             resTextBox.Text += $"Number of Matches: {matcher.PairedMatches.Count}\n";
-            resTextBox.Text += String.Format("Percentage matched of all possible pairs: {0:F}%", (100 * matcher.PairedMatches.Count / numTot));// Math.Min(numSend, numEcho)));
+            resTextBox.Text += String.Format("Percentage matched of all possible pairs: {0:F}%", (100 * matcher.PairedMatches.Count / Math.Min(numSend, numEcho)));// numTot));
         
         }
 

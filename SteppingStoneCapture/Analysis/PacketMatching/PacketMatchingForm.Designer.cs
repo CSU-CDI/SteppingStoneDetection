@@ -93,14 +93,14 @@
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "&Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.ConnectionFileItem_Click);
             // 
             // saveTextItem
             // 
             this.saveTextItem.Name = "saveTextItem";
-            this.saveTextItem.Size = new System.Drawing.Size(180, 22);
+            this.saveTextItem.Size = new System.Drawing.Size(100, 22);
             this.saveTextItem.Text = "&Save";
             this.saveTextItem.Click += new System.EventHandler(this.SaveTextItem_Click);
             // 
@@ -143,7 +143,6 @@
             this.resTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.resTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.resTextBox.Location = new System.Drawing.Point(3, 16);
             this.resTextBox.Name = "resTextBox";
             this.resTextBox.Size = new System.Drawing.Size(770, 309);
