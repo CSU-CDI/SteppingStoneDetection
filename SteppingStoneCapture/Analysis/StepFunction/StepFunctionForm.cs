@@ -8,6 +8,7 @@ namespace SteppingStoneCapture.Analysis
 {
     public partial class StepFunctionForm : Form
     {
+        // 
         private const string SeriesName = "GraphingSeries";
         private const string ChartAreaName = "ChartArea1";
         private PacketMatcher matcher;
@@ -31,7 +32,7 @@ namespace SteppingStoneCapture.Analysis
         {
             if (System.IO.File.Exists(fileTxtBox.Text))
             {
-                if (AlgorithmUpDown.Value != (int)matcher.Algorithm)
+                if (matcher == null || AlgorithmUpDown.Value != (int)matcher.Algorithm)
                 {
                     switch (AlgorithmUpDown.Value)
                     {
@@ -79,7 +80,7 @@ namespace SteppingStoneCapture.Analysis
                     foreach (KeyValuePair<double, string> keyValue in matcher.PairedMatches)
                     {
                         
-                        legible = $"{legible}\n{keyValue.Value}: {keyValue.Key}";
+                        legible = $"{legible}\n{keyValue.Value}";
                     }
 
                     var rtf = new Tools.RtfHelpForm();

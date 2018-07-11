@@ -4,9 +4,11 @@ using System.Collections.Generic;
 namespace SteppingStoneCapture.Analysis.PacketMatching
 {
     class ConservativeMatcher : PacketMatcher
-    {
-        private double threshold;
-        // Value to store the acceptable time gap between Send packets, in ms
+    {    
+       
+        /// <summary>
+        /// Value to store the acceptable time gap between Send packets, in ms
+        /// </summary>
         public double Threshold { get => threshold; set => threshold = value; }
 
         /// <summary>
@@ -53,7 +55,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         public override void MatchPackets()
         {
             bool correctMatch = true;
-            var sendQ = new Queue<CougarPacket>();
+            //var sendQ = new Queue<CougarPacket>();
+            var sendQ = new Queue<Tuple<CougarPacket, int>>();
             bool firstPacket = true;
             
             //for every packet
@@ -66,6 +69,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                 {
                     // if it is a send packet
                     case TCPType.SEND:
+                        SendIndex++;
                         DateTime lastTime = new DateTime();
                         SendPackets.Add(current);
                         // if this will be the first packet in the queue
@@ -93,14 +97,17 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         }
 
                         // add the packet to the queue if within threshold
-                        else sendQ.Enqueue(current);
+                        else sendQ.Enqueue(Tuple.Create<CougarPacket, int>(current, SendIndex));
                         break;
                     // if it is an echo packet  
                     case TCPType.ECHO:
+                        EchoIndex++;
                         // gather the first potMatch packet from the queue
                         if (sendQ.Count > 0)
                         {
-                            var send = sendQ.Dequeue();
+                            var sendTuple = sendQ.Dequeue();
+                            var send = sendTuple.Item1;
+
                             EchoPackets.Add(current);
                             // determine whether they match, or not
                             if ((current.SeqNum == send.AckNum) && (current.AckNum > send.SeqNum) && correctMatch)
@@ -111,10 +118,11 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                                 DateTime.TryParse(current.TimeStamp, out DateTime echoT);
                                 DateTime.TryParse(send.TimeStamp, out DateTime sendT);
 
-                                RoundTripTimes.Add(CalculateRoundTripTime(echoT, sendT));
+                                var rtt = CalculateRoundTripTime(echoT, sendT);
+                                RoundTripTimes.Add(rtt);
 
                                 // Format a string declaring the Send and Echo Match
-                                PairedMatches.Add(NumberOfMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, current.PacketNumber, ' '));
+                                PairedMatches.Add(NumberOfMatches++, String.Format("(S#{0}, Packet#{1}), (E#{2}, Packet#{3}), RTT = {4}",sendTuple.Item2,send.PacketNumber, EchoIndex, current.PacketNumber, rtt));
                             }
                             else
                                 // negate the Match flag otherwise
@@ -125,5 +133,6 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             }
 
         }
+        private double threshold;
     }
 }

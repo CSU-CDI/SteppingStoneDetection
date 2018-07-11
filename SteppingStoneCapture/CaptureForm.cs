@@ -296,8 +296,9 @@ namespace SteppingStoneCapture
                 ++packetNumber;
 
                 Console.WriteLine("packet " + packetNumber);
-                Console.WriteLine("time " + packet.Timestamp.ToShortTimeString());
+                Console.WriteLine("time " + packet.Timestamp.ToLongTimeString());
                 Console.WriteLine(packet.Ethernet.IsValid);
+                Console.WriteLine(packet.IsValid);
                 CougarPacket cp = CougarPacket.DetermineCorrectPacketFormat(packet, sensorAddress, packetNumber);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 cp.SensorIP = new IpV4Address(sensorIP);// create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);

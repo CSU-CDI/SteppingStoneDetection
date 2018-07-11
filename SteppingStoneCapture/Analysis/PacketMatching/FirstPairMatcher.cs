@@ -20,16 +20,16 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// </summary>
         public override void MatchPackets()
         {
-            var sendQ = new Queue<CougarPacket>();
+            var sendQ = new Queue<Tuple<CougarPacket, int>>();
 
             for (int ndx = 0; ndx < ConnectionPackets.Count; ++ndx)
             {
                 var current = ConnectionPackets[ndx];
-
+                
                 switch (current.Type)
                 {
-                    case TCPType.SEND:
-                        sendQ.Enqueue(current);
+                    case TCPType.SEND:                        
+                        sendQ.Enqueue(Tuple.Create<CougarPacket,int>(current, SendIndex++));
                         SendPackets.Add(current);
                         break;
 
@@ -38,14 +38,17 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
                         if (sendQ.Count > 0)
                         {
-                            var send = sendQ.Dequeue();
+                            var sendTuple = sendQ.Dequeue();
+                            var send = sendTuple.Item1;
 
                             DateTime.TryParse(current.TimeStamp, out DateTime echoT);
                             DateTime.TryParse(send.TimeStamp, out DateTime sendT);
-                            double rtt = CalculateRoundTripTime(echoT, sendT);
+
+                            var rtt = CalculateRoundTripTime(echoT, sendT);
                             RoundTripTimes.Add(rtt);
 
-                            PairedMatches.Add(base.NumberOfMatches++, String.Format("Send #{0,-20}{2,15} <======== matches ========>{2,25} Echo #{1,-20}", send.PacketNumber, current.PacketNumber, ' '));
+                            // Format a string declaring the Send and Echo Match
+                            PairedMatches.Add(NumberOfMatches++, String.Format("(S#{0}, Packet#{1}), (E#{2}, Packet#{3}), RTT = {4}", sendTuple.Item2, send.PacketNumber, EchoIndex, current.PacketNumber, rtt));
                         }
 
                         break;

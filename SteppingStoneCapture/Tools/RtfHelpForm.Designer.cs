@@ -34,7 +34,7 @@
             // 
             // richTextBox
             // 
-            this.richTextBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.richTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.richTextBox.Cursor = System.Windows.Forms.Cursors.No;
             this.richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;

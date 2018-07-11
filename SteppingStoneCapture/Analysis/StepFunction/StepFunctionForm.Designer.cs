@@ -44,14 +44,14 @@
             this.loadStreamFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveGraphItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveTextItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutItem = new System.Windows.Forms.ToolStripMenuItem();
             this.firstMatchPacketMatchingItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepFunctionInALANToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.networkConfigurationItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphingChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AlgorithmToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.SaveGraphItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SaveTextItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AlgorithmUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -86,6 +86,7 @@
             // 
             // AlgorithmUpDown
             // 
+            this.AlgorithmUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.AlgorithmUpDown.Location = new System.Drawing.Point(587, 11);
             this.AlgorithmUpDown.Name = "AlgorithmUpDown";
             this.AlgorithmUpDown.Size = new System.Drawing.Size(176, 20);
@@ -149,7 +150,7 @@
             // loadItem
             // 
             this.loadItem.Name = "loadItem";
-            this.loadItem.Size = new System.Drawing.Size(180, 22);
+            this.loadItem.Size = new System.Drawing.Size(100, 22);
             this.loadItem.Text = "&Load";
             this.loadItem.Click += new System.EventHandler(this.LoadFileItem_Click);
             // 
@@ -159,8 +160,22 @@
             this.SaveGraphItem,
             this.SaveTextItem});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.saveToolStripMenuItem.Text = "&Save";
+            // 
+            // SaveGraphItem
+            // 
+            this.SaveGraphItem.Name = "SaveGraphItem";
+            this.SaveGraphItem.Size = new System.Drawing.Size(106, 22);
+            this.SaveGraphItem.Text = "&Graph";
+            this.SaveGraphItem.Click += new System.EventHandler(this.SaveGraphItem_Click);
+            // 
+            // SaveTextItem
+            // 
+            this.SaveTextItem.Name = "SaveTextItem";
+            this.SaveTextItem.Size = new System.Drawing.Size(106, 22);
+            this.SaveTextItem.Text = "&Text";
+            this.SaveTextItem.Click += new System.EventHandler(this.SaveTextItem_Click);
             // 
             // aboutItem
             // 
@@ -227,20 +242,6 @@
             // AlgorithmToolTip
             // 
             this.AlgorithmToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            // 
-            // SaveGraphItem
-            // 
-            this.SaveGraphItem.Name = "SaveGraphItem";
-            this.SaveGraphItem.Size = new System.Drawing.Size(180, 22);
-            this.SaveGraphItem.Text = "&Graph";
-            this.SaveGraphItem.Click += new System.EventHandler(this.SaveGraphItem_Click);
-            // 
-            // SaveTextItem
-            // 
-            this.SaveTextItem.Name = "SaveTextItem";
-            this.SaveTextItem.Size = new System.Drawing.Size(180, 22);
-            this.SaveTextItem.Text = "&Text";
-            this.SaveTextItem.Click += new System.EventHandler(this.SaveTextItem_Click);
             // 
             // StepFunctionForm
             // 

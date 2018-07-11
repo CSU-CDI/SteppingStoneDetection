@@ -220,6 +220,7 @@ namespace SteppingStoneCapture
                 else
                     result = (packet.TCPFlags.Contains("Push")) ? TCPType.ECHO : TCPType.ACK;
             }
+            else result = TCPType.NONE;
             return result;
         }
         public override string ToString()

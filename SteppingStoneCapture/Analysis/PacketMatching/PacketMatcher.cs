@@ -18,7 +18,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
         private List<double> roundTripTimes;
         private Dictionary<double, string> pairedMatches;
-        private int nbrMatches = 0;
+        private int nbrMatches = 0, sendIndex = 0, echoIndex = 0;
         private MatchingAlgorithm algorithm;
 
         // default constructor for PacketMatcher
@@ -39,6 +39,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         public MatchingAlgorithm Algorithm { get => algorithm; set => algorithm = value; }
         public List<double> RoundTripTimes { get => roundTripTimes; set => roundTripTimes = value; }
         protected int NumberOfMatches { get => nbrMatches; set => nbrMatches = value; }
+        public int SendIndex { get => sendIndex; set => sendIndex = value; }
+        public int EchoIndex { get => echoIndex; set => echoIndex = value; }
 
 
         /// <summary>
@@ -67,6 +69,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             EchoPackets.Clear();
             RoundTripTimes.Clear();
             NumberOfMatches = 0;
+            EchoIndex = 0;
+            SendIndex = 0;
             PairedMatches.Clear();
         }
 
