@@ -153,12 +153,6 @@
     <Compile Include="IOConnection.Designer.cs">
       <DependentUpon>IOConnection.cs</DependentUpon>
     </Compile>
-    <Compile Include="IOStream.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="IOStream.Designer.cs">
-      <DependentUpon>IOStream.cs</DependentUpon>
-    </Compile>
     <Compile Include="Tools\HtmlHelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,9 +215,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="IOConnection.resx">
       <DependentUpon>IOConnection.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="IOStream.resx">
-      <DependentUpon>IOStream.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tools\HtmlHelpForm.resx">
       <DependentUpon>HtmlHelpForm.cs</DependentUpon>
