@@ -98,7 +98,7 @@
             this.btnCancel.Location = new System.Drawing.Point(222, 347);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 41);
-            this.btnCancel.TabIndex = 3;
+            this.btnCancel.TabIndex = 97;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -108,7 +108,7 @@
             this.btnOk.Location = new System.Drawing.Point(12, 347);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(94, 41);
-            this.btnOk.TabIndex = 11;
+            this.btnOk.TabIndex = 99;
             this.btnOk.Text = "&Send";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -285,7 +285,7 @@
             this.btnReset.Location = new System.Drawing.Point(112, 347);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(105, 41);
-            this.btnReset.TabIndex = 15;
+            this.btnReset.TabIndex = 98;
             this.btnReset.Text = "Rese&t";
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
