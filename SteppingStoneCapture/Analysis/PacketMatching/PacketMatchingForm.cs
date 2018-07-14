@@ -13,6 +13,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         GREEDY_HEURISTIC,
         // Add Algorithms Elements above this comment
         NBR_ALGORITHMS,
+        // Replace these if different Max/Min values are wanted for the form's NumericUpDowm
         FIRST = FIRST_PAIR,
         LAST=GREEDY_HEURISTIC
     }
@@ -21,6 +22,10 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
     /// Form used to display the results of using a selected packet matching algorithm on
     /// a connection file
     /// </summary>
+    /// 
+    /// <remarks> 
+    /// Author: Andrew Lesh
+    /// </remarks>
     public partial class PacketMatchingForm : Form
     {
         private PacketMatcher matcher;

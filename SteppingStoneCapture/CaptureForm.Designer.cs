@@ -99,7 +99,7 @@ namespace SteppingStoneCapture
             this.grpFilterParams = new System.Windows.Forms.GroupBox();
             this.grpPorts = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.chkNotPort2 = new System.Windows.Forms.CheckBox();
+            this.chkPort2NOT = new System.Windows.Forms.CheckBox();
             this.chkPortNOT = new System.Windows.Forms.CheckBox();
             this.chkPortOR = new System.Windows.Forms.CheckBox();
             this.chkDstPort2 = new System.Windows.Forms.CheckBox();
@@ -659,7 +659,7 @@ namespace SteppingStoneCapture
             this.grpPorts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpPorts.Controls.Add(this.label2);
-            this.grpPorts.Controls.Add(this.chkNotPort2);
+            this.grpPorts.Controls.Add(this.chkPort2NOT);
             this.grpPorts.Controls.Add(this.chkPortNOT);
             this.grpPorts.Controls.Add(this.chkPortOR);
             this.grpPorts.Controls.Add(this.chkDstPort2);
@@ -693,15 +693,15 @@ namespace SteppingStoneCapture
             // 
             // chkNotPort2
             // 
-            this.chkNotPort2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkNotPort2.AutoSize = true;
-            this.chkNotPort2.Location = new System.Drawing.Point(444, 78);
-            this.chkNotPort2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.chkNotPort2.Name = "chkNotPort2";
-            this.chkNotPort2.Size = new System.Drawing.Size(52, 21);
-            this.chkNotPort2.TabIndex = 64;
-            this.chkNotPort2.Text = "Not";
-            this.chkNotPort2.UseVisualStyleBackColor = true;
+            this.chkPort2NOT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkPort2NOT.AutoSize = true;
+            this.chkPort2NOT.Location = new System.Drawing.Point(444, 78);
+            this.chkPort2NOT.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkPort2NOT.Name = "chkPort2NOT";
+            this.chkPort2NOT.Size = new System.Drawing.Size(52, 21);
+            this.chkPort2NOT.TabIndex = 64;
+            this.chkPort2NOT.Text = "Not";
+            this.chkPort2NOT.UseVisualStyleBackColor = true;
             // 
             // chkPortNOT
             // 
@@ -1210,7 +1210,7 @@ namespace SteppingStoneCapture
         private System.Windows.Forms.CheckBox chkARP;
         private System.Windows.Forms.CheckBox chkUDP;
         private System.Windows.Forms.CheckBox chkICMP;
-        private System.Windows.Forms.CheckBox chkNotPort2;
+        private System.Windows.Forms.CheckBox chkPort2NOT;
         private System.Windows.Forms.CheckBox chkIPNOT2;
         private System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem numberOfPactketsPerFileToolStripMenuItem;

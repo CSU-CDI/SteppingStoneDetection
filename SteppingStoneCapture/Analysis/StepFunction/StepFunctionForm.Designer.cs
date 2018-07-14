@@ -150,7 +150,7 @@
             // loadItem
             // 
             this.loadItem.Name = "loadItem";
-            this.loadItem.Size = new System.Drawing.Size(100, 22);
+            this.loadItem.Size = new System.Drawing.Size(180, 22);
             this.loadItem.Text = "&Load";
             this.loadItem.Click += new System.EventHandler(this.LoadFileItem_Click);
             // 
@@ -160,20 +160,20 @@
             this.SaveGraphItem,
             this.SaveTextItem});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // SaveGraphItem
             // 
             this.SaveGraphItem.Name = "SaveGraphItem";
-            this.SaveGraphItem.Size = new System.Drawing.Size(106, 22);
+            this.SaveGraphItem.Size = new System.Drawing.Size(180, 22);
             this.SaveGraphItem.Text = "&Graph";
             this.SaveGraphItem.Click += new System.EventHandler(this.SaveGraphItem_Click);
             // 
             // SaveTextItem
             // 
             this.SaveTextItem.Name = "SaveTextItem";
-            this.SaveTextItem.Size = new System.Drawing.Size(106, 22);
+            this.SaveTextItem.Size = new System.Drawing.Size(180, 22);
             this.SaveTextItem.Text = "&Text";
             this.SaveTextItem.Click += new System.EventHandler(this.SaveTextItem_Click);
             // 

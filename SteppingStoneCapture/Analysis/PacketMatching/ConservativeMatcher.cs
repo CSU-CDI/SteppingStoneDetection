@@ -3,6 +3,15 @@ using System.Collections.Generic;
 
 namespace SteppingStoneCapture.Analysis.PacketMatching
 {
+    /// <summary>
+    /// Implements the conservative packet matching algorithm
+    /// <para> 
+    /// Most restrictive of the currently implemented algorithms and should return the lowest match rates.
+    /// </para>
+    /// </summary>
+    /// <remarks>
+    /// Author: Andrew Lesh
+    /// </remarks>
     class ConservativeMatcher : PacketMatcher
     {    
        

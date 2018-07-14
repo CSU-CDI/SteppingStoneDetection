@@ -9,6 +9,10 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
     ///
     /// All extending classes must override MatchPackets method
     /// </summary>
+    /// 
+    /// <remarks> 
+    /// Author: Andrew Lesh
+    /// </remarks>
     abstract class PacketMatcher
     {
         // data structures

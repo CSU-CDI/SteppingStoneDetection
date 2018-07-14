@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace SteppingStoneCapture.Analysis.PacketMatching
 {
+    /// <summary>
+    /// Implements the Greedy-Heuristic Packet Matching algorithm
+    /// </summary>
+    /// <remarks>
+    /// Author: Andrew Lesh
+    /// </remarks>
     class GreedyHeuristicPacketMatcher : ConservativeMatcher
     { 
         public GreedyHeuristicPacketMatcher():base()
@@ -54,7 +60,6 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         {
                             sendQ.Clear();
                             firstPacket = true;
-                           // correctMatch = true;
                         }
 
                         // add the packet to the queue if within threshold

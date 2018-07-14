@@ -123,65 +123,50 @@ namespace SteppingStoneCapture
                                             case "txtIpOne":
                                                 if (chkDstIP1.Checked)
                                                 {
-                                                    if (!chkIPNOT.Checked)
-                                                        cfb.AddIP("dst host " + tb.Text.ToLower());
-                                                    else
-                                                        cfb.AddIP("not dst host " + tb.Text.ToLower());
+                                                    string ipString = (!chkIPNOT.Checked) ? "dst host " : "not dst host ";                                                    
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
                                                 }
                                                 else
                                                 {
-                                                    if (!chkIPNOT.Checked)
-                                                        cfb.AddIP("src host " + tb.Text.ToLower());
-                                                    else
-                                                        cfb.AddIP("not src host " + tb.Text.ToLower());
+                                                    string ipString = (!chkIPNOT.Checked) ? "src host " : "not src host ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
                                                 }
                                                 break;
                                             case "txtIpTwo":
                                                 if (chkDstIP2.Checked)
                                                 {
-                                                    if (!chkIPNOT2.Checked)
-                                                        cfb.AddIP("dst host " + tb.Text.ToLower());
-                                                    else
-                                                        cfb.AddIP("not dst host " + tb.Text.ToLower());
+                                                    string ipString = (!chkIPNOT2.Checked) ? "dst host " : "not dst host ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
                                                 }
                                                 else
                                                 {
-                                                    if (!chkIPNOT2.Checked)
-                                                        cfb.AddIP("src host " + tb.Text.ToLower());
-                                                    else
-                                                        cfb.AddIP("not src host " + tb.Text.ToLower());
+                                                    string ipString = (!chkIPNOT2.Checked) ? "src host " : "not src host ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
                                                 }
                                                 break;
                                             case "txtPortOne":
                                                 if (chkDstPort1.Checked)
                                                 {
-                                                    if (!chkPortNOT.Checked)
-                                                        cfb.AddPort("dst port " + tb.Text.ToLower());
-                                                    else
-                                                        cfb.AddPort("not dst port " + tb.Text.ToLower());
+                                                    string portString = (!chkPortNOT.Checked) ? "dst port " : "not dst port ";
+                                                    cfb.AddPort(portString + tb.Text.ToLower());
                                                 }
                                                 else
                                                 {
-                                                    if (!chkPortNOT.Checked)
-                                                        cfb.AddPort("src port " + tb.Text.ToLower());
-                                                    else
-                                                        cfb.AddPort("not src port " + tb.Text.ToLower());
+                                                    string portString = (!chkPortNOT.Checked) ? "src port " : "not src port ";
+                                                    cfb.AddPort(portString + tb.Text.ToLower());
                                                 }
                                                 break;
                                             case "txtPortTwo":
                                                 if (chkDstPort2.Checked)
                                                 {
-                                                    if (!chkNotPort2.Checked)
-                                                        cfb.AddPort("dst port " + tb.Text.ToLower());
-                                                    else
-                                                        cfb.AddPort("not dst port " + tb.Text.ToLower());
+                                                    string portString = (!chkPort2NOT.Checked) ? "dst port " : "not dst port ";
+                                                    cfb.AddPort(portString + tb.Text.ToLower());
+                                                   
                                                 }
                                                 else
                                                 {
-                                                    if (!chkNotPort2.Checked)
-                                                        cfb.AddPort("src port " + tb.Text.ToLower());
-                                                    else
-                                                        cfb.AddPort("not src port " + tb.Text.ToLower());
+                                                    string portString = (!chkPort2NOT.Checked) ? "src port " : "not src port ";
+                                                    cfb.AddPort(portString + tb.Text.ToLower());
                                                 }
                                                 break;
                                         }
@@ -213,10 +198,10 @@ namespace SteppingStoneCapture
             }
         }
 
-        /*<summary>
-         * Taps the correct source to create desired live capture filter 
-         * </summary>
-         */
+         ///<summary>
+         /// Taps the correct source to create desired live capture filter 
+         ///</summary>
+         ///
         private string TapFilterStringSource()
         {
             string tapped;

@@ -6,6 +6,9 @@ namespace SteppingStoneCapture.Tools
     /// <summary>
     /// Builder of desired capture field string
     /// </summary>
+    /// <remarks> 
+    /// Author: Andrew Lesh
+    /// </remarks>
     class CougarFilterBuilder
     {
         private List<string> protocols = new List<string>();
