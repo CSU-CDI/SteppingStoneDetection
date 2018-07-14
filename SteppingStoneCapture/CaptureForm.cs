@@ -781,7 +781,7 @@ namespace SteppingStoneCapture
         /*
 * Loads the Step Function in a LAN program 
 */
-        private void StepFunction_Click(object sender, EventArgs e) => new Analysis.StepFunctionForm();        
+        private void StepFunction_Click(object sender, EventArgs e) => new Analysis.StepFunction.StepFunctionForm();        
 
         private void CaptureForm_Load(object sender, EventArgs e)
         {

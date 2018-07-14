@@ -1,4 +1,4 @@
-﻿namespace SteppingStoneCapture.Analysis
+﻿namespace SteppingStoneCapture.Analysis.StepFunction
 {
     partial class StepFunctionForm
     {

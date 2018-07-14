@@ -46,7 +46,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                     case TCPType.ECHO:
                         // add the packet to a list of echo packets for external use
                         EchoPackets.Add(current);
-
+                        EchoIndex++;
                         // if there is a send packet to match
                         if (sendQ.Count > 0)
                         {

@@ -67,6 +67,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         break;
                     // if it is an echo packet  
                     case TCPType.ECHO:
+                        EchoIndex++;
                         if (sendQ.Count > 0)
                         {
                             // gather the first send packet from the queue
@@ -74,6 +75,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                             var send = sendTuple.Item1;
 
                             EchoPackets.Add(current);
+                            
                             // determine whether they match, or not
                             if ((current.SeqNum >= send.AckNum) && (current.AckNum > send.SeqNum))// && correctMatch)
                             {

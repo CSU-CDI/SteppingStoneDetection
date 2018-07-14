@@ -64,6 +64,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             return Math.Abs(echoT.Subtract(sendT).TotalMilliseconds);
         }
 
+
+
         /// <summary>
         ///  Resets the fields of the Packet Matcher Instance
         /// </summary>
@@ -76,6 +78,63 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             EchoIndex = 0;
             SendIndex = 0;
             PairedMatches.Clear();
+        }
+
+        /// <summary>
+        /// Parses the list of paired matches to compile a description
+        /// </summary>
+        /// <returns>
+        /// Either:
+        /// - List of paired matches followed by statistics
+        /// - "No Matches Detected."
+        /// </returns>
+        public string ParseResults()
+        {
+            if (PairedMatches.Values.Count > 0)
+            {
+                System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+                // gather data on the results
+                var numSend = SendPackets.Count;
+                var numEcho = EchoPackets.Count;
+                var numTot = ConnectionPackets.Count;
+
+                // Print the matches to the results' text box
+                foreach (string s in PairedMatches.Values)
+                {
+                    stringBuilder.AppendLine(s);
+                }
+
+                return FormatMatchStatistics(numSend, numEcho, stringBuilder);
+            }
+
+            return "No matches detected.";
+        }
+
+        /// <summary>
+        /// Formats the results of the mathcing algorithm and returns a string describing them
+        /// </summary>
+        /// <param name="numSend">
+        /// Number of Send Packets that were matched
+        /// </param>
+        /// <param name="numEcho">
+        /// Number of Echo Packets that were matched
+        /// </param>
+        /// <param name="results">
+        /// The listing of matched packets
+        /// </param>
+        /// <returns>
+        /// String containing the list of matched packets as well as a statistics footer
+        /// </returns>
+        private string FormatMatchStatistics(int numSend, int numEcho, System.Text.StringBuilder results)
+        {
+            // Print the numerical details describing the results
+            results.AppendLine();
+            results.AppendLine($"Total Number Packets: {(numSend + numEcho)}");
+            results.AppendLine($"Number Send Packets: {numSend}          Number Echo Packets: {numEcho}");
+            results.AppendLine();
+            results.AppendLine( $"Number of Matches: {PairedMatches.Count}");
+            results.AppendLine(String.Format("Percentage matched of all possible pairs: {0:F}%", (100 * PairedMatches.Count / Math.Min(numSend, numEcho))));
+            return results.ToString();
         }
 
         /// <summary>
