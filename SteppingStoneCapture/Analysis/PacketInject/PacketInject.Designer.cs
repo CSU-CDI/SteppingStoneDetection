@@ -38,6 +38,7 @@
             this.txtDestIP = new System.Windows.Forms.TextBox();
             this.txtSrcPort = new System.Windows.Forms.TextBox();
             this.grpFlags = new System.Windows.Forms.GroupBox();
+            this.radSYN = new System.Windows.Forms.RadioButton();
             this.radFIN = new System.Windows.Forms.RadioButton();
             this.radRST = new System.Windows.Forms.RadioButton();
             this.radACK = new System.Windows.Forms.RadioButton();
@@ -51,6 +52,16 @@
             this.txtNumPackets = new System.Windows.Forms.TextBox();
             this.lblNumPackets = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
+            this.lblTTL = new System.Windows.Forms.Label();
+            this.txtTTL = new System.Windows.Forms.TextBox();
+            this.lblID = new System.Windows.Forms.Label();
+            this.txtID = new System.Windows.Forms.TextBox();
+            this.lblSequence = new System.Windows.Forms.Label();
+            this.txtSequence = new System.Windows.Forms.TextBox();
+            this.txtACK = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtWindow = new System.Windows.Forms.TextBox();
             this.grpFlags.SuspendLayout();
             this.grpResults.SuspendLayout();
             this.SuspendLayout();
@@ -58,7 +69,7 @@
             // lblSrcIP
             // 
             this.lblSrcIP.AutoSize = true;
-            this.lblSrcIP.Location = new System.Drawing.Point(22, 23);
+            this.lblSrcIP.Location = new System.Drawing.Point(22, 15);
             this.lblSrcIP.Name = "lblSrcIP";
             this.lblSrcIP.Size = new System.Drawing.Size(73, 17);
             this.lblSrcIP.TabIndex = 0;
@@ -67,7 +78,7 @@
             // lblDestIP
             // 
             this.lblDestIP.AutoSize = true;
-            this.lblDestIP.Location = new System.Drawing.Point(38, 53);
+            this.lblDestIP.Location = new System.Drawing.Point(38, 45);
             this.lblDestIP.Name = "lblDestIP";
             this.lblDestIP.Size = new System.Drawing.Size(57, 17);
             this.lblDestIP.TabIndex = 1;
@@ -76,7 +87,7 @@
             // lblSrcPort
             // 
             this.lblSrcPort.AutoSize = true;
-            this.lblSrcPort.Location = new System.Drawing.Point(32, 82);
+            this.lblSrcPort.Location = new System.Drawing.Point(32, 74);
             this.lblSrcPort.Name = "lblSrcPort";
             this.lblSrcPort.Size = new System.Drawing.Size(63, 17);
             this.lblSrcPort.TabIndex = 2;
@@ -84,57 +95,70 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(223, 284);
+            this.btnCancel.Location = new System.Drawing.Point(222, 347);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 41);
-            this.btnCancel.TabIndex = 3;
+            this.btnCancel.TabIndex = 97;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(12, 284);
+            this.btnOk.Location = new System.Drawing.Point(12, 347);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(94, 41);
-            this.btnOk.TabIndex = 11;
+            this.btnOk.TabIndex = 99;
             this.btnOk.Text = "&Send";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // txtSrcIP
             // 
-            this.txtSrcIP.Location = new System.Drawing.Point(101, 20);
+            this.txtSrcIP.Location = new System.Drawing.Point(101, 12);
             this.txtSrcIP.Name = "txtSrcIP";
             this.txtSrcIP.Size = new System.Drawing.Size(219, 22);
             this.txtSrcIP.TabIndex = 5;
             // 
             // txtDestIP
             // 
-            this.txtDestIP.Location = new System.Drawing.Point(101, 48);
+            this.txtDestIP.Location = new System.Drawing.Point(101, 40);
             this.txtDestIP.Name = "txtDestIP";
             this.txtDestIP.Size = new System.Drawing.Size(219, 22);
             this.txtDestIP.TabIndex = 6;
             // 
             // txtSrcPort
             // 
-            this.txtSrcPort.Location = new System.Drawing.Point(101, 77);
+            this.txtSrcPort.Location = new System.Drawing.Point(101, 69);
             this.txtSrcPort.Name = "txtSrcPort";
             this.txtSrcPort.Size = new System.Drawing.Size(142, 22);
             this.txtSrcPort.TabIndex = 7;
             // 
             // grpFlags
             // 
+            this.grpFlags.Controls.Add(this.radSYN);
             this.grpFlags.Controls.Add(this.radFIN);
             this.grpFlags.Controls.Add(this.radRST);
             this.grpFlags.Controls.Add(this.radACK);
             this.grpFlags.Controls.Add(this.radPSH);
-            this.grpFlags.Location = new System.Drawing.Point(12, 131);
+            this.grpFlags.Location = new System.Drawing.Point(12, 182);
             this.grpFlags.Name = "grpFlags";
-            this.grpFlags.Size = new System.Drawing.Size(94, 136);
-            this.grpFlags.TabIndex = 8;
+            this.grpFlags.Size = new System.Drawing.Size(94, 159);
+            this.grpFlags.TabIndex = 15;
             this.grpFlags.TabStop = false;
             this.grpFlags.Text = "TCP Flags";
+            // 
+            // radSYN
+            // 
+            this.radSYN.AutoSize = true;
+            this.radSYN.Location = new System.Drawing.Point(13, 132);
+            this.radSYN.Name = "radSYN";
+            this.radSYN.Size = new System.Drawing.Size(57, 21);
+            this.radSYN.TabIndex = 14;
+            this.radSYN.TabStop = true;
+            this.radSYN.Text = "SY&N";
+            this.radSYN.UseVisualStyleBackColor = true;
+            this.radSYN.CheckedChanged += new System.EventHandler(this.radSYN_CheckedChanged);
             // 
             // radFIN
             // 
@@ -188,9 +212,9 @@
             // 
             this.grpResults.Controls.Add(this.lblResult);
             this.grpResults.Controls.Add(this.label1);
-            this.grpResults.Location = new System.Drawing.Point(112, 131);
+            this.grpResults.Location = new System.Drawing.Point(112, 182);
             this.grpResults.Name = "grpResults";
-            this.grpResults.Size = new System.Drawing.Size(208, 73);
+            this.grpResults.Size = new System.Drawing.Size(208, 90);
             this.grpResults.TabIndex = 9;
             this.grpResults.TabStop = false;
             this.grpResults.Text = "Results";
@@ -208,25 +232,25 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(36, 25);
+            this.label1.Location = new System.Drawing.Point(29, 37);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 36);
             this.label1.TabIndex = 0;
             // 
             // txtInput
             // 
-            this.txtInput.Location = new System.Drawing.Point(112, 210);
+            this.txtInput.Location = new System.Drawing.Point(112, 278);
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(208, 57);
-            this.txtInput.TabIndex = 10;
+            this.txtInput.Size = new System.Drawing.Size(208, 63);
+            this.txtInput.TabIndex = 16;
             this.txtInput.Text = "Message to Send...";
             this.txtInput.Enter += new System.EventHandler(this.txtInput_Enter);
             this.txtInput.Leave += new System.EventHandler(this.txtInput_Leave);
             // 
             // txtDestPort
             // 
-            this.txtDestPort.Location = new System.Drawing.Point(101, 105);
+            this.txtDestPort.Location = new System.Drawing.Point(101, 97);
             this.txtDestPort.Name = "txtDestPort";
             this.txtDestPort.Size = new System.Drawing.Size(142, 22);
             this.txtDestPort.TabIndex = 8;
@@ -234,7 +258,7 @@
             // lblDestPort
             // 
             this.lblDestPort.AutoSize = true;
-            this.lblDestPort.Location = new System.Drawing.Point(24, 108);
+            this.lblDestPort.Location = new System.Drawing.Point(24, 100);
             this.lblDestPort.Name = "lblDestPort";
             this.lblDestPort.Size = new System.Drawing.Size(71, 17);
             this.lblDestPort.TabIndex = 12;
@@ -242,7 +266,7 @@
             // 
             // txtNumPackets
             // 
-            this.txtNumPackets.Location = new System.Drawing.Point(249, 105);
+            this.txtNumPackets.Location = new System.Drawing.Point(249, 97);
             this.txtNumPackets.Name = "txtNumPackets";
             this.txtNumPackets.Size = new System.Drawing.Size(71, 22);
             this.txtNumPackets.TabIndex = 9;
@@ -250,7 +274,7 @@
             // lblNumPackets
             // 
             this.lblNumPackets.AutoSize = true;
-            this.lblNumPackets.Location = new System.Drawing.Point(249, 82);
+            this.lblNumPackets.Location = new System.Drawing.Point(249, 74);
             this.lblNumPackets.Name = "lblNumPackets";
             this.lblNumPackets.Size = new System.Drawing.Size(74, 17);
             this.lblNumPackets.TabIndex = 14;
@@ -258,19 +282,109 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(112, 284);
+            this.btnReset.Location = new System.Drawing.Point(112, 347);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(105, 41);
-            this.btnReset.TabIndex = 15;
+            this.btnReset.TabIndex = 98;
             this.btnReset.Text = "Rese&t";
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // lblTTL
+            // 
+            this.lblTTL.AutoSize = true;
+            this.lblTTL.Location = new System.Drawing.Point(282, 130);
+            this.lblTTL.Name = "lblTTL";
+            this.lblTTL.Size = new System.Drawing.Size(38, 17);
+            this.lblTTL.TabIndex = 16;
+            this.lblTTL.Text = "TTL:";
+            // 
+            // txtTTL
+            // 
+            this.txtTTL.Location = new System.Drawing.Point(267, 154);
+            this.txtTTL.Name = "txtTTL";
+            this.txtTTL.Size = new System.Drawing.Size(55, 22);
+            this.txtTTL.TabIndex = 14;
+            // 
+            // lblID
+            // 
+            this.lblID.AutoSize = true;
+            this.lblID.Location = new System.Drawing.Point(162, 128);
+            this.lblID.Name = "lblID";
+            this.lblID.Size = new System.Drawing.Size(25, 17);
+            this.lblID.TabIndex = 18;
+            this.lblID.Text = "ID:";
+            // 
+            // txtID
+            // 
+            this.txtID.Location = new System.Drawing.Point(188, 125);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(74, 22);
+            this.txtID.TabIndex = 11;
+            // 
+            // lblSequence
+            // 
+            this.lblSequence.AutoSize = true;
+            this.lblSequence.Location = new System.Drawing.Point(19, 128);
+            this.lblSequence.Name = "lblSequence";
+            this.lblSequence.Size = new System.Drawing.Size(76, 17);
+            this.lblSequence.TabIndex = 20;
+            this.lblSequence.Text = "Sequence:";
+            // 
+            // txtSequence
+            // 
+            this.txtSequence.Location = new System.Drawing.Point(101, 126);
+            this.txtSequence.Name = "txtSequence";
+            this.txtSequence.Size = new System.Drawing.Size(55, 22);
+            this.txtSequence.TabIndex = 10;
+            // 
+            // txtACK
+            // 
+            this.txtACK.Location = new System.Drawing.Point(207, 154);
+            this.txtACK.Name = "txtACK";
+            this.txtACK.Size = new System.Drawing.Size(55, 22);
+            this.txtACK.TabIndex = 13;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(162, 157);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(39, 17);
+            this.label2.TabIndex = 23;
+            this.label2.Text = "ACK:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 157);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(92, 17);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "Window Size:";
+            // 
+            // txtWindow
+            // 
+            this.txtWindow.Location = new System.Drawing.Point(101, 154);
+            this.txtWindow.Name = "txtWindow";
+            this.txtWindow.Size = new System.Drawing.Size(55, 22);
+            this.txtWindow.TabIndex = 12;
             // 
             // PacketInject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 337);
+            this.ClientSize = new System.Drawing.Size(334, 399);
+            this.Controls.Add(this.txtWindow);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtACK);
+            this.Controls.Add(this.txtSequence);
+            this.Controls.Add(this.lblSequence);
+            this.Controls.Add(this.txtID);
+            this.Controls.Add(this.lblID);
+            this.Controls.Add(this.txtTTL);
+            this.Controls.Add(this.lblTTL);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.lblNumPackets);
             this.Controls.Add(this.txtNumPackets);
@@ -325,5 +439,16 @@
         private System.Windows.Forms.TextBox txtNumPackets;
         private System.Windows.Forms.Label lblNumPackets;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.RadioButton radSYN;
+        private System.Windows.Forms.Label lblTTL;
+        private System.Windows.Forms.TextBox txtTTL;
+        private System.Windows.Forms.Label lblID;
+        private System.Windows.Forms.TextBox txtID;
+        private System.Windows.Forms.Label lblSequence;
+        private System.Windows.Forms.TextBox txtSequence;
+        private System.Windows.Forms.TextBox txtACK;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtWindow;
     }
 }

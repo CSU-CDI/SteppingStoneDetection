@@ -639,12 +639,6 @@ namespace SteppingStoneCapture
             multiWindowDisplayMenuItem.Checked = multiWindowDisplay;
         }
 
-        private void filterStreamToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            IOStream ios = new IOStream();
-            ios.Show();
-        }
-
         private void incomingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string sensor = "";

@@ -233,10 +233,7 @@ namespace SteppingStoneCapture
                         DumpCapturedPacketsToMotherTextFiles(dumpFileName);                        
                     }
                     break;
-                default:
-                    DialogResult res = MessageBox.Show("No File Path Found...Try Again?", "Error!", MessageBoxButtons.YesNo);
-                    if (res == DialogResult.Yes)
-                        dumpFileName = DetermineFilePath();
+                default:                    
                     break;
             }
 

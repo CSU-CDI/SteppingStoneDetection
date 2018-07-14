@@ -33,16 +33,20 @@ namespace SteppingStoneCapture.Analysis
         public PacketInject(PacketDevice selectedDevice)
         {
             InitializeComponent();
-            Visible = true;
+            //Visible = true;
             //btnOk.Enabled = false;
             //lblResult.Text = "EMPTY";
             this.selectedDevice = selectedDevice;
             count = 0;
             if (selectedDevice == null)
             {
+                Visible = false;
                 MessageBox.Show("Must select a network interface first!");
                 Close();
             }
+            else
+                Visible = true;
+
             radPSH.Checked = true;
         }
 
@@ -53,6 +57,7 @@ namespace SteppingStoneCapture.Analysis
                 radACK.Checked = false;
                 radRST.Checked = false;
                 radFIN.Checked = false;
+                radSYN.Checked = false;
             }
         }
 
@@ -63,6 +68,7 @@ namespace SteppingStoneCapture.Analysis
                 radPSH.Checked = false;
                 radRST.Checked = false;
                 radFIN.Checked = false;
+                radSYN.Checked = false;
             }
         }
 
@@ -73,6 +79,7 @@ namespace SteppingStoneCapture.Analysis
                 radPSH.Checked = false;
                 radACK.Checked = false;
                 radFIN.Checked = false;
+                radSYN.Checked = false;
             }
         }
 
@@ -83,6 +90,18 @@ namespace SteppingStoneCapture.Analysis
                 radPSH.Checked = false;
                 radACK.Checked = false;
                 radRST.Checked = false;
+                radSYN.Checked = false;
+            }
+        }
+
+        private void radSYN_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radSYN.Checked)
+            {
+                radPSH.Checked = false;
+                radACK.Checked = false;
+                radRST.Checked = false;
+                radFIN.Checked = false;
             }
         }
 
@@ -122,11 +141,11 @@ namespace SteppingStoneCapture.Analysis
                         CurrentDestination = new IpV4Address(txtDestIP.Text),
                         Fragmentation = IpV4Fragmentation.None,
                         HeaderChecksum = null, // Will be filled automatically.
-                        Identification = 123,
+                        Identification = (txtID.Text.Equals("")) ? (ushort)123 : ushort.Parse(txtID.Text),
                         Options = IpV4Options.None,
                         Protocol = null, // Will be filled automatically.
-                        Ttl = 100,
-                        TypeOfService = 0,
+                        Ttl = txtTTL.Text.Equals("") ? (byte)100 : byte.Parse(txtTTL.Text),
+                        TypeOfService = 0,                        
                     };
 
                     TcpLayer tcpLayer =
@@ -135,13 +154,12 @@ namespace SteppingStoneCapture.Analysis
                             SourcePort = (ushort)srcPort,
                             DestinationPort = (ushort)dstPort,
                             Checksum = null, // Will be filled automatically.
-                            SequenceNumber = 100,
-                            AcknowledgmentNumber = 50,
-                            //ControlBits = TcpControlBits.Acknowledgment,
+                            SequenceNumber = txtSequence.Text.Equals("") ? 100 : uint.Parse(txtSequence.Text),
+                            AcknowledgmentNumber = txtACK.Text.Equals("") ? 50 : uint.Parse(txtACK.Text),                           
                             ControlBits = (radPSH.Checked) ? TcpControlBits.Push : (radACK.Checked) ? TcpControlBits.Acknowledgment : (radRST.Checked) ? TcpControlBits.Reset : TcpControlBits.Fin,
-                            Window = 100,
+                            Window = txtWindow.Text.Equals("") ? (ushort)100 : ushort.Parse(txtWindow.Text),
                             UrgentPointer = 0,
-                            Options = TcpOptions.None,
+                            Options = TcpOptions.None,                            
                         };
 
                     PayloadLayer payloadLayer =
@@ -154,9 +172,12 @@ namespace SteppingStoneCapture.Analysis
                     PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
 
                     bool flag = Int32.TryParse(txtNumPackets.Text, out int repeat);
-                    if (repeat > 1000)
+                    if (flag && repeat > 1000)
+                    {
                         repeat = 1000;
-                    else if (repeat < 1)
+                        txtNumPackets.Text = repeat.ToString();
+                    }                        
+                    else if (flag && repeat < 1)
                         repeat = 1;
 
                     btnOk.Enabled = false;
@@ -212,11 +233,13 @@ namespace SteppingStoneCapture.Analysis
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            txtSrcIP.Text = txtDestIP.Text = txtSrcPort.Text = txtDestPort.Text = txtNumPackets.Text = "";
+            txtSrcIP.Text = txtDestIP.Text = txtSrcPort.Text = txtDestPort.Text = txtNumPackets.Text = txtWindow.Text = txtTTL.Text = txtSequence.Text = txtID.Text = txtACK.Text = "";
             txtInput.Text = "Message to Send...";
             radPSH.Checked = true;
             lblResult.Text = "";
 
         }
+
+        
     }
 }

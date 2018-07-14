@@ -31,64 +31,56 @@ namespace SteppingStoneCapture.Analysis
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            string s = "03:56:38.994";
-            Boolean TimeParseSuccess = DateTime.TryParse(s, out DateTime dt);
-            Console.WriteLine(dt.ToString("hh:mm:ss.fff"));
-
             Cursor = Cursors.WaitCursor;
             SendFile = new StreamReader(InputStreamFile);
             EchoFile = new StreamReader(OutputStreamFile);
             string line;
             string[] lineItems;
 
-
             try
             {
-
+                // read send file info
                 while ((line = SendFile.ReadLine()) != null)
                 {
                     lineItems = line.Split(',');
-
                     SendList.Add(Tuple.Create("send", lineItems[0].Trim(), DateTime.Parse(lineItems[1].Trim())));
                 }
                 SendFile.Close();
 
+                // read echo file info
                 while ((line = EchoFile.ReadLine()) != null)
                 {
                     lineItems = line.Split(',');
-
                     EchoList.Add(Tuple.Create("echo", lineItems[0].Trim(), DateTime.Parse(lineItems[1].Trim())));
-
                 }
-                EchoFile.Close();
-
-                // ----------------------------------------------------------------------------------------------------
-
-                //List<Tuple<string, string, DateTime>> mergedList = new List<Tuple<string, string, DateTime>>(SendList.Count + EchoList.Count);
-                /*mergedList.AddRange(SendList);
-                mergedList.AddRange(EchoList);*/
-
-                //SendList.ForEach(p => mergedList.Add(p));
-                //EchoList.ForEach(p => mergedList.Add(p));
-
-                //List<Tuple<string, string, DateTime>> sortedList = mergedList.OrderBy(d => d.Item3).ToList();
-                //List<Tuple<string, string, DateTime>> sortedList = new List<Tuple<string, string, DateTime>>((SendList.Concat(EchoList)).OrderBy(d => d.Item3).ToList());
+                EchoFile.Close();                
 
                 // create new list sorted by time of day from send and echo lists
                 var sortedList = new List<Tuple<string, string, DateTime>>((SendList.Concat(EchoList)).OrderBy(d => d.Item3).ToList());
+                
+                // flag to indicate the beginning of a cross over
+                bool inCrossOver = false;             
 
+                // determine whether or not cross over exists
                 for (int i = 0; i < sortedList.Count - 1; i++)
                 {
                     if (sortedList[i].Item1.Equals("send"))
                     {
-                        if (!sortedList[i + 1].Item1.Equals("echo"))
+                        if (sortedList[i+1].Item1.Equals("send"))
                         {
+                            inCrossOver = true;
                             crossovers.Add(sortedList[i].Item1 + " " + sortedList[i].Item2 + " " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
-                            crossovers.Add(sortedList[i + 1].Item1 + " " + sortedList[i + 1].Item2 + " " + sortedList[i + 1].Item3.ToString("hh:mm:ss.fff"));
+                        } 
+                        else if (inCrossOver && sortedList[i+1].Item1.Equals("echo"))
+                        {
+                            inCrossOver = false;
+                            crossovers.Add(sortedList[i].Item1 + " " + sortedList[i].Item2 + " " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
+                            crossovers.Add(sortedList[i+1].Item1 + " " + sortedList[i+1].Item2 + " " + sortedList[i+1].Item3.ToString("hh:mm:ss.fff"));
                         }
-                    }
+                    }                    
                 }
 
+                // format results
                 string results;
                 if (crossovers.Count < 1)
                 {
@@ -102,21 +94,35 @@ namespace SteppingStoneCapture.Analysis
                         results += item + "\n";
                     }
                 }
+                
+                // output and ask user if they want to save results
+                if (MessageBox.Show("Save Results?", "Save?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {                    
+                    SaveFileDialog sfd = new SaveFileDialog
+                    {
+                        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                        Filter = "txt files (*.txt)|*.txt",
+                    };
 
-                MessageBox.Show(results);
-
+                    if (sfd.ShowDialog() == DialogResult.OK && sfd.FileName != "")
+                    {                        
+                        File.WriteAllText(sfd.FileName, results);                        
+                    }
+                    MessageBox.Show(results, "Results");
+                }
+                else
+                {
+                    MessageBox.Show(results, "Results");
+                }
             }
             catch (Exception)
-            {
-                Cursor = Cursors.Default;
-                MessageBox.Show("Unable to read send or outgoing text file!");
+            {                
+                MessageBox.Show("Unable to read send or echo text file!");
             }
             finally
             {
-                this.Cursor = Cursors.Default;
-            }
-
-            // ----------------------------------------------------------------------------------------------------
+                Cursor = Cursors.Default;
+            }            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -131,20 +137,14 @@ namespace SteppingStoneCapture.Analysis
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 Filter = "txt files (*.txt)|*.txt",
-            };
-            switch (ofd.ShowDialog())
-            {
-                case DialogResult.OK:
-                    if (ofd.FileName != "" && File.Exists(ofd.FileName))
-                    {
-                        txtInputStream.Text = ofd.FileName;
-                        InputStreamFile = ofd.FileName;
-                        if (OutputStreamFile != null)
-                            btnOk.Enabled = true;
-                    }
-                    break;
-                default:
-                    break;
+            };            
+
+            if (ofd.ShowDialog() == DialogResult.OK && ofd.FileName != "" && File.Exists(ofd.FileName))
+            {                
+                txtInputStream.Text = ofd.FileName;
+                InputStreamFile = ofd.FileName;
+                if (OutputStreamFile != null)
+                    btnOk.Enabled = true;                
             }
         }
 
@@ -154,20 +154,14 @@ namespace SteppingStoneCapture.Analysis
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 Filter = "txt files (*.txt)|*.txt",
-            };
-            switch (ofd.ShowDialog())
+            };            
+
+            if (ofd.ShowDialog() == DialogResult.OK && ofd.FileName != "" && File.Exists(ofd.FileName))
             {
-                case DialogResult.OK:
-                    if (ofd.FileName != "" && File.Exists(ofd.FileName))
-                    {
-                        txtOutputStream.Text = ofd.FileName;
-                        OutputStreamFile = ofd.FileName;
-                        if (InputStreamFile != null)
-                            btnOk.Enabled = true;
-                    }
-                    break;
-                default:
-                    break;
+                txtOutputStream.Text = ofd.FileName;
+                OutputStreamFile = ofd.FileName;
+                if (InputStreamFile != null)
+                    btnOk.Enabled = true;                
             }
         }
     }

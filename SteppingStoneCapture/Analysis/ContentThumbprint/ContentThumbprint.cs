@@ -195,17 +195,12 @@ namespace SteppingStoneCapture.Analysis
                 foreach (char c in InChar.Keys)
                 {
                     if (OutChar.ContainsKey(c))
-                    {
-                        //Incount = InChar[c];
-                        //Outcount = OutChar[c];
+                    {                        
                         totalCount.Add(c, Tuple.Create(InChar[c], OutChar[c]));
-
-                        
-                        // needs more work so we can store the accumulative values.  Needs a Dictionary with Char val as key
-                        // and a tuple that stores in count and out count...it may be better to use an array here instead of a tuple
                     }
                 }
 
+                // calculate ratios and add them to dictionary as values with their corresponding hex vals as keys
                 foreach (char c in totalCount.Keys)
                 {                    
                     charRatios.Add(c, (1 - ((Math.Abs(totalCount[c].Item1 - totalCount[c].Item2)) / Math.Max(totalCount[c].Item1, totalCount[c].Item2))));
