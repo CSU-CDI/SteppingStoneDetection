@@ -38,6 +38,7 @@
             this.txtDestIP = new System.Windows.Forms.TextBox();
             this.txtSrcPort = new System.Windows.Forms.TextBox();
             this.grpFlags = new System.Windows.Forms.GroupBox();
+            this.radSYN = new System.Windows.Forms.RadioButton();
             this.radFIN = new System.Windows.Forms.RadioButton();
             this.radRST = new System.Windows.Forms.RadioButton();
             this.radACK = new System.Windows.Forms.RadioButton();
@@ -51,7 +52,6 @@
             this.txtNumPackets = new System.Windows.Forms.TextBox();
             this.lblNumPackets = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
-            this.radSYN = new System.Windows.Forms.RadioButton();
             this.lblTTL = new System.Windows.Forms.Label();
             this.txtTTL = new System.Windows.Forms.TextBox();
             this.lblID = new System.Windows.Forms.Label();
@@ -144,9 +144,21 @@
             this.grpFlags.Location = new System.Drawing.Point(12, 182);
             this.grpFlags.Name = "grpFlags";
             this.grpFlags.Size = new System.Drawing.Size(94, 159);
-            this.grpFlags.TabIndex = 8;
+            this.grpFlags.TabIndex = 15;
             this.grpFlags.TabStop = false;
             this.grpFlags.Text = "TCP Flags";
+            // 
+            // radSYN
+            // 
+            this.radSYN.AutoSize = true;
+            this.radSYN.Location = new System.Drawing.Point(13, 132);
+            this.radSYN.Name = "radSYN";
+            this.radSYN.Size = new System.Drawing.Size(57, 21);
+            this.radSYN.TabIndex = 14;
+            this.radSYN.TabStop = true;
+            this.radSYN.Text = "SY&N";
+            this.radSYN.UseVisualStyleBackColor = true;
+            this.radSYN.CheckedChanged += new System.EventHandler(this.radSYN_CheckedChanged);
             // 
             // radFIN
             // 
@@ -231,7 +243,7 @@
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
             this.txtInput.Size = new System.Drawing.Size(208, 63);
-            this.txtInput.TabIndex = 10;
+            this.txtInput.TabIndex = 16;
             this.txtInput.Text = "Message to Send...";
             this.txtInput.Enter += new System.EventHandler(this.txtInput_Enter);
             this.txtInput.Leave += new System.EventHandler(this.txtInput_Leave);
@@ -278,18 +290,6 @@
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // radSYN
-            // 
-            this.radSYN.AutoSize = true;
-            this.radSYN.Location = new System.Drawing.Point(13, 132);
-            this.radSYN.Name = "radSYN";
-            this.radSYN.Size = new System.Drawing.Size(57, 21);
-            this.radSYN.TabIndex = 14;
-            this.radSYN.TabStop = true;
-            this.radSYN.Text = "SY&N";
-            this.radSYN.UseVisualStyleBackColor = true;
-            this.radSYN.CheckedChanged += new System.EventHandler(this.radSYN_CheckedChanged);
-            // 
             // lblTTL
             // 
             this.lblTTL.AutoSize = true;
@@ -304,7 +304,7 @@
             this.txtTTL.Location = new System.Drawing.Point(267, 154);
             this.txtTTL.Name = "txtTTL";
             this.txtTTL.Size = new System.Drawing.Size(55, 22);
-            this.txtTTL.TabIndex = 17;
+            this.txtTTL.TabIndex = 14;
             // 
             // lblID
             // 
@@ -320,7 +320,7 @@
             this.txtID.Location = new System.Drawing.Point(188, 125);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(74, 22);
-            this.txtID.TabIndex = 19;
+            this.txtID.TabIndex = 11;
             // 
             // lblSequence
             // 
@@ -336,14 +336,14 @@
             this.txtSequence.Location = new System.Drawing.Point(101, 126);
             this.txtSequence.Name = "txtSequence";
             this.txtSequence.Size = new System.Drawing.Size(55, 22);
-            this.txtSequence.TabIndex = 21;
+            this.txtSequence.TabIndex = 10;
             // 
             // txtACK
             // 
             this.txtACK.Location = new System.Drawing.Point(207, 154);
             this.txtACK.Name = "txtACK";
             this.txtACK.Size = new System.Drawing.Size(55, 22);
-            this.txtACK.TabIndex = 22;
+            this.txtACK.TabIndex = 13;
             // 
             // label2
             // 
@@ -368,7 +368,7 @@
             this.txtWindow.Location = new System.Drawing.Point(101, 154);
             this.txtWindow.Name = "txtWindow";
             this.txtWindow.Size = new System.Drawing.Size(55, 22);
-            this.txtWindow.TabIndex = 25;
+            this.txtWindow.TabIndex = 12;
             // 
             // PacketInject
             // 
