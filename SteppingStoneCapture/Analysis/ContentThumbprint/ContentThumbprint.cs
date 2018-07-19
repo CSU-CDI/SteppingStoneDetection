@@ -16,9 +16,10 @@ namespace SteppingStoneCapture.Analysis
         string InputStreamFile, OutputStreamFile;
         StreamReader InFile, OutFile;
         int incount, outcount;
-        private Dictionary<Char, int> InChar, OutChar;        
-        private Dictionary<Char, Tuple<int, int>> totalCount;        
-        private Dictionary<Char, double> charRatios, resultsOverThreshold;
+        private Dictionary<char, int> InChar, OutChar;        
+        private Dictionary<char, Tuple<int, int>> totalCount;        
+        private Dictionary<char, double> charRatios;
+        private SortedDictionary<char, double> resultsOverThreshold;
         
         
 
@@ -30,15 +31,18 @@ namespace SteppingStoneCapture.Analysis
             InitializeComponent();
             btnOk.Enabled = false;
             chkPacketCount.Checked = true;
-            InputStreamFile = OutputStreamFile = null;
-            InFile = OutFile = null;
+            InputStreamFile = null;
+            OutputStreamFile = null;
+            InFile = null;
+            OutFile = null;
             Visible = true;
-            Incount = Outcount = 0;
+            Incount = 0;
+            Outcount = 0;
             InChar = new Dictionary<char, int>();
-            OutChar = new Dictionary<char, int>();
-            totalCount = null;
-            charRatios = null;
-            resultsOverThreshold = null;
+            OutChar = new Dictionary<char, int>();            
+            totalCount = new Dictionary<char, Tuple<int, int>>();
+            charRatios = new Dictionary<char, double>();
+            resultsOverThreshold = new SortedDictionary<char, double>();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -142,7 +146,7 @@ namespace SteppingStoneCapture.Analysis
                 }
                 OutFile.Close();
 
-                double ratio = 1 - ((Math.Abs(Incount - Outcount))/Math.Max(Incount, Outcount));
+                double ratio = 1d - ((double)(Math.Abs(Incount - Outcount))/(double)Math.Max(Incount, Outcount));
 
                 Cursor = Cursors.Default;
 
@@ -167,14 +171,25 @@ namespace SteppingStoneCapture.Analysis
                     // read contents by char and add to dict if not already there and set val to 1, then if already there, increment val
                     foreach (char c in lineItems[11].Trim())
                     {
-                        if (!InChar.ContainsKey(c))                        
-                            InChar.Add(c, 1);                        
-                        else                        
-                            ++InChar[c];                        
-                    }                    
+                        if (!InChar.ContainsKey(c))
+                        {
+                            InChar.Add(c, 1);                            
+                        }
+                        else
+                        {
+                            InChar[c]++;
+                        }                        
+                    }                        
                 }
+                /*Console.WriteLine("--------------------------------------------------------------------------------");
+                Console.WriteLine("IN CHAR VALS:\n");
+                foreach (char c in InChar.Keys)
+                {
+                    Console.WriteLine(c + " val: " + InChar[c]);
+                }
+                Console.WriteLine("--------------------------------------------------------------------------------");*/
                 InFile.Close();
-
+                
                 // read lines from outgoing stream file
                 while ((line = OutFile.ReadLine()) != null)
                 {
@@ -186,43 +201,91 @@ namespace SteppingStoneCapture.Analysis
                         if (!OutChar.ContainsKey(c))
                             OutChar.Add(c, 1);
                         else
-                            ++OutChar[c];
+                            OutChar[c]++;
                     }
                 }
+                /*Console.WriteLine("--------------------------------------------------------------------------------");
+                Console.WriteLine("OUT CHAR VALS:\n");
+                foreach (char c in OutChar.Keys)
+                {
+                    Console.WriteLine(c + " val: " + OutChar[c]);
+                }
+                Console.WriteLine("--------------------------------------------------------------------------------");*/
                 OutFile.Close();
-
-                // begin iterating through char count and adding values to total count
+                
+                // begin iterating through char count and adding values to total count                
                 foreach (char c in InChar.Keys)
                 {
                     if (OutChar.ContainsKey(c))
                     {                        
                         totalCount.Add(c, Tuple.Create(InChar[c], OutChar[c]));
+                        //Console.WriteLine(c + " inchar: " + totalCount[c].Item1 + " outchar: " + totalCount[c].Item2);
                     }
                 }
+                /*Console.WriteLine("--------------------------------------------------------------------------------");
+                Console.WriteLine("AFTER ADDING TO TOTALCOUNT");
+                Console.WriteLine("--------------------------------------------------------------------------------");
+                Console.WriteLine("--------------------------------------------------------------------------------");
+                Console.WriteLine("IN CHAR VALS:\n");
+                foreach (char c in InChar.Keys)
+                {
+                    Console.WriteLine(c + " val: " + InChar[c]);
+                }
+                Console.WriteLine("--------------------------------------------------------------------------------");
+                Console.WriteLine("OUT CHAR VALS");
+                foreach (char c in OutChar.Keys)
+                {
+                    Console.WriteLine(c + " val: " + OutChar[c]);
+                }
+                Console.WriteLine("--------------------------------------------------------------------------------");*/
+                /*foreach (char c in totalCount.Keys)
+                {
+                    Console.WriteLine(c + " in: " + totalCount[c].Item1 + " out:" + totalCount[c].Item2);
+                }*/
+                //Console.WriteLine("FINISHED TOTALCOUNT!!!!");
 
                 // calculate ratios and add them to dictionary as values with their corresponding hex vals as keys
+                
+                //double numerator, denominator, quotient, finalRatio;
                 foreach (char c in totalCount.Keys)
                 {                    
-                    charRatios.Add(c, (1 - ((Math.Abs(totalCount[c].Item1 - totalCount[c].Item2)) / Math.Max(totalCount[c].Item1, totalCount[c].Item2))));
+                    /*numerator = Math.Abs(totalCount[c].Item1 - totalCount[c].Item2);
+                    denominator = Math.Max(totalCount[c].Item1, totalCount[c].Item2);
+                    quotient = numerator / denominator;
+                    finalRatio = 1d - quotient;*/
+                    charRatios.Add(c, (1d - (double)((Math.Abs((double)totalCount[c].Item1 - (double)totalCount[c].Item2)) 
+                        / Math.Max((double)totalCount[c].Item1, (double)totalCount[c].Item2))));                    
+                    //charRatios.Add(c, finalRatio);                    
                 }
+                //Console.WriteLine();
+                //Console.WriteLine("FINISHED CHAR RATIOS!!!!!!!!");
 
-                foreach (Char c in charRatios.Keys)
+                foreach (char c in charRatios.Keys)
                 {
-                    if (charRatios[c] >= (double)numericUpDown1.Value)
+                    if (charRatios[c] >= (double)numericUpDown1.Value && !resultsOverThreshold.ContainsKey(c))
                     {
                         resultsOverThreshold.Add(c, charRatios[c]);
                     }
                 }
+                //Console.WriteLine("FINISHED RESULTSOVERTHRESHOLD!!!!!!!!!!!!1");
 
-                string formattedResults = "Chars Greather than threshold:\n";
-                foreach (Char c in resultsOverThreshold.Keys)
+               
+
+                string formattedResults = "Chars Greather than threshold:\nChar : Ratio\n";
+
+                foreach (char c in resultsOverThreshold.Keys)
                     formattedResults += c + " : " + resultsOverThreshold[c] + "\n";
+                if (formattedResults.Equals("Chars Greather than threshold:\nChar : Ratio\n"))
+                    formattedResults = "No results over threshold!";
 
                 Cursor = Cursors.Default;
                 MessageBox.Show(formattedResults);               
 
                 InChar.Clear();
                 OutChar.Clear();
+                totalCount.Clear();
+                charRatios.Clear();
+                resultsOverThreshold.Clear();
 
             }
             else if (chkCharFreqTime.Checked)
