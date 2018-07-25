@@ -16,13 +16,14 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
     {
         public FirstPairMatcher() : base()
         {
-            Algorithm = MatchingAlgorithm.FIRST_PAIR;
+            this.Algorithm = MatchingAlgorithm.FIRST_PAIR;
         }
         /// <summary>
         /// Attempts to match each echo packet with the oldest, available send packet
         /// </summary>
         public override void MatchPackets()
         {
+            Console.WriteLine("this is in first match");
             // Initialize the Send Packet Queue
             var sendQ = new Queue<Tuple<CougarPacket, int>>();
 
@@ -42,7 +43,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         // add the packet to a list for external use
                         SendPackets.Add(current);
                         break;
-                   // Match the packet to the first packet in the Queue if it's a Send
+                   // Match the packet to the first packet in the Queue if it's an Echo
                     case TCPType.ECHO:
                         // add the packet to a list of echo packets for external use
                         EchoPackets.Add(current);

@@ -22,6 +22,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
         public override void MatchPackets()
         {
+            Console.WriteLine("this is greedy");
           //  bool correctMatch = true;
             var sendQ = new Queue<Tuple<CougarPacket, int>>();
             bool firstPacket = true;

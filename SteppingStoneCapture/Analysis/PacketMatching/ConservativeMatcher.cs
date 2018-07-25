@@ -46,6 +46,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             // Try to parse the input into a double   Console.WriteLine(input);
             Double.TryParse(input, out double tg);
             Threshold = tg;
+            this.Algorithm = MatchingAlgorithm.CONSERVATIVE;
             //Console.WriteLine(tg);
         }
 
@@ -55,6 +56,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// <param name="threshold"></param>
         public ConservativeMatcher(double threshold) : base()
         {
+            this.Algorithm = MatchingAlgorithm.CONSERVATIVE;
             Threshold = threshold;
         }
 
@@ -63,6 +65,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// </summary>
         public override void MatchPackets()
         {
+            Console.WriteLine("This is in Conserv");
             bool correctMatch = true;
             //var sendQ = new Queue<CougarPacket>();
             var sendQ = new Queue<Tuple<CougarPacket, int>>();

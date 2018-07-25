@@ -20,6 +20,7 @@ namespace SteppingStoneCapture.Analysis.StepFunction
         private PacketMatcher matcher;
         private Tools.FileHandler fileHandler;
 
+
         public StepFunctionFormController()
         {
             fileHandler = new FileHandler();
@@ -28,11 +29,7 @@ namespace SteppingStoneCapture.Analysis.StepFunction
 
         public string RunAlgorithm(int algo)
         { 
-            var tuple = VerifyMatchingAlgorithm(Matcher,algo);
-            if (tuple.Item1)
-            {
-                Matcher = tuple.Item2;
-            }
+            var tuple = VerifyMatchingAlgorithm(algo);
             Matcher.ConnectionPackets = CougarPacket.ConvertRawPacketsToCougarPackets(FileHandler.PacketsReadFromFile, FileHandler.SensorIP);
             Matcher.MatchPackets();
             return Matcher.ParseResults();
@@ -92,13 +89,13 @@ namespace SteppingStoneCapture.Analysis.StepFunction
         /// - Bool declaring whether the correct algorithm is selected
         /// - The new instance of the packetmatcher
         /// </returns>
-        public Tuple<bool, PacketMatcher> VerifyMatchingAlgorithm(PacketMatcher matcher, int algo)
+        public Tuple<bool, PacketMatcher> VerifyMatchingAlgorithm(int algo)
         {
             // initialize the flag
             bool algorithmWasChanged;
-
+            Console.WriteLine(algo);
             // if the algorithm doesn't match or the matcher hasn't been initialized
-            if (matcher == null || (int)matcher.Algorithm != algo)
+            if (Matcher == null || (int)Matcher.Algorithm != algo)
             {
                 algorithmWasChanged = false;
                 // Check the desired algorithm
@@ -107,10 +104,31 @@ namespace SteppingStoneCapture.Analysis.StepFunction
                     // initialize a First-Pair Packet Matcher
                     case (int)MatchingAlgorithm.FIRST_PAIR:
                         algorithmWasChanged = true;
-                        matcher = new FirstPairMatcher();
+                        Matcher = new FirstPairMatcher();
                         break;
                     // Determine and initialize a Conservative/Greedy-Heuristic Packet Matcher
                     case (int)MatchingAlgorithm.CONSERVATIVE:
+                        {
+                            algorithmWasChanged = true;
+                            string input = "";
+                            bool validInput = false;
+                            double tg = 0;
+                            do
+                            {// Ask user for time gap allowed between Send Packets
+                                Tools.TextInput ti = new Tools.TextInput("Enter acceptable send packet time difference[in milliseconds]: ");
+                                // Set the form's title
+                                ti.Text = "Set Time Difference Threshold";
+                                // show the form to user
+                                ti.ShowDialog();
+
+                                // gather their inputted value
+                                input = ti.InputtedText;
+                                if (Double.TryParse(input, out tg)) validInput = true;
+                                // Try to parse the value into a doubleConsole.WriteLine(input);
+                            } while (!validInput);
+                            Matcher = new ConservativeMatcher(tg);
+                        }
+                        break;
                     case (int)MatchingAlgorithm.GREEDY_HEURISTIC:
                         {
                             algorithmWasChanged = true;
@@ -130,7 +148,7 @@ namespace SteppingStoneCapture.Analysis.StepFunction
                                 if (Double.TryParse(input, out tg)) validInput = true;
                                 // Try to parse the value into a doubleConsole.WriteLine(input);
                             } while (!validInput);
-                            matcher = (algo == (int)MatchingAlgorithm.CONSERVATIVE) ? new ConservativeMatcher(tg) : new GreedyHeuristicPacketMatcher(tg);
+                            Matcher = new GreedyHeuristicPacketMatcher(tg);
                         }
                         break;
                 }
@@ -139,7 +157,8 @@ namespace SteppingStoneCapture.Analysis.StepFunction
 
             else algorithmWasChanged = false;
             // return the boolean and packet matcher
-            return Tuple.Create(algorithmWasChanged, matcher);
+            Console.WriteLine("algo: "+Matcher.Algorithm);
+            return Tuple.Create(algorithmWasChanged, Matcher);
         }
 
         /// <summary>

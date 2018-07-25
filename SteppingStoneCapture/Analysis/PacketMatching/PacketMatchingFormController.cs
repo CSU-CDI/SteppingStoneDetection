@@ -20,7 +20,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
         public PacketMatchingFormController(MatchingAlgorithm algo)
         {
-            var tuple = VerifyMatchingAlgorithm(null, algo);
+            var tuple = VerifyMatchingAlgorithm(algo);
             if (tuple.Item1)
             {
                 Matcher = tuple.Item2;
@@ -41,13 +41,13 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// - Bool declaring whether the correct algorithm is selected
         /// - The new instance of the packetmatcher
         /// </returns>
-        public Tuple<bool, PacketMatcher> VerifyMatchingAlgorithm(PacketMatcher matcher, MatchingAlgorithm algo = MatchingAlgorithm.FIRST)
+        public Tuple<bool, PacketMatcher> VerifyMatchingAlgorithm(MatchingAlgorithm algo = MatchingAlgorithm.FIRST)
         {
             // initialize the flag
             bool algorithmWasChanged;
 
             // if the algorithm doesn't match or the matcher hasn't been initialized
-            if (matcher == null || matcher.Algorithm != algo)
+            if (Matcher == null || Matcher.Algorithm != algo)
             {
                 algorithmWasChanged = false;
                 // Check the desired algorithm
@@ -56,7 +56,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                     // initialize a First-Pair Packet Matcher
                     case MatchingAlgorithm.FIRST_PAIR:
                         algorithmWasChanged = true;
-                        matcher = new FirstPairMatcher();
+                        Matcher = new FirstPairMatcher();
                         break;
                     // Determine and initialize a Conservative/Greedy-Heuristic Packet Matcher
                     case MatchingAlgorithm.CONSERVATIVE:
@@ -79,7 +79,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                                 if (Double.TryParse(input, out tg)) validInput = true;
                                 // Try to parse the value into a doubleConsole.WriteLine(input);
                             } while (!validInput);
-                            matcher = (algo == MatchingAlgorithm.CONSERVATIVE) ? new ConservativeMatcher(tg) : new GreedyHeuristicPacketMatcher(tg);
+                            Matcher = (algo == MatchingAlgorithm.CONSERVATIVE) ? new ConservativeMatcher(tg) : new GreedyHeuristicPacketMatcher(tg);
                         }
                         break;
                 } 

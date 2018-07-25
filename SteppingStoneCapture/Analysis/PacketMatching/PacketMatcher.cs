@@ -61,7 +61,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// </returns>
         public static double CalculateRoundTripTime(DateTime echoT, DateTime sendT)
         {
-            return Math.Abs(echoT.Subtract(sendT).TotalMilliseconds);
+            return Math.Abs(echoT.Subtract(sendT).TotalSeconds);
         }
 
 
