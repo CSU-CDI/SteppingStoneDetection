@@ -13,10 +13,11 @@ namespace SteppingStoneCapture.Analysis
 {
     public partial class CrossOverPacket : Form
     {
-        string InputStreamFile, OutputStreamFile;
+        string InputStreamFile, OutputStreamFile, results;
         StreamReader SendFile, EchoFile;
         List<Tuple<string, string, DateTime>> SendList, EchoList;
         List<string> crossovers;
+        int crossoverCount;
 
 
         public CrossOverPacket()
@@ -24,9 +25,15 @@ namespace SteppingStoneCapture.Analysis
             InitializeComponent();
             Visible = true;
             btnOk.Enabled = false;
-            SendFile = EchoFile = null;
-            InputStreamFile = OutputStreamFile = null;
-            crossovers = null;
+            SendFile = null;
+            EchoFile = null;
+            InputStreamFile = null;
+            OutputStreamFile = null;
+            crossovers = new List<string>();
+            SendList = new List<Tuple<string, string, DateTime>>();
+            EchoList = new List<Tuple<string, string, DateTime>>();
+            results = "";
+            crossoverCount = 0;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -41,11 +48,13 @@ namespace SteppingStoneCapture.Analysis
             {
                 // read send file info
                 while ((line = SendFile.ReadLine()) != null)
-                {
-                    lineItems = line.Split(',');
+                {                    
+                    lineItems = line.Split(',');                    
                     SendList.Add(Tuple.Create("send", lineItems[0].Trim(), DateTime.Parse(lineItems[1].Trim())));
+                
                 }
                 SendFile.Close();
+            
 
                 // read echo file info
                 while ((line = EchoFile.ReadLine()) != null)
@@ -53,13 +62,15 @@ namespace SteppingStoneCapture.Analysis
                     lineItems = line.Split(',');
                     EchoList.Add(Tuple.Create("echo", lineItems[0].Trim(), DateTime.Parse(lineItems[1].Trim())));
                 }
-                EchoFile.Close();                
+                EchoFile.Close();
+            
 
-                // create new list sorted by time of day from send and echo lists
-                var sortedList = new List<Tuple<string, string, DateTime>>((SendList.Concat(EchoList)).OrderBy(d => d.Item3).ToList());
-                
-                // flag to indicate the beginning of a cross over
-                bool inCrossOver = false;             
+            // create new list sorted by time of day from send and echo lists
+            var sortedList = new List<Tuple<string, string, DateTime>>((SendList.Concat(EchoList)).OrderBy(d => d.Item3).ToList());
+            
+
+            // flag to indicate the beginning of a cross over
+            bool inCrossOver = false;             
 
                 // determine whether or not cross over exists
                 for (int i = 0; i < sortedList.Count - 1; i++)
@@ -74,21 +85,22 @@ namespace SteppingStoneCapture.Analysis
                         else if (inCrossOver && sortedList[i+1].Item1.Equals("echo"))
                         {
                             inCrossOver = false;
+                            crossoverCount++;
                             crossovers.Add(sortedList[i].Item1 + " " + sortedList[i].Item2 + " " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
-                            crossovers.Add(sortedList[i+1].Item1 + " " + sortedList[i+1].Item2 + " " + sortedList[i+1].Item3.ToString("hh:mm:ss.fff"));
+                            crossovers.Add(sortedList[i+1].Item1 + " " + sortedList[i+1].Item2 + " " + sortedList[i+1].Item3.ToString("hh:mm:ss.fff"));                            
                         }
                     }                    
                 }
 
                 // format results
-                string results;
+                //string results;
                 if (crossovers.Count < 1)
                 {
                     results = "No Cross Over packets detected!";
                 }
                 else
                 {
-                    results = "Cross Over packets detected!\n\n";
+                    results = "Cross Over packets detected!\n" + "Cross Over Count: " + crossoverCount + "\n";
                     foreach (var item in crossovers)
                     {
                         results += item + "\n";
@@ -114,6 +126,10 @@ namespace SteppingStoneCapture.Analysis
                 {
                     MessageBox.Show(results, "Results");
                 }
+                crossoverCount = 0;
+                crossovers.Clear();
+                SendList.Clear();
+                EchoList.Clear();
             }
             catch (Exception)
             {                

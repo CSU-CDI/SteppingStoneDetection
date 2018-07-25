@@ -120,8 +120,8 @@ namespace SteppingStoneCapture.Analysis
         {           
             bool srcPortFlag = Int32.TryParse(txtSrcPort.Text, out int srcPort);
             bool dstPortFlag = Int32.TryParse(txtDestPort.Text, out int dstPort);
-            //count = 0;
-
+            
+            // if condtions are met, attempt to build the packet from lower layer up, using user input
             if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
             {
                 try
@@ -168,9 +168,11 @@ namespace SteppingStoneCapture.Analysis
                             Data = new Datagram(Encoding.ASCII.GetBytes(txtInput.Text)),
                         };
 
+                    // build packet and initiate communicator
                     PacketBuilder builder = new PacketBuilder(ethernetLayer, ipV4Layer, tcpLayer, payloadLayer);
                     PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
 
+                    // send packet
                     bool flag = Int32.TryParse(txtNumPackets.Text, out int repeat);
                     if (flag && repeat > 1000)
                     {
@@ -178,7 +180,10 @@ namespace SteppingStoneCapture.Analysis
                         txtNumPackets.Text = repeat.ToString();
                     }                        
                     else if (flag && repeat < 1)
+                    {
                         repeat = 1;
+                        txtNumPackets.Text = repeat.ToString();
+                    }                        
 
                     btnOk.Enabled = false;
                     btnReset.Enabled = false;

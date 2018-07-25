@@ -69,6 +69,7 @@ namespace SteppingStoneCapture
             this.rAndomWalkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lengthEstimationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.crossoverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.injectPacketToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutUsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -131,7 +132,6 @@ namespace SteppingStoneCapture
             this.chkTCP = new System.Windows.Forms.CheckBox();
             this.chkUDP = new System.Windows.Forms.CheckBox();
             this.chkICMP = new System.Windows.Forms.CheckBox();
-            this.injectPacketToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.grpFilterParams.SuspendLayout();
@@ -390,6 +390,13 @@ namespace SteppingStoneCapture
             this.crossoverToolStripMenuItem.Text = "Cross&over-Packet";
             this.crossoverToolStripMenuItem.Click += new System.EventHandler(this.crossoverToolStripMenuItem_Click);
             // 
+            // injectPacketToolStripMenuItem
+            // 
+            this.injectPacketToolStripMenuItem.Name = "injectPacketToolStripMenuItem";
+            this.injectPacketToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.injectPacketToolStripMenuItem.Text = "Inject Packet";
+            this.injectPacketToolStripMenuItem.Click += new System.EventHandler(this.injectPacketToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -435,7 +442,6 @@ namespace SteppingStoneCapture
             this.txtFilterField.Name = "txtFilterField";
             this.txtFilterField.Size = new System.Drawing.Size(257, 22);
             this.txtFilterField.TabIndex = 8;
-            this.txtFilterField.Visible = false;
             // 
             // btnStart
             // 
@@ -553,7 +559,7 @@ namespace SteppingStoneCapture
             this.packetView.FullRowSelect = true;
             this.packetView.GridLines = true;
             this.packetView.Location = new System.Drawing.Point(12, 292);
-            this.packetView.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.packetView.Margin = new System.Windows.Forms.Padding(5);
             this.packetView.Name = "packetView";
             this.packetView.Size = new System.Drawing.Size(983, 370);
             this.packetView.TabIndex = 28;
@@ -636,7 +642,6 @@ namespace SteppingStoneCapture
             this.lblFilterField.Size = new System.Drawing.Size(77, 17);
             this.lblFilterField.TabIndex = 23;
             this.lblFilterField.Text = "Filter Field:";
-            this.lblFilterField.Visible = false;
             // 
             // grpFilterParams
             // 
@@ -691,12 +696,12 @@ namespace SteppingStoneCapture
             this.label2.Size = new System.Drawing.Size(400, 4);
             this.label2.TabIndex = 65;
             // 
-            // chkNotPort2
+            // chkPort2NOT
             // 
             this.chkPort2NOT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkPort2NOT.AutoSize = true;
             this.chkPort2NOT.Location = new System.Drawing.Point(444, 78);
-            this.chkPort2NOT.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkPort2NOT.Margin = new System.Windows.Forms.Padding(4);
             this.chkPort2NOT.Name = "chkPort2NOT";
             this.chkPort2NOT.Size = new System.Drawing.Size(52, 21);
             this.chkPort2NOT.TabIndex = 64;
@@ -867,7 +872,7 @@ namespace SteppingStoneCapture
             this.chkIPNOT2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIPNOT2.AutoSize = true;
             this.chkIPNOT2.Location = new System.Drawing.Point(444, 69);
-            this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkIPNOT2.Margin = new System.Windows.Forms.Padding(4);
             this.chkIPNOT2.Name = "chkIPNOT2";
             this.chkIPNOT2.Size = new System.Drawing.Size(52, 21);
             this.chkIPNOT2.TabIndex = 61;
@@ -1073,13 +1078,6 @@ namespace SteppingStoneCapture
             this.chkICMP.TabIndex = 67;
             this.chkICMP.Text = "ICMP";
             this.chkICMP.UseVisualStyleBackColor = true;
-            // 
-            // injectPacketToolStripMenuItem
-            // 
-            this.injectPacketToolStripMenuItem.Name = "injectPacketToolStripMenuItem";
-            this.injectPacketToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
-            this.injectPacketToolStripMenuItem.Text = "Inject Packet";
-            this.injectPacketToolStripMenuItem.Click += new System.EventHandler(this.injectPacketToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
