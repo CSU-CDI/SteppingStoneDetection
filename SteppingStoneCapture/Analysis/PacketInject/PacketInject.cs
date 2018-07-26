@@ -21,6 +21,7 @@ namespace SteppingStoneCapture.Analysis
     {
         PacketDevice selectedDevice;
         int count;
+        Timer timer;
         public PacketInject()
         {
             InitializeComponent();
@@ -28,6 +29,7 @@ namespace SteppingStoneCapture.Analysis
             //btnOk.Enabled = false;
             //lblResult.Text = "EMPTY";
             count = 0;
+            timer = new Timer();
         }
 
         public PacketInject(PacketDevice selectedDevice)
@@ -48,6 +50,7 @@ namespace SteppingStoneCapture.Analysis
                 Visible = true;
 
             radPSH.Checked = true;
+            //timer = new Timer();
         }
 
         private void radPSH_CheckedChanged(object sender, EventArgs e)
@@ -144,7 +147,7 @@ namespace SteppingStoneCapture.Analysis
                         Identification = (txtID.Text.Equals("")) ? (ushort)123 : ushort.Parse(txtID.Text),
                         Options = IpV4Options.None,
                         Protocol = null, // Will be filled automatically.
-                        Ttl = txtTTL.Text.Equals("") ? (byte)100 : byte.Parse(txtTTL.Text),
+                        Ttl = txtTTL.Text.Equals("") ? (byte)100 : byte.Parse(txtTTL.Text) > 255 ? (byte)255 : byte.Parse(txtTTL.Text) < 1 ? (byte)1 : byte.Parse(txtTTL.Text),
                         TypeOfService = 0,                        
                     };
 
@@ -173,13 +176,23 @@ namespace SteppingStoneCapture.Analysis
                     PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
 
                     // send packet
-                    bool flag = Int32.TryParse(txtNumPackets.Text, out int repeat);
-                    if (flag && repeat > 1000)
+                    bool repeatFlag = Int32.TryParse(txtNumPackets.Text, out int repeat);
+                    bool intervalFlag = Int32.TryParse(txtInterval.Text, out int interval);
+                    if (intervalFlag)
+                    {
+                        timer = new Timer();
+                        timer.Tick += new EventHandler(timer_Tick);
+                        timer.Interval = interval;
+                        timer.Enabled = true;
+                        timer.Start();
+                    }
+
+                    if (repeatFlag && !intervalFlag && repeat > 1000)
                     {
                         repeat = 1000;
                         txtNumPackets.Text = repeat.ToString();
                     }                        
-                    else if (flag && repeat < 1)
+                    else if (repeatFlag && !intervalFlag && repeat < 1)
                     {
                         repeat = 1;
                         txtNumPackets.Text = repeat.ToString();
@@ -189,7 +202,7 @@ namespace SteppingStoneCapture.Analysis
                     btnReset.Enabled = false;
                     Cursor = Cursors.WaitCursor;
                     
-                    if (flag)
+                    if (repeatFlag && !intervalFlag)
                     {
                         for (int i = 0; i < repeat; i++)
                         {
@@ -198,7 +211,7 @@ namespace SteppingStoneCapture.Analysis
                             lblResult.Text = "SUCCESS!: " + count;
                         }
                         count = 0;
-                    }                        
+                    }                      
                     else
                     {
                         communicator.SendPacket(builder.Build(DateTime.Now));
@@ -219,10 +232,73 @@ namespace SteppingStoneCapture.Analysis
                 }
             }
         }
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            bool srcPortFlag = Int32.TryParse(txtSrcPort.Text, out int srcPort);
+            bool dstPortFlag = Int32.TryParse(txtDestPort.Text, out int dstPort);
+
+            // if condtions are met, attempt to build the packet from lower layer up, using user input
+            if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
+            {
+                try
+                {
+                    EthernetLayer ethernetLayer =
+                        new EthernetLayer
+                        {
+                            Source = new MacAddress("01:01:01:01:01:01"),
+                            Destination = new MacAddress("02:02:02:02:02:02"),
+                            EtherType = EthernetType.None, // Will be filled automatically.
+                        };
+
+                    IpV4Layer ipV4Layer =
+                    new IpV4Layer
+                    {
+                        Source = new IpV4Address(txtSrcIP.Text),
+                        CurrentDestination = new IpV4Address(txtDestIP.Text),
+                        Fragmentation = IpV4Fragmentation.None,
+                        HeaderChecksum = null, // Will be filled automatically.
+                        Identification = (txtID.Text.Equals("")) ? (ushort)123 : ushort.Parse(txtID.Text),
+                        Options = IpV4Options.None,
+                        Protocol = null, // Will be filled automatically.
+                        Ttl = txtTTL.Text.Equals("") ? (byte)100 : byte.Parse(txtTTL.Text) > 255 ? (byte)255 : byte.Parse(txtTTL.Text) < 1 ? (byte)1 : byte.Parse(txtTTL.Text),
+                        TypeOfService = 0,
+                    };
+
+                    TcpLayer tcpLayer =
+                        new TcpLayer
+                        {
+                            SourcePort = (ushort)srcPort,
+                            DestinationPort = (ushort)dstPort,
+                            Checksum = null, // Will be filled automatically.
+                            SequenceNumber = txtSequence.Text.Equals("") ? 100 : uint.Parse(txtSequence.Text),
+                            AcknowledgmentNumber = txtACK.Text.Equals("") ? 50 : uint.Parse(txtACK.Text),
+                            ControlBits = (radPSH.Checked) ? TcpControlBits.Push : (radACK.Checked) ? TcpControlBits.Acknowledgment : (radRST.Checked) ? TcpControlBits.Reset : TcpControlBits.Fin,
+                            Window = txtWindow.Text.Equals("") ? (ushort)100 : ushort.Parse(txtWindow.Text),
+                            UrgentPointer = 0,
+                            Options = TcpOptions.None,
+                        };
+
+                    PayloadLayer payloadLayer =
+                        new PayloadLayer
+                        {
+                            Data = new Datagram(Encoding.ASCII.GetBytes(txtInput.Text)),
+                        };
+
+                    // build packet and initiate communicator
+                    PacketBuilder builder = new PacketBuilder(ethernetLayer, ipV4Layer, tcpLayer, payloadLayer);
+                    PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
+                    communicator.SendPacket(builder.Build(DateTime.Now));
+                }
+                catch (Exception)
+                {                    
+                    timer.Dispose();
+                }
+            }
+        }
 
         private void txtInput_Enter(object sender, EventArgs e)
         {
-            if (txtInput.Text.Equals("Message to Send..."))
+            if (txtInput.Text.Equals("Message / Payload to Send..."))
             {
                 txtInput.Text = "";
             }            
@@ -232,16 +308,16 @@ namespace SteppingStoneCapture.Analysis
         {
             if (txtInput.Text.Equals(""))
             {
-                txtInput.Text = "Message to Send...";
+                txtInput.Text = "Message / Payload to Send...";
             }            
         }
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            txtSrcIP.Text = txtDestIP.Text = txtSrcPort.Text = txtDestPort.Text = txtNumPackets.Text = txtWindow.Text = txtTTL.Text = txtSequence.Text = txtID.Text = txtACK.Text = "";
-            txtInput.Text = "Message to Send...";
-            radPSH.Checked = true;
-            lblResult.Text = "";
+            txtSrcIP.Text = txtDestIP.Text = txtSrcPort.Text = txtDestPort.Text = txtNumPackets.Text = txtWindow.Text = txtTTL.Text = txtSequence.Text = txtID.Text = txtACK.Text = txtInterval.Text = lblResult.Text = "";
+            txtInput.Text = "Message / Payload to Send...";            
+            radPSH.Checked = true;            
+            timer.Dispose();
 
         }
 

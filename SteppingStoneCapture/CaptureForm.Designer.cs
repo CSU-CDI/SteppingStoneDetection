@@ -570,12 +570,13 @@ namespace SteppingStoneCapture
             // packNum
             // 
             this.packNum.Text = "Packet #";
+            this.packNum.Width = 65;
             // 
             // TimeStamp
             // 
             this.TimeStamp.Text = "Time Stamp";
             this.TimeStamp.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TimeStamp.Width = 80;
+            this.TimeStamp.Width = 86;
             // 
             // SourceIP
             // 

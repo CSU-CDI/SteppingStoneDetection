@@ -131,8 +131,7 @@ namespace SteppingStoneCapture.Analysis
             {
                 Cursor = Cursors.WaitCursor;
                 InFile = new StreamReader(InputStreamFile);
-                OutFile = new StreamReader(OutputStreamFile);                
-                
+                OutFile = new StreamReader(OutputStreamFile);  
 
                 while ((line = InFile.ReadLine()) != null)
                 {
@@ -181,13 +180,7 @@ namespace SteppingStoneCapture.Analysis
                         }                        
                     }                        
                 }
-                /*Console.WriteLine("--------------------------------------------------------------------------------");
-                Console.WriteLine("IN CHAR VALS:\n");
-                foreach (char c in InChar.Keys)
-                {
-                    Console.WriteLine(c + " val: " + InChar[c]);
-                }
-                Console.WriteLine("--------------------------------------------------------------------------------");*/
+                
                 InFile.Close();
                 
                 // read lines from outgoing stream file
@@ -204,13 +197,7 @@ namespace SteppingStoneCapture.Analysis
                             OutChar[c]++;
                     }
                 }
-                /*Console.WriteLine("--------------------------------------------------------------------------------");
-                Console.WriteLine("OUT CHAR VALS:\n");
-                foreach (char c in OutChar.Keys)
-                {
-                    Console.WriteLine(c + " val: " + OutChar[c]);
-                }
-                Console.WriteLine("--------------------------------------------------------------------------------");*/
+                
                 OutFile.Close();
                 
                 // begin iterating through char count and adding values to total count                
@@ -219,46 +206,15 @@ namespace SteppingStoneCapture.Analysis
                     if (OutChar.ContainsKey(c))
                     {                        
                         totalCount.Add(c, Tuple.Create(InChar[c], OutChar[c]));
-                        //Console.WriteLine(c + " inchar: " + totalCount[c].Item1 + " outchar: " + totalCount[c].Item2);
                     }
-                }
-                /*Console.WriteLine("--------------------------------------------------------------------------------");
-                Console.WriteLine("AFTER ADDING TO TOTALCOUNT");
-                Console.WriteLine("--------------------------------------------------------------------------------");
-                Console.WriteLine("--------------------------------------------------------------------------------");
-                Console.WriteLine("IN CHAR VALS:\n");
-                foreach (char c in InChar.Keys)
-                {
-                    Console.WriteLine(c + " val: " + InChar[c]);
-                }
-                Console.WriteLine("--------------------------------------------------------------------------------");
-                Console.WriteLine("OUT CHAR VALS");
-                foreach (char c in OutChar.Keys)
-                {
-                    Console.WriteLine(c + " val: " + OutChar[c]);
-                }
-                Console.WriteLine("--------------------------------------------------------------------------------");*/
-                /*foreach (char c in totalCount.Keys)
-                {
-                    Console.WriteLine(c + " in: " + totalCount[c].Item1 + " out:" + totalCount[c].Item2);
-                }*/
-                //Console.WriteLine("FINISHED TOTALCOUNT!!!!");
+                }               
 
                 // calculate ratios and add them to dictionary as values with their corresponding hex vals as keys
-                
-                //double numerator, denominator, quotient, finalRatio;
                 foreach (char c in totalCount.Keys)
-                {                    
-                    /*numerator = Math.Abs(totalCount[c].Item1 - totalCount[c].Item2);
-                    denominator = Math.Max(totalCount[c].Item1, totalCount[c].Item2);
-                    quotient = numerator / denominator;
-                    finalRatio = 1d - quotient;*/
+                {   
                     charRatios.Add(c, (1d - (double)((Math.Abs((double)totalCount[c].Item1 - (double)totalCount[c].Item2)) 
-                        / Math.Max((double)totalCount[c].Item1, (double)totalCount[c].Item2))));                    
-                    //charRatios.Add(c, finalRatio);                    
-                }
-                //Console.WriteLine();
-                //Console.WriteLine("FINISHED CHAR RATIOS!!!!!!!!");
+                        / Math.Max((double)totalCount[c].Item1, (double)totalCount[c].Item2))));                                        
+                }                
 
                 foreach (char c in charRatios.Keys)
                 {
@@ -267,9 +223,6 @@ namespace SteppingStoneCapture.Analysis
                         resultsOverThreshold.Add(c, charRatios[c]);
                     }
                 }
-                //Console.WriteLine("FINISHED RESULTSOVERTHRESHOLD!!!!!!!!!!!!1");
-
-               
 
                 string formattedResults = "Chars Greather than threshold:\nChar : Ratio\n";
 
