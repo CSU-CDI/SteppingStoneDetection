@@ -381,6 +381,7 @@ namespace SteppingStoneCapture
             this.lengthEstimationToolStripMenuItem.Name = "lengthEstimationToolStripMenuItem";
             this.lengthEstimationToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
             this.lengthEstimationToolStripMenuItem.Text = "Clustering-Partitionin&g";
+            this.lengthEstimationToolStripMenuItem.Visible = false;
             this.lengthEstimationToolStripMenuItem.Click += new System.EventHandler(this.lengthEstimationToolStripMenuItem_Click);
             // 
             // crossoverToolStripMenuItem

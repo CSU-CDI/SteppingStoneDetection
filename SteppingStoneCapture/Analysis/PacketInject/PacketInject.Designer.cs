@@ -110,7 +110,7 @@
             this.btnOk.Location = new System.Drawing.Point(11, 365);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(94, 41);
-            this.btnOk.TabIndex = 99;
+            this.btnOk.TabIndex = 8;
             this.btnOk.Text = "&Send";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -120,21 +120,21 @@
             this.txtSrcIP.Location = new System.Drawing.Point(100, 30);
             this.txtSrcIP.Name = "txtSrcIP";
             this.txtSrcIP.Size = new System.Drawing.Size(142, 22);
-            this.txtSrcIP.TabIndex = 5;
+            this.txtSrcIP.TabIndex = 1;
             // 
             // txtDestIP
             // 
             this.txtDestIP.Location = new System.Drawing.Point(100, 58);
             this.txtDestIP.Name = "txtDestIP";
             this.txtDestIP.Size = new System.Drawing.Size(142, 22);
-            this.txtDestIP.TabIndex = 6;
+            this.txtDestIP.TabIndex = 2;
             // 
             // txtSrcPort
             // 
             this.txtSrcPort.Location = new System.Drawing.Point(100, 87);
             this.txtSrcPort.Name = "txtSrcPort";
             this.txtSrcPort.Size = new System.Drawing.Size(142, 22);
-            this.txtSrcPort.TabIndex = 7;
+            this.txtSrcPort.TabIndex = 3;
             // 
             // grpFlags
             // 
@@ -235,7 +235,7 @@
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
             this.txtInput.Size = new System.Drawing.Size(208, 63);
-            this.txtInput.TabIndex = 16;
+            this.txtInput.TabIndex = 7;
             this.txtInput.Text = "Message / Payload to Send...";
             this.txtInput.Enter += new System.EventHandler(this.txtInput_Enter);
             this.txtInput.Leave += new System.EventHandler(this.txtInput_Leave);
@@ -245,7 +245,7 @@
             this.txtDestPort.Location = new System.Drawing.Point(100, 115);
             this.txtDestPort.Name = "txtDestPort";
             this.txtDestPort.Size = new System.Drawing.Size(142, 22);
-            this.txtDestPort.TabIndex = 8;
+            this.txtDestPort.TabIndex = 4;
             // 
             // lblDestPort
             // 
@@ -261,7 +261,7 @@
             this.txtNumPackets.Location = new System.Drawing.Point(248, 58);
             this.txtNumPackets.Name = "txtNumPackets";
             this.txtNumPackets.Size = new System.Drawing.Size(71, 22);
-            this.txtNumPackets.TabIndex = 9;
+            this.txtNumPackets.TabIndex = 6;
             // 
             // lblNumPackets
             // 
@@ -312,7 +312,7 @@
             this.txtID.Location = new System.Drawing.Point(187, 143);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(55, 22);
-            this.txtID.TabIndex = 11;
+            this.txtID.TabIndex = 10;
             // 
             // lblSequence
             // 
@@ -328,14 +328,14 @@
             this.txtSequence.Location = new System.Drawing.Point(100, 144);
             this.txtSequence.Name = "txtSequence";
             this.txtSequence.Size = new System.Drawing.Size(55, 22);
-            this.txtSequence.TabIndex = 10;
+            this.txtSequence.TabIndex = 9;
             // 
             // txtACK
             // 
             this.txtACK.Location = new System.Drawing.Point(203, 171);
             this.txtACK.Name = "txtACK";
             this.txtACK.Size = new System.Drawing.Size(55, 22);
-            this.txtACK.TabIndex = 13;
+            this.txtACK.TabIndex = 12;
             // 
             // label2
             // 
@@ -360,7 +360,7 @@
             this.txtWindow.Location = new System.Drawing.Point(100, 172);
             this.txtWindow.Name = "txtWindow";
             this.txtWindow.Size = new System.Drawing.Size(55, 22);
-            this.txtWindow.TabIndex = 12;
+            this.txtWindow.TabIndex = 11;
             // 
             // lblRequired
             // 
@@ -387,7 +387,7 @@
             this.txtInterval.Location = new System.Drawing.Point(216, 200);
             this.txtInterval.Name = "txtInterval";
             this.txtInterval.Size = new System.Drawing.Size(87, 22);
-            this.txtInterval.TabIndex = 104;
+            this.txtInterval.TabIndex = 5;
             // 
             // PacketInject
             // 
