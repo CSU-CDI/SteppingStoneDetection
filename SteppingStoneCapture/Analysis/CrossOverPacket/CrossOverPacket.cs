@@ -86,15 +86,15 @@ namespace SteppingStoneCapture.Analysis
                         if (sortedList[i+1].Item1.Equals("send")/* && int.Parse(sortedList[i+1].Item2) < int.Parse(sortedList[i].Item2)*/)
                         {                        
                             inCrossOver = true;
-                            crossovers.Add(sortedList[i].Item1 + " " + sortedList[i].Item2 + " " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
+                            crossovers.Add(sortedList[i].Item1 + " - " + sortedList[i].Item2 + " - " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
                         } 
                         else if (inCrossOver && sortedList[i+1].Item1.Equals("echo")/* && int.Parse(sortedList[i+1].Item2) < int.Parse(sortedList[i].Item2)*/)
                         {
                             end = sortedList[i+1].Item3;
                             inCrossOver = false;
                             crossoverCount++;
-                            crossovers.Add(sortedList[i].Item1 + " " + sortedList[i].Item2 + " " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
-                            crossovers.Add(sortedList[i+1].Item1 + " " + sortedList[i+1].Item2 + " " + sortedList[i+1].Item3.ToString("hh:mm:ss.fff"));
+                            crossovers.Add(sortedList[i].Item1 + " - " + sortedList[i].Item2 + " - " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
+                            crossovers.Add(sortedList[i+1].Item1 + " - " + sortedList[i+1].Item2 + " - " + sortedList[i+1].Item3.ToString("hh:mm:ss.fff"));
                             TimeSpan span = end.Subtract(start);
                             crossovers.Add("RTT: " + span.Milliseconds.ToString() + " ms");
                             crossovers.Add("----------------------------------------");
@@ -109,7 +109,7 @@ namespace SteppingStoneCapture.Analysis
                 }
                 else
                 {
-                    results = "Cross Over packets detected!\n" + "Cross Over Count: " + crossoverCount + "\nSend/Echo\tPacket#\tTimestamp" + "\n----------------------------------------\n";
+                    results = "Cross Over packets detected!\n" + "Cross Over Count: " + crossoverCount + "\n----------------------------------------\nSend/Echo - Packet# - Timestamp" + "\n----------------------------------------\n";
                     foreach (var item in crossovers)
                     {
                         results += item + "\n";
