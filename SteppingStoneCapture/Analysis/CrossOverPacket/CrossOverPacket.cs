@@ -109,7 +109,7 @@ namespace SteppingStoneCapture.Analysis
                 }
                 else
                 {
-                    results = "Cross Over packets detected!\n" + "Cross Over Count: " + crossoverCount + "\n----------------------------------------\n";
+                    results = "Cross Over packets detected!\n" + "Cross Over Count: " + crossoverCount + "\nSend/Echo\tPacket#\tTimestamp" + "\n----------------------------------------\n";
                     foreach (var item in crossovers)
                     {
                         results += item + "\n";
