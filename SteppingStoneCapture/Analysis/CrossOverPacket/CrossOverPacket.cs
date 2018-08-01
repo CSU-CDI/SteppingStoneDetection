@@ -69,25 +69,34 @@ namespace SteppingStoneCapture.Analysis
             var sortedList = new List<Tuple<string, string, DateTime>>((SendList.Concat(EchoList)).OrderBy(combinedList => int.Parse(combinedList.Item2)).ToList());            
 
             // flag to indicate the beginning of a cross over
-            bool inCrossOver = false;             
+            bool inCrossOver = false;
 
                 // determine whether or not cross over exists
                 // TODO: review this to make sure the logic is correct concerning the time condition
+                DateTime start = DateTime.Now;
+                DateTime end = DateTime.Now;
                 for (int i = 0; i < sortedList.Count - 1; i++)
                 {
                     if (sortedList[i].Item1.Equals("send"))
                     { // if next packet is send packet and it's number is less than prev send packet
-                        if (sortedList[i+1].Item1.Equals("send")/* && int.Parse(sortedList[i+1].Item2) < int.Parse(sortedList[i].Item2)*/)
+                        if (!inCrossOver)
                         {
+                            start = sortedList[i].Item3;
+                        }
+                        if (sortedList[i+1].Item1.Equals("send")/* && int.Parse(sortedList[i+1].Item2) < int.Parse(sortedList[i].Item2)*/)
+                        {                        
                             inCrossOver = true;
                             crossovers.Add(sortedList[i].Item1 + " " + sortedList[i].Item2 + " " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
                         } 
                         else if (inCrossOver && sortedList[i+1].Item1.Equals("echo")/* && int.Parse(sortedList[i+1].Item2) < int.Parse(sortedList[i].Item2)*/)
                         {
+                            end = sortedList[i+1].Item3;
                             inCrossOver = false;
                             crossoverCount++;
                             crossovers.Add(sortedList[i].Item1 + " " + sortedList[i].Item2 + " " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
                             crossovers.Add(sortedList[i+1].Item1 + " " + sortedList[i+1].Item2 + " " + sortedList[i+1].Item3.ToString("hh:mm:ss.fff"));
+                            TimeSpan span = end.Subtract(start);
+                            crossovers.Add("RTT: " + span.Milliseconds.ToString());
                             crossovers.Add("----------------------------------------");
                         }
                     }                    

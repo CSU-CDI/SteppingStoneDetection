@@ -301,40 +301,40 @@
             // lblID
             // 
             this.lblID.AutoSize = true;
-            this.lblID.Location = new System.Drawing.Point(161, 146);
+            this.lblID.Location = new System.Drawing.Point(172, 144);
             this.lblID.Name = "lblID";
-            this.lblID.Size = new System.Drawing.Size(25, 17);
+            this.lblID.Size = new System.Drawing.Size(37, 17);
             this.lblID.TabIndex = 18;
-            this.lblID.Text = "ID:";
+            this.lblID.Text = "ID #:";
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(187, 143);
+            this.txtID.Location = new System.Drawing.Point(215, 142);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(55, 22);
+            this.txtID.Size = new System.Drawing.Size(104, 22);
             this.txtID.TabIndex = 10;
             // 
             // lblSequence
             // 
             this.lblSequence.AutoSize = true;
-            this.lblSequence.Location = new System.Drawing.Point(18, 146);
+            this.lblSequence.Location = new System.Drawing.Point(11, 144);
             this.lblSequence.Name = "lblSequence";
-            this.lblSequence.Size = new System.Drawing.Size(76, 17);
+            this.lblSequence.Size = new System.Drawing.Size(88, 17);
             this.lblSequence.TabIndex = 20;
-            this.lblSequence.Text = "Sequence:";
+            this.lblSequence.Text = "Sequence #:";
             // 
             // txtSequence
             // 
-            this.txtSequence.Location = new System.Drawing.Point(100, 144);
+            this.txtSequence.Location = new System.Drawing.Point(100, 141);
             this.txtSequence.Name = "txtSequence";
-            this.txtSequence.Size = new System.Drawing.Size(55, 22);
+            this.txtSequence.Size = new System.Drawing.Size(66, 22);
             this.txtSequence.TabIndex = 9;
             // 
             // txtACK
             // 
-            this.txtACK.Location = new System.Drawing.Point(203, 171);
+            this.txtACK.Location = new System.Drawing.Point(215, 170);
             this.txtACK.Name = "txtACK";
-            this.txtACK.Size = new System.Drawing.Size(55, 22);
+            this.txtACK.Size = new System.Drawing.Size(104, 22);
             this.txtACK.TabIndex = 12;
             // 
             // label2
@@ -342,9 +342,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(158, 174);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 17);
+            this.label2.Size = new System.Drawing.Size(51, 17);
             this.label2.TabIndex = 23;
-            this.label2.Text = "ACK:";
+            this.label2.Text = "ACK #:";
             // 
             // label3
             // 
@@ -386,14 +386,14 @@
             // 
             this.txtInterval.Location = new System.Drawing.Point(216, 200);
             this.txtInterval.Name = "txtInterval";
-            this.txtInterval.Size = new System.Drawing.Size(87, 22);
+            this.txtInterval.Size = new System.Drawing.Size(103, 22);
             this.txtInterval.TabIndex = 5;
             // 
             // PacketInject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 415);
+            this.ClientSize = new System.Drawing.Size(334, 414);
             this.Controls.Add(this.txtInterval);
             this.Controls.Add(this.lblInterval);
             this.Controls.Add(this.lblRequired);
