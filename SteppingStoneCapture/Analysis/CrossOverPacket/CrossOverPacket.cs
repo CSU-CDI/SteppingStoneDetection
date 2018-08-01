@@ -96,7 +96,7 @@ namespace SteppingStoneCapture.Analysis
                             crossovers.Add(sortedList[i].Item1 + " " + sortedList[i].Item2 + " " + sortedList[i].Item3.ToString("hh:mm:ss.fff"));
                             crossovers.Add(sortedList[i+1].Item1 + " " + sortedList[i+1].Item2 + " " + sortedList[i+1].Item3.ToString("hh:mm:ss.fff"));
                             TimeSpan span = end.Subtract(start);
-                            crossovers.Add("RTT: " + span.Milliseconds.ToString());
+                            crossovers.Add("RTT: " + span.Milliseconds.ToString() + " ms");
                             crossovers.Add("----------------------------------------");
                         }
                     }                    
