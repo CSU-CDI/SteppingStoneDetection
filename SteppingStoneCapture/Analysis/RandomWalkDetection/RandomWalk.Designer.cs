@@ -41,6 +41,7 @@
             this.outBox = new System.Windows.Forms.TextBox();
             this.incButton = new System.Windows.Forms.Button();
             this.outButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericThres)).BeginInit();
             this.SuspendLayout();
             // 
@@ -158,11 +159,22 @@
             this.outButton.UseVisualStyleBackColor = true;
             this.outButton.Click += new System.EventHandler(this.outButton_Click);
             // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(554, 93);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(75, 23);
+            this.resetButton.TabIndex = 45;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
             // RandomWalk
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(650, 326);
+            this.Controls.Add(this.resetButton);
             this.Controls.Add(this.outButton);
             this.Controls.Add(this.incButton);
             this.Controls.Add(this.outBox);
@@ -197,5 +209,6 @@
         private System.Windows.Forms.TextBox outBox;
         private System.Windows.Forms.Button incButton;
         private System.Windows.Forms.Button outButton;
+        private System.Windows.Forms.Button resetButton;
     }
 }
