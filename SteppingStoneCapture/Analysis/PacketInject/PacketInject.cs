@@ -13,15 +13,21 @@ using PcapDotNet.Packets.Transport;
 using PcapDotNet.Packets.Ethernet;
 using PcapDotNet.Base;
 using PcapDotNet.Core;
+using PcapDotNet.Core.Extensions;
+using System.Net.NetworkInformation;
+using System.Net;
+using PcapDotNet.Packets.Arp;
 
 
 namespace SteppingStoneCapture.Analysis
 {
     public partial class PacketInject : Form
     {
-        PacketDevice selectedDevice;
+        LivePacketDevice selectedDevice;
         int count;
         Timer timer;
+        MacAddress sourceMac;
+        IPAddress gatewayAddy;
         public PacketInject()
         {
             InitializeComponent();
@@ -29,15 +35,17 @@ namespace SteppingStoneCapture.Analysis
             //btnOk.Enabled = false;
             //lblResult.Text = "EMPTY";
             count = 0;
-            timer = new Timer();
+            timer = new Timer();            
         }
 
-        public PacketInject(PacketDevice selectedDevice)
-        {
+        public PacketInject(LivePacketDevice selectedDevice, MacAddress sourceMac, IPAddress gatewayAddy)
+        {            
             InitializeComponent();
             //Visible = true;
             //btnOk.Enabled = false;
             //lblResult.Text = "EMPTY";
+            this.sourceMac = sourceMac;
+            this.gatewayAddy = gatewayAddy;
             this.selectedDevice = selectedDevice;
             count = 0;
             if (selectedDevice == null)
@@ -51,6 +59,25 @@ namespace SteppingStoneCapture.Analysis
 
             radPSH.Checked = true;
             //timer = new Timer();
+        }
+
+        [System.Runtime.InteropServices.DllImport("iphlpapi.dll", ExactSpelling = true)]
+        public static extern int SendARP(uint destIP, uint srcIP, byte[] macAddress, ref uint macAddressLength);
+
+        public static MacAddress GetMacAddress(IPAddress address)
+        {
+            byte[] mac = new byte[6];
+            uint len = (uint)mac.Length;
+            byte[] addressBytes = address.GetAddressBytes();
+            uint dest = ((uint)addressBytes[3] << 24)
+              + ((uint)addressBytes[2] << 16)
+              + ((uint)addressBytes[1] << 8)
+              + ((uint)addressBytes[0]);
+            if (SendARP(dest, 0, mac, ref len) != 0)
+            {
+                throw new Exception("The ARP request failed.");
+            }
+            return new MacAddress(BitConverter.ToString(mac).Replace("-", ":"));
         }
 
         private void radPSH_CheckedChanged(object sender, EventArgs e)
@@ -123,6 +150,8 @@ namespace SteppingStoneCapture.Analysis
         {           
             bool srcPortFlag = Int32.TryParse(txtSrcPort.Text, out int srcPort);
             bool dstPortFlag = Int32.TryParse(txtDestPort.Text, out int dstPort);
+            Console.WriteLine(sourceMac);
+            Console.WriteLine(GetMacAddress(gatewayAddy).ToString());
             
             // if condtions are met, attempt to build the packet from lower layer up, using user input
             if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
@@ -132,8 +161,9 @@ namespace SteppingStoneCapture.Analysis
                     EthernetLayer ethernetLayer =
                         new EthernetLayer
                         {
-                            Source = new MacAddress("01:01:01:01:01:01"),
-                            Destination = new MacAddress("02:02:02:02:02:02"),
+                            Source = sourceMac,
+                            //Destination = new MacAddress("02:02:02:02:02:02"),
+                            Destination = new MacAddress(GetMacAddress(gatewayAddy).ToString()),
                             EtherType = EthernetType.None, // Will be filled automatically.
                         };
 
