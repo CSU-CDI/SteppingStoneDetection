@@ -150,8 +150,8 @@ namespace SteppingStoneCapture.Analysis
         {           
             bool srcPortFlag = Int32.TryParse(txtSrcPort.Text, out int srcPort);
             bool dstPortFlag = Int32.TryParse(txtDestPort.Text, out int dstPort);
-            Console.WriteLine(sourceMac);
-            Console.WriteLine(GetMacAddress(gatewayAddy).ToString());
+            //Console.WriteLine(sourceMac);
+            //Console.WriteLine(GetMacAddress(gatewayAddy).ToString());
             
             // if condtions are met, attempt to build the packet from lower layer up, using user input
             if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
@@ -189,7 +189,7 @@ namespace SteppingStoneCapture.Analysis
                             Checksum = null, // Will be filled automatically.
                             SequenceNumber = txtSequence.Text.Equals("") ? 100 : uint.Parse(txtSequence.Text),
                             AcknowledgmentNumber = txtACK.Text.Equals("") ? 50 : uint.Parse(txtACK.Text),                           
-                            ControlBits = (radPSH.Checked) ? TcpControlBits.Push : (radACK.Checked) ? TcpControlBits.Acknowledgment : (radRST.Checked) ? TcpControlBits.Reset : TcpControlBits.Fin,
+                            ControlBits = (radPSH.Checked) ? TcpControlBits.Push : (radACK.Checked) ? TcpControlBits.Acknowledgment : (radRST.Checked) ? TcpControlBits.Reset : (radFIN.Checked) ? TcpControlBits.Fin : TcpControlBits.Synchronize,
                             Window = txtWindow.Text.Equals("") ? (ushort)100 : ushort.Parse(txtWindow.Text),
                             UrgentPointer = 0,
                             Options = TcpOptions.None,                            
@@ -275,8 +275,8 @@ namespace SteppingStoneCapture.Analysis
                     EthernetLayer ethernetLayer =
                         new EthernetLayer
                         {
-                            Source = new MacAddress("01:01:01:01:01:01"),
-                            Destination = new MacAddress("02:02:02:02:02:02"),
+                            Source = sourceMac,
+                            Destination = new MacAddress(GetMacAddress(gatewayAddy).ToString()),
                             EtherType = EthernetType.None, // Will be filled automatically.
                         };
 
@@ -302,7 +302,7 @@ namespace SteppingStoneCapture.Analysis
                             Checksum = null, // Will be filled automatically.
                             SequenceNumber = txtSequence.Text.Equals("") ? 100 : uint.Parse(txtSequence.Text),
                             AcknowledgmentNumber = txtACK.Text.Equals("") ? 50 : uint.Parse(txtACK.Text),
-                            ControlBits = (radPSH.Checked) ? TcpControlBits.Push : (radACK.Checked) ? TcpControlBits.Acknowledgment : (radRST.Checked) ? TcpControlBits.Reset : TcpControlBits.Fin,
+                            ControlBits = (radPSH.Checked) ? TcpControlBits.Push : (radACK.Checked) ? TcpControlBits.Acknowledgment : (radRST.Checked) ? TcpControlBits.Reset : (radFIN.Checked) ? TcpControlBits.Fin : TcpControlBits.Synchronize,
                             Window = txtWindow.Text.Equals("") ? (ushort)100 : ushort.Parse(txtWindow.Text),
                             UrgentPointer = 0,
                             Options = TcpOptions.None,
