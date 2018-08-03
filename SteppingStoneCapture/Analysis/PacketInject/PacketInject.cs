@@ -27,25 +27,22 @@ namespace SteppingStoneCapture.Analysis
         int count;
         Timer timer;
         MacAddress sourceMac;
+        MacAddress destMac;
         IPAddress gatewayAddy;
         public PacketInject()
         {
             InitializeComponent();
-            Visible = true;
-            //btnOk.Enabled = false;
-            //lblResult.Text = "EMPTY";
+            Visible = true;            
             count = 0;
             timer = new Timer();            
         }
 
-        public PacketInject(LivePacketDevice selectedDevice, MacAddress sourceMac, IPAddress gatewayAddy)
+        public PacketInject(LivePacketDevice selectedDevice)
         {            
-            InitializeComponent();
-            //Visible = true;
-            //btnOk.Enabled = false;
-            //lblResult.Text = "EMPTY";
-            this.sourceMac = sourceMac;
-            this.gatewayAddy = gatewayAddy;
+            InitializeComponent();            
+            this.sourceMac = selectedDevice.GetMacAddress();
+            this.destMac = new MacAddress(GetMacAddress(gatewayAddy).ToString());
+            this.gatewayAddy = selectedDevice.GetNetworkInterface().GetIPProperties().GatewayAddresses[0].Address;            
             this.selectedDevice = selectedDevice;
             count = 0;
             if (selectedDevice == null)
@@ -57,8 +54,7 @@ namespace SteppingStoneCapture.Analysis
             else
                 Visible = true;
 
-            radPSH.Checked = true;
-            //timer = new Timer();
+            radPSH.Checked = true;            
         }
 
         [System.Runtime.InteropServices.DllImport("iphlpapi.dll", ExactSpelling = true)]
@@ -157,13 +153,13 @@ namespace SteppingStoneCapture.Analysis
             if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
             {
                 try
-                {
+                {   
                     EthernetLayer ethernetLayer =
                         new EthernetLayer
                         {
                             Source = sourceMac,
                             //Destination = new MacAddress("02:02:02:02:02:02"),
-                            Destination = new MacAddress(GetMacAddress(gatewayAddy).ToString()),
+                            Destination = destMac,
                             EtherType = EthernetType.None, // Will be filled automatically.
                         };
 
@@ -203,7 +199,7 @@ namespace SteppingStoneCapture.Analysis
 
                     // build packet and initiate communicator
                     PacketBuilder builder = new PacketBuilder(ethernetLayer, ipV4Layer, tcpLayer, payloadLayer);
-                    PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
+                    PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);                    
 
                     // send packet
                     bool repeatFlag = Int32.TryParse(txtNumPackets.Text, out int repeat);
@@ -276,7 +272,7 @@ namespace SteppingStoneCapture.Analysis
                         new EthernetLayer
                         {
                             Source = sourceMac,
-                            Destination = new MacAddress(GetMacAddress(gatewayAddy).ToString()),
+                            Destination = destMac,
                             EtherType = EthernetType.None, // Will be filled automatically.
                         };
 

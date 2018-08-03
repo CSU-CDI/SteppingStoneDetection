@@ -777,8 +777,18 @@ namespace SteppingStoneCapture
             randomWalk.Show();
         }
 
-        private void injectPacketToolStripMenuItem_Click(object sender, EventArgs e) => new Analysis.PacketInject(selectedDevice, selectedDevice.GetMacAddress(), selectedDevice.GetNetworkInterface().GetIPProperties().GatewayAddresses[0].Address);        
-
+        private void injectPacketToolStripMenuItem_Click(object sender, EventArgs e)
+        {        
+            if (selectedDevice != null)
+            {
+                new Analysis.PacketInject(allLivePacketDevices[cmbInterfaces.SelectedIndex]);
+            }
+            else
+            {
+                MessageBox.Show("Must select a network interface first!");
+            }
+            
+        }
         /*
 * Loads the Step Function in a LAN program 
 */
