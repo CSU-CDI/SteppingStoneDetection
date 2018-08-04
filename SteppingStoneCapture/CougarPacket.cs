@@ -163,7 +163,7 @@ namespace SteppingStoneCapture
                         cp.Payload = tcp.Payload;
                         cp.TCPFlags = tcp.ControlBits.ToString();
                         cp.getPayload();
-                        cp.Type = CougarPacket.DeterminePacketTCPType(cp);
+                        cp.Type = DeterminePacketTCPType(cp);
                         break;
 
                     case "udp":  // udp packet received
@@ -223,6 +223,7 @@ namespace SteppingStoneCapture
             else result = TCPType.NONE;
             return result;
         }
+
         public override string ToString()
         {
             string pay = (payloadData != null) ? BitConverter.ToString(payloadData).Replace("-", "") : "nil";

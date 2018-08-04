@@ -63,8 +63,9 @@ namespace SteppingStoneCapture.Analysis.StepFunction
                     dataSeries.Points.AddXY(index, Matcher.RoundTripTimes[i]);
                 }
 
-                // Assign the max height to the y-axis control object
-                graphingChart.ChartAreas.FindByName(ChartAreaName).AxisY.Maximum = maxY + 10;
+                // Assign the max/min height to the y-axis control object
+                graphingChart.ChartAreas.FindByName(ChartAreaName).AxisY.Maximum = Matcher.MaxValue + 10;
+                graphingChart.ChartAreas.FindByName(ChartAreaName).AxisY.Minimum = Matcher.MinValue - 10;
 
                 // reassign the modified series to the chart
                 graphingChart.Series[SeriesName] = dataSeries;

@@ -24,6 +24,9 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         private Dictionary<double, string> pairedMatches;
         private int nbrMatches = 0, sendIndex = 0, echoIndex = 0;
         private MatchingAlgorithm algorithm;
+        private double maxValue, minValue, average, standardDeviation;
+
+        private const int numberOfDeviations = 2;
 
         // default constructor for PacketMatcher
         public PacketMatcher()
@@ -45,6 +48,13 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         protected int NumberOfMatches { get => nbrMatches; set => nbrMatches = value; }
         public int SendIndex { get => sendIndex; set => sendIndex = value; }
         public int EchoIndex { get => echoIndex; set => echoIndex = value; }
+
+        public static double NumberOfDeviations => numberOfDeviations;
+
+        public double MaxValue { get => maxValue; set => maxValue = value; }
+        public double MinValue { get => minValue; set => minValue = value; }
+        public double Average { get => average; set => average = value; }
+        public double StandardDeviation { get => standardDeviation; set => standardDeviation = value; }
 
 
         /// <summary>
@@ -75,6 +85,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             EchoPackets.Clear();
             RoundTripTimes.Clear();
             NumberOfMatches = 0;
+            Average = 0;
+            StandardDeviation = 0;
             EchoIndex = 0;
             SendIndex = 0;
             PairedMatches.Clear();
@@ -92,6 +104,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         {
             if (PairedMatches.Values.Count > 0)
             {
+                CalculateExtremeValues();
                 System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
                 // gather data on the results
                 var numSend = SendPackets.Count;
@@ -134,9 +147,49 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
             results.AppendLine();
             results.AppendLine( $"Number of Matches: {PairedMatches.Count}");
             results.AppendLine(String.Format("Percentage matched of all possible pairs: {0:F}%", (100 * PairedMatches.Count / Math.Min(numSend, numEcho))));
+            results.AppendLine($"RTT:\n    Min = {MinValue}\n    Max = {MaxValue}\n    Avg. = {Average}\n    Std. Dev = {StandardDeviation}");
             return results.ToString();
         }
 
+        public void CalculateExtremeValues()
+        {
+            if (RoundTripTimes.Count > 0)
+            {
+                // initialize average to the first element
+                double avg = RoundTripTimes[0],
+                       max = RoundTripTimes[0],
+                       min = RoundTripTimes[0];
+
+                // sum all following Round Trip Times
+                for (int ndx = 1; ndx < RoundTripTimes.Count; ++ndx)
+                {
+                    avg += RoundTripTimes[ndx];
+
+                    if (max < RoundTripTimes[ndx])
+                        max = RoundTripTimes[ndx];
+                    else if (min > RoundTripTimes[ndx])
+                        min = RoundTripTimes[ndx];
+                }
+
+                // Divide the total Round Trip Time by the number of matches
+                avg /= RoundTripTimes.Count;
+
+
+                double radicand = Math.Pow(RoundTripTimes[0]-avg, 2);
+
+                for (int ndx = 1; ndx < RoundTripTimes.Count; ++ndx)
+                {
+                    radicand += Math.Pow(RoundTripTimes[ndx]-avg,2);
+                }
+
+                radicand /= RoundTripTimes.Count;
+
+                double stdDev = Math.Sqrt(radicand);
+
+                MaxValue = max + (NumberOfDeviations * stdDev);
+                MinValue = min - (NumberOfDeviations * stdDev);
+            }
+        }
         /// <summary>
         /// Abstract method that must be implemented by descendent classes
         /// </summary>
