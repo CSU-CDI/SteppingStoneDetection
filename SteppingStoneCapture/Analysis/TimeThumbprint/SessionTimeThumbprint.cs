@@ -123,76 +123,59 @@ namespace SteppingStoneCapture.Analysis.TimeThumbprint
             int three = 3;
             int four = 4;
             //generateSeq();
+            Console.WriteLine(incSeq.Count);
+            Console.WriteLine(outSeq.Count);
             for (int i = 0; i < incSeq.Count; i++)
             {
+                Console.WriteLine(outSeq.ElementAt(currentBIndex));
                 List<double> percentages = new List<double>();
-                if ((currentBIndex + zero) < outSeq.Count)
+                if ((currentBIndex + zero) < outSeq.Count && (currentBIndex + zero) != outSeq.Count)
                 {
-                    if (outSeq.ElementAt(currentBIndex + zero) == 0)
-                    {
-                    }
-                    else
-                    {
-                        
+
+                    
                         double perc = (double)(Math.Abs(incSeq.ElementAt(i) - outSeq.ElementAt(currentBIndex + zero))) / (double)Math.Max(incSeq.ElementAt(i), outSeq.ElementAt(currentBIndex + zero));
+                        percentages.Add(perc);
                         //Console.WriteLine(perc);
-                        //oseq.Text += perc.ToString();
-                        //percentages.Add(perc);
-                    }
+
+                    
                 }
-                if ((currentBIndex + one) < outSeq.Count)
+                if ((currentBIndex + one) < outSeq.Count && (currentBIndex + one) != outSeq.Count) 
                 {
-                    if (outSeq.ElementAt(currentBIndex + one) == 0)
-                    {
-                    }
-                    else
-                    {
-                        
+
+                    
                         double perc = (double)(Math.Abs(incSeq.ElementAt(i) - outSeq.ElementAt(currentBIndex + one))) / (double)Math.Max(incSeq.ElementAt(i), outSeq.ElementAt(currentBIndex + one));
-                        //Console.WriteLine(perc);
                         percentages.Add(perc);
-                    }
+
                 }
-                if ((currentBIndex + two) < outSeq.Count)
+                if ((currentBIndex + two) < outSeq.Count && (currentBIndex + two) != outSeq.Count)
                 {
-                    if (outSeq.ElementAt(currentBIndex + two) == 0)
-                    {
-                    }
-                    else
-                    {
-                        
-                        double perc = (double)(Math.Abs(incSeq.ElementAt(i) - outSeq.ElementAt(currentBIndex + two))) / (double)Math.Max(incSeq.ElementAt(i), outSeq.ElementAt(currentBIndex + two));
-                        //Console.WriteLine(perc);
-                        percentages.Add(perc);
-                    }
+
+                    
+                    double perc = (double)(Math.Abs(incSeq.ElementAt(i) - outSeq.ElementAt(currentBIndex + two))) / (double)Math.Max(incSeq.ElementAt(i), outSeq.ElementAt(currentBIndex + two));
+                    percentages.Add(perc);
+
                 }
-                if ((currentBIndex + three) < outSeq.Count)
+                if ((currentBIndex + three) < outSeq.Count && (currentBIndex + three) != outSeq.Count)
                 {
-                    if (outSeq.ElementAt(currentBIndex + three) == 0)
-                    {
-                    }
-                    else
-                    {
-                        
-                        double perc = (double)(Math.Abs(incSeq.ElementAt(i) - outSeq.ElementAt(currentBIndex + three))) / (double)Math.Max(incSeq.ElementAt(i), outSeq.ElementAt(currentBIndex + three));
-                        //Console.WriteLine(perc);
-                        percentages.Add(perc);
-                    }
+
+                  
+                    double perc = (double)(Math.Abs(incSeq.ElementAt(i) - outSeq.ElementAt(currentBIndex + three))) / (double)Math.Max(incSeq.ElementAt(i), outSeq.ElementAt(currentBIndex + three));
+                    //Console.WriteLine(perc);
+                    percentages.Add(perc);
+
                 }
-                if ((currentBIndex + four) < outSeq.Count)
+                if ((currentBIndex + four) < outSeq.Count && (currentBIndex + four) != outSeq.Count)
                 {
-                    if (outSeq.ElementAt(currentBIndex + four) == 0)
-                    {
-                    }
-                    else
-                    {
-                        
-                        double perc = (double)(Math.Abs(incSeq.ElementAt(i) - outSeq.ElementAt(currentBIndex + four))) / (double)Math.Max(incSeq.ElementAt(i), outSeq.ElementAt(currentBIndex + four));
+
+                   
+                    double perc = (double)(Math.Abs(incSeq.ElementAt(i) - outSeq.ElementAt(currentBIndex + four))) / (double)Math.Max(incSeq.ElementAt(i), outSeq.ElementAt(currentBIndex + four));
                         percentages.Add(perc);
-                    }
+                    
                 }
 
+                
                 double bm = percentages.Max();
+          
                 double mt = 0.58;
                 //Console.WriteLine(matchBox.Text);
                 //double.Parse(matchBox.Text, System.Globalization.CultureInfo.InvariantCulture)
@@ -200,8 +183,11 @@ namespace SteppingStoneCapture.Analysis.TimeThumbprint
                 {
                     numMatches += 1;
                 }
+                
                 int bmIndex = percentages.IndexOf(bm) + 1;
+                if (currentBIndex == outSeq.Count - 1) { break; }
                 currentBIndex = currentBIndex + bmIndex + 1;
+              
                 if (currentBIndex > outSeq.Count - 1)
                 {
                     break;
@@ -225,21 +211,24 @@ namespace SteppingStoneCapture.Analysis.TimeThumbprint
                 //}
                 //}
             }
+            //Console.WriteLine("yugioh0");
         }
 
         private void simllarity()
         {
-            double st = 0.70;
+
+            //double st = 0.70;
             //Console.WriteLine((double)numMatches / (double)numIncPackets);
+            double ratio = (double)numMatches / (double)numIncPackets; 
             if (((double)numMatches / (double)numIncPackets) >= compThres)
             {
                 //Console.WriteLine("It's a match. The host machine is a Stepping Stone");
-                MessageBox.Show("It's a match. The host machine is a Stepping Stone");
+                MessageBox.Show("It's a match. The host machine is a Stepping Stone. Matched Ratio: "+ ratio +" >= Threshold: " + compThres);
             }
             else
             {
                 //Console.WriteLine("It's not a match. The host machine is not a Stepping Stone");
-                MessageBox.Show("It's not a match. The host machine is not a Stepping Stone");
+                MessageBox.Show("It's not a match. The host machine is not a Stepping Stone. Matched Ratio: " + ratio + " < Threshold: " + compThres);
             }
         }
 

@@ -83,13 +83,12 @@ namespace SteppingStoneCapture.Analysis.RandomWalkDetection
         private void compare() {
             if (diffRTT < upperBound)
             {
-                MessageBox.Show("The connections are not a stepping stone pair. The difference of between the number RTTs for incoming and outgoing connection is" + diffRTT + " and it is not lower than the threshold. The host machine is not a Stepping Stone");
-                MessageBox.Show("The connections are a stepping stone pair. The difference of between the number RTTs for incoming and outgoing connection is" + diffRTT + " and it is lower than the threshold. The host machine is a Stepping Stone.");
+                MessageBox.Show("The connections are a stepping stone pair. The difference of between the number RTTs for incoming and outgoing connection is " + diffRTT + " and it is lower than the threshold. The host machine is a Stepping Stone.");
             }
 
             else
             {
-                MessageBox.Show("The connections are not a stepping stone pair. The difference of between the number RTTs for incoming and outgoing connection is" + diffRTT + " and it is not lower than the threshold. The host machine is not a Stepping Stone");
+                MessageBox.Show("The connections are not a stepping stone pair. The difference of between the number RTTs for incoming and outgoing connection is " + diffRTT + " and it is not lower than the threshold. The host machine is not a Stepping Stone");
                 
             }
         }
@@ -112,6 +111,17 @@ namespace SteppingStoneCapture.Analysis.RandomWalkDetection
         private void incBox_TextChanged(object sender, EventArgs e)
         {
             outButton.Enabled = true;
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            pmI = new Analysis.PacketMatching.ConservativeMatcher();
+            pmO = new Analysis.PacketMatching.ConservativeMatcher();
+            upperBound = 0;
+            numRTTI = 0;
+            numRTTO = 0;
+            diffRTT = 0;
+            numericThres.Value = 0;
         }
     }
 }

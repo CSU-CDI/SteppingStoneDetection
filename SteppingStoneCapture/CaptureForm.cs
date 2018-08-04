@@ -33,7 +33,7 @@ namespace SteppingStoneCapture
         private int lastSelectedIndex = 0;
         private Boolean adjusted = false;
         private int maxFilePackets;
-        private PacketDevice selectedDevice;
+        private LivePacketDevice selectedDevice;
         private string sensorAddress;
 
         public CaptureForm()
@@ -68,7 +68,7 @@ namespace SteppingStoneCapture
             readingLine = readingFile.ReadLine();
             values = readingLine.Split('=');
             sensorAddress = values[1].Replace("\n", "");
-            selectedDevice = null;
+            selectedDevice = null;                
         }
 
         private void checkFirst()
@@ -355,7 +355,7 @@ namespace SteppingStoneCapture
                 {
                     string[] ipv4addy = address.Address.ToString().Split();
                     sensorAddress = ipv4addy[1];
-                }
+                }                
             }
 
             // Open the device
@@ -506,6 +506,7 @@ namespace SteppingStoneCapture
                 deviceIndex = cmbInterfaces.SelectedIndex;
             }
             selectedDevice = allLivePacketDevices[cmbInterfaces.SelectedIndex];
+
         }
 
         private void BtnSave_Click(object sender, EventArgs e) => Tools.FileHandler.SavePackets(packets, packetBytes, maxFilePackets, sensorAddress);
@@ -776,8 +777,18 @@ namespace SteppingStoneCapture
             randomWalk.Show();
         }
 
-        private void injectPacketToolStripMenuItem_Click(object sender, EventArgs e) => new Analysis.PacketInject(selectedDevice);        
-
+        private void injectPacketToolStripMenuItem_Click(object sender, EventArgs e)
+        {        
+            if (selectedDevice != null)
+            {
+                new Analysis.PacketInject(allLivePacketDevices[cmbInterfaces.SelectedIndex]);
+            }
+            else
+            {
+                MessageBox.Show("Must select a network interface first!");
+            }
+            
+        }
         /*
 * Loads the Step Function in a LAN program 
 */

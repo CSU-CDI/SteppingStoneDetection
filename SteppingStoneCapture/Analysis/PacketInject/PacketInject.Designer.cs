@@ -45,7 +45,6 @@
             this.radPSH = new System.Windows.Forms.RadioButton();
             this.grpResults = new System.Windows.Forms.GroupBox();
             this.lblResult = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.txtInput = new System.Windows.Forms.TextBox();
             this.txtDestPort = new System.Windows.Forms.TextBox();
             this.lblDestPort = new System.Windows.Forms.Label();
@@ -63,6 +62,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtWindow = new System.Windows.Forms.TextBox();
             this.lblRequired = new System.Windows.Forms.Label();
+            this.lblInterval = new System.Windows.Forms.Label();
+            this.txtInterval = new System.Windows.Forms.TextBox();
             this.grpFlags.SuspendLayout();
             this.grpResults.SuspendLayout();
             this.SuspendLayout();
@@ -109,7 +110,7 @@
             this.btnOk.Location = new System.Drawing.Point(11, 365);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(94, 41);
-            this.btnOk.TabIndex = 99;
+            this.btnOk.TabIndex = 8;
             this.btnOk.Text = "&Send";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -118,22 +119,22 @@
             // 
             this.txtSrcIP.Location = new System.Drawing.Point(100, 30);
             this.txtSrcIP.Name = "txtSrcIP";
-            this.txtSrcIP.Size = new System.Drawing.Size(219, 22);
-            this.txtSrcIP.TabIndex = 5;
+            this.txtSrcIP.Size = new System.Drawing.Size(142, 22);
+            this.txtSrcIP.TabIndex = 1;
             // 
             // txtDestIP
             // 
             this.txtDestIP.Location = new System.Drawing.Point(100, 58);
             this.txtDestIP.Name = "txtDestIP";
-            this.txtDestIP.Size = new System.Drawing.Size(219, 22);
-            this.txtDestIP.TabIndex = 6;
+            this.txtDestIP.Size = new System.Drawing.Size(142, 22);
+            this.txtDestIP.TabIndex = 2;
             // 
             // txtSrcPort
             // 
             this.txtSrcPort.Location = new System.Drawing.Point(100, 87);
             this.txtSrcPort.Name = "txtSrcPort";
             this.txtSrcPort.Size = new System.Drawing.Size(142, 22);
-            this.txtSrcPort.TabIndex = 7;
+            this.txtSrcPort.TabIndex = 3;
             // 
             // grpFlags
             // 
@@ -212,10 +213,9 @@
             // grpResults
             // 
             this.grpResults.Controls.Add(this.lblResult);
-            this.grpResults.Controls.Add(this.label1);
-            this.grpResults.Location = new System.Drawing.Point(111, 200);
+            this.grpResults.Location = new System.Drawing.Point(111, 225);
             this.grpResults.Name = "grpResults";
-            this.grpResults.Size = new System.Drawing.Size(208, 90);
+            this.grpResults.Size = new System.Drawing.Size(208, 65);
             this.grpResults.TabIndex = 9;
             this.grpResults.TabStop = false;
             this.grpResults.Text = "Results";
@@ -229,23 +229,14 @@
             this.lblResult.Size = new System.Drawing.Size(0, 29);
             this.lblResult.TabIndex = 1;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(29, 37);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 36);
-            this.label1.TabIndex = 0;
-            // 
             // txtInput
             // 
             this.txtInput.Location = new System.Drawing.Point(111, 296);
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
             this.txtInput.Size = new System.Drawing.Size(208, 63);
-            this.txtInput.TabIndex = 16;
-            this.txtInput.Text = "Message to Send...";
+            this.txtInput.TabIndex = 7;
+            this.txtInput.Text = "Message / Payload to Send...";
             this.txtInput.Enter += new System.EventHandler(this.txtInput_Enter);
             this.txtInput.Leave += new System.EventHandler(this.txtInput_Leave);
             // 
@@ -254,7 +245,7 @@
             this.txtDestPort.Location = new System.Drawing.Point(100, 115);
             this.txtDestPort.Name = "txtDestPort";
             this.txtDestPort.Size = new System.Drawing.Size(142, 22);
-            this.txtDestPort.TabIndex = 8;
+            this.txtDestPort.TabIndex = 4;
             // 
             // lblDestPort
             // 
@@ -267,15 +258,15 @@
             // 
             // txtNumPackets
             // 
-            this.txtNumPackets.Location = new System.Drawing.Point(248, 115);
+            this.txtNumPackets.Location = new System.Drawing.Point(248, 58);
             this.txtNumPackets.Name = "txtNumPackets";
             this.txtNumPackets.Size = new System.Drawing.Size(71, 22);
-            this.txtNumPackets.TabIndex = 9;
+            this.txtNumPackets.TabIndex = 6;
             // 
             // lblNumPackets
             // 
             this.lblNumPackets.AutoSize = true;
-            this.lblNumPackets.Location = new System.Drawing.Point(248, 92);
+            this.lblNumPackets.Location = new System.Drawing.Point(248, 30);
             this.lblNumPackets.Name = "lblNumPackets";
             this.lblNumPackets.Size = new System.Drawing.Size(74, 17);
             this.lblNumPackets.TabIndex = 14;
@@ -294,7 +285,7 @@
             // lblTTL
             // 
             this.lblTTL.AutoSize = true;
-            this.lblTTL.Location = new System.Drawing.Point(281, 148);
+            this.lblTTL.Location = new System.Drawing.Point(248, 92);
             this.lblTTL.Name = "lblTTL";
             this.lblTTL.Size = new System.Drawing.Size(38, 17);
             this.lblTTL.TabIndex = 16;
@@ -302,7 +293,7 @@
             // 
             // txtTTL
             // 
-            this.txtTTL.Location = new System.Drawing.Point(266, 172);
+            this.txtTTL.Location = new System.Drawing.Point(248, 115);
             this.txtTTL.Name = "txtTTL";
             this.txtTTL.Size = new System.Drawing.Size(55, 22);
             this.txtTTL.TabIndex = 14;
@@ -310,50 +301,50 @@
             // lblID
             // 
             this.lblID.AutoSize = true;
-            this.lblID.Location = new System.Drawing.Point(161, 146);
+            this.lblID.Location = new System.Drawing.Point(172, 144);
             this.lblID.Name = "lblID";
-            this.lblID.Size = new System.Drawing.Size(25, 17);
+            this.lblID.Size = new System.Drawing.Size(37, 17);
             this.lblID.TabIndex = 18;
-            this.lblID.Text = "ID:";
+            this.lblID.Text = "ID #:";
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(187, 143);
+            this.txtID.Location = new System.Drawing.Point(215, 142);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(74, 22);
-            this.txtID.TabIndex = 11;
+            this.txtID.Size = new System.Drawing.Size(104, 22);
+            this.txtID.TabIndex = 10;
             // 
             // lblSequence
             // 
             this.lblSequence.AutoSize = true;
-            this.lblSequence.Location = new System.Drawing.Point(18, 146);
+            this.lblSequence.Location = new System.Drawing.Point(11, 144);
             this.lblSequence.Name = "lblSequence";
-            this.lblSequence.Size = new System.Drawing.Size(76, 17);
+            this.lblSequence.Size = new System.Drawing.Size(88, 17);
             this.lblSequence.TabIndex = 20;
-            this.lblSequence.Text = "Sequence:";
+            this.lblSequence.Text = "Sequence #:";
             // 
             // txtSequence
             // 
-            this.txtSequence.Location = new System.Drawing.Point(100, 144);
+            this.txtSequence.Location = new System.Drawing.Point(100, 141);
             this.txtSequence.Name = "txtSequence";
-            this.txtSequence.Size = new System.Drawing.Size(55, 22);
-            this.txtSequence.TabIndex = 10;
+            this.txtSequence.Size = new System.Drawing.Size(66, 22);
+            this.txtSequence.TabIndex = 9;
             // 
             // txtACK
             // 
-            this.txtACK.Location = new System.Drawing.Point(206, 172);
+            this.txtACK.Location = new System.Drawing.Point(215, 170);
             this.txtACK.Name = "txtACK";
-            this.txtACK.Size = new System.Drawing.Size(55, 22);
-            this.txtACK.TabIndex = 13;
+            this.txtACK.Size = new System.Drawing.Size(104, 22);
+            this.txtACK.TabIndex = 12;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(161, 175);
+            this.label2.Location = new System.Drawing.Point(158, 174);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 17);
+            this.label2.Size = new System.Drawing.Size(51, 17);
             this.label2.TabIndex = 23;
-            this.label2.Text = "ACK:";
+            this.label2.Text = "ACK #:";
             // 
             // label3
             // 
@@ -369,7 +360,7 @@
             this.txtWindow.Location = new System.Drawing.Point(100, 172);
             this.txtWindow.Name = "txtWindow";
             this.txtWindow.Size = new System.Drawing.Size(55, 22);
-            this.txtWindow.TabIndex = 12;
+            this.txtWindow.TabIndex = 11;
             // 
             // lblRequired
             // 
@@ -382,11 +373,29 @@
             this.lblRequired.TabIndex = 100;
             this.lblRequired.Text = "* Required";
             // 
+            // lblInterval
+            // 
+            this.lblInterval.AutoSize = true;
+            this.lblInterval.Location = new System.Drawing.Point(108, 200);
+            this.lblInterval.Name = "lblInterval";
+            this.lblInterval.Size = new System.Drawing.Size(102, 17);
+            this.lblInterval.TabIndex = 103;
+            this.lblInterval.Text = "Interval (millis):";
+            // 
+            // txtInterval
+            // 
+            this.txtInterval.Location = new System.Drawing.Point(216, 200);
+            this.txtInterval.Name = "txtInterval";
+            this.txtInterval.Size = new System.Drawing.Size(103, 22);
+            this.txtInterval.TabIndex = 5;
+            // 
             // PacketInject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 415);
+            this.ClientSize = new System.Drawing.Size(334, 414);
+            this.Controls.Add(this.txtInterval);
+            this.Controls.Add(this.lblInterval);
             this.Controls.Add(this.lblRequired);
             this.Controls.Add(this.txtWindow);
             this.Controls.Add(this.label3);
@@ -418,7 +427,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "PacketInject";
-            this.Text = "Inject Packets";
+            this.Text = "Inject TCP Packets";
             this.grpFlags.ResumeLayout(false);
             this.grpFlags.PerformLayout();
             this.grpResults.ResumeLayout(false);
@@ -444,7 +453,6 @@
         private System.Windows.Forms.RadioButton radACK;
         private System.Windows.Forms.RadioButton radPSH;
         private System.Windows.Forms.GroupBox grpResults;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblResult;
         private System.Windows.Forms.TextBox txtInput;
         private System.Windows.Forms.TextBox txtDestPort;
@@ -464,5 +472,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtWindow;
         private System.Windows.Forms.Label lblRequired;
+        private System.Windows.Forms.Label lblInterval;
+        private System.Windows.Forms.TextBox txtInterval;
     }
 }

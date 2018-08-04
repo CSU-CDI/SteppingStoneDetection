@@ -113,12 +113,10 @@ C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\ob
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.CaptureForm.resources
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.CustomLoadForm.resources
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOConnection.resources
-C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.IOStream.resources
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.HtmlHelpForm.resources
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.RtfHelpForm.resources
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Tools.TextInput.resources
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Properties.Resources.resources
-C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.StepFunctionForm.resources
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.csproj.GenerateResource.Cache
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.csproj.CoreCompileInputs.cache
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.exe
@@ -135,3 +133,4 @@ C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStone
 C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.PacketInject.resources
 C:\Users\andrew\Desktop\CDI\implementations\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.StepFunction.StepFunctionForm.resources
 C:\Users\Lock\Source\Repos\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.StepFunction.StepFunctionForm.resources
+C:\Users\kengh\OneDrive\Documents\SteppingStoneDetection\SteppingStoneCapture\obj\x64\Release\SteppingStoneCapture.Analysis.StepFunction.StepFunctionForm.resources
