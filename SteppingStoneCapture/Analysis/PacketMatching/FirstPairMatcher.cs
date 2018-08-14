@@ -23,7 +23,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// </summary>
         public override void MatchPackets()
         {
-            Console.WriteLine("this is in first match");
+           // Console.WriteLine("this is in first match");
             // Initialize the Send Packet Queue
             var sendQ = new Queue<Tuple<CougarPacket, int>>();
 

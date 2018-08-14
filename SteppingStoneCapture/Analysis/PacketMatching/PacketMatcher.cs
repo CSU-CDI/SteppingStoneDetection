@@ -56,6 +56,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         public double Average { get => average; set => average = value; }
         public double StandardDeviation { get => standardDeviation; set => standardDeviation = value; }
 
+        public static int DecimalShiftValue { get; set; } = 6;
+
 
         /// <summary>
         /// Calculates Round Trip Time for the connection chain by comparing echoes' to their corresponding sends' timestamps
@@ -71,7 +73,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// </returns>
         public static double CalculateRoundTripTime(DateTime echoT, DateTime sendT)
         {
-            return Math.Abs(echoT.Subtract(sendT).TotalSeconds);
+            return Math.Abs(echoT.Subtract(sendT).TotalSeconds) * Math.Pow(10, DecimalShiftValue);
         }
 
 
@@ -117,7 +119,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                     stringBuilder.AppendLine(s);
                 }
 
-                return FormatMatchStatistics(numSend, numEcho, stringBuilder);
+                return FormatMatchStatistics(numSend, numEcho, numTot, stringBuilder);
             }
 
             return "No matches detected.";
@@ -138,16 +140,16 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// <returns>
         /// String containing the list of matched packets as well as a statistics footer
         /// </returns>
-        private string FormatMatchStatistics(int numSend, int numEcho, System.Text.StringBuilder results)
+        private string FormatMatchStatistics(int numSend, int numEcho, int numTot, System.Text.StringBuilder results)
         {
             // Print the numerical details describing the results
             results.AppendLine();
-            results.AppendLine($"Total Number Packets: {(numSend + numEcho)}");
+            results.AppendLine($"Total Number Packets: {numTot}");
             results.AppendLine($"Number Send Packets: {numSend}          Number Echo Packets: {numEcho}");
             results.AppendLine();
             results.AppendLine( $"Number of Matches: {PairedMatches.Count}");
             results.AppendLine(String.Format("Percentage matched of all possible pairs: {0:F}%", (100 * PairedMatches.Count / Math.Min(numSend, numEcho))));
-            results.AppendLine($"RTT:\n    Min = {MinValue}\n    Max = {MaxValue}\n    Avg. = {Average}\n    Std. Dev = {StandardDeviation}");
+            results.AppendLine($"RTT:\n    Min = {MinValue}    Max = {MaxValue}\n    Avg. = {Average}    Std. Dev = {StandardDeviation}");
             return results.ToString();
         }
 
@@ -173,7 +175,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
                 // Divide the total Round Trip Time by the number of matches
                 avg /= RoundTripTimes.Count;
-
+                Average = avg;
 
                 double radicand = Math.Pow(RoundTripTimes[0]-avg, 2);
 
@@ -185,6 +187,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                 radicand /= RoundTripTimes.Count;
 
                 double stdDev = Math.Sqrt(radicand);
+                StandardDeviation = stdDev;
 
                 MaxValue = max + (NumberOfDeviations * stdDev);
                 MinValue = min - (NumberOfDeviations * stdDev);

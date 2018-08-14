@@ -211,11 +211,12 @@ namespace SteppingStoneCapture
                 if (packet.SrcPort < packet.DstPort)
                     result = (packet.TCPFlags.Contains("Push")) ? TCPType.ECHO : TCPType.ACK;
                 else
-                    result = TCPType.SEND;
+                    if (packet.TCPFlags.Contains("Push"))
+                        result = TCPType.SEND;
             }
             else if (packet.SensorIP.Equals(packet.DestAddress))
             {
-                if (packet.SrcPort > packet.DstPort)
+                if (packet.SrcPort > packet.DstPort && packet.TCPFlags.Contains("Push"))
                     result = TCPType.SEND;
                 else
                     result = (packet.TCPFlags.Contains("Push")) ? TCPType.ECHO : TCPType.ACK;

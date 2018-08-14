@@ -65,7 +65,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
         /// </summary>
         public override void MatchPackets()
         {
-            Console.WriteLine("This is in Conserv");
+            //Console.WriteLine("This is in Conserv");
             bool correctMatch = true;
             //var sendQ = new Queue<CougarPacket>();
             var sendQ = new Queue<Tuple<CougarPacket, int>>();

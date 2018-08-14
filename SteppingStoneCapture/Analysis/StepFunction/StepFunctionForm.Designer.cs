@@ -150,7 +150,7 @@
             // loadItem
             // 
             this.loadItem.Name = "loadItem";
-            this.loadItem.Size = new System.Drawing.Size(180, 22);
+            this.loadItem.Size = new System.Drawing.Size(100, 22);
             this.loadItem.Text = "&Load";
             this.loadItem.Click += new System.EventHandler(this.LoadFileItem_Click);
             // 
@@ -160,20 +160,20 @@
             this.SaveGraphItem,
             this.SaveTextItem});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // SaveGraphItem
             // 
             this.SaveGraphItem.Name = "SaveGraphItem";
-            this.SaveGraphItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveGraphItem.Size = new System.Drawing.Size(106, 22);
             this.SaveGraphItem.Text = "&Graph";
             this.SaveGraphItem.Click += new System.EventHandler(this.SaveGraphItem_Click);
             // 
             // SaveTextItem
             // 
             this.SaveTextItem.Name = "SaveTextItem";
-            this.SaveTextItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveTextItem.Size = new System.Drawing.Size(106, 22);
             this.SaveTextItem.Text = "&Text";
             this.SaveTextItem.Click += new System.EventHandler(this.SaveTextItem_Click);
             // 
@@ -225,7 +225,7 @@
             this.graphingChart.Name = "graphingChart";
             this.graphingChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Legend1";
             series1.Name = "GraphingSeries";
             this.graphingChart.Series.Add(series1);
@@ -236,7 +236,7 @@
             title1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             title1.IsDockedInsideChartArea = false;
             title1.Name = "Title1";
-            title1.Text = "RTT (ms) v. Number of matched Packets";
+            title1.Text = "RTT (us) v. Number of matched Packets";
             this.graphingChart.Titles.Add(title1);
             // 
             // AlgorithmToolTip

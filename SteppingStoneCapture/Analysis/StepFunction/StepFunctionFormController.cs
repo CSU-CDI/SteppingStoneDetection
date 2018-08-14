@@ -76,6 +76,7 @@ namespace SteppingStoneCapture.Analysis.StepFunction
             else MessageBox.Show("No Matches Detected.");
             return graphingChart;
         }
+
         /// <summary>
         /// Validates that the correct algorithm will be applied
         /// </summary>
