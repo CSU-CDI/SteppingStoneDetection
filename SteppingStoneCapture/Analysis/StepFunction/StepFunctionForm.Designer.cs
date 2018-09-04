@@ -52,6 +52,8 @@
             this.networkConfigurationItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphingChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AlgorithmToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.EstimateTxtBox = new System.Windows.Forms.TextBox();
+            this.EstimateLabel = new System.Windows.Forms.Label();
             this.fileGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AlgorithmUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -229,7 +231,7 @@
             series1.Legend = "Legend1";
             series1.Name = "GraphingSeries";
             this.graphingChart.Series.Add(series1);
-            this.graphingChart.Size = new System.Drawing.Size(776, 262);
+            this.graphingChart.Size = new System.Drawing.Size(776, 238);
             this.graphingChart.TabIndex = 7;
             this.graphingChart.Text = "chart1";
             title1.BackColor = System.Drawing.Color.White;
@@ -243,11 +245,33 @@
             // 
             this.AlgorithmToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // EstimateTxtBox
+            // 
+            this.EstimateTxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.EstimateTxtBox.Location = new System.Drawing.Point(139, 341);
+            this.EstimateTxtBox.Name = "EstimateTxtBox";
+            this.EstimateTxtBox.Size = new System.Drawing.Size(304, 20);
+            this.EstimateTxtBox.TabIndex = 8;
+            this.EstimateTxtBox.Visible = false;
+            // 
+            // EstimateLabel
+            // 
+            this.EstimateLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.EstimateLabel.AutoSize = true;
+            this.EstimateLabel.Location = new System.Drawing.Point(15, 344);
+            this.EstimateLabel.Name = "EstimateLabel";
+            this.EstimateLabel.Size = new System.Drawing.Size(118, 13);
+            this.EstimateLabel.TabIndex = 9;
+            this.EstimateLabel.Text = "Estimated Connections:";
+            this.EstimateLabel.Visible = false;
+            // 
             // StepFunctionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 368);
+            this.Controls.Add(this.EstimateLabel);
+            this.Controls.Add(this.EstimateTxtBox);
             this.Controls.Add(this.graphingChart);
             this.Controls.Add(this.fileGrpBox);
             this.Controls.Add(this.menuStrip1);
@@ -287,5 +311,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveGraphItem;
         private System.Windows.Forms.ToolStripMenuItem SaveTextItem;
+        private System.Windows.Forms.TextBox EstimateTxtBox;
+        private System.Windows.Forms.Label EstimateLabel;
     }
 }

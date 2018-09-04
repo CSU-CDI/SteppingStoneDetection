@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SteppingStoneCapture.Analysis.PacketMatching
 {
@@ -161,7 +162,6 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                 double avg = RoundTripTimes[0],
                        max = RoundTripTimes[0],
                        min = RoundTripTimes[0];
-
                 // sum all following Round Trip Times
                 for (int ndx = 1; ndx < RoundTripTimes.Count; ++ndx)
                 {
@@ -189,8 +189,8 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                 double stdDev = Math.Sqrt(radicand);
                 StandardDeviation = stdDev;
 
-                MaxValue = max + (NumberOfDeviations * stdDev);
-                MinValue = min - (NumberOfDeviations * stdDev);
+                MaxValue = avg + (NumberOfDeviations * stdDev);
+                MinValue = avg - (NumberOfDeviations * stdDev);
             }
         }
         /// <summary>
