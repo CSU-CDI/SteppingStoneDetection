@@ -1,8 +1,6 @@
 ﻿using SteppingStoneCapture.Analysis.PacketMatching;
 using SteppingStoneCapture.Tools;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -21,7 +19,6 @@ namespace SteppingStoneCapture.Analysis.StepFunction
         private const string chartAreaName = "ChartArea1";
         private PacketMatcher matcher;
         private Tools.FileHandler fileHandler;
-        private int algorithmWindowSize = 3;
 
 
         public StepFunctionFormController()
@@ -48,11 +45,22 @@ namespace SteppingStoneCapture.Analysis.StepFunction
             // if the PacketMatcher successfully matched packets
             if (Matcher.RoundTripTimes.Count > 0)
             {
+                // initialize the max dimensions of the chart
+                int maxX = Matcher.RoundTripTimes.Count;
+                double maxY = Matcher.RoundTripTimes[0];
+
                 // graph each round-trip time against its index
-                for (int i = 0; i < Matcher.RoundTripTimes.Count; i++)
+                for (int i = 1; i < Matcher.RoundTripTimes.Count; i++)
                 {
-                    // add the ordered pair (index+1, rtt) to the data
-                    dataSeries.Points.AddXY(i+1, Matcher.RoundTripTimes[i]);
+                    // change to 1-based indexing
+                    int index = i + 1;
+                    double rtt = Matcher.RoundTripTimes[i];
+
+                    // update the max height of the chart if the current rtt is greater than the current max
+                    if (rtt > maxY) maxY = rtt;
+
+                    // add the ordered pair (index, rtt) to the data
+                    dataSeries.Points.AddXY(index, Matcher.RoundTripTimes[i]);
                 }
 
                 // Assign the max/min height to the y-axis control object
@@ -260,106 +268,11 @@ namespace SteppingStoneCapture.Analysis.StepFunction
                 MessageBox.Show("Error! No Matches detected?");
         }
 
-        public string DescribeConnectionEstimation()
-        {
-            Tuple<int, int> estimate = EstimateNumberOfConnections();
-            if (estimate != null)
-            {
-                return String.Format("{0}/{1} Ups/Downs, Estimate No. Connections: {2}", estimate.Item1, estimate.Item2, Math.Min(estimate.Item1, estimate.Item2));
-            }
-
-            return "";
-        }
-
-        public Tuple<int,int> EstimateNumberOfConnections()
-        {
-            List<double> roundTripTimes = Matcher.RoundTripTimes;
-            if (Matcher != null && roundTripTimes.Count > 0)
-            {
-                double threshold = 0.0f;
-                threshold = CalculateThresholdAmount();
-
-                int numJumpsUp = 0, numJumpsDown = 0;
-
-                for (int ndx = roundTripTimes.Count - 1; ndx >= 2*AlgorithmWindowSize-1; ndx -= 2*AlgorithmWindowSize)
-                {
-                    CreateHalvesOfCurrentGrouping(roundTripTimes, out List<double> leftTimes, out List<double> rightTimes, ndx);
-
-                    double minLeft = leftTimes.Min(),
-                           minRight = rightTimes.Min(),
-                           diff = minRight - minLeft;
-
-                    bool isUp = false;
-                    
-                    if (diff > 0)
-                        isUp = true;
-                    else
-                        diff *= -1;
-
-                    Console.WriteLine($"TG: {threshold} Diff: {diff}\nMin: L: {minLeft} R: {minRight}\nIsUp: {isUp}");
-                    if (diff > threshold)
-                    {
-                        int x = (isUp) ? numJumpsUp++ : numJumpsDown++;
-
-                    }
-                }
-
-                return Tuple.Create(numJumpsUp, numJumpsDown);
-            }
-
-            return null;
-        }
-
-        private void CreateHalvesOfCurrentGrouping(List<double> roundTripTimes, out List<double> leftTimes, out List<double> rightTimes, int ndx)
-        {
-            leftTimes = new List<double>();
-            rightTimes = new List<double>();
-            for (int i = 2 * AlgorithmWindowSize - 1; i >= 0; i--)
-            {
-                if (i > (int) Math.Floor((2 * AlgorithmWindowSize - 1) / 2f))
-                    leftTimes.Add(roundTripTimes[ndx - i]);
-                else
-                    rightTimes.Add(roundTripTimes[ndx - i]);
-            }
-        }
-
-        private double CalculateThresholdAmount()
-        {
-            double threshold;
-            if (Matcher.RoundTripTimes.Count < 30)
-            {
-                threshold = Matcher.RoundTripTimes.Average();
-            }
-            else
-            {
-                HashSet<int> indices = new HashSet<int>();
-                Random rand = new Random();
-                LinkedList<double> rtts = new LinkedList<double>();
-
-                while (indices.Count < 30)
-                {
-                    int newIndex = rand.Next(0, Matcher.RoundTripTimes.Count);
-                    if (!indices.Contains(newIndex))
-                    {
-                        indices.Add(newIndex);
-                        rtts.AddLast(Matcher.RoundTripTimes[newIndex]);
-                    }
-                }
-
-                threshold = rtts.Average();
-                rtts.Clear();
-                indices.Clear();
-            }
-
-            return threshold;
-        }
-
         public static string SeriesName => seriesName;
 
         public static string ChartAreaName => chartAreaName;
 
         internal PacketMatcher Matcher { get => matcher; set => matcher = value; }
         internal FileHandler FileHandler { get => fileHandler; set => fileHandler = value; }
-        public int AlgorithmWindowSize { get => algorithmWindowSize; set => algorithmWindowSize = value; }
     }
 }

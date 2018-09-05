@@ -45,10 +45,7 @@ namespace SteppingStoneCapture.Analysis.StepFunction
             var rtf = new Tools.RtfHelpForm();
             rtf.AddText(results);
 
-            EstimateLabel.Visible = true;
-            EstimateTxtBox.Visible = true;
 
-            EstimateTxtBox.Text = Controller.DescribeConnectionEstimation();
         }
 
         /// <summary>
@@ -71,9 +68,6 @@ namespace SteppingStoneCapture.Analysis.StepFunction
             }
             Controller.Matcher.ResetMatcher();
             Controller.FileHandler.ResetList();
-            EstimateTxtBox.Text = "";
-            EstimateTxtBox.Visible = false;
-            EstimateLabel.Visible = false;
         }
 
         /// <summary>
@@ -99,7 +93,7 @@ namespace SteppingStoneCapture.Analysis.StepFunction
                 GraphButton.Enabled = true;
                 ClearButton.Enabled = true;
 
-            }
+                    }
         }
 
         /// <summary>

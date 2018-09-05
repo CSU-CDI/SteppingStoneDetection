@@ -53,7 +53,7 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
                         DateTime.TryParse(current.TimeStamp, out DateTime currentTime);
 
                         // calculate time elapsed between send packets
-                        double tg = currentTime.Subtract(lastTime).TotalMilliseconds;
+                        double tg = currentTime.Subtract(lastTime).TotalSeconds;
 
 
                         // reset queue and flags if beyond threshold amount
