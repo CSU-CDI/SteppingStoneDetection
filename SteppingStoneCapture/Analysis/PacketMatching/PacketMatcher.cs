@@ -186,11 +186,10 @@ namespace SteppingStoneCapture.Analysis.PacketMatching
 
                 radicand /= RoundTripTimes.Count;
 
-                double stdDev = Math.Sqrt(radicand);
-                StandardDeviation = stdDev;
+                StandardDeviation = Math.Sqrt(radicand);
 
-                MaxValue = max + (NumberOfDeviations * stdDev);
-                MinValue = min - (NumberOfDeviations * stdDev);
+                MaxValue = Average + (NumberOfDeviations * StandardDeviation);
+                MinValue = Average - (NumberOfDeviations * StandardDeviation);
             }
         }
         /// <summary>
