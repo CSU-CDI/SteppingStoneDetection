@@ -52,6 +52,7 @@
             this.networkConfigurationItem = new System.Windows.Forms.ToolStripMenuItem();
             this.graphingChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.AlgorithmToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.EstimateTxtBox = new System.Windows.Forms.TextBox();
             this.fileGrpBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AlgorithmUpDown)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -144,13 +145,13 @@
             this.loadItem,
             this.saveToolStripMenuItem});
             this.loadStreamFilesToolStripMenuItem.Name = "loadStreamFilesToolStripMenuItem";
-            this.loadStreamFilesToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.loadStreamFilesToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.loadStreamFilesToolStripMenuItem.Text = "&Menu";
             // 
             // loadItem
             // 
             this.loadItem.Name = "loadItem";
-            this.loadItem.Size = new System.Drawing.Size(100, 22);
+            this.loadItem.Size = new System.Drawing.Size(98, 22);
             this.loadItem.Text = "&Load";
             this.loadItem.Click += new System.EventHandler(this.LoadFileItem_Click);
             // 
@@ -160,20 +161,20 @@
             this.SaveGraphItem,
             this.SaveTextItem});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             // 
             // SaveGraphItem
             // 
             this.SaveGraphItem.Name = "SaveGraphItem";
-            this.SaveGraphItem.Size = new System.Drawing.Size(106, 22);
+            this.SaveGraphItem.Size = new System.Drawing.Size(103, 22);
             this.SaveGraphItem.Text = "&Graph";
             this.SaveGraphItem.Click += new System.EventHandler(this.SaveGraphItem_Click);
             // 
             // SaveTextItem
             // 
             this.SaveTextItem.Name = "SaveTextItem";
-            this.SaveTextItem.Size = new System.Drawing.Size(106, 22);
+            this.SaveTextItem.Size = new System.Drawing.Size(103, 22);
             this.SaveTextItem.Text = "&Text";
             this.SaveTextItem.Click += new System.EventHandler(this.SaveTextItem_Click);
             // 
@@ -184,25 +185,25 @@
             this.stepFunctionInALANToolStripMenuItem,
             this.networkConfigurationItem});
             this.aboutItem.Name = "aboutItem";
-            this.aboutItem.Size = new System.Drawing.Size(44, 20);
+            this.aboutItem.Size = new System.Drawing.Size(40, 20);
             this.aboutItem.Text = "&Help";
             // 
             // firstMatchPacketMatchingItem
             // 
             this.firstMatchPacketMatchingItem.Name = "firstMatchPacketMatchingItem";
-            this.firstMatchPacketMatchingItem.Size = new System.Drawing.Size(227, 22);
+            this.firstMatchPacketMatchingItem.Size = new System.Drawing.Size(209, 22);
             this.firstMatchPacketMatchingItem.Text = "&First-Match Packet Matching";
             // 
             // stepFunctionInALANToolStripMenuItem
             // 
             this.stepFunctionInALANToolStripMenuItem.Name = "stepFunctionInALANToolStripMenuItem";
-            this.stepFunctionInALANToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.stepFunctionInALANToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.stepFunctionInALANToolStripMenuItem.Text = "&Step-Function in a LAN";
             // 
             // networkConfigurationItem
             // 
             this.networkConfigurationItem.Name = "networkConfigurationItem";
-            this.networkConfigurationItem.Size = new System.Drawing.Size(227, 22);
+            this.networkConfigurationItem.Size = new System.Drawing.Size(209, 22);
             this.networkConfigurationItem.Text = "Network Configuration";
             this.networkConfigurationItem.Click += new System.EventHandler(this.NetworkConfigurationItem_Click);
             // 
@@ -229,7 +230,7 @@
             series1.Legend = "Legend1";
             series1.Name = "GraphingSeries";
             this.graphingChart.Series.Add(series1);
-            this.graphingChart.Size = new System.Drawing.Size(776, 262);
+            this.graphingChart.Size = new System.Drawing.Size(776, 234);
             this.graphingChart.TabIndex = 7;
             this.graphingChart.Text = "chart1";
             title1.BackColor = System.Drawing.Color.White;
@@ -243,11 +244,20 @@
             // 
             this.AlgorithmToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // EstimateTxtBox
+            // 
+            this.EstimateTxtBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.EstimateTxtBox.Location = new System.Drawing.Point(12, 337);
+            this.EstimateTxtBox.Name = "EstimateTxtBox";
+            this.EstimateTxtBox.Size = new System.Drawing.Size(310, 20);
+            this.EstimateTxtBox.TabIndex = 8;
+            // 
             // StepFunctionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 368);
+            this.Controls.Add(this.EstimateTxtBox);
             this.Controls.Add(this.graphingChart);
             this.Controls.Add(this.fileGrpBox);
             this.Controls.Add(this.menuStrip1);
@@ -287,5 +297,6 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveGraphItem;
         private System.Windows.Forms.ToolStripMenuItem SaveTextItem;
+        private System.Windows.Forms.TextBox EstimateTxtBox;
     }
 }

@@ -63,6 +63,7 @@ namespace SteppingStoneCapture.Analysis.StepFunction
                 graphingChart.Series[SeriesName] = dataSeries;
                 // enable the chart for viewing
                 graphingChart.Enabled = true;
+                
 
             }
             else MessageBox.Show("No Matches Detected.");

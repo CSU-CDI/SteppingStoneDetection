@@ -45,7 +45,7 @@ namespace SteppingStoneCapture.Analysis.StepFunction
             var rtf = new Tools.RtfHelpForm();
             rtf.AddText(results);
 
-
+            EstimateTxtBox.Text = Controller.DescribeConnectionEstimation();
         }
 
         /// <summary>
