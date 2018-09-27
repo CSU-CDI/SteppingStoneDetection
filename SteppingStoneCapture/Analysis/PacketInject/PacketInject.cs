@@ -32,19 +32,19 @@ namespace SteppingStoneCapture.Analysis
         public PacketInject()
         {
             InitializeComponent();
-            Visible = true;            
+            //Visible = true;            
             count = 0;
-            timer = new Timer();            
+            //timer = new Timer();            
         }
 
         public PacketInject(LivePacketDevice selectedDevice)
         {            
-            InitializeComponent();            
-            this.sourceMac = selectedDevice.GetMacAddress();
-            this.destMac = new MacAddress(GetMacAddress(gatewayAddy).ToString());
-            this.gatewayAddy = selectedDevice.GetNetworkInterface().GetIPProperties().GatewayAddresses[0].Address;            
+            InitializeComponent();     
             this.selectedDevice = selectedDevice;
-            count = 0;
+            this.sourceMac = selectedDevice.GetMacAddress();
+            this.gatewayAddy = selectedDevice.GetNetworkInterface().GetIPProperties().GatewayAddresses[0].Address;
+            this.destMac = new MacAddress(GetMacAddress(gatewayAddy).ToString());       
+            this.count = 0;
             if (selectedDevice == null)
             {
                 Visible = false;
@@ -56,10 +56,24 @@ namespace SteppingStoneCapture.Analysis
 
             radPSH.Checked = true;            
         }
-
+        /// <summary>
+        /// Send ARP request to determine MAC Address
+        /// https://stackoverflow.com/questions/2135678/get-mac-address-from-default-gateway
+        /// </summary>
+        /// <param name="destIP"></param>
+        /// <param name="srcIP"></param>
+        /// <param name="macAddress"></param>
+        /// <param name="macAddressLength"></param>
+        /// <returns></returns>
         [System.Runtime.InteropServices.DllImport("iphlpapi.dll", ExactSpelling = true)]
         public static extern int SendARP(uint destIP, uint srcIP, byte[] macAddress, ref uint macAddressLength);
 
+        /// <summary>
+        /// Gets the MAC address of the specified IP Address
+        /// https://stackoverflow.com/questions/2135678/get-mac-address-from-default-gateway
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public static MacAddress GetMacAddress(IPAddress address)
         {
             byte[] mac = new byte[6];
@@ -143,7 +157,8 @@ namespace SteppingStoneCapture.Analysis
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnOk_Click(object sender, EventArgs e)
-        {           
+        {
+            lblResult.Text = "";
             bool srcPortFlag = Int32.TryParse(txtSrcPort.Text, out int srcPort);
             bool dstPortFlag = Int32.TryParse(txtDestPort.Text, out int dstPort);
             //Console.WriteLine(sourceMac);
@@ -153,58 +168,15 @@ namespace SteppingStoneCapture.Analysis
             if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
             {
                 try
-                {   
-                    EthernetLayer ethernetLayer =
-                        new EthernetLayer
-                        {
-                            Source = sourceMac,
-                            //Destination = new MacAddress("02:02:02:02:02:02"),
-                            Destination = destMac,
-                            EtherType = EthernetType.None, // Will be filled automatically.
-                        };
-
-                    IpV4Layer ipV4Layer =
-                    new IpV4Layer
-                    {
-                        Source = new IpV4Address(txtSrcIP.Text),
-                        CurrentDestination = new IpV4Address(txtDestIP.Text),
-                        Fragmentation = IpV4Fragmentation.None,
-                        HeaderChecksum = null, // Will be filled automatically.
-                        Identification = (txtID.Text.Equals("")) ? (ushort)123 : ushort.Parse(txtID.Text),
-                        Options = IpV4Options.None,
-                        Protocol = null, // Will be filled automatically.
-                        Ttl = txtTTL.Text.Equals("") ? (byte)100 : byte.Parse(txtTTL.Text) > 255 ? (byte)255 : byte.Parse(txtTTL.Text) < 1 ? (byte)1 : byte.Parse(txtTTL.Text),
-                        TypeOfService = 0,                        
-                    };
-
-                    TcpLayer tcpLayer =
-                        new TcpLayer
-                        {
-                            SourcePort = (ushort)srcPort,
-                            DestinationPort = (ushort)dstPort,
-                            Checksum = null, // Will be filled automatically.
-                            SequenceNumber = txtSequence.Text.Equals("") ? 100 : uint.Parse(txtSequence.Text),
-                            AcknowledgmentNumber = txtACK.Text.Equals("") ? 50 : uint.Parse(txtACK.Text),                           
-                            ControlBits = (radPSH.Checked) ? TcpControlBits.Push : (radACK.Checked) ? TcpControlBits.Acknowledgment : (radRST.Checked) ? TcpControlBits.Reset : (radFIN.Checked) ? TcpControlBits.Fin : TcpControlBits.Synchronize,
-                            Window = txtWindow.Text.Equals("") ? (ushort)100 : ushort.Parse(txtWindow.Text),
-                            UrgentPointer = 0,
-                            Options = TcpOptions.None,                            
-                        };
-
-                    PayloadLayer payloadLayer =
-                        new PayloadLayer
-                        {
-                            Data = new Datagram(Encoding.ASCII.GetBytes(txtInput.Text)),
-                        };
-
+                {  
                     // build packet and initiate communicator
-                    PacketBuilder builder = new PacketBuilder(ethernetLayer, ipV4Layer, tcpLayer, payloadLayer);
+                    PacketBuilder builder = buildLayers(srcPort, dstPort);
                     PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);                    
 
                     // send packet
                     bool repeatFlag = Int32.TryParse(txtNumPackets.Text, out int repeat);
                     bool intervalFlag = Int32.TryParse(txtInterval.Text, out int interval);
-                    if (intervalFlag)
+                    if (intervalFlag && !repeatFlag)
                     {
                         timer = new Timer();
                         timer.Tick += new EventHandler(timer_Tick);
@@ -213,30 +185,32 @@ namespace SteppingStoneCapture.Analysis
                         timer.Start();
                     }
 
-                    if (repeatFlag && !intervalFlag && repeat > 1000)
+                    /*if (repeatFlag)
                     {
-                        repeat = 1000;
+                        if (repeat > 1000)
+                            repeat = 1000;
+                        else if (repeat < 1)
+                            repeat = 1;
                         txtNumPackets.Text = repeat.ToString();
-                    }                        
-                    else if (repeatFlag && !intervalFlag && repeat < 1)
-                    {
-                        repeat = 1;
-                        txtNumPackets.Text = repeat.ToString();
-                    }                        
+                    }*/                                       
 
-                    btnOk.Enabled = false;
+                    /*btnOk.Enabled = false;
                     btnReset.Enabled = false;
-                    Cursor = Cursors.WaitCursor;
+                    Cursor = Cursors.WaitCursor;*/
                     
-                    if (repeatFlag && !intervalFlag)
+                    if (repeatFlag && repeat > 0 && !intervalFlag)
                     {
-                        for (int i = 0; i < repeat; i++)
+                        /*for (int i = 0; i < repeat; i++)
                         {
                             communicator.SendPacket(builder.Build(DateTime.Now));
                             count++;
                             lblResult.Text = "SUCCESS!: " + count;
                         }
-                        count = 0;
+                        count = 0;*/
+                        new System.Threading.Thread(new System.Threading.ThreadStart(sendNewThread))
+                        {
+                            IsBackground = true
+                        }.Start();
                     }                      
                     else
                     {
@@ -244,9 +218,9 @@ namespace SteppingStoneCapture.Analysis
                         count++;
                         lblResult.Text = "SUCCESS!: " + count;
                     }
-                    Cursor = Cursors.Default;
+                    /*Cursor = Cursors.Default;
                     btnOk.Enabled = true;
-                    btnReset.Enabled = true;                    
+                    btnReset.Enabled = true;*/                    
                 }
                 catch (Exception)
                 {
@@ -258,60 +232,96 @@ namespace SteppingStoneCapture.Analysis
                 }
             }
         }
+
+        private void sendNewThread()
+        {
+            int srcPort = Int32.Parse(txtSrcPort.Text);
+            int dstPort = Int32.Parse(txtDestPort.Text);
+            bool repeatFlag = Int32.TryParse(txtNumPackets.Text, out int repeat);
+            PacketBuilder builder = buildLayers(srcPort, dstPort);
+            PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
+            this.Invoke((MethodInvoker)(() =>
+            {
+                btnOk.Enabled = false;
+                btnReset.Enabled = false;
+                Cursor = Cursors.WaitCursor;
+            }));
+            for (int i = 0; i < repeat; i++)
+            {
+                communicator.SendPacket(builder.Build(DateTime.Now));
+                count++;                
+            }
+            this.Invoke((MethodInvoker)(() =>
+            {
+                Cursor = Cursors.Default;
+                btnOk.Enabled = true;
+                btnReset.Enabled = true;
+                lblResult.Text = "SUCCESS!: " + count;
+            }));            
+            count = 0;
+        }
+
+        private PacketBuilder buildLayers(int srcPort, int dstPort)
+        {         
+                EthernetLayer ethernetLayer =
+                    new EthernetLayer
+                    {
+                        Source = sourceMac,
+                        Destination = destMac,
+                        EtherType = EthernetType.None, // Will be filled automatically.
+                    };
+
+                IpV4Layer ipV4Layer =
+                new IpV4Layer
+                {
+                    Source = new IpV4Address(txtSrcIP.Text),
+                    CurrentDestination = new IpV4Address(txtDestIP.Text),
+                    Fragmentation = IpV4Fragmentation.None,
+                    HeaderChecksum = null, // Will be filled automatically.
+                    Identification = (txtID.Text.Equals("")) ? (ushort)123 : ushort.Parse(txtID.Text),
+                    Options = IpV4Options.None,
+                    Protocol = null, // Will be filled automatically.
+                    Ttl = txtTTL.Text.Equals("") ? (byte)100 : byte.Parse(txtTTL.Text) > 255 ? (byte)255 : byte.Parse(txtTTL.Text) < 1 ? (byte)1 : byte.Parse(txtTTL.Text),
+                    TypeOfService = 0,
+                };
+
+                TcpLayer tcpLayer =
+                    new TcpLayer
+                    {
+                        SourcePort = (ushort)srcPort,
+                        DestinationPort = (ushort)dstPort,
+                        Checksum = null, // Will be filled automatically.
+                        SequenceNumber = txtSequence.Text.Equals("") ? 100 : uint.Parse(txtSequence.Text),
+                        AcknowledgmentNumber = txtACK.Text.Equals("") ? 50 : uint.Parse(txtACK.Text),
+                        ControlBits = (radPSH.Checked) ? TcpControlBits.Push : (radACK.Checked) ? TcpControlBits.Acknowledgment : (radRST.Checked) ? TcpControlBits.Reset : (radFIN.Checked) ? TcpControlBits.Fin : TcpControlBits.Synchronize,
+                        Window = txtWindow.Text.Equals("") ? (ushort)100 : ushort.Parse(txtWindow.Text),
+                        UrgentPointer = 0,
+                        Options = TcpOptions.None,
+                    };
+
+                PayloadLayer payloadLayer =
+                    new PayloadLayer
+                    {
+                        Data = new Datagram(Encoding.ASCII.GetBytes(txtInput.Text)),
+                    };
+
+                // build packet and initiate communicator
+                PacketBuilder builder = new PacketBuilder(ethernetLayer, ipV4Layer, tcpLayer, payloadLayer);
+                PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
+                return builder;
+            }
         private void timer_Tick(object sender, EventArgs e)
         {
             bool srcPortFlag = Int32.TryParse(txtSrcPort.Text, out int srcPort);
             bool dstPortFlag = Int32.TryParse(txtDestPort.Text, out int dstPort);
 
             // if condtions are met, attempt to build the packet from lower layer up, using user input
-            if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
+            //if (srcPortFlag && dstPortFlag && srcPort <= 65535 && srcPort > 0 && dstPort <= 65535 && dstPort > 0)
             {
                 try
                 {
-                    EthernetLayer ethernetLayer =
-                        new EthernetLayer
-                        {
-                            Source = sourceMac,
-                            Destination = destMac,
-                            EtherType = EthernetType.None, // Will be filled automatically.
-                        };
-
-                    IpV4Layer ipV4Layer =
-                    new IpV4Layer
-                    {
-                        Source = new IpV4Address(txtSrcIP.Text),
-                        CurrentDestination = new IpV4Address(txtDestIP.Text),
-                        Fragmentation = IpV4Fragmentation.None,
-                        HeaderChecksum = null, // Will be filled automatically.
-                        Identification = (txtID.Text.Equals("")) ? (ushort)123 : ushort.Parse(txtID.Text),
-                        Options = IpV4Options.None,
-                        Protocol = null, // Will be filled automatically.
-                        Ttl = txtTTL.Text.Equals("") ? (byte)100 : byte.Parse(txtTTL.Text) > 255 ? (byte)255 : byte.Parse(txtTTL.Text) < 1 ? (byte)1 : byte.Parse(txtTTL.Text),
-                        TypeOfService = 0,
-                    };
-
-                    TcpLayer tcpLayer =
-                        new TcpLayer
-                        {
-                            SourcePort = (ushort)srcPort,
-                            DestinationPort = (ushort)dstPort,
-                            Checksum = null, // Will be filled automatically.
-                            SequenceNumber = txtSequence.Text.Equals("") ? 100 : uint.Parse(txtSequence.Text),
-                            AcknowledgmentNumber = txtACK.Text.Equals("") ? 50 : uint.Parse(txtACK.Text),
-                            ControlBits = (radPSH.Checked) ? TcpControlBits.Push : (radACK.Checked) ? TcpControlBits.Acknowledgment : (radRST.Checked) ? TcpControlBits.Reset : (radFIN.Checked) ? TcpControlBits.Fin : TcpControlBits.Synchronize,
-                            Window = txtWindow.Text.Equals("") ? (ushort)100 : ushort.Parse(txtWindow.Text),
-                            UrgentPointer = 0,
-                            Options = TcpOptions.None,
-                        };
-
-                    PayloadLayer payloadLayer =
-                        new PayloadLayer
-                        {
-                            Data = new Datagram(Encoding.ASCII.GetBytes(txtInput.Text)),
-                        };
-
                     // build packet and initiate communicator
-                    PacketBuilder builder = new PacketBuilder(ethernetLayer, ipV4Layer, tcpLayer, payloadLayer);
+                    PacketBuilder builder = buildLayers(srcPort, dstPort);
                     PacketCommunicator communicator = selectedDevice.Open(100, PacketDeviceOpenAttributes.Promiscuous, 1000);
                     communicator.SendPacket(builder.Build(DateTime.Now));
                 }

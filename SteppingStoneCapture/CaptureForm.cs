@@ -280,10 +280,10 @@ namespace SteppingStoneCapture
             {
                 ++packetNumber;
 
-                Console.WriteLine("packet " + packetNumber);
+                /*Console.WriteLine("packet " + packetNumber);
                 Console.WriteLine("time " + packet.Timestamp.ToLongTimeString());
                 Console.WriteLine(packet.Ethernet.IsValid);
-                Console.WriteLine(packet.IsValid);
+                Console.WriteLine(packet.IsValid);*/
                 CougarPacket cp = CougarPacket.DetermineCorrectPacketFormat(packet, sensorAddress, packetNumber);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 cp.SensorIP = new IpV4Address(sensorIP);// create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);
@@ -781,6 +781,7 @@ namespace SteppingStoneCapture
         {        
             if (selectedDevice != null)
             {
+                //new Thread(() => new TestForm().ShowDialog()).Start();
                 new Analysis.PacketInject(allLivePacketDevices[cmbInterfaces.SelectedIndex]);
             }
             else
@@ -796,9 +797,16 @@ namespace SteppingStoneCapture
 
         private void CaptureForm_Load(object sender, EventArgs e)
         {
-            ListNetworkInterfaces();
-            packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
+            try
+            {
+                ListNetworkInterfaces();
+                packetView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("ERROR, no viable network interface!");
+                this.Close();
+            }
         }
 
         /*
