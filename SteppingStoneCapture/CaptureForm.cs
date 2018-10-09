@@ -120,10 +120,15 @@ namespace SteppingStoneCapture
                                         attributeRequested = true;
                                         switch (tb.Name)
                                         {
-                                            case "txtIpOne": // need to add txtIpOne.Text to filter string first before checking src/dst
-                                                if (txtIpOne.Text != "" && !chkDstIP1.Checked && !chkSrcIP1.Checked)
+                                            case "txtIpOne":
+                                                if (txtIpOne.Text != "" && !chkDstIP1.Checked && !chkSrcIP1.Checked && !chkIPNOT.Checked)
                                                 {
                                                     string ipString = "host ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
+                                                }
+                                               else if (txtIpOne.Text != "" && !chkDstIP1.Checked && !chkSrcIP1.Checked && chkIPNOT.Checked)
+                                                {
+                                                    string ipString = "not host ";
                                                     cfb.AddIP(ipString + tb.Text.ToLower());
                                                 }
                                                 else if (chkDstIP1.Checked)
@@ -138,9 +143,14 @@ namespace SteppingStoneCapture
                                                 }
                                                 break;
                                             case "txtIpTwo":
-                                                if (txtIpTwo.Text != "" && !chkDstIP2.Checked && !chkDstIP2.Checked)
+                                                if (txtIpTwo.Text != "" && !chkSrcIP2.Checked && !chkDstIP2.Checked && !chkIPNOT2.Checked)
                                                 {
                                                     string ipString = "host ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
+                                                }
+                                                else if (txtIpTwo.Text != "" && !chkSrcIP2.Checked && !chkDstIP2.Checked && chkIPNOT2.Checked)
+                                                {
+                                                    string ipString = "not host ";
                                                     cfb.AddIP(ipString + tb.Text.ToLower());
                                                 }
                                                 else if (chkDstIP2.Checked)
@@ -155,9 +165,14 @@ namespace SteppingStoneCapture
                                                 }
                                                 break;
                                             case "txtPortOne":
-                                                if (txtPortOne.Text!= "" && !chkDstPort1.Checked && !chkDstPort1.Checked)
+                                                if (txtPortOne.Text!= "" && !chkDstPort1.Checked && !chkSrcPort1.Checked && !chkPortNOT.Checked)
                                                 {
                                                     string ipString = "port ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
+                                                }
+                                                else if (txtPortOne.Text != "" && !chkDstPort1.Checked && !chkSrcPort1.Checked && chkPortNOT.Checked)
+                                                {
+                                                    string ipString = "not port ";
                                                     cfb.AddIP(ipString + tb.Text.ToLower());
                                                 }
                                                 else if (chkDstPort1.Checked)
@@ -172,9 +187,14 @@ namespace SteppingStoneCapture
                                                 }
                                                 break;
                                             case "txtPortTwo":
-                                                if (txtPortTwo.Text != "" && !chkDstPort2.Checked && !chkDstPort2.Checked)
+                                                if (txtPortTwo.Text != "" && !chkDstPort2.Checked && !chkSrcPort2.Checked && !chkPort2NOT.Checked)
                                                 {
                                                     string ipString = "port ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
+                                                }
+                                                else if (txtPortOne.Text != "" && !chkDstPort2.Checked && !chkSrcPort2.Checked && chkPort2NOT.Checked)
+                                                {
+                                                    string ipString = "not port ";
                                                     cfb.AddIP(ipString + tb.Text.ToLower());
                                                 }
                                                 else if (chkDstPort2.Checked)
