@@ -120,8 +120,13 @@ namespace SteppingStoneCapture
                                         attributeRequested = true;
                                         switch (tb.Name)
                                         {
-                                            case "txtIpOne":
-                                                if (chkDstIP1.Checked)
+                                            case "txtIpOne": // need to add txtIpOne.Text to filter string first before checking src/dst
+                                                if (txtIpOne.Text != "" && !chkDstIP1.Checked && !chkSrcIP1.Checked)
+                                                {
+                                                    string ipString = "host ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
+                                                }
+                                                else if (chkDstIP1.Checked)
                                                 {
                                                     string ipString = (!chkIPNOT.Checked) ? "dst host " : "not dst host ";                                                    
                                                     cfb.AddIP(ipString + tb.Text.ToLower());
@@ -133,7 +138,12 @@ namespace SteppingStoneCapture
                                                 }
                                                 break;
                                             case "txtIpTwo":
-                                                if (chkDstIP2.Checked)
+                                                if (txtIpTwo.Text != "" && !chkDstIP2.Checked && !chkDstIP2.Checked)
+                                                {
+                                                    string ipString = "host ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
+                                                }
+                                                else if (chkDstIP2.Checked)
                                                 {
                                                     string ipString = (!chkIPNOT2.Checked) ? "dst host " : "not dst host ";
                                                     cfb.AddIP(ipString + tb.Text.ToLower());
@@ -145,7 +155,12 @@ namespace SteppingStoneCapture
                                                 }
                                                 break;
                                             case "txtPortOne":
-                                                if (chkDstPort1.Checked)
+                                                if (txtPortOne.Text!= "" && !chkDstPort1.Checked && !chkDstPort1.Checked)
+                                                {
+                                                    string ipString = "port ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
+                                                }
+                                                else if (chkDstPort1.Checked)
                                                 {
                                                     string portString = (!chkPortNOT.Checked) ? "dst port " : "not dst port ";
                                                     cfb.AddPort(portString + tb.Text.ToLower());
@@ -157,7 +172,12 @@ namespace SteppingStoneCapture
                                                 }
                                                 break;
                                             case "txtPortTwo":
-                                                if (chkDstPort2.Checked)
+                                                if (txtPortTwo.Text != "" && !chkDstPort2.Checked && !chkDstPort2.Checked)
+                                                {
+                                                    string ipString = "port ";
+                                                    cfb.AddIP(ipString + tb.Text.ToLower());
+                                                }
+                                                else if (chkDstPort2.Checked)
                                                 {
                                                     string portString = (!chkPort2NOT.Checked) ? "dst port " : "not dst port ";
                                                     cfb.AddPort(portString + tb.Text.ToLower());
@@ -254,7 +274,7 @@ namespace SteppingStoneCapture
                 CougarPacket cp = CougarPacket.DetermineCorrectPacketFormat(packet, sensorAddress, packetNumber);  // create new cougarpacket wtih proper protocol information related to this particular packet
                 packets.Add(packet);
                 cougarpackets.Add(cp);
-                if (cp.SourceAddress.ToString() != "0.0.0.0")
+                //if (cp.SourceAddress.ToString() != "0.0.0.0")
                     this.Invoke((MethodInvoker)(() => // this is used to access the main form from within a separate thread (i.e. this capture thread)
                 {
                     packetView.Items.Add(new ListViewItem(cp.ToPropertyArray)); // add packet info to listview (must be string array)

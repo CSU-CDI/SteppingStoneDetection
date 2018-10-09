@@ -34,6 +34,7 @@ namespace SteppingStoneCapture.Analysis
             InitializeComponent();
             //Visible = true;            
             count = 0;
+            this.Close();
             //timer = new Timer();            
         }
 
@@ -45,6 +46,7 @@ namespace SteppingStoneCapture.Analysis
             this.gatewayAddy = selectedDevice.GetNetworkInterface().GetIPProperties().GatewayAddresses[0].Address;
             this.destMac = new MacAddress(GetMacAddress(gatewayAddy).ToString());       
             this.count = 0;
+            this.timer = new Timer();
             if (selectedDevice == null)
             {
                 Visible = false;

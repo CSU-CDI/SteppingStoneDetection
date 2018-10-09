@@ -427,7 +427,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "PacketInject";
-            this.Text = "Inject TCP Packets";
+            this.Text = "TCP Injection";
             this.grpFlags.ResumeLayout(false);
             this.grpFlags.PerformLayout();
             this.grpResults.ResumeLayout(false);
