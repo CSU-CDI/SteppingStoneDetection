@@ -1037,7 +1037,7 @@ namespace SteppingStoneCapture
             // 
             this.chkDNS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkDNS.AutoSize = true;
-            this.chkDNS.Location = new System.Drawing.Point(140, 58);
+            this.chkDNS.Location = new System.Drawing.Point(173, 58);
             this.chkDNS.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkDNS.Name = "chkDNS";
             this.chkDNS.Size = new System.Drawing.Size(59, 21);
@@ -1048,7 +1048,7 @@ namespace SteppingStoneCapture
             // chkTCP
             // 
             this.chkTCP.AutoSize = true;
-            this.chkTCP.Location = new System.Drawing.Point(8, 25);
+            this.chkTCP.Location = new System.Drawing.Point(36, 24);
             this.chkTCP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkTCP.Name = "chkTCP";
             this.chkTCP.Size = new System.Drawing.Size(57, 21);
@@ -1061,7 +1061,7 @@ namespace SteppingStoneCapture
             this.chkUDP.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.chkUDP.AutoSize = true;
-            this.chkUDP.Location = new System.Drawing.Point(8, 58);
+            this.chkUDP.Location = new System.Drawing.Point(36, 58);
             this.chkUDP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkUDP.Name = "chkUDP";
             this.chkUDP.Size = new System.Drawing.Size(59, 21);
@@ -1073,7 +1073,7 @@ namespace SteppingStoneCapture
             // 
             this.chkICMP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkICMP.AutoSize = true;
-            this.chkICMP.Location = new System.Drawing.Point(140, 26);
+            this.chkICMP.Location = new System.Drawing.Point(173, 24);
             this.chkICMP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkICMP.Name = "chkICMP";
             this.chkICMP.Size = new System.Drawing.Size(62, 21);
